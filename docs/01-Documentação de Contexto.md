@@ -16,12 +16,23 @@ Nesse momento, o grupo pode optar por fazer uso  de ferramentas como Design Thin
 
 ## Objetivos
 
-Aqui você deve descrever os objetivos do trabalho indicando que o objetivo geral é desenvolver um software para solucionar o problema apresentado acima..
+**Geral:**
 
-Apresente também alguns (pelo menos 2) objetivos específicos dependendo de onde você vai querer concentrar a sua prática investigativa, ou como você vai aprofundar no seu trabalho.
+Desenvolver e implementar uma plataforma web colaborativa voltada para Organizações Não Governamentais (ONGs), voluntários e parceiros, que possibilite a integração de um banco de habilidades, o compartilhamento de recursos físicos e materiais e um sistema de matching inteligente. Assim, busca-se criar um espaço unificado que atenda às diversas necessidades do terceiro setor, desde a captação de voluntários qualificados e otimização de recursos até o fortalecimento de redes colaborativas e a promoção da transparência, contribuindo para o aumento da eficiência e do impacto social das instituições envolvidas.
+
+**Específicos:**
+
+*    Permitir o cadastro e a gestão de voluntários, incluindo suas competências, disponibilidade e histórico de participação. 
+*    Facilitar o cadastro de ONGs e instituições, com informações institucionais, área de atuação e demandas específicas. 
+*    Disponibilizar um banco de habilidades, com busca e filtros avançados para aproximar voluntários e ONGs. 
+*    Implementar um marketplace de recursos que possibilite o cadastro, a troca e o empréstimo de equipamentos, espaços e materiais entre instituições. 
+*    Criar um algoritmo de matching inteligente que relacione necessidades de ONGs com habilidades de voluntários e recursos disponíveis, considerando critérios como geolocalização e disponibilidade.
+*    Desenvolver mecanismos de comunicação, como notificações em tempo real, para facilitar o contato entre ONGs e voluntários. 
+*    Disponibilizar um sistema de certificados digitais, permitindo que as ONGs realizem o upload de certificados de reconhecimento da atuação dos voluntários, os quais poderão acessá-los e realizar o download diretamente pela plataforma. 
+*    Garantir segurança, confiabilidade e conformidade legal no armazenamento de dados e no uso da plataforma. 
  
-> **Links Úteis**:
-> - [Objetivo geral e objetivo específico: como fazer e quais verbos utilizar](https://blog.mettzer.com/diferenca-entre-objetivo-geral-e-objetivo-especifico/)
+<!-- > **Links Úteis**:
+> - [Objetivo geral e objetivo específico: como fazer e quais verbos utilizar](https://blog.mettzer.com/diferenca-entre-objetivo-geral-e-objetivo-especifico/) -->
 
 ## Justificativa
 
