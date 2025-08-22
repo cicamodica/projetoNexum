@@ -1,6 +1,10 @@
 # Introdução
 
-Texto descritivo com a visão geral do projeto abordado. Inclui o contexto, o problema, os objetivos, a justificativa e o público-alvo do projeto.
+As Organizações Não Governamentais (ONGs) e instituições sem fins lucrativos exercem um papel fundamental no enfrentamento de desafios sociais, ambientais e econômicos, contribuindo diretamente para a construção de uma sociedade mais justa e sustentável. No entanto, para ampliar o alcance de suas ações e potencializar seus resultados, é essencial fortalecer redes colaborativas, otimizar o uso de recursos e incentivar o voluntariado qualificado. 
+
+Nesse contexto, este projeto propõe o desenvolvimento de uma plataforma web colaborativa que conecta ONGs, voluntários e parceiros em um único ambiente digital. A solução integra o cadastro de competências e disponibilidades de voluntários, o mapeamento e compartilhamento de recursos físicos e materiais entre instituições. 
+
+Mais do que aproximar pessoas e organizações, a plataforma busca criar um ecossistema sustentável de cooperação, promovendo maior eficiência, reduzindo desperdícios e fortalecendo as iniciativas sociais. Alinhada aos Objetivos de Desenvolvimento Sustentável (ODS) da Agenda 2030, a aplicação se apresenta como uma ferramenta estratégica para ampliar a transformação social de forma mensurável e colaborativa. 
 
 ## Problema
 Nesse momento você deve apresentar o problema que a sua aplicação deve  resolver. No entanto, não é a hora de comentar sobre a aplicação.
