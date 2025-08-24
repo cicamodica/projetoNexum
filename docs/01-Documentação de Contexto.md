@@ -40,12 +40,11 @@ Desenvolver e implementar uma plataforma web colaborativa voltada para Organiza�
 
 ## Justificativa
 
-Explique de forma clara a relevância da aplicação escolhida, justificando os objetivos específicos e os aspectos do software que serão aprofundados, e quantifique o impacto do problema com dados concretos (números, percentuais, indicadores) obtidos por bases oficiais ou outras fontes confiáveis, sempre citadas no padrão ABNT (no formato [Numérico] ou (AUTOR, ANO)).
+O desenvolvimento desta plataforma é justificado pelos desafios recorrentes enfrentados por Organizações Não Governamentais (ONGs) na gestão de voluntários, recursos materiais e parcerias. Apesar de sua relevância social, muitas dessas instituições sofrem com limitações estruturais que reduzem a eficiência e o alcance de suas ações. 
 
-Relacione o problema aos Objetivos de Desenvolvimento Sustentável (ODS), indicando quais ODS e subobjetivos são atendidos e descrevendo como o projeto contribui para cada um deles, garantindo coerência entre o impacto mensurado e as metas selecionadas.
+A ausência de um sistema centralizado que conecte voluntários qualificados, facilite o compartilhamento de recursos e promova maior integração entre ONGs gera desperdícios e limita o impacto social. Além disso, a falta de transparência e indicadores claros compromete a captação de apoios e a credibilidade perante a sociedade. 
 
-> **Links Úteis**:
-> - [Como montar a justificativa](https://guiadamonografia.com.br/como-montar-justificativa-do-tcc/)
+Nesse contexto, a plataforma proposta surge como solução tecnológica capaz de otimizar processos, ampliar a colaboração entre instituições e promover maior eficiência e sustentabilidade no terceiro setor. 
 
 ## Público-Alvo
 
