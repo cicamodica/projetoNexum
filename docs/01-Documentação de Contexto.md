@@ -50,7 +50,11 @@ Nesse contexto, a plataforma proposta surge como solução tecnológica capaz de
 
 ## Público-Alvo
 
-Descreva quem serão as pessoas que usarão a sua aplicação indicando os diferentes perfis. O objetivo aqui não é definir quem serão os clientes ou quais serão os papéis dos usuários na aplicação. A ideia é, dentro do possível, conhecer um pouco mais sobre o perfil dos usuários: conhecimentos prévios, relação com a tecnologia, relações hierárquicas, etc.
+O público-alvo que este projeto se propõe a atender abrange Organizações Não Governamentais (ONGs), instituições do terceiro setor e voluntários que desejam contribuir de maneira mais eficiente e estruturada para causas sociais. Em especial, a plataforma visa apoiar ONGs que enfrentam dificuldades na gestão de voluntários e recursos, oferecendo um espaço digital que centraliza demandas e oportunidades de colaboração. 
+
+Além das organizações, também se incluem no público-alvo os voluntários, sejam eles profissionais qualificados em áreas específicas ou pessoas interessadas em doar tempo e habilidades para apoiar projetos sociais. Doadores e parceiros institucionais igualmente se beneficiam da solução, uma vez que terão acesso a maior transparência, indicadores de impacto e relatórios de resultados. 
+
+Dessa forma, o projeto busca atender tanto às instituições que necessitam de apoio operacional quanto às pessoas e entidades que desejam contribuir, fortalecendo a rede de colaboração do terceiro setor. 
 
 > **Links Úteis**:
 > - [Público-alvo](https://blog.hotmart.com/pt-br/publico-alvo/)
