@@ -7,16 +7,18 @@ Nesse contexto, este projeto propõe o desenvolvimento de uma plataforma web col
 Mais do que aproximar pessoas e organizações, a plataforma busca criar um ecossistema sustentável de cooperação, promovendo maior eficiência, reduzindo desperdícios e fortalecendo as iniciativas sociais. Alinhada aos Objetivos de Desenvolvimento Sustentável (ODS) da Agenda 2030, a aplicação se apresenta como uma ferramenta estratégica para ampliar a transformação social de forma mensurável e colaborativa. 
 
 ## Problema
-Nesse momento você deve apresentar o problema que a sua aplicação deve  resolver. No entanto, não é a hora de comentar sobre a aplicação.
 
-Descreva também o contexto em que essa aplicação será usada, se  houver: empresa, tecnologias, etc. Novamente, descreva apenas o que de  fato existir, pois ainda não é a hora de apresentar requisitos  detalhados ou projetos.
+O problema central a ser enfrentado por este projeto é a ausência de uma plataforma unificada e confiável que conecte Organizações Não Governamentais (ONGs), voluntários e parceiros, permitindo a gestão eficiente de competências, recursos e impacto social. Atualmente, as ONGs enfrentam grandes dificuldades para encontrar voluntários com as habilidades específicas de que necessitam, como contabilidade, design, tradução ou manutenção. A falta de um sistema centralizado de busca e compatibilização inteligente resulta em perda de tempo, desperdício de oportunidades e menor alcance das ações sociais. 
 
-Nesse momento, o grupo pode optar por fazer uso  de ferramentas como Design Thinking, que permite um olhar de ponta a ponta para o problema.
+Além disso, recursos físicos e materiais, como equipamentos, veículos e espaços, muitas vezes permanecem ociosos em determinadas instituições, enquanto outras organizações próximas enfrentam carências desses mesmos itens. Essa subutilização ocorre porque não existe, em larga escala, um ambiente seguro e organizado que facilite trocas, empréstimos e compartilhamento de recursos entre instituições do terceiro setor. 
 
-> **Links Úteis**:
-> - [Objetivos, Problema de pesquisa e Justificativa](https://medium.com/@versioparole/objetivos-problema-de-pesquisa-e-justificativa-c98c8233b9c3)
-> - [Matriz Certezas, Suposições e Dúvidas](https://medium.com/educa%C3%A7%C3%A3o-fora-da-caixa/matriz-certezas-suposi%C3%A7%C3%B5es-e-d%C3%BAvidas-fa2263633655)
-> - [Brainstorming](https://www.euax.com.br/2018/09/brainstorming/)
+Outro ponto crítico é a baixa integração entre ONGs, que frequentemente atuam de maneira isolada e sem conhecimento das possíveis parcerias que poderiam fortalecer suas iniciativas. Essa fragmentação gera aumento de custos operacionais e limita a capacidade de impacto coletivo. 
+
+Por fim, a falta de transparência e de mecanismos estruturados de acompanhamento do impacto social cria barreiras para a confiança de doadores, voluntários e parceiros. Sem indicadores claros e relatórios automatizados, a prestação de contas torna-se frágil e a captação de novos apoios é prejudicada. 
+
+Diante desse cenário, torna-se evidente a necessidade de uma solução tecnológica que centralize informações, otimize recursos, fortaleça redes de colaboração e ofereça transparência no registro dos resultados alcançados, criando as condições para que ONGs e instituições possam ampliar de forma sustentável o impacto de suas ações. O problema central a ser enfrentado por este projeto é a ausência de uma plataforma unificada e confiável que conecte Organizações Não Governamentais (ONGs), voluntários e parceiros, permitindo a gestão eficiente de competências, recursos e impacto social. Atualmente, as ONGs enfrentam grandes dificuldades para encontrar voluntários com as habilidades específicas de que necessitam, como contabilidade, design, tradução ou manutenção. A falta de um sistema centralizado de busca e compatibilização inteligente resulta em perda de tempo, desperdício de oportunidades e menor alcance das ações sociais. 
+
+
 
 ## Objetivos
 
