@@ -95,9 +95,11 @@ As tabelas que se seguem apresentam os requisitos funcionais e não funcionais q
 ### Requisitos não Funcionais
 
 |ID     | Descrição do Requisito  |Prioridade |
-|-------|-------------------------|----|
-|RNF-001| A aplicação deve ser responsiva | MÉDIA | 
-|RNF-002| A aplicação deve processar requisições do usuário em no máximo 3s |  BAIXA | 
+|-------|-------------------------|-----------|
+|RNF-01| O sistema deve implementar autenticação robusta para proteger contas dos usuários. | ALTA | 
+|RNF-02| O sistema deve garantir a privacidade dos dados dos usuários, em conformidade com a LGPD. |  ALTA | 
+|RNF-03| O sistema deve possuir interface intuitiva, permitindo que os usuários compreendam e manipulem as funcionalidades com facilidade. |  MÉDIA | 
+|RNF-04| O sistema deve oferecer tempos de resposta rápidos, assegurando experiência fluida de uso. |  BAIXA | 
 
 Com base nas Histórias de Usuário, enumere os requisitos da sua solução. Classifique esses requisitos em dois grupos:
 
