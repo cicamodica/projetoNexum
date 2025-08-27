@@ -76,11 +76,21 @@ As tabelas que se seguem apresentam os requisitos funcionais e não funcionais q
 
 ### Requisitos Funcionais
 
-|ID    | Descrição do Requisito  | Prioridade |
-|------|-----------------------------------------|----|
-|RF-001| A aplicação deve permitir que o usuário avalie uma agência de intercâmbio com base na sua experiência| ALTA | 
-|RF-002| A aplicação deve permitir que o usuário inclua comentários ao fazer uma avaliação de uma agência de intercâmbio    | ALTA |
-|RF-003| A aplicação deve permitir que o usuário consulte todas as agências de intercâmbio cadastradas ordenando-as com base em suas notas | ALTA |
+|   ID   | Descrição do Requisito  | Prioridade |
+|-------|-------------------------|------------|
+|RF-01| Permitir que o usuário (ONG/Administrador) crie e gerencie seu perfil na plataforma. | ALTA | 
+|RF-02| Permitir autenticação de usuários (ONGs/Administrador) por Login e Logout. | ALTA |
+|RF-03| Permitir recuperação/redefinição de senha.  | ALTA |
+|RF-04| Permitir que ONGs cadastrem oportunidades de voluntariado e recursos disponíveis.  | ALTA |
+|RF-05| Permitir que voluntários e doadores pesquisem causas filtrando por necessidades, localização, área de interesse e disponibilidade.  | ALTA |
+|RF-06| Permitir a gestão de recursos e inventário para ONGs. | ALTA |
+|RF-07|Gerar relatórios de recursos, inventário, vagas disponibilizadas/preenchidas e candidaturas (ONGs).  | ALTA |
+|RF-08| Gerar relatórios de ONGs cadastradas, vagas disponibilizadas/preenchidas e candidaturas (Administrador).  | ALTA |
+|RF-09| Implementar um sistema de verificação/aprovação para perfis (ONGs).   | ALTA |
+|RF-10| Permitir que ONGs solicitem empréstimo de recursos e equipamentos.  | MÉDIA |
+|RF-11| Disponibilizar um sistema de notificação por e-mail (voluntários) ou push (ONGs).  | MÉDIA |
+|RF-12| Permitir avaliação e feedback de usuários sobre o sistema.   | BAIXA |
+
 
 ### Requisitos não Funcionais
 
