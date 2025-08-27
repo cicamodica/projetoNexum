@@ -101,36 +101,25 @@ As tabelas que se seguem apresentam os requisitos funcionais e não funcionais q
 |RNF-03| O sistema deve possuir interface intuitiva, permitindo que os usuários compreendam e manipulem as funcionalidades com facilidade. |  MÉDIA | 
 |RNF-04| O sistema deve oferecer tempos de resposta rápidos, assegurando experiência fluida de uso. |  BAIXA | 
 
-Com base nas Histórias de Usuário, enumere os requisitos da sua solução. Classifique esses requisitos em dois grupos:
-
-- [Requisitos Funcionais
- (RF)](https://pt.wikipedia.org/wiki/Requisito_funcional):
- correspondem a uma funcionalidade que deve estar presente na
-  plataforma (ex: cadastro de usuário).
-- [Requisitos Não Funcionais
-  (RNF)](https://pt.wikipedia.org/wiki/Requisito_n%C3%A3o_funcional):
-  correspondem a uma característica técnica, seja de usabilidade,
-  desempenho, confiabilidade, segurança ou outro (ex: suporte a
-  dispositivos iOS e Android).
-Lembre-se que cada requisito deve corresponder à uma e somente uma
-característica alvo da sua solução. Além disso, certifique-se de que
-todos os aspectos capturados nas Histórias de Usuário foram cobertos.
-
 ## Restrições
 
 O projeto está restrito pelos itens apresentados na tabela a seguir.
 
 |ID| Restrição                                             |
 |--|-------------------------------------------------------|
-|01| O projeto deverá ser entregue até o final do semestre |
-|02| Não pode ser desenvolvido um módulo de backend        |
-
-
-Enumere as restrições à sua solução. Lembre-se de que as restrições geralmente limitam a solução candidata.
-
-> **Links Úteis**:
-> - [O que são Requisitos Funcionais e Requisitos Não Funcionais?](https://codificar.com.br/requisitos-funcionais-nao-funcionais/)
-> - [O que são requisitos funcionais e requisitos não funcionais?](https://analisederequisitos.com.br/requisitos-funcionais-e-requisitos-nao-funcionais-o-que-sao/)
+|01| O projeto deverá ser entregue até o final do semestre.          |
+|02| O front-end deve ser desenvolvido usando tecnologias web padrão como HTML, CSS, JavaScript e Bootstrap         |
+|03| O backend deve ser implementado utilizando C#.         |
+|04| O banco de dados relacional (como PostgreSQL ou MySQL) deve ser utilizado para implementar no mínimo 2 CRUD's.         |
+|05| O desenvolvimento do projeto deve ser realizado com o uso de ferramentas e softwares gratuitos ou com licenças acadêmicas, assegurando que todos os membros da equipe tenham acesso às tecnologias necessárias.          |
+|06| Todo o código deve seguir as melhores práticas de codificação e padrões estabelecidos para garantir legibilidade e manutenção.         |
+|07| A equipe deve colaborar em todas as etapas do projeto, assegurando que todos os membros estejam envolvidos nas decisões e no desenvolvimento das atividades de forma ativa e participativa.        |
+|08| O site deve seguir rigorosamente as diretrizes éticas da instituição, não permitindo a inclusão de conteúdos ofensivos, discriminatórios ou que violem códigos de conduta.         |
+|09| O conteúdo do site deve ser original ou proveniente de fontes de domínio público, garantindo a conformidade com as leis de direitos autorais.         |
+|10| A aplicação deve estar em conformidade com a Lei Geral de Proteção de Dados (LGPD) do Brasil, garantindo que os dados dos usuários e informações sensíveis estejam protegidos.        |
+|11| Todo o material do projeto será disponibilizado em um repositório na plataforma GitHub.        |
+|12| A aplicação requer uma conexão constante à internet para funcionar corretamente.         |
+|13| A aplicação deverá trazer uma solução para uma ou mais ODS (ONU – Agenda 2030).         |
 
 ## Diagrama de Casos de Uso
 
