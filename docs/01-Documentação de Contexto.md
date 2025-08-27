@@ -28,14 +28,12 @@ Desenvolver e implementar uma plataforma web colaborativa voltada para Organiza�
 
 **Específicos:**
 
-*    Permitir o cadastro e a gestão de voluntários, incluindo suas competências, disponibilidade e histórico de participação. 
 *    Facilitar o cadastro de ONGs e instituições, com informações institucionais, área de atuação e demandas específicas. 
 *    Disponibilizar um banco de habilidades, com busca e filtros avançados para aproximar voluntários e ONGs. 
 *    Implementar um marketplace de recursos que possibilite o cadastro, a troca e o empréstimo de equipamentos, espaços e materiais entre instituições. 
-*    Criar um algoritmo de matching inteligente que relacione necessidades de ONGs com habilidades de voluntários e recursos disponíveis, considerando critérios como geolocalização e disponibilidade.
-*    Desenvolver mecanismos de comunicação, como notificações em tempo real, para facilitar o contato entre ONGs e voluntários. 
-*    Disponibilizar um sistema de certificados digitais, permitindo que as ONGs realizem o upload de certificados de reconhecimento da atuação dos voluntários, os quais poderão acessá-los e realizar o download diretamente pela plataforma. 
-*    Garantir segurança, confiabilidade e conformidade legal no armazenamento de dados e no uso da plataforma. 
+*    Criar um filtro inteligente que relacione necessidades de ONGs com habilidades de voluntários e recursos disponíveis, considerando critérios como geolocalização e disponibilidade.
+*    Desenvolver mecanismos de comunicação, como notificações push e envio de email, para facilitar o contato de voluntários com ONGs.
+*    Garantir segurança, confiabilidade e conformidade legal no armazenamento de dados e no uso da plataforma.
  
 <!-- > **Links Úteis**:
 > - [Objetivo geral e objetivo específico: como fazer e quais verbos utilizar](https://blog.mettzer.com/diferenca-entre-objetivo-geral-e-objetivo-especifico/) -->
