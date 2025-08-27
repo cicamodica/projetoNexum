@@ -24,7 +24,7 @@ Diante desse cenário, torna-se evidente a necessidade de uma solução tecnoló
 
 **Geral:**
 
-Desenvolver e implementar uma plataforma web colaborativa voltada para Organizações Não Governamentais (ONGs), voluntários e parceiros, que possibilite a integração de um banco de habilidades, o compartilhamento de recursos físicos e materiais e um sistema de matching inteligente. Assim, busca-se criar um espaço unificado que atenda às diversas necessidades do terceiro setor, desde a captação de voluntários qualificados e otimização de recursos até o fortalecimento de redes colaborativas e a promoção da transparência, contribuindo para o aumento da eficiência e do impacto social das instituições envolvidas.
+Desenvolver e implementar uma plataforma web colaborativa voltada para Organizações Não Governamentais (ONGs), voluntários e parceiros, que possibilite a integração de um banco de habilidades, o compartilhamento de recursos físicos e materiais e um sistema de filtro inteligente. Assim, busca-se criar um espaço unificado que atenda às diversas necessidades do terceiro setor, desde a captação de voluntários qualificados e otimização de recursos até o fortalecimento de redes colaborativas e a promoção da transparência, contribuindo para o aumento da eficiência e do impacto social das instituições envolvidas.
 
 **Específicos:**
 
