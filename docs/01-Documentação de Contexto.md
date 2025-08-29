@@ -1,6 +1,6 @@
 # Introdução
 
-As Organizações Não Governamentais (ONGs) e instituições sem fins lucrativos exercem um papel fundamental no enfrentamento de desafios sociais, ambientais e econômicos, contribuindo diretamente para a construção de uma sociedade mais justa e sustentável. No entanto, para ampliar o alcance de suas ações e potencializar seus resultados, é essencial fortalecer redes colaborativas, otimizar o uso de recursos e incentivar o voluntariado qualificado. 
+As Organizações Não Governamentais (ONGs) e instituições sem fins lucrativos exercem um papel fundamental no enfrentamento de desafios sociais, ambientais e econômicos, contribuindo diretamente para a construção de uma sociedade mais justa e sustentável. No entanto, para ampliar o alcance de suas ações e potencializar seus resultados, é essencial criar e fortalecer redes colaborativas, otimizar o uso de recursos e incentivar o voluntariado. 
 
 Nesse contexto, este projeto propõe o desenvolvimento de uma plataforma web colaborativa que conecta ONGs, voluntários e parceiros em um único ambiente digital. A solução integra o cadastro de competências e disponibilidades de voluntários, o mapeamento e compartilhamento de recursos físicos e materiais entre instituições. 
 
