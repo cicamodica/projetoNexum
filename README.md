@@ -1,6 +1,6 @@
-# NEXUM
+<img width="1920" height="478" alt="Projeto X (2)" src="https://github.com/user-attachments/assets/c7d0ca68-474b-4652-a668-3e673162eb86" />
 
-<img width="581" height="578" alt="Projeto X (1)" src="https://github.com/user-attachments/assets/d97a44e2-3dd4-487a-8c1e-419499dbb7d3" />
+# NEXUM
 
 `Análise e Desenvolvimento de Sistemas - PUC Minas`
 
