@@ -56,10 +56,13 @@
 
 Com base na análise das personas forma identificadas as seguintes histórias de usuários:
 
-|EU COMO... `PERSONA`| QUERO/PRECISO ... `FUNCIONALIDADE` |PARA ... `MOTIVO/VALOR`                 |
-|--------------------|------------------------------------|----------------------------------------|
-|Coordenadora de ONG   | Cadastrar demandas de voluntários           | Conseguir encontrar pessoas qualificadas rapidamente para minhas atividades              |
-|Coordenadora de ONG      | Compartilhar equipamentos e materiais                 | Otimizar o uso dos recursos da ONG e ajudar outras instituições próximas  |
+|EU COMO... `PERSONA`     | QUERO/PRECISO ... `FUNCIONALIDADE`                                   |PARA ... `MOTIVO/VALOR`                                                                                              |
+|-------------------------|----------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------|
+|Coordenadora de ONG      | Cadastrar demandas de voluntários                                    | Conseguir encontrar pessoas qualificadas rapidamente para minhas atividades                                         |
+|Coordenadora de ONG      | Compartilhar equipamentos e materiais                                | Otimizar o uso dos recursos da ONG e ajudar outras instituições próximas                                            | 
+|ONG de pequeno porte     | Gerar relatórios de transparência                                    | Apresentar resultados claros e confiáveis a doadores, parceiros e à comunidade, fortalecendo a credibilidade da ONG |
+|Doadora Financeira       | Encontrar com facilidade ONGs que necessitem de doações financeiras  | Realizar doações financeiras                                                                                        |
+|Doadora Financeira       | Ter fácil acesso a relatórios de transparência das ONGs ajudadas     | Para escolher as ONGs em que acredita que seu dinheiro será bem utilizado                                           |
 
 Apresente aqui as histórias de usuário que são relevantes para o projeto de sua solução. As Histórias de Usuário consistem em uma ferramenta poderosa para a compreensão e elicitação dos requisitos funcionais e não funcionais da sua aplicação. Se possível, agrupe as histórias de usuário por contexto, para facilitar consultas recorrentes à essa parte do documento.
 
