@@ -1,10 +1,8 @@
 # Apresentação
 
-<span style="color:red">Pré-requisitos: Todos os demais artefatos</span>
-
 ## Título do Projeto
 
-Nome e marca do projeto
+NEXUM
 
 ## Identidade Visual (Marca, Design)
 
@@ -27,7 +25,7 @@ O grupo deve distribuir de forma coerente o conteúdo a ser apresentado, dentro 
 
 ## Vídeo de apresentação - Etapa 01
 
-Inclua aqui o vídeo de APRESENTAÇÃO INICIAL do projeto produzido na Etapa 01.
+https://github.com/user-attachments/assets/0c49994e-f701-48ab-a98d-368ed3f56f00
 
 ## Vídeo de apresentação - Etapa 05
 
