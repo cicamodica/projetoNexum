@@ -8,7 +8,7 @@
 
 `2º semestre/2025`
 
-Descrever resumidamente, em um ou dois parágrafos, o projeto que está sendo desenvolvido.
+Este projeto tem como objetivo criar uma aplicação que conecte pessoas que possuem o mesmo objetivo: ajudar ao próximo. Desta forma, Nexum surge para ser uma grande rede comunitária que conecta e beneficia tanto quem recebe ajuda quanto quem a oferece, seja doação financeira ou de outro tipo. O importante é compartilhar ações que ajudem no desenvolvimento local das comunidades, reforçando, assim, a relevância dos Objetivos de Desenvolvimento Sustentável (ODS). 
 
 ## Integrantes
 
