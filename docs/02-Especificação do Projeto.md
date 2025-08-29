@@ -1,56 +1,18 @@
 # Especificações do Projeto
 
 ## Personas
- <table>
-  <tr>
-    <th>Persona 01</th>
-    <th>Nome</th>
-    <th>Perfil</th>
-    <th>Motivações</th>
-    <th>Desafios</th>
-    <th>Como a plataforma pode ajudar</th>
-  </tr>
-  <tr>
-    <td><img src="https://github.com/user-attachments/assets/cb6658d0-85b6-4332-9158-380892a8fa80" width="2000"/></td>
-    <td><b>Lucas Almeida</b></td>
-    <td>Voluntário e designer gráfico freelancer. </td>
-    <td>Quer oferecer suas habilidades para causas sociais, contribuir com impacto real e ter reconhecimento formal do seu trabalho     voluntário.</td>
-    <td>Tem pouco tempo disponível, precisa conciliar atividades com o trabalho e não sabe onde encontrar ONGs que necessitem de sua competência.</td>
-    <td>Permite cadastrar suas habilidades e disponibilidade, receber notificações sobre oportunidades compatíveis e obter certificados digitais de reconhecimento pelo trabalho realizado. </td>
-  </tr>
-  <tr>
-    <th>Persona 02</th>
-    <th>Nome</th>
-    <th>Perfil</th>
-    <th>Motivações</th>
-    <th>Desafios</th>
-    <th>Como a plataforma pode ajudar</th>
-  </tr>
-  <tr>
-    <td><img src="https://github.com/user-attachments/assets/bc9c1c09-1889-4c03-ae76-2d2174fc9caf" width="800"/></td>
-    <td><b>Mariana Costa</b></td>
-    <td>Coordenadora de uma ONG local voltada à educação infantil. </td>
-    <td>Quer maximizar o impacto das atividades de sua ONG, encontrar voluntários com habilidades específicas e acessar recursos que outras organizações possam compartilhar. </td>
-    <td>Muitas vezes não encontra voluntários qualificados e gasta muito tempo buscando materiais e equipamentos. Precisa de relatórios claros para mostrar resultados a doadores. </td>
-    <td>Permite cadastrar suas demandas, encontrar voluntários por competências, compartilhar recursos e gerar relatórios de impacto de forma rápida e confiável.</td>
-  </tr>
-  <tr>
-    <th>Persona 03</th>
-    <th>Nome</th>
-    <th>Perfil</th>
-    <th>Motivações</th>
-    <th>Desafios</th>
-    <th>Como a plataforma pode ajudar</th>
-  </tr>
-  <tr>
-    <td><img src="https://github.com/user-attachments/assets/a5e8fe1f-1ea3-4242-82c6-3c2e4c330919" width="800"/></td>
-    <td><b>Instituto Vila Verde </b></td>
-    <td>ONG de médio porte focada em meio ambiente</td>
-    <td>Otimizar uso de recursos, colaborar com outras ONGs, aumentar eficiência das ações </td>
-    <td>Possui equipamentos ociosos; falta de canal seguro para compartilhamento; necessidade de maior transparência para doadores </td>
-    <td>Cadastro e disponibilização de recursos para empréstimo ou troca, acesso a voluntários qualificados, geração de relatórios de utilização e impacto </td>
-  </tr>
-</table>
+ <img src="https://github.com/user-attachments/assets/3fb6c2a3-7400-4563-9d8d-b6f2a639a6ec">
+ <img src="https://github.com/user-attachments/assets/f9207163-efd2-448a-a92e-29cb158c42af">
+ <img src="https://github.com/user-attachments/assets/0892ab65-cbd7-40dc-b026-1693d8436aab">
+ <img src="https://github.com/user-attachments/assets/918ede47-9e56-4679-a342-b5272e54c5c8">
+ <img src="https://github.com/user-attachments/assets/c6df001d-cb15-420a-839a-30457dd8ee50">
+
+
+ 
+ 
+ 
+
+ 
 
 ## Histórias de Usuários
 
