@@ -58,7 +58,7 @@ O quadro kanban do grupo desenvolvido na ferramenta de gerenciamento de projetos
 
 <img width="1905" height="837" alt="image" src="https://github.com/user-attachments/assets/6db6a9cb-4ef5-4352-a40a-be2b4b75b5de" />
 
-Figura 1 - Tela do kanban (GitHub Projects) utilizada pelo grupo
+Figura 1 - Tela do quadro kanban (GitHub Projects) utilizada pelo grupo
 
 ### Ferramentas
 
@@ -70,7 +70,7 @@ As ferramentas empregadas no projeto são:
 |---------------------------------|----------------|----------------|
 |Repositório de Código Fonte      |     GitHub     |      link      |
 |Documentos do projeto            |     GitHub     |      link      |
-|Gerenciamento do projeto         | GitHub Projects|      link      |
+|Gerenciamento do projeto         | GitHub Projects|      [link](https://github.com/orgs/ICEI-PUC-Minas-PMV-ADS/projects/2147)      |
 |Projeto de Interface e WireFrames|     Canva      |      [link](https://www.canva.com/design/DAGxANPdwqE/A3O74yj2BZf-NCCkIIqveQ/view?utm_content=DAGxANPdwqE&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hef6b2f9555)|      |
 |Diagramas                        |   Lucidchart   |     [link](https://lucid.app/lucidchart/a3b13034-d85e-4dd0-8039-cccde8c1ca2f/edit?viewport_loc=-607%2C-601%2C2548%2C1134%2CgKUKXevN3tgp&invitationId=inv_e3f26c8b-b50f-46ce-8b4b-feeacf332d0b)                                             |
 |Hospedagem                       |     GitHub     |      link      |
