@@ -1,9 +1,13 @@
 
 # Metodologia
 
-<span style="color:red">Pré-requisitos: <a href="2-Especificação do Projeto.md"> Documentação de Especificação</a></span>
+Aqui apresentamos as ferramentas, processos e como nos organizamos para o desenvolvimento do projeto:
 
-Descreva aqui a metodologia de trabalho do grupo para atacar o problema. Definições sobre os ambiente de trabalho utilizados pela  equipe para desenvolver o projeto. Abrange a relação de ambientes utilizados, a estrutura para gestão do código fonte, além da definição do processo e ferramenta através dos quais a equipe se organiza (Gestão de Times).
+### Etapa 1
+Na primeira etapa discutimos a definição do problema, realizamos pesquisas para entender as necessidades do nicho estudado, trabalhamos na justificativa, objetivos, público alvo e no levantamento de requisitos e restrições.
+
+### Etapa 2
+Na segunda etapa definimos como será a metodologia de todo o projeto, incluindo ferramentas que vamos utilizar para o desenvolvimento e documentação do projeto, papéis que cada integrante irá desempenhar, além de diagramas de fluxo e de classes, wireframes, projeto da base de dados e planos de testes de software e de usabilidade.
 
 ## Controle de Versão
 
@@ -28,50 +32,41 @@ etiquetas:
 
 Discuta como a configuração do projeto foi feita na ferramenta de versionamento escolhida. Exponha como a gerência de tags, merges, commits e branchs é realizada. Discuta como a gerência de issues foi realizada.
 
-> **Links Úteis**:
-> - [Tutorial GitHub](https://guides.github.com/activities/hello-world/)
-> - [Git e Github](https://www.youtube.com/playlist?list=PLHz_AreHm4dm7ZULPAmadvNhH6vk9oNZA)
->  - [Comparando fluxos de trabalho](https://www.atlassian.com/br/git/tutorials/comparing-workflows)
-> - [Understanding the GitHub flow](https://guides.github.com/introduction/flow/)
-> - [The gitflow workflow - in less than 5 mins](https://www.youtube.com/watch?v=1SXpE08hvGs)
-
 ## Gerenciamento de Projeto
+
+A equipe utiliza metodologias ágeis, tendo escolhido o Scrum como base para definição do processo de desenvolvimento.
 
 ### Divisão de Papéis
 
-Apresente a divisão de papéis entre os membros do grupo.
+A equipe está organizada da seguinte forma:
 
-> **Links Úteis**:
-> - [11 Passos Essenciais para Implantar Scrum no seu 
-> Projeto](https://mindmaster.com.br/scrum-11-passos/)
-> - [Scrum em 9 minutos](https://www.youtube.com/watch?v=XfvQWnRgxG0)
+- Scrum Master:
+- Product Owner:
+- Equipe de Desenvolvimento:
+- Equipe de design:
 
 ### Processo
 
-Coloque  informações sobre detalhes da implementação do Scrum seguido pelo grupo. O grupo poderá fazer uso de ferramentas on-line para acompanhar o andamento do projeto, a execução das tarefas e o status de desenvolvimento da solução.
- 
-> **Links Úteis**:
-> - [Project management, made simple](https://github.com/features/project-management/)
-> - [Sobre quadros de projeto](https://docs.github.com/pt/github/managing-your-work-on-github/about-project-boards)
-> - [Como criar Backlogs no Github](https://www.youtube.com/watch?v=RXEy6CFu9Hk)
-> - [Tutorial Slack](https://slack.com/intl/en-br/)
+Para organização e distribuição das tarefas do projeto, a equipe está utilizando o GitHub Projects estruturado com as seguintes listas:
+
+Backlog: recebe todas as atividades a serem realizadas e é representada como Backlog. Todas as tarefas que são identificadas no decorrer do projeto são documentadas na lista.
+To do: lista de atividades que representa o Sprint Backlog, ou seja, a lista de tarefas do Backlog que devem ser realizadas e implementadas em um determinado período de tempo.
+In progress: quando uma tarefa é iniciada, é movida para esta lista.
+Code review: os integrantes da equipe avaliam o código que foi feito.
+Done: essa lista indica que uma tarefa foi concluída após passar pelos testes necessários e ser aprovada pelo cliente.
+
+O quadro kanban do grupo desenvolvido na ferramenta de gerenciamento de projetos está disponível através desta URL e é apresentado abaixo no estado atual.
+
+Figura 1 - Tela do kanban (GitHub Projects) utilizada pelo grupo
 
 ### Ferramentas
 
+Todas as ferramentas abaixo foram escolhidas por serem as mais utilizadas no mercado e/ou por terem uma boa usabilidade. Assim, conseguimos desenvolver o projeto com facilidade e ainda experimentamos ferramentas que o mercado pede.
+
 As ferramentas empregadas no projeto são:
 
-- Editor de código.
-- Ferramentas de comunicação
-- Ferramentas de desenho de tela (_wireframing_)
+|           AMBIENTE        | PLATAFORMA | LINK DE ACESSO |
+|---------------------------|------------|----------------|
+|Repositório de Código Fonte|   GitHub   |      link      |
 
-O editor de código foi escolhido porque ele possui uma integração com o
-sistema de versão. As ferramentas de comunicação utilizadas possuem
-integração semelhante e por isso foram selecionadas. Por fim, para criar
-diagramas utilizamos essa ferramenta por melhor captar as
-necessidades da nossa solução.
 
-Liste quais ferramentas foram empregadas no desenvolvimento do projeto, justificando a escolha delas, sempre que possível.
- 
-> **Possíveis Ferramentas que auxiliarão no gerenciamento**: 
-> - [Slack](https://slack.com/)
-> - [Github](https://github.com/)
