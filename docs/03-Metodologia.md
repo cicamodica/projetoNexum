@@ -56,7 +56,7 @@ Done: essa lista indica que uma tarefa foi concluída após passar pelos testes 
 
 O quadro kanban do grupo desenvolvido na ferramenta de gerenciamento de projetos está disponível através desta URL e é apresentado abaixo no estado atual.
 
-<img width="1905" height="837" alt="image" src="https://github.com/user-attachments/assets/6db6a9cb-4ef5-4352-a40a-be2b4b75b5de" />
+<img width="1911" height="846" alt="image" src="https://github.com/user-attachments/assets/dc13a34e-f1ef-427d-925e-a14be7597780" />
 
 Figura 1 - Tela do quadro kanban (GitHub Projects) utilizada pelo grupo
 
