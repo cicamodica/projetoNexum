@@ -50,12 +50,13 @@ A equipe está organizada da seguinte forma:
 Para organização e distribuição das tarefas do projeto, a equipe está utilizando o GitHub Projects estruturado com as seguintes listas:
 
 Backlog: recebe todas as atividades a serem realizadas e é representada como Backlog. Todas as tarefas que são identificadas no decorrer do projeto são documentadas na lista.
-To do: lista de atividades que representa o Sprint Backlog, ou seja, a lista de tarefas do Backlog que devem ser realizadas e implementadas em um determinado período de tempo.
 In progress: quando uma tarefa é iniciada, é movida para esta lista.
-Code review: os integrantes da equipe avaliam o código que foi feito.
+In review: os integrantes da equipe avaliam as tarefas antes de finalizá-las.
 Done: essa lista indica que uma tarefa foi concluída após passar pelos testes necessários e ser aprovada pelo cliente.
 
 O quadro kanban do grupo desenvolvido na ferramenta de gerenciamento de projetos está disponível através desta URL e é apresentado abaixo no estado atual.
+
+<img width="1905" height="837" alt="image" src="https://github.com/user-attachments/assets/6db6a9cb-4ef5-4352-a40a-be2b4b75b5de" />
 
 Figura 1 - Tela do kanban (GitHub Projects) utilizada pelo grupo
 
@@ -65,8 +66,11 @@ Todas as ferramentas abaixo foram escolhidas por serem as mais utilizadas no mer
 
 As ferramentas empregadas no projeto são:
 
-|           AMBIENTE        | PLATAFORMA | LINK DE ACESSO |
-|---------------------------|------------|----------------|
-|Repositório de Código Fonte|   GitHub   |      link      |
-
-
+|           AMBIENTE              |   PLATAFORMA   | LINK DE ACESSO |
+|---------------------------------|----------------|----------------|
+|Repositório de Código Fonte      |     GitHub     |      link      |
+|Documentos do projeto            |     GitHub     |      link      |
+|Gerenciamento do projeto         | GitHub Projects|      link      |
+|Projeto de Interface e WireFrames|     Canva      |      [link](https://www.canva.com/design/DAGxANPdwqE/A3O74yj2BZf-NCCkIIqveQ/view?utm_content=DAGxANPdwqE&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hef6b2f9555)|      |
+|Diagramas                        |   Lucidchart   |     [link](https://lucid.app/lucidchart/a3b13034-d85e-4dd0-8039-cccde8c1ca2f/edit?viewport_loc=-607%2C-601%2C2548%2C1134%2CgKUKXevN3tgp&invitationId=inv_e3f26c8b-b50f-46ce-8b4b-feeacf332d0b)                                             |
+|Hospedagem                       |     GitHub     |      link      |
