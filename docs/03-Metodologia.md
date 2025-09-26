@@ -40,10 +40,10 @@ A equipe utiliza metodologias ágeis, tendo escolhido o Scrum como base para def
 
 A equipe está organizada da seguinte forma:
 
-- Scrum Master:
-- Product Owner:
-- Equipe de Desenvolvimento:
-- Equipe de design:
+- Scrum Master: Maria Cecilia Caruzzo Modica
+- Product Owner: Márcia Maria dos Reis Marques
+- Equipe de Desenvolvimento: Erison Guimarães dos Santos e Mariana Turibio Gressi 
+- Equipe de design: Breno Marques de Moura e Matheus Feliciano Andrade Bernardes
 
 ### Processo
 
