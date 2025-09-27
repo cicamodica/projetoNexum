@@ -20,6 +20,25 @@ As referências abaixo irão auxiliá-lo na geração do artefato “Diagramas d
 
 Conforme o diagrama de fluxo do projeto, apresentado no item anterior, as telas do sistema são apresentadas em detalhes nos itens que se seguem.
 
+### Homepage logado (ONG)
+Requisitos associados: RF-01, RF-04, RF-05, RF-07, RF-08, RF-10, RF-11
+
+### Menu Homepage logado (ONG)
+Requisitos associados: RF-01, RF-04, RF-05, RF-07, RF-08, RF-10, RF-11
+
+### Homepage logado (ADM)
+Requisitos associados: RF-01, RF-04, RF-05, RF-07, RF-08, RF-09, RF-10, RF-11
+
+### Menu Homepage logado (ADM)
+Requisitos associados: RF-01, RF-04, RF-05, RF-07, RF-08, RF-09, RF-10, RF-11
+
+### Homepage não logado 
+Requisitos associados: RF-01, RF-05, RF-12
+
+### Menu Homepage não logado 
+Requisitos associados: RF-01, RF-05, RF-12
+
+
 ### Perfil ONG - Sobre
 Requisitos associados: RF-01, RF-04, RF-06, RF-10
 
