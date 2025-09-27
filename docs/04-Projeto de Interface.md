@@ -48,6 +48,7 @@ Apresenta os campos a serem preenchidos com os dados do usuário para realizaç�
 <img width="1053" height="655" alt="Tela de cadastro 1" src="https://github.com/user-attachments/assets/1e082ac0-c331-4fea-9e63-c62ab1733e27" />
 Figura 5 - Tela de Cadastro #1
 
+
 <img width="1054" height="656" alt="Tela de cadastro 2" src="https://github.com/user-attachments/assets/2d4dc991-013b-4a66-a8a3-a87ad562ad88" />
 Figura 6 - Tela de Cadastro #2
 
@@ -84,5 +85,6 @@ Figura 10 - Tela de Redefinição de senha
 Apresenta campos com cadastros pendentes para aprovação ou negação. Requisitos associados: RF-09
 
 <img width="833" height="520" alt="Tela gerenciamento de cadastros de ONGs do ADMIN" src="https://github.com/user-attachments/assets/d3c05b55-3b23-432d-8be6-ba8f850d9d56" />
+
 Figura 11 - Tela de Gerenciamento de cadastros
 
