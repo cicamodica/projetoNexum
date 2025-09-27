@@ -1,71 +1,152 @@
 # Plano de Testes de Usabilidade
 
-Os testes de usabilidade permitem avaliar a qualidade da interface com o usuário da aplicação interativa.
-
-Um plano de teste de usabilidade deverá conter: 
+O propósito deste teste é verificar a performance alcançada pelos participantes e o entendimento das funções utilizadas no sistema, com a finalidade de realizar alterações necessárias.
 
 ## Definição do(s) objetivo(s)
 
-Antes de iniciar os testes, é essencial definir o que se deseja avaliar na usabilidade do sistema. 
-Alguns exemplos de objetivos são:
-- Verificar se os usuários conseguem concluir tarefas essenciais sem dificuldades.
+- Avaliar acessibilidade na plataforma para diferentes perfis de usuários.
 - Identificar barreiras na navegação e interação com o sistema.
 - Avaliar a eficiência e a satisfação do usuário ao utilizar a interface.
-- Testar a acessibilidade para diferentes perfis de usuários.
+- Verificar se os usuários entendem como se cadastrar na plataforma.
+- Avaliar se o fluxo de doação está claro.
+- Medir se o tempo para encontrar e se candidatar a uma vaga é aceitável.
+
 
 ## Seleção dos participantes
 
-Para garantir que o teste reflita o uso real do sistema, escolha participantes representativos do público-alvo.
+- Julia Medina (idade: 21 anos; perfil: média familiaridade);
+- Lucineia Souza (idade: 57 anos; perfil: básica familiaridade);
+- Alexandre Lara (idade: 51 anos; perfil: média familiaridade);
+- Luis Frederico Modica (idade: 26 anos; perfil: alta familiaridade);
+- Alfredo Paulo (idade: 71 anos; perfil: baixa familiaridade);
+- Rodrigo Gurgel (idade: 28 anos; perfil: alta familiaridade);
+- Ana Carolina Prates (idade: 16 anos; perfil: média familiaridade);
+- Miriam Pacheco (idade: 46 anos; perfil: alta familiaridade);
+- Genilda Feliciano (idade: 40 anos; perfil: básica familiaridade);
+- Luiz Carlos Sobral Neto (idade: 35 anos; perfil: alta familiaridade);
+- Luiz Carlos Sobral Junior (idade: 62 anos; perfil: média familiaridade);
+- Juliana Pacheco (Idade: 36 anos; perfil: baixa familiaridade);
 
-**Critérios para selecionar participantes:**
-- Perfis variados (experientes e iniciantes no sistema).
-- Diferentes níveis de familiaridade com tecnologia.
-- Pessoas com necessidades especiais (se aplicável).
-
-**Quantidade recomendada:**
-Mínimo: 5 participantes.
-Ideal: Entre 8 e 12 para maior diversidade.
 
 ## Definição de cenários de teste
 
-Os cenários representam tarefas reais que os usuários executam no sistema. Neste projeto, cada grupo deverá definir, no mínimo, **CINCO cenários para a aplicação** e cada cenário deve incluir:
+**Cenário 1: Doação como usuário externo (sem cadastro)**
 
-- Objetivo: O que será avaliado.
-- Contexto: A situação que leva o usuário a interagir com o sistema.
-- Tarefa: A ação que o usuário deve realizar.
-- Critério de sucesso: Como determinar se a tarefa foi concluída corretamente.
+**Objetivo:** Validar se um doador sem conta consegue realizar uma doação de forma clara e rápida, preenchendo o formulário no fluxo.
 
-**Exemplo: Cenário 1**
-
-**Objetivo:** Avaliar a facilidade e eficiência do usuário em pesquisar, adicionar um produto ao carrinho e finalizar a compra sem dificuldades.
-
-**Contexto:** O usuário deseja comprar um notebook para uso pessoal. Para isso, ele deverá entrar no site www.compras.com.br para buscar opções disponíveis, comparar preços, adicionar o produto ao carrinho e finalizar a compra com pagamento via cartão de crédito.
+**Contexto:** Usuário acessa a página pública e deseja doar para uma ONG específica.
 
 **Tarefa(s):** 
-- Acessar o site e localizar a barra de pesquisa.
-- Pesquisar por "notebook" e utilizar os filtros para refinar a busca (exemplo: marca, preço, processador).
-- Escolher um dos notebooks listados e acessar a página do produto.
-- Adicionar o produto ao carrinho.
-- Finalizar a compra, preenchendo os dados de pagamento e endereço de entrega.
-- Confirmar a transação e verificar a tela de pedido concluído.
+- Acessar a aplicação com link público
+- Clicar na aba “Doações”
+- Procurar ONG por nome ou categoria
+- Selecionar “Fazer doação”
+- Preencher formulário (sem criar conta)
+- Selecionar tipo/quantidade da doação (ou valor)
+- Confirmar a doação e visualizar a confirmação
 
 **Critério(s) de Sucesso(s):**
-- O usuário consegue encontrar e filtrar os produtos sem dificuldades.
-- O produto é adicionado ao carrinho corretamente.
-- O usuário consegue preencher as informações de pagamento e entrega sem erros.
-- A compra é finalizada com sucesso, e o usuário visualiza a confirmação do pedido.
-- Todo o processo ocorre em menos de 5 minutos, sem necessidade de assistência.
+-	Concluir a doação em ≤ 3 minutos.
+-	Zero bloqueios críticos (ex.: formulário não envia, erro sem mensagem clara).
+-	Campos obrigatórios apontam erros claros e no local certo.
+
+**Cenário 2: Cadastro de ONG**
+
+**Objetivo:** Verificar se uma nova ONG consegue se cadastrar e enviar dados para análise.
+
+**Contexto:** Usuário cria conta (perfil ONG) e completa dados.
+
+**Tarefa(s):** 
+- Iniciar cadastro de ONG e criar credenciais
+- Preencher informações institucionais (endereço, descrição, CNPJ, contato)
+- Anexar documentações necessárias para validação
+- Enviar para validação e ver estado “Pendente”
+- Confirmar que a ONG mudou para estado “Aprovada” e recebeu notificação após validação do ADMIN
+
+**Critério(s) de Sucesso(s):**
+-	ONG conclui cadastro em ≤ 5 minutos sem dúvidas sobre campos.
+-	Estados visíveis: Pendente > Aprovada.
+-	Notificação (ou status em tela) é clara e imediata.
+
+**Cenário 3: Criação de meta e vinculação de doações a uma meta**
+
+**Objetivo:** Verificar se o “gestor” da ONG entende e consegue criar Metas (ex.: “100 cestas”) e se doações podem ser vinculadas a uma meta específica.
+
+**Contexto:** ONG deseja criar uma meta pública para mobilizar doações.
+
+**Tarefa(s):** 
+- Fazer login na conta da ONG
+- Acessar página de perfil
+- Clicar na aba “recursos” e “criar nova meta”
+- Preencher dados e solicitações da meta
+- Verificar a publicação da meta
+- Ver o progresso da Meta atualizado (ex.: “20/100”)
+
+**Critério(s) de Sucesso(s):**
+-	Criar meta em ≤ 2 minutos.
+-	Na doação, opção de selecionar a meta é evidente.
+-	Progresso atualiza em tempo real ou após refresh com mensagem de sucesso.
+
+**Cenário 4: Inscrição de usuário em uma vaga de voluntariado**
+
+**Objetivo:** Validar se o fluxo de candidatura (formulário de inscrição) é intuitivo.
+
+**Contexto:** Candidato visualiza uma vaga e se inscreve, depois a ONG avalia e aprova (virando voluntário).
+
+**Tarefa(s):** 
+- Acessar a plataforma com link público
+- Clicar na aba “Voluntariado”
+- Escolher uma vaga e se inscrever (preenchendo o formulário de inscrição)
+- Enviar formulário para aprovação
+- Ver confirmação de que está como Candidato pendente
+- Verificar se após a aprovação, o usuário recebe uma notificação ou contato da ONG informando aprovação/recusa
+
+**Critério(s) de Sucesso(s):**
+-	Fácil acesso ao formulário de preenchimento da vaga.
+-	Preenchimento de formulário realizado em ≤ 5 minutos.
+
+**Cenário 5: Atribuição de Vaga**
+
+**Objetivo:** Validar se o fluxo de aprovação de voluntário é compreensível (para a ONG).
+
+**Contexto:** Voluntário se inscreve para a vaga e a ONG aprova/reprova a candidatura, atribuindo a vaga.
+
+**Tarefa(s):** 
+- Acessar a plataforma com link público
+- Realizar login como ONG
+- Acessar inscrições pendentes (na aba perfil)
+- Aprovar o candidato → o sistema transforma esse registro em um Voluntário (nova entidade herdada)
+- Confirmar que os dados de voluntário aparecem na vaga atribuída
+
+**Critério(s) de Sucesso(s):**
+- O botão/ação aprovar candidato é compreensível (sem confusão entre “inscrito” e “voluntário”).
+- Transição de Candidato para Voluntário ocorre sem perda de dados originais.
+
+**Cenário 6: Doação entre ONGs**
+
+**Objetivo:** Validar o fluxo especial onde uma ONG doa para outra ONG.
+
+**Contexto:** ONG “A” quer doar itens para ONG “B”.
+
+**Tarefa(s):** 
+- Acessar a plataforma com link público
+- Realizar login (como ONG)
+- ONG “A” acessar a aba de Doações
+- Procurar ONG destinatária
+- Informar tipo/quantidade/observações
+- Concluir doação
+
+**Critério(s) de Sucesso(s):**
+- Fluxo realizado sem dead-ends.
+- Conclusão em ≤ 4 minutos.
+- Registro final mostra claramente quem doou e para quem.
+- Mensagens de validação claras.
+
 
 ## Métodos de coleta de dados
 
-Os dados coletados devem ajudar a entender a experiência dos usuários e os dados podem ser coletados por observação direta incluindo métricas quantitativas (quantidade de cliques, número de erros, tempo gasto para cada tarefa etc.), métricas qualitativas (dificuldades, comentários etc.) e questionários pós-teste (A interface foi fácil de entender? Você encontrou dificuldades em alguma etapa? O que poderia ser melhorado?)
-
-Para cada voluntário do teste, é fundamental coletar e apresentar todos os dados/métricas previamente definidos, mas não se esqueça: atendendo à LGPD (Lei Geral de Proteção de Dados), nenhum dado sensível, que permita identificar o voluntário, deverá ser apresentado).
-
-As referências abaixo irão auxiliá-lo na geração do artefato "Plano de Testes de Usabilidade".
-
-> **Links Úteis**:
-> - [Teste De Usabilidade: O Que É e Como Fazer Passo a Passo (neilpatel.com)](https://neilpatel.com/br/blog/teste-de-usabilidade/)
-> - [Teste de usabilidade: tudo o que você precisa saber! | by Jon Vieira | Aela.io | Medium](https://medium.com/aela/teste-de-usabilidade-o-que-voc%C3%AA-precisa-saber-39a36343d9a6/)
-> - [Planejando testes de usabilidade: o que (e o que não) fazer | iMasters](https://imasters.com.br/design-ux/planejando-testes-de-usabilidade-o-que-e-o-que-nao-fazer/)
-> - [Ferramentas de Testes de Usabilidade](https://www.usability.gov/how-to-and-tools/resources/templates.html)
+**1. Método Qualitativo (para entender o "Porquê")**
+-	Entrevista (Debriefing): Conversar com o usuário após as tarefas ou no final do teste para coletar suas opiniões, percepções de dificuldade e sugestões de melhoria.
+  
+**2. Método Quantitativo (para medir "O Quê" e "Quanto")**
+-	Questionário Padronizado: SUS (System Usability Scale): Um questionário de 10 itens que gera uma pontuação de 0 a 100 sobre a percepção geral da usabilidade.
