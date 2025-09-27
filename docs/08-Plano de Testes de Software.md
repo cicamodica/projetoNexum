@@ -6,7 +6,8 @@
 | Objetivo do Teste 	| Verificar se a página de perfil de ONGS funciona corretamente |
 | Passos 	| - Acessar a página de uma ONG <br> - Verificar se as informações da ONG aparecem corretamente (localidade, nome, descrição, tags)  <br> - Verificar se as tabs funcionam corretamente (sobre, voluntariado, recursos) <br> - Verificar se ao clicar em "aplicar" em uma vaga, o modal de inscrição abre corretamente <br> - Verificar se ao clicar em "doar" em um recurso, o modal de doação abre corretamente |
 |Critério de Êxito | - As informações aparecem corretamente na página, e os modais funcionam corretamente |
-|  	|  	|
+
+<br>
 
 | **Caso de Teste** 	| **CT02 – Teste da página "Como deseja entrar?"** 	|
 |:---:	|:---:	|
@@ -16,6 +17,8 @@
 |**Critérios de Êxito** | Ao clicar em “login” ou “cadastro” o usuário é corretamente redirecionado para a página desejada em tempo razoável |
 |  **Responsável pela elaboração do caso de teste**	|  Maria Cecilia Caruzzo Modica	|
 
+<br>
+
 | **Caso de Teste** 	| **CT03 – Teste da página de Cadastro (ONG)** 	|
 |:---:	|:---:	|
 |	**Requisitos Associados** 	| RF-01 |
@@ -23,6 +26,8 @@
 | **Passos** 	| 01.	Acessar a aplicação por link público; <br> 02.	Na homepage clicar em “Entrar”; <br> 03.	Na página “Como deseja entrar?” selecionar “Cadastro”; <br> 04.	Em cadastro selecionar o tipo do cadastro a ser realizado (ONG); <br> 05.	Realizar o preenchimento de dados corretamente; <br> 06.	Clicar em “Próximo”; <br> 07.	Visualizar a mensagem “Cadastro pendente de aprovação” (ONG); <br> 08.	Aguardar aprovação do ADMIN; <br> 09.	Receber notificação informando aprovação do cadastro;|
 |**Critérios de Êxito** | O usuário consegue realizar o cadastro sem dificuldades; O usuário finaliza o cadastro e recebe a mensagem informando pendência de cadastro; após a aprovação do cadastro o usuário recebe a notificação de conta aprovada |
 |  **Responsável pela elaboração do caso de teste**	|  Maria Cecilia Caruzzo Modica	|
+
+<br>
 
 | **Caso de Teste** 	| **CT04 – Teste da página de Cadastro (ADMIN)** 	|
 |:---:	|:---:	|
@@ -32,6 +37,8 @@
 |**Critérios de Êxito** | O usuário consegue realizar o cadastro sem dificuldades; O usuário finaliza o cadastro e recebe a mensagem informando sucesso; após a aprovação do cadastro o usuário redirecionado para a página de Login|
 |  **Responsável pela elaboração do caso de teste**	|  Maria Cecilia Caruzzo Modica	|
 
+<br>
+
 | **Caso de Teste** 	| **CT05 – Teste da página de Login** 	|
 |:---:	|:---:	|
 |	**Requisitos Associados** 	| RF-01 e RF-02 |
@@ -39,6 +46,8 @@
 | **Passos** 	| 01.	Acessar a aplicação por link público; <br> 02.	Na homepage clicar em “Entrar”; <br> 03.	Na página “Como deseja entrar?” selecionar “Login”; <br> 4.	Usuário é redirecionado para a página de login; <br> 05.	Preencher os dados de acesso (e-mail e senha), clicar em “Próximo”; <br> 06.	Verificar aparecimento de mensagem de erro caso os dados sejam preenchidos incorretamente; <br> 07.	Receber a notificação de autenticação (Windows Autenticathor) e responder corretamente; <br> 08.	Usuário é redirecionado para a homepage “logado”;|
 |**Critérios de Êxito** | Usuário conseguiu realizar o login sem dificuldade; O usuário conseguiu “responder” a autenticação sem dificuldades; usuário visualizou a mensagem de erro de preenchimento; usuário foi logado|
 |  **Responsável pela elaboração do caso de teste**	|  Maria Cecilia Caruzzo Modica	|
+
+<br>
 
 | **Caso de Teste** 	| **CT06 – Teste da página de Gerenciamento de cadastros (ADMIN)** 	|
 |:---:	|:---:	|
@@ -48,6 +57,8 @@
 |**Critérios de Êxito** | O usuário consegue realizar o gerenciamento de cadastros de ONGs sem dificuldades|
 |  **Responsável pela elaboração do caso de teste**	|  Maria Cecilia Caruzzo Modica	|
 
+<br>
+
 | **Caso de Teste** 	| **CT07 – Teste da página de redefinição de senha** 	|
 |:---:	|:---:	|
 |	**Requisitos Associados** 	| RF-03 |
@@ -55,6 +66,8 @@
 | **Passos** 	| 01.	Acessar a aplicação por link público; <br> 02.	Na homepage clicar em “Entrar”; <br> 03.	Na página “Como deseja entrar?” selecionar “Login”; <br> 4.	Usuário é redirecionado para a página de login; <br> 05.	Na página de login selecionar "Esqueceu a senha?" <br> 06. Aguardar redirecionamento para página de redefinição de senha; <br> 07. Redefinir senha; <br> 08. Aguardar redirecionamento para a página de login; <br> 09.Preencher dados de acesso corretamente (com a nova senha); <br> 10. Clicar em próximo e aguardar redirecioonamento para a página de homepage logado;|
 |**Critérios de Êxito** | Usuário consegue realizar a redefinição de sua senha sem dificuldades|
 |  **Responsável pela elaboração do caso de teste**	|  Maria Cecilia Caruzzo Modica	|
+
+<br>
 
 | **Caso de Teste** 	| **CT08 – Teste da página de ONGs cadastradas** 	|
 |:---:	|:---:	|
@@ -64,6 +77,8 @@
 |**Critérios de Êxito** | O usuário consegue acessar a aba ONGs sem dificuldades; Ao selecionar uma ONG o usuário é redirecionado para a página de perfil da ONG|
 |  **Responsável pela elaboração do caso de teste**	|  Maria Cecilia Caruzzo Modica	|
 
+<br>
+<br>
 
 
 | **Caso de Teste** 	| **CT12 – Teste da página Homepage logado - Menu** 	|
@@ -74,6 +89,8 @@
 |**Critérios de Êxito** | O usuário deve conseguir ver as opções abaixo do Menu “Quem somos” e, em seguida, deve visualizar e conseguir clicar em todas as 3 opções disponíveis.|
 |  **Responsável pela elaboração do caso de teste**	|  Márcia Maria dos Reis Marques |
 
+<br>
+
 | **Caso de Teste** 	| **CT13 – Teste da página Homepage logado - Menu Quem somos** 	|
 |:---:	|:---:	|
 |	**Requisitos Associados** 	| -- |
@@ -82,6 +99,8 @@
 |**Critérios de Êxito** | O usuário deve conseguir clicar em uma das 3 opções disponíveis. Ao clicar, a aplicação deve redirecioná-lo à página correta.|
 |  **Responsável pela elaboração do caso de teste**	|  Márcia Maria dos Reis Marques |
 
+<br>
+
 | **Caso de Teste** 	| **CT14 – Teste da página Homepage logado - Menu Lateral** 	|
 |:---:	|:---:	|
 |	**Requisitos Associados** 	| -- |
@@ -89,6 +108,8 @@
 | **Passos** 	| 01.	Clicar no menu lateral ("três traços"); <br> 02. Observe as opções disponíveis e clique em uma delas. |
 |**Critérios de Êxito** | O usuário, após clicar no menu lateral, deve conseguir ver e clicar nas opções disponíveis.|
 |  **Responsável pela elaboração do caso de teste**	|  Márcia Maria dos Reis Marques |
+
+<br>
 
 | **Caso de Teste** 	| **CT15 – Teste da página Homepage logado e não logado - Pesquisar** 	|
 |:---:	|:---:	|
