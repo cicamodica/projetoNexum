@@ -63,3 +63,37 @@
 | **Passos** 	| 01.	Acessar a aplicação por link público; <br> 02.	Clicar na aba "ONGs" no cabeçalho da aplicação; <br> 03. Aguardar carregamento da página de ONGs cadastradas na aplicação; <br> 04. Selecionar uma ONG; <br> 05. Aguardar redirecionamento para a página de perfil da ONG selecionada;|
 |**Critérios de Êxito** | O usuário consegue acessar a aba ONGs sem dificuldades; Ao selecionar uma ONG o usuário é redirecionado para a página de perfil da ONG|
 |  **Responsável pela elaboração do caso de teste**	|  Maria Cecilia Caruzzo Modica	|
+
+
+
+| **Caso de Teste** 	| **CT12 – Teste da página Homepage logado - Menu** 	|
+|:---:	|:---:	|
+|	**Requisitos Associados** 	| -- |
+| **Objetivo do Teste** 	| No homepage logado, verificar se ao passar o mouse no Menu “Quem somos” abre as opções “Sobre”, “FAQ” e “Fale conosco”. |
+| **Passos** 	| 01.	Passar o mouse no menu “Quem somos”; <br> 02.	Observar se aparecem as opções: "Sobre", "FAQ" e "Fale conosco". |
+|**Critérios de Êxito** | O usuário deve conseguir ver as opções abaixo do Menu “Quem somos” e, em seguida, deve visualizar e conseguir clicar em todas as 3 opções disponíveis.|
+|  **Responsável pela elaboração do caso de teste**	|  Márcia Maria dos Reis Marques |
+
+| **Caso de Teste** 	| **CT13 – Teste da página Homepage logado - Menu Quem somos** 	|
+|:---:	|:---:	|
+|	**Requisitos Associados** 	| -- |
+| **Objetivo do Teste** 	| Verificar se ao passar o mouse no Menu “Quem somos” e clicar em uma das opções disponíveis será redirecionado respectivamente para a página correta.|
+| **Passos** 	| 01.	Passar o mouse no menu “Quem somos”; <br> 02.	Clique em uma das opções disponíveis; <br> 03. Observar se a aplicação o levou para a página correta. |
+|**Critérios de Êxito** | O usuário deve conseguir clicar em uma das 3 opções disponíveis. Ao clicar, a aplicação deve redirecioná-lo à página correta.|
+|  **Responsável pela elaboração do caso de teste**	|  Márcia Maria dos Reis Marques |
+
+| **Caso de Teste** 	| **CT14 – Teste da página Homepage logado - Menu Lateral** 	|
+|:---:	|:---:	|
+|	**Requisitos Associados** 	| -- |
+| **Objetivo do Teste** 	| No homepage logado, conforme o perfil, verificar se ao clicar nos “três traços” (menu lateral) irá abrir as opções disponíveis. |
+| **Passos** 	| 01.	Clicar no menu lateral ("três traços"); <br> 02. Observe as opções disponíveis e clique em uma delas. |
+|**Critérios de Êxito** | O usuário, após clicar no menu lateral, deve conseguir ver e clicar nas opções disponíveis.|
+|  **Responsável pela elaboração do caso de teste**	|  Márcia Maria dos Reis Marques |
+
+| **Caso de Teste** 	| **CT15 – Teste da página Homepage logado e não logado - Pesquisar** 	|
+|:---:	|:---:	|
+|	**Requisitos Associados** 	| -- |
+| **Objetivo do Teste** 	| No homepage logado e não logado, verificar se ao digitar na barra de Pesquisa a página levará o usuário às opções disponíveis com o conteúdo digitado. |
+| **Passos** 	| 01.	Clique no campo "Pesquisar"; <br> 02.	Digite o conteúdo desejado; <br> 03. Clique em "Enter" no seu teclado ou no ícone da lupa. |
+|**Critérios de Êxito** | O usuário deve conseguir escrever o conteúdo que deseja pesquisar e, em seguida, a aplicação deve redicioná-lo a esse conteúdo disponível. |
+|  **Responsável pela elaboração do caso de teste**	|  Márcia Maria dos Reis Marques |
