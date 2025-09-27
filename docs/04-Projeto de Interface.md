@@ -1,11 +1,7 @@
 
 # Projeto de Interface
 
-<span style="color:red">Pré-requisitos: <a href="2-Especificação do Projeto.md"> Documentação de Especificação</a></span>
-
-Visão geral da interação do usuário pelas telas do sistema e protótipo interativo das telas com as funcionalidades que fazem parte do sistema (wireframes).
-
- Apresente as principais interfaces da plataforma. Discuta como ela foi elaborada de forma a atender os requisitos funcionais, não funcionais e histórias de usuário abordados nas <a href="2-Especificação do Projeto.md"> Documentação de Especificação</a>.
+No projeto de interface do sistema, estamos dando prioridade a aspectos como velocidade, facilidade de acesso e facilidade de uso, portanto o projeto apresenta uma aparência visual consistente em todas as telas.
 
 ## Diagrama de Fluxo
 
@@ -24,9 +20,7 @@ As referências abaixo irão auxiliá-lo na geração do artefato “Diagramas d
 
 ![Exemplo de Wireframe](img/wireframe-example.png)
 
-Os wireframes são protótipos utilizados no design de interfaces para representar a estrutura de um site e o relacionamento entre suas páginas. Eles funcionam como ilustrações do layout e da disposição dos elementos essenciais da interface.
-
-Nesta seção, é FUNDAMENTAL indicar, para cada tela/wireframe proposto, quais requisitos do projeto estão sendo contemplados por aquela tela.
+Conforme o diagrama de fluxo do projeto, apresentado no item anterior, as telas do sistema são apresentadas em detalhes nos itens que se seguem.
 
 ### Perfil ONG - Sobre
 Requisitos associados: RF-01, RF-04, RF-06, RF-10
@@ -41,14 +35,54 @@ Requisitos associados: RF-01, RF-04, RF-06, RF-10
 
 ![alt text](./img/ong-recursos.png)
 
-> **Links Úteis**:
-> - [Protótipos vs Wireframes](https://www.nngroup.com/videos/prototypes-vs-wireframes-ux-projects/)
-> - [Ferramentas de Wireframes](https://rockcontent.com/blog/wireframes/)
-> - [MarvelApp](https://marvelapp.com/developers/documentation/tutorials/)
-> - [Figma](https://www.figma.com/)
-> - [Adobe XD](https://www.adobe.com/br/products/xd.html#scroll)
-> - [Axure](https://www.axure.com/edu) (Licença Educacional)
-> - [InvisionApp](https://www.invisionapp.com/) (Licença Educacional)
+### Tela - Como deseja entrar?
+Apresenta as opções de redirecinamento para telas de "Login" e/ou "Cadastro". Requisitos associados: RF-01
 
+<img width="1055" height="657" alt="Tela como deseja entrar" src="https://github.com/user-attachments/assets/1ccf797e-c3d5-42d4-b8e5-dee289c4838e" />
+Figura 4 - Tela "Como deseja entrar?"
 
-<!-- REMOVER TEXTOS TEMPLATE ANTES DE ENVIAR!!! -->
+### Tela - Cadastro
+
+Apresenta os campos a serem preenchidos com os dados do usuário para realização do cadastro na plataforma. Requisitos associados: RF-01
+
+<img width="1053" height="655" alt="Tela de cadastro 1" src="https://github.com/user-attachments/assets/1e082ac0-c331-4fea-9e63-c62ab1733e27" />
+Figura 5 - Tela de Cadastro #1
+
+<img width="1054" height="656" alt="Tela de cadastro 2" src="https://github.com/user-attachments/assets/2d4dc991-013b-4a66-a8a3-a87ad562ad88" />
+Figura 6 - Tela de Cadastro #2
+
+### Tela - Autenticação de conta
+
+Apresenta a solicitação de autenticação da conta nova do usuário. Requisitos associados: RF-02
+
+<img width="988" height="615" alt="Tela de autenticação de conta" src="https://github.com/user-attachments/assets/857b4d6b-1033-4a9b-98b7-2b3fb340c016" />
+Figura 7 - Tela de Autenticação de conta
+
+### Tela - Login
+
+Apresenta os dados solicitados para acesso á conta do usuário (e-mail cadastrado e senha). Requisitos associados: RF-01
+
+<img width="985" height="613" alt="Tela de login" src="https://github.com/user-attachments/assets/06dc863b-ec43-4ed1-acc8-6d706701569e" />
+Figura 8 - Tela de Login
+
+### Tela - Esqueceu a senha?
+
+Apresenta campo solicitando o e-mail cadastrado para envio de código de redefinição de senha. Requisitos associados: RF-03
+
+<img width="1055" height="657" alt="Tela esqueceu a senha" src="https://github.com/user-attachments/assets/4c5e00d6-4e5d-4927-bee3-d4a40b595f89" />
+Figura 9 - Tela "Esqueceu a senha?"
+
+### Tela - Redefinição de senha
+
+Apresenta campos para redefinição de senha do usuário. Requisitos associados: RF-03
+
+<img width="1054" height="656" alt="Tela redefinir senha" src="https://github.com/user-attachments/assets/eb079408-664d-412d-849a-47de61787bdc" />
+Figura 10 - Tela de Redefinição de senha
+
+### Tela - Gerenciamento de cadastros de ONGs (ADMIN)
+
+Apresenta campos com cadastros pendentes para aprovação ou negação. Requisitos associados: RF-09
+
+<img width="833" height="520" alt="Tela gerenciamento de cadastros de ONGs do ADMIN" src="https://github.com/user-attachments/assets/d3c05b55-3b23-432d-8be6-ba8f850d9d56" />
+Figura 11 - Tela de Gerenciamento de cadastros
+
