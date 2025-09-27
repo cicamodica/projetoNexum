@@ -12,6 +12,6 @@
 |:---:	|:---:	|
 |	**Requisitos Associados** 	| RF-01 |
 | **Objetivo do Teste** 	| Verificar se ao clicar em “login” ou “cadastro” a página redireciona corretamente |
-| **Passos** 	| -	Acessar a aplicação por link público; -	Na homepage clicar em “Entrar”; -	Aguardar carregamento da página; -	Selecionar “login” ou “cadastro”; -	Verificar redirecionamento correto para página login ou cadastro;|
+| **Passos** 	| 01.	Acessar a aplicação por link público; <br> 02.	Na homepage clicar em “Entrar”; <br> 03.	Aguardar carregamento da página; <br> 04.	Selecionar “login” ou “cadastro”; <br> 05.	Verificar redirecionamento correto para página login ou cadastro;|
 |**Critérios de Êxito** | Ao clicar em “login” ou “cadastro” o usuário é corretamente redirecionado para a página desejada em tempo razoável |
 |  **Responsável pela elaboração do caso de teste**	|  Maria Cecilia Caruzzo Modica	|
