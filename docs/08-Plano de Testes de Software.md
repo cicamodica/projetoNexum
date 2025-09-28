@@ -2,10 +2,11 @@
 
 | **Caso de Teste** 	| **CT01 – Página de ONG** 	|
 |:---:	|:---:	|
-|	Requisito Associado 	| RF-01, RF-04, RF-06, RF-10 |
-| Objetivo do Teste 	| Verificar se a página de perfil de ONGS funciona corretamente |
-| Passos 	| - Acessar a página de uma ONG <br> - Verificar se as informações da ONG aparecem corretamente (localidade, nome, descrição, tags)  <br> - Verificar se as tabs funcionam corretamente (sobre, voluntariado, recursos) <br> - Verificar se ao clicar em "aplicar" em uma vaga, o modal de inscrição abre corretamente <br> - Verificar se ao clicar em "doar" em um recurso, o modal de doação abre corretamente |
-|Critério de Êxito | - As informações aparecem corretamente na página, e os modais funcionam corretamente |
+|	**Requisito Associado** 	| RF-01, RF-04, RF-06, RF-10 |
+| **Objetivo do Teste** 	| Verificar se a página de perfil de ONGS funciona corretamente |
+| **Passos** 	| - Acessar a página de uma ONG <br> - Verificar se as informações da ONG aparecem corretamente (localidade, nome, descrição, tags)  <br> - Verificar se as tabs funcionam corretamente (sobre, voluntariado, recursos) <br> - Verificar se ao clicar em "aplicar" em uma vaga, o modal de inscrição abre corretamente <br> - Verificar se ao clicar em "doar" em um recurso, o modal de doação abre corretamente |
+|**Critério de Êxito** | - As informações aparecem corretamente na página, e os modais funcionam corretamente |
+|  **Responsável pela elaboração do caso de teste**	|  Erison Guimarães dos Santos	|
 
 <br>
 
@@ -78,10 +79,8 @@
 |  **Responsável pela elaboração do caso de teste**	|  Maria Cecilia Caruzzo Modica	|
 
 <br>
-<br>
 
-
-| **Caso de Teste** 	| **CT12 – Teste da página Homepage logado - Menu** 	|
+| **Caso de Teste** 	| **CT09 – Teste da página Homepage logado - Menu** 	|
 |:---:	|:---:	|
 |	**Requisitos Associados** 	| -- |
 | **Objetivo do Teste** 	| No homepage logado, verificar se ao passar o mouse no Menu “Quem somos” abre as opções “Sobre”, “FAQ” e “Fale conosco”. |
@@ -91,7 +90,7 @@
 
 <br>
 
-| **Caso de Teste** 	| **CT13 – Teste da página Homepage logado - Menu Quem somos** 	|
+| **Caso de Teste** 	| **CT10 – Teste da página Homepage logado - Menu Quem somos** 	|
 |:---:	|:---:	|
 |	**Requisitos Associados** 	| -- |
 | **Objetivo do Teste** 	| Verificar se ao passar o mouse no Menu “Quem somos” e clicar em uma das opções disponíveis será redirecionado respectivamente para a página correta.|
@@ -101,7 +100,7 @@
 
 <br>
 
-| **Caso de Teste** 	| **CT14 – Teste da página Homepage logado - Menu Lateral** 	|
+| **Caso de Teste** 	| **CT11 – Teste da página Homepage logado - Menu Lateral** 	|
 |:---:	|:---:	|
 |	**Requisitos Associados** 	| -- |
 | **Objetivo do Teste** 	| No homepage logado, conforme o perfil, verificar se ao clicar nos “três traços” (menu lateral) irá abrir as opções disponíveis. |
@@ -111,7 +110,7 @@
 
 <br>
 
-| **Caso de Teste** 	| **CT15 – Teste da página Homepage logado e não logado - Pesquisar** 	|
+| **Caso de Teste** 	| **CT12 – Teste da página Homepage logado e não logado - Pesquisar** 	|
 |:---:	|:---:	|
 |	**Requisitos Associados** 	| -- |
 | **Objetivo do Teste** 	| No homepage logado e não logado, verificar se ao digitar na barra de Pesquisa a página levará o usuário às opções disponíveis com o conteúdo digitado. |
@@ -121,7 +120,7 @@
 
 <br>
 
-| **Caso de Teste** | **CT-08 - Teste da Página de pesquisa** |
+| **Caso de Teste** | **CT13 - Teste da Página de pesquisa** |
 |:---:	|:---:	|
 |	**Requisitos Associados**  | RF-05 |
 | **Objetivo do Teste** 	| Verificar se o Usuário (externo ou cadastrado) consegue acessar a página, realizar pesquisa e ser encaminhado para tela de resultado de pesquisa . |
@@ -131,7 +130,7 @@
 
 <br>
 
-| **Caso de Teste** | **CT-09 - Teste da Página de Resultado de pesquisa** |
+| **Caso de Teste** | **CT14 - Teste da Página de Resultado de pesquisa** |
 |:---:	|:---:	|
 |	**Requisitos Associados**  | RF-05 |
 | **Objetivo do Teste** 	| Verificar se o Usuário (externo ou cadastrado) consegue acessar a página de resultado, aparece todas as opções de acordo com a busca, se ele escolher o conteúdo e clicar irá ser encaminhado para a página que escolheu. |
@@ -141,7 +140,7 @@
 
 <br>
 
-| **Caso de Teste** | **CT-10 - Teste da Página de Marketplace** |
+| **Caso de Teste** | **CT15 - Teste da Página de Marketplace** |
 |:---:	|:---:	|
 |	**Requisitos Associados**  | RF-05 |
 | **Objetivo do Teste** 	| Verificar se o Usuário (externo ou cadastrado) consegue acessar a página do marketplace, todos os ícones-botões estão funcionais, ícones que levam para outras páginas fazem o percurso correto. Verificar se o filtro está funcional cada opção. Verificar se o modal aparece corretamente e está funcional, se os links levam para as páginas corretas e se as imagens estão carregando. |
@@ -151,7 +150,7 @@
 
 <br>
 
-| **Caso de Teste** | **Teste da Página de Voluntariado** |
+| **Caso de Teste** | **CT16 - Teste da Página de Voluntariado** |
 |:---:	|:---:	|
 |	**Requisitos Associados**  | RF-05 |
 | **Objetivo do Teste** 	| Verificar se o Usuário (externo ou cadastrado) consegue acessar a página de voluntariado, consegue realizar filtragem para acessar apenas conteúdos que deseja, verificar se todos os botões links estão encaminhando para as páginas corretas, se botões estão funcionais é se o usuário consegue fazer aplicação para se voluntariar. |
