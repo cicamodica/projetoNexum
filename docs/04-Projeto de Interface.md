@@ -23,7 +23,7 @@ Conforme o diagrama de fluxo do projeto, apresentado no item anterior, as telas 
 ### Homepage logado (ONG)
 Requisitos associados: RF-01, RF-04, RF-05, RF-07, RF-08, RF-10, RF-11
 
-![alt text](./img/)
+![alt text](./img/homepage logado ONG.png)
 ### Menu Homepage logado (ONG)
 Requisitos associados: RF-01, RF-04, RF-05, RF-07, RF-08, RF-10, RF-11
 
