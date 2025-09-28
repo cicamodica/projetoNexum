@@ -17,6 +17,7 @@ Conforme o diagrama de fluxo do projeto, apresentado no item anterior, as telas 
 Requisitos associados: RF-01, RF-05, RF-12
 
 ![alt text](./img/homepage%20não%20logado.png)
+
 Figura 1 - Tela Homepage não logado
 
 ### Menu Homepage não logado 
@@ -24,6 +25,7 @@ Figura 1 - Tela Homepage não logado
 Requisitos associados: RF-01, RF-05, RF-12
 
 ![alt text](./img/Menu%20homepage%20não%20logado.png)
+
 Figura 2 - Menu Homepage não logado
 
 ### Homepage logado (ONG)
@@ -31,6 +33,7 @@ Figura 2 - Menu Homepage não logado
 Requisitos associados: RF-01, RF-04, RF-05, RF-07, RF-08, RF-10, RF-11
 
 ![alt text](./img/homepage%20logado%20ONG.png)
+
 Figura 3 - Tela Homepage logado (ONG)
 
 ### Menu Homepage logado (ONG)
@@ -38,6 +41,7 @@ Figura 3 - Tela Homepage logado (ONG)
 Requisitos associados: RF-01, RF-04, RF-05, RF-07, RF-08, RF-10, RF-11
 
 ![alt text](./img/MENU%20homepage%20logado%20ONG.png)
+
 Figura 4 - Menu Homepage logado (ONG)
 
 ### Homepage logado (ADM)
@@ -45,6 +49,7 @@ Figura 4 - Menu Homepage logado (ONG)
 Requisitos associados: RF-01, RF-04, RF-05, RF-07, RF-08, RF-09, RF-10, RF-11
 
 ![alt text](./img/homepage%20logado%20ADM.png)
+
 Figura 5 - Tela Homepage logado (ADM)
 
 ### Menu Homepage logado (ADM)
@@ -52,6 +57,7 @@ Figura 5 - Tela Homepage logado (ADM)
 Requisitos associados: RF-01, RF-04, RF-05, RF-07, RF-08, RF-09, RF-10, RF-11
 
 ![alt text](./img/MENU%20homepage%20logado%20ADM.png)
+
 Figura 6 - Menu Homepage logado (ADM)
 
 ### Tela de Pesquisa
@@ -59,6 +65,7 @@ Figura 6 - Menu Homepage logado (ADM)
 Apresenta campos para realizar pesquisa e sugestões. Requisitos associados: RF-05
 
 <img width="953" height="589" alt="image" src="https://github.com/user-attachments/assets/2cc1c0d6-32e4-4a79-8a92-78b507da9d60" />
+
 Figura 7 - Tela de pesquisa
 
 ### Tela de Resultado de Pesquisa
@@ -66,6 +73,7 @@ Figura 7 - Tela de pesquisa
 Apresenta resultados da pesquisa, mostrando varias opções dentro da palavra chave buscada. Requisitos associados:  RF-05
 
 <img width="945" height="584" alt="image" src="https://github.com/user-attachments/assets/7b4241c9-e0a3-4fd0-8a45-4283eb7622d7" />
+
 Figura 8 - Tela de resultado de pesquisa
 
 ### Tela de Marketplace (Vitrine)
@@ -73,6 +81,7 @@ Figura 8 - Tela de resultado de pesquisa
 Apresenta pedidos de doações, com filtros para especificar a busca da maneira desejada. Requisitos associados: RF-05
 
 <img width="945" height="586" alt="image" src="https://github.com/user-attachments/assets/40729962-311a-42a8-8758-6975ea303cef" />
+
 Figura 9 - Tela de Marketplace (vitrine)
 
 ### Tela de Marketplace (Modal)
@@ -80,6 +89,7 @@ Figura 9 - Tela de Marketplace (vitrine)
 Apresenta a extensão da tela de Marketplace para realizar a doação de algo físico. Requisitos associados: RF-05
 
 <img width="945" height="587" alt="image" src="https://github.com/user-attachments/assets/a65d4e9e-45c7-4180-b768-7c9158f3b03c" />
+
 Figura 10 - Tela de Marketplace (modal)
 
 ### Tela de Voluntariado (Vitrine)
@@ -87,6 +97,7 @@ Figura 10 - Tela de Marketplace (modal)
 Demostra possíveis oportunidades de voluntariado com um filtro para se achar algo especifico. Requisitos associados:  RF-05
 
 <img width="947" height="590" alt="image" src="https://github.com/user-attachments/assets/8db51330-9822-4512-b43b-31cfab9cb371" />
+
 Figura 11 - Tela de Voluntariado (vitrine)
 
 ### Tela de Voluntariado (Modal Formulário)
@@ -94,6 +105,7 @@ Figura 11 - Tela de Voluntariado (vitrine)
 Demonstra uma extensão da tela de voluntariado para fazer a aplicação para realmente poder se voluntariar. Requisitos associados: RF-05
 
 <img width="951" height="589" alt="image" src="https://github.com/user-attachments/assets/e1fab9a5-283e-4a8a-9ec3-6e3f61bb6829" />
+
 Figura 12 - Tela de Voluntariado (modal formulário)
 
 ### Perfil ONG - Sobre
