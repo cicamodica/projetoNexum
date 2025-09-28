@@ -23,27 +23,27 @@ Conforme o diagrama de fluxo do projeto, apresentado no item anterior, as telas 
 ### Homepage logado (ONG)
 Requisitos associados: RF-01, RF-04, RF-05, RF-07, RF-08, RF-10, RF-11
 
-![alt text](./img/homepage logado ONG.png)
+![alt text](./img/homepage%20logado%20ONG.png)
 ### Menu Homepage logado (ONG)
 Requisitos associados: RF-01, RF-04, RF-05, RF-07, RF-08, RF-10, RF-11
 
-![alt text](./img/)
+![alt text](./img/MENU%20homepage%20logado%20ONG.png)
 ### Homepage logado (ADM)
 Requisitos associados: RF-01, RF-04, RF-05, RF-07, RF-08, RF-09, RF-10, RF-11
 
-![alt text](./img/)
+![alt text](./img/homepage%20logado%20ADM.png)
 ### Menu Homepage logado (ADM)
 Requisitos associados: RF-01, RF-04, RF-05, RF-07, RF-08, RF-09, RF-10, RF-11
 
-![alt text](./img/)
+![alt text](./img/MENU%20homepage%20logado%20ADM.png)
 ### Homepage não logado 
 Requisitos associados: RF-01, RF-05, RF-12
 
-![alt text](./img/)
+![alt text](./img/homepage%20não%20logado.png)
 ### Menu Homepage não logado 
 Requisitos associados: RF-01, RF-05, RF-12
 
-![alt text](./img/)
+![alt text](./img/Menu%20homepage%20não%20logado.png)
 ### Perfil ONG - Sobre
 Requisitos associados: RF-01, RF-04, RF-06, RF-10
 
