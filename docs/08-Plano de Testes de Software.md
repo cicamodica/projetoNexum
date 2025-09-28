@@ -118,3 +118,47 @@
 | **Passos** 	| 01.	Clique no campo "Pesquisar"; <br> 02.	Digite o conteúdo desejado; <br> 03. Clique em "Enter" no seu teclado ou no ícone da lupa. |
 |**Critérios de Êxito** | O usuário deve conseguir escrever o conteúdo que deseja pesquisar e, em seguida, a aplicação deve redicioná-lo a esse conteúdo disponível. |
 |  **Responsável pela elaboração do caso de teste**	|  Márcia Maria dos Reis Marques |
+
+<br>
+
+| **Caso de Teste** | **CT-08 - Teste da Página de pesquisa** |
+|:---:	|:---:	|
+|	**Requisitos Associados**  | RF-05 |
+| **Objetivo do Teste** 	| Verificar se o Usuário (externo ou cadastrado) consegue acessar a página, realizar pesquisa e ser encaminhado para tela de resultado de pesquisa . |
+| **Passos** 	| 1. Acessar a aplicação por link público; <br> 2. Clicar no campo “pesquisa” no cabeçalho da página; <br> 3. Digitar por exemplo “Voluntario “; <br>  4. Aparecer todos os conteúdos relacionados a palavra de busca; <br> 5. Selecionar alguma das sugestões conteúdos e ser redirecionado para tela de resultado de pesquisa; |
+|**Critérios de Êxito** | O usuário obtém sucesso ao realizar a pesquisa e a aplicação mostra as sugestões de acordo com a palavra de busca e redireciona após selecionar para a tela de resultado. |
+|  **Responsável pela elaboração do caso de teste**	| Matheus Feliciano Andrade bernardes |
+
+<br>
+
+| **Caso de Teste** | **CT-09 - Teste da Página de Resultado de pesquisa** |
+|:---:	|:---:	|
+|	**Requisitos Associados**  | RF-05 |
+| **Objetivo do Teste** 	| Verificar se o Usuário (externo ou cadastrado) consegue acessar a página de resultado, aparece todas as opções de acordo com a busca, se ele escolher o conteúdo e clicar irá ser encaminhado para a página que escolheu. |
+| **Passos** 	| 1.Após realizar a pesquisa e der Enter , deve aparecer os conteúdos respectivos de acordo com a pesquisa; <br> 2. Veja se aparece os conteúdos e suas imagens estão aparecendo; <br> 3.Selecione os ícones dos conteúdos que aparece na tela; <br> 4. Verifique se estão encaminhando para as páginas devidas; |
+|**Critérios de Êxito** | O conteúdo e exibido com êxito de acordo com a pesquisa realizada, as imagens são carregadas, mostra todos os conteúdos de acordo com o contexto pesquisado, todos os ícones levam para as páginas respectivas. |
+|  **Responsável pela elaboração do caso de teste**	| Matheus Feliciano Andrade bernardes |
+
+<br>
+
+| **Caso de Teste** | **CT-10 - Teste da Página de Marketplace** |
+|:---:	|:---:	|
+|	**Requisitos Associados**  | RF-05 |
+| **Objetivo do Teste** 	| Verificar se o Usuário (externo ou cadastrado) consegue acessar a página do marketplace, todos os ícones-botões estão funcionais, ícones que levam para outras páginas fazem o percurso correto. Verificar se o filtro está funcional cada opção. Verificar se o modal aparece corretamente e está funcional, se os links levam para as páginas corretas e se as imagens estão carregando. |
+| **Passos** 	| 1.Acessar a página por um link externo; <br> 2. Veja se todos os conteúdos são carregados e as imagens também aparecem;  <br> 3.Verifique se todos os botões estão funcionais, clique neles;  <br> 4. Veja se os botões links que levam para outras páginas estão indo para as devidas páginas;  <br> 5. Aplique o filtro, faça várias seleções separas uma para cada um, veja se aparece somente o conteúdo de acordo com filtro selecionado;  <br> 6. Faça seleções múltiplas no filtro e veja se aparece somente o conteúdo que foi selecionado;   <br> 7. Selecione uma possível doação que deseja, clique em faça doação;  <br> 8. Veja se o modal aparece corretamente para realizar a doação;  <br> 9.Coloque um valor dentro do campo de doação; <br> 10. Veja se encaminha para um modal formulário para doação;  <br> 11. Clique no ícone de cópia e cola dentro do modal;  <br> 12.O número do pix é copiado; 1.Acessar a página por um link externo; |
+|**Critérios de Êxito** | O usuário acessa a página com êxito, todos os conteúdos aparecem com imagens, os filtros funcionam, botões estão funcionais, e o ao clicar em doar aparece o modal para doação. Usuário consegue preencher os campos e finalizar a ação. |
+|  **Responsável pela elaboração do caso de teste**	| Matheus Feliciano Andrade bernardes |
+
+<br>
+
+| **Caso de Teste** | **Teste da Página de Voluntariado** |
+|:---:	|:---:	|
+|	**Requisitos Associados**  | RF-05 |
+| **Objetivo do Teste** 	| Verificar se o Usuário (externo ou cadastrado) consegue acessar a página de voluntariado, consegue realizar filtragem para acessar apenas conteúdos que deseja, verificar se todos os botões links estão encaminhando para as páginas corretas, se botões estão funcionais é se o usuário consegue fazer aplicação para se voluntariar. |
+| **Passos** 	| 1.Acessar a página por um link externo; <br> 2. Veja se todos os conteúdos são carregados e as imagens também aparecem; <br> 3.Verifique se todos os botões estão funcionais, clique neles;   <br> 4. Veja se os botões links que levam para outras páginas estão indo para as devidas páginas;  <br> 5. Aplique o filtro, faça várias seleções separas uma para cada um, veja se aparece somente o conteúdo de acordo com filtro selecionado;  <br> 6. Faça seleções múltiplas no filtro e veja se aparece somente o conteúdo que foi selecionado;  <br> 7.Selecione um possível vaga para se voluntariar clicando em candidatar-se;  <br> 8. Aparece o modal para realizar a aplicação;  <br> 9.Prencher os campos necessarios; <br> 10. clicar em submeter; |
+|**Critérios de Êxito** |O usuário acessa a página com êxito, todos os conteúdos aparecem com imagens, os filtros funcionam, botões estão funcionais, o modal de formulário carrega todos os conteúdos e está funcional e aplicável . |
+|  **Responsável pela elaboração do caso de teste**	| Matheus Feliciano Andrade bernardes |
+
+
+
+
