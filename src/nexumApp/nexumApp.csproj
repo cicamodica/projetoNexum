@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>aspnet-nexumApp-b36d416a-3c8b-4332-9caa-5ef5842bd23b</UserSecretsId>
   </PropertyGroup>

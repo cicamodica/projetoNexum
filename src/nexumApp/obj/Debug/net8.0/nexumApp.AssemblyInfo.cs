@@ -16,7 +16,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("nexumApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+94e7f4149b463b922235351a7678bd9abd2d17d1")]
 [assembly: System.Reflection.AssemblyProductAttribute("nexumApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("nexumApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "SLo2C4SRYCk=",
+  "dgSpecHash": "Vl5rVnNkTRI=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Erison\\Desktop\\nexumApp\\nexumApp.csproj",
+  "projectFilePath": "C:\\Users\\Erison\\Documents\\GitHub\\pmv-ads-2025-2-e2-proj-int-t7-g1-rede-comunitaria-sustentavel\\src\\nexumApp\\nexumApp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Erison\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\Erison\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",
