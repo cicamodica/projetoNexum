@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using nexumApp.Models;
 
 namespace nexumApp.Data
 {
@@ -9,5 +10,7 @@ namespace nexumApp.Data
             : base(options)
         {
         }
+        public DbSet<OngModel> Ongs {  get; set; }
+        // Mapear modelo para tabela aqui, exemplo acima
     }
 }
