@@ -5,6 +5,6 @@ namespace nexumApp.Models
     public class User : IdentityUser
     {
         public string Name { get; set; }
-        public string CNPJ { get; set; }
+        public string Cnpj { get; set; }
     }
 }
