@@ -74,6 +74,10 @@ namespace nexumApp.Areas.Identity.Pages.Account
             [RegularExpression(@"^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$", ErrorMessage = "Insira um formato valido de CNPJ.")]
             [Display(Name = "CNPJ")]
             public string Cnpj {  get; set; }
+
+            [Required(ErrorMessage = "O Nome é obrigatório.")]
+            [Display(Name = "Nome")]
+            public string Name { get; set; }
         }
 
 
@@ -91,6 +95,7 @@ namespace nexumApp.Areas.Identity.Pages.Account
             {
                 var user = CreateUser();
                 user.Cnpj = Input.Cnpj;
+                user.Name = Input.Name;
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
