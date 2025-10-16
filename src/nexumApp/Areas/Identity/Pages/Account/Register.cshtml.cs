@@ -70,10 +70,10 @@ namespace nexumApp.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "A Senha e a confirmação de senha não combinam.")]
             public string ConfirmPassword { get; set; }
 
-            [Required(ErrorMessage = "O CNPJ é obrigatório.")]
-            [RegularExpression(@"^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$", ErrorMessage = "Insira um formato valido de CNPJ.")]
-            [Display(Name = "CNPJ")]
-            public string Cnpj {  get; set; }
+            [Required(ErrorMessage = "O CPF é obrigatório.")]
+            [RegularExpression(@"^\d{3}\.\d{3}\.\d{3}\-\d{2}$", ErrorMessage = "Insira um formato valido de CPF.")]
+            [Display(Name = "CPF")]
+            public string CPF {  get; set; }
 
             [Required(ErrorMessage = "O Nome é obrigatório.")]
             [Display(Name = "Nome")]
@@ -94,7 +94,7 @@ namespace nexumApp.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
-                user.Cnpj = Input.Cnpj;
+                user.CPF = Input.CPF;
                 user.Name = Input.Name;
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
