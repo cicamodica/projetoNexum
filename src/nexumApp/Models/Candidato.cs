@@ -24,8 +24,11 @@ namespace nexumApp.Models
         public string CPF { get; set; } 
         [StringLength(11)]
         [Required(ErrorMessage = "Obrigatorio informar o telefone")]
-        public string Telefone { get; set; } 
+        public string Telefone { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
+        [Display(Name = "Data de Inscrição")]
         public DateTime DataInscricao { get; set; }
+        [Display(Name = "Tem Experiência?")]
         public bool TemExperiencia { get; set; }
         public string Descricao { get; set; }
     }
