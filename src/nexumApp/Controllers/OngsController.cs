@@ -100,6 +100,8 @@ namespace nexumApp.Controllers
             {
                 try
                 {
+                    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    ong.UserId = userId;
                     _context.Update(ong);
                     await _context.SaveChangesAsync();
                 }
