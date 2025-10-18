@@ -1,13 +1,14 @@
-﻿@model nexumApp.Models.Ong
+﻿@using System.Security.Claims;
+@model nexumApp.Models.Ong
 
 @{
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+@{string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;}
+<h1>@Html.DisplayFor(model => model.Nome)</h1>
 
 <div>
-    <h4>Ong</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -31,6 +32,8 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    @if(userId == Model.UserId) {
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Editar</a> 
+    }
+    <a asp-action="Index">Voltar para lista</a>
 </div>
