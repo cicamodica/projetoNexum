@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using nexumApp.Data;
 
@@ -11,9 +12,11 @@ using nexumApp.Data;
 namespace nexumApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251016143448_UserModelUpdate")]
+    partial class UserModelUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -159,53 +162,6 @@ namespace nexumApp.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-           modelBuilder.Entity("nexumApp.Models.Candidato", b =>
-               {
-                   b.Property<int>("Id")
-                       .ValueGeneratedOnAdd()
-                       .HasMaxLength(3)
-                       .HasColumnType("int");
-
-                   SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                   b.Property<string>("CPF")
-                       .IsRequired()
-                       .HasMaxLength(11)
-                       .HasColumnType("nvarchar(11)");
-
-                   b.Property<DateTime>("DataInscricao")
-                       .HasColumnType("datetime2");
-
-                   b.Property<string>("Descricao")
-                       .HasColumnType("nvarchar(max)");
-
-                   b.Property<string>("Email")
-                       .IsRequired()
-                       .HasMaxLength(90)
-                       .HasColumnType("nvarchar(90)");
-
-                   b.Property<int>("IdVoluntario")
-                       .HasMaxLength(3)
-                       .HasColumnType("int");
-
-                   b.Property<string>("Nome")
-                       .IsRequired()
-                       .HasMaxLength(45)
-                       .HasColumnType("nvarchar(45)");
-
-                   b.Property<string>("Telefone")
-                       .IsRequired()
-                       .HasMaxLength(11)
-                       .HasColumnType("nvarchar(11)");
-
-                   b.Property<bool>("TemExperiencia")
-                       .HasColumnType("bit");
-
-                   b.HasKey("Id");
-
-                   b.ToTable("Candidato");
-               });
-               
             modelBuilder.Entity("nexumApp.Models.Ong", b =>
                 {
                     b.Property<int>("Id")

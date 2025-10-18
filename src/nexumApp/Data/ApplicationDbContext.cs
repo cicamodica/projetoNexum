@@ -10,7 +10,7 @@ namespace nexumApp.Data
             : base(options)
         {
         }
-        public DbSet<OngModel> Ongs {  get; set; }
+        public DbSet<Ong> Ongs {  get; set; }
         public DbSet<Candidato> Candidatos { get; set; }
         // Mapear modelo para tabela aqui, exemplo acima
     }

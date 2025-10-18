@@ -13,6 +13,11 @@
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
             <div class="form-floating mb-3">
+                <input asp-for="Input.Name" aria-required="true" class="form-control" placeholder="Nome completo" />
+                <label asp-for="Input.Name">Nome completo</label> 
+                <span asp-validation-for="Input.Name" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
                 <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
                 <label asp-for="Input.Email">Email</label>
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
@@ -28,9 +33,9 @@
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
             <div class="form-floating mb-3">
-                <input asp-for="Input.Cnpj" aria-required="true" class="form-control" placeholder="CNPJ" />
-                <label asp-for="Input.Cnpj">CNPJ</label> 
-                <span asp-validation-for="Input.Cnpj" class="text-danger"></span>
+                <input asp-for="Input.CPF" aria-required="true" class="form-control" placeholder="CPF" />
+                <label asp-for="Input.CPF">CPF</label> 
+                <span asp-validation-for="Input.CPF" class="text-danger"></span>
             </div>
             <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Cadastrar</button>
         </form>

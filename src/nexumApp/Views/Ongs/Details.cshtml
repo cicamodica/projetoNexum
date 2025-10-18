@@ -1,0 +1,39 @@
+﻿@using System.Security.Claims;
+@model nexumApp.Models.Ong
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+@{string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;}
+<h1>@Html.DisplayFor(model => model.Nome)</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Nome)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Nome)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Descriçao)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Descriçao)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Endereço)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Endereço)
+        </dd>
+    </dl>
+</div>
+<div>
+    @if(userId == Model.UserId) {
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Editar</a> 
+    }
+    <a asp-action="Index">Voltar para lista</a>
+</div>
