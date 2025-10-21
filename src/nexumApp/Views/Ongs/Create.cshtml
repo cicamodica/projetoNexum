@@ -2,11 +2,18 @@
 
 @{
     ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_LayoutNoHeader.cshtml";
 }
 
-<h1>Cadastro</h1>
-
-<h4>ONG</h4>
+@if(ViewBag.IsFirstOng == true) 
+{ 
+    <h1>Cadastrar nova ONG</h1>
+    <h4>Termine de cadastrar sua ONG</h4>
+}
+else {
+    <h1>Cadastrar nova filial</h1>
+    <h4>Cadastre uma nova filial</h4>
+}
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -42,10 +49,6 @@
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Ir para lista</a>
 </div>
 
 @section Scripts {

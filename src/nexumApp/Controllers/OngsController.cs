@@ -51,8 +51,12 @@ namespace nexumApp.Controllers
         }
 
         // GET: Ongs/Create
-        public IActionResult Create()
+        public async Task<IActionResult> CreateAsync()
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var ongs = await _context.Ongs.Where(ong => ong.UserId == userId).ToListAsync();
+            var isFirstOng = ongs.Count() == 0;
+            ViewBag.IsFirstOng = isFirstOng;
             return View();
         }
 
@@ -69,7 +73,7 @@ namespace nexumApp.Controllers
                 ong.UserId = userId;
                 _context.Add(ong);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Wait));
             }
             return View(ong);
         }
@@ -161,7 +165,14 @@ namespace nexumApp.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
+        public async Task<IActionResult> Wait()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var ongs = await _context.Ongs.Where(ong => ong.UserId == userId).ToListAsync();
+            var isFirstOng = ongs.Count() == 0;
+            ViewBag.Message = isFirstOng ? "Aguardando aprovação de ONG" : "Aguardando aprovação de filial";
+            return View();
+        }
         private bool OngExists(int id)
         {
             return _context.Ongs.Any(e => e.Id == id);
