@@ -13,6 +13,7 @@ namespace nexumApp.Data
         public DbSet<Ong> Ongs {  get; set; }
         public DbSet<Candidato> Candidatos { get; set; }
         public DbSet<VoluntarioModel> Voluntarios { get; set; }
+        public DbSet<Feedback> Feedbacks { get; set; }
         // Mapear modelo para tabela aqui, exemplo acima
     }
 }

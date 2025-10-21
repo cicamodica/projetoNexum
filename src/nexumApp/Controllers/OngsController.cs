@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -26,7 +27,8 @@ namespace nexumApp.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Ongs.ToListAsync());
+            var ongs = await _context.Ongs.Where(ongs => ongs.Aprovaçao == true).ToListAsync();
+            return View(ongs);
         }
 
         // GET: Ongs/Details/5
@@ -59,7 +61,7 @@ namespace nexumApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,Descriçao,Endereço")] Ong ong)
+        public async Task<IActionResult> Create([Bind("Id,Nome,Descriçao,Endereço, CNPJ")] Ong ong)
         {
             if (ModelState.IsValid)
             {

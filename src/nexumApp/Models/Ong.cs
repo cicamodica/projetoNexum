@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Drawing;
 
 namespace nexumApp.Models
 {
@@ -9,6 +10,12 @@ namespace nexumApp.Models
         public string Nome { get; set; }
         public string Descriçao { get; set; }
         public string Endereço { get; set; }
+        public string CNPJ { get; set; }
+        public bool Aprovaçao { get; set; } = false;
+
+        //[Display(Name = "Documento de Comprovação")]
+        //[RegularExpression(@"^.*\.(pdf|PDF)$", ErrorMessage = "Arquivo deve ser PDF.")]
+        //public byte[] Documento { get; set; }
         //public ICollection<Meta> Metas { get; set; }
     }
 }
