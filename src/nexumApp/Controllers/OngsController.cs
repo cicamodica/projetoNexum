@@ -1,16 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using nexumApp.Data;
 using nexumApp.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace nexumApp.Controllers
 {
+    [Authorize(Roles = "Ong")]
     public class OngsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -21,12 +23,14 @@ namespace nexumApp.Controllers
         }
 
         // GET: Ongs
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Ongs.ToListAsync());
         }
 
         // GET: Ongs/Details/5
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -69,7 +73,9 @@ namespace nexumApp.Controllers
         }
 
         // GET: Ongs/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        [Authorize(Policy = "isOngOwner")]
+        [Route("/{UserId}/Ong/Edit/{id:int}")]
+        public async Task<IActionResult> Edit(string UserId, int? id)
         {
             if (id == null)
             {

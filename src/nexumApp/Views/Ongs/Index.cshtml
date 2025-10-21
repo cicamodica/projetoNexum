@@ -45,8 +45,8 @@
             <td>
                 <a asp-action="Details" asp-route-id="@item.Id">Perfil</a>
                 @if(item.UserId == userId) {
-                <a asp-action="Edit" asp-route-id="@item.Id">Editar</a>
-                <a asp-action="Delete" asp-route-id="@item.Id">Excluir</a>
+                <a asp-action="Edit" asp-route-id="@item.Id" asp-route-UserId="@item.UserId">Editar</a>
+                <a asp-action="Delete" asp-route-id="@item.Id" asp-route-UserId="@item.UserId">Excluir</a>
                 }
             </td>
         </tr>
