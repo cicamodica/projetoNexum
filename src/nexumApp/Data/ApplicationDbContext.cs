@@ -14,6 +14,8 @@ namespace nexumApp.Data
         public DbSet<Candidato> Candidatos { get; set; }
         public DbSet<VoluntarioModel> Voluntarios { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
-        // Mapear modelo para tabela aqui, exemplo acima
+        public DbSet<AdministradorModel> Administradores { get; set; }
+        public DbSet<Doacao> Doacao { get; set; }
+        public DbSet<Meta> Metas { get; set; }
     }
 }

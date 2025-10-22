@@ -23,5 +23,40 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; 
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+
+        .container, .row, .col, main {
+            margin: 0 !important;
+            padding: 0 !important;
+            max-height: 100vh;
+            overflow: hidden;
+        }
+
+
+        .card {
+            overflow: hidden;
+            box-shadow: none; 
+        }
+
+        h1, h4, hr {
+            margin-top: 0 !important;
+            margin-bottom: 0.5rem !important;
+        }
+    </style>
+
 </body>
 </html>
