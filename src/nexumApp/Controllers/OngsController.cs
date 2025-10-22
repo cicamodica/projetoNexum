@@ -168,9 +168,19 @@ namespace nexumApp.Controllers
         public async Task<IActionResult> Wait()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var ongs = await _context.Ongs.Where(ong => ong.UserId == userId).ToListAsync();
-            var isFirstOng = ongs.Count() == 0;
-            ViewBag.Message = isFirstOng ? "Aguardando aprovação de ONG" : "Aguardando aprovação de filial";
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                ViewBag.Message = "Faça login para continuar.";
+                return View();
+            }
+
+            var total = await _context.Ongs.CountAsync(o => o.UserId == userId);
+
+            ViewBag.Message = (total <= 1)
+                ? "Aguardando aprovação de cadastro da ONG"
+                : "Aguardando aprovação de filial da ONG";
+
             return View();
         }
         private bool OngExists(int id)
