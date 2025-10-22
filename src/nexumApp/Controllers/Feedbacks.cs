@@ -14,9 +14,8 @@ namespace nexumApp.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            var feedbacks = await_context.Feedbacks.ToListAsync();
+            var feedbacks = await _context.Feedbacks.ToListAsync();
             return View(feedbacks);
-
         }
     }
 }

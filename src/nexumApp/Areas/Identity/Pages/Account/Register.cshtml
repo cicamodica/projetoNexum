@@ -1,7 +1,8 @@
 ﻿@page
 @model RegisterModel
 @{
-    ViewData["Title"] = "Cadastrar";
+    ViewData["Title"] = "Cadastrar nova ONG";
+     Layout = "~/Views/Shared/_LayoutNoHeader.cshtml";
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -9,14 +10,9 @@
 <div class="row">
     <div class="col-md-4">
         <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h2>Criar uma nova conta Nexum.</h2>
+            <h2>Primeiro passo para criar uma nova conta Nexum.</h2>
             <hr />
-            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Name" aria-required="true" class="form-control" placeholder="Nome completo" />
-                <label asp-for="Input.Name">Nome completo</label> 
-                <span asp-validation-for="Input.Name" class="text-danger"></span>
-            </div>
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>     
             <div class="form-floating mb-3">
                 <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
                 <label asp-for="Input.Email">Email</label>
@@ -32,12 +28,7 @@
                 <label asp-for="Input.ConfirmPassword">Confirmar senha</label>
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.CPF" aria-required="true" class="form-control" placeholder="CPF" />
-                <label asp-for="Input.CPF">CPF</label> 
-                <span asp-validation-for="Input.CPF" class="text-danger"></span>
-            </div>
-            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Cadastrar</button>
+            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Avançar</button>
         </form>
     </div>
 </div>

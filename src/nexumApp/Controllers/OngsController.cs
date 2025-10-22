@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -26,7 +27,8 @@ namespace nexumApp.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Ongs.ToListAsync());
+            var ongs = await _context.Ongs.Where(ongs => ongs.Aprovaçao == true).ToListAsync();
+            return View(ongs);
         }
 
         // GET: Ongs/Details/5
@@ -49,8 +51,12 @@ namespace nexumApp.Controllers
         }
 
         // GET: Ongs/Create
-        public IActionResult Create()
+        public async Task<IActionResult> CreateAsync()
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var ongs = await _context.Ongs.Where(ong => ong.UserId == userId).ToListAsync();
+            var isFirstOng = ongs.Count() == 0;
+            ViewBag.IsFirstOng = isFirstOng;
             return View();
         }
 
@@ -59,7 +65,7 @@ namespace nexumApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,Descriçao,Endereço")] Ong ong)
+        public async Task<IActionResult> Create([Bind("Id,Nome,Descriçao,Endereço, CNPJ")] Ong ong)
         {
             if (ModelState.IsValid)
             {
@@ -67,7 +73,7 @@ namespace nexumApp.Controllers
                 ong.UserId = userId;
                 _context.Add(ong);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Wait));
             }
             return View(ong);
         }
@@ -159,7 +165,14 @@ namespace nexumApp.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
+        public async Task<IActionResult> Wait()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var ongs = await _context.Ongs.Where(ong => ong.UserId == userId).ToListAsync();
+            var isFirstOng = ongs.Count() == 0;
+            ViewBag.Message = isFirstOng ? "Aguardando aprovação de ONG" : "Aguardando aprovação de filial";
+            return View();
+        }
         private bool OngExists(int id)
         {
             return _context.Ongs.Any(e => e.Id == id);

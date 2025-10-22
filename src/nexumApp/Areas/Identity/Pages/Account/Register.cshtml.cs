@@ -73,15 +73,6 @@ namespace nexumApp.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "A Senha e a confirmação de senha não combinam.")]
             public string ConfirmPassword { get; set; }
-
-            [Required(ErrorMessage = "O CPF é obrigatório.")]
-            [RegularExpression(@"^\d{3}\.\d{3}\.\d{3}\-\d{2}$", ErrorMessage = "Insira um formato valido de CPF.")]
-            [Display(Name = "CPF")]
-            public string CPF {  get; set; }
-
-            [Required(ErrorMessage = "O Nome é obrigatório.")]
-            [Display(Name = "Nome")]
-            public string Name { get; set; }
         }
 
 
@@ -98,9 +89,6 @@ namespace nexumApp.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
-                user.CPF = Input.CPF;
-                user.Name = Input.Name;
-
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
@@ -111,14 +99,12 @@ namespace nexumApp.Areas.Identity.Pages.Account
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    if (!await _roleManager.RoleExistsAsync("Ong"))
-                    {
-                        await _roleManager.CreateAsync(new IdentityRole("Ong"));
-                    }
                     await _userManager.AddToRoleAsync(user, "Ong");
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                    await _signInManager.SignInAsync(user, isPersistent: true);
+
                     var callbackUrl = Url.Page(
-                        "/Account/ConfirmEmail",
+                        "/Ongs/Create",
                         pageHandler: null,
                         values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
@@ -128,7 +114,7 @@ namespace nexumApp.Areas.Identity.Pages.Account
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+                        return RedirectToAction("Create", "Ongs");
                     }
                     else
                     {
