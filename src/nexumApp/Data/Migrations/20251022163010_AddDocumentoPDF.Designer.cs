@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using nexumApp.Data;
 
@@ -11,9 +12,11 @@ using nexumApp.Data;
 namespace nexumApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251022163010_AddDocumentoPDF")]
+    partial class AddDocumentoPDF
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -159,19 +162,6 @@ namespace nexumApp.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("nexumApp.Models.AdministradorModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Administradores");
-                });
-
             modelBuilder.Entity("nexumApp.Models.Candidato", b =>
                 {
                     b.Property<int>("Id")
@@ -219,51 +209,6 @@ namespace nexumApp.Data.Migrations
                     b.ToTable("Candidato");
                 });
 
-            modelBuilder.Entity("nexumApp.Models.Doacao", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("Data")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("IdMeta")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdOngDestinataria")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdOngDoadora")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("MetaId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("NomeRazaoSocial")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Quantidade")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Tipo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MetaId");
-
-                    b.ToTable("Doacao");
-                });
-
             modelBuilder.Entity("nexumApp.Models.Feedback", b =>
                 {
                     b.Property<int>("Id")
@@ -283,37 +228,6 @@ namespace nexumApp.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Feedbacks");
-                });
-
-            modelBuilder.Entity("nexumApp.Models.Meta", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("IdRecurso")
-                        .HasColumnType("int");
-
-                    b.Property<int>("QuantidadeDisponivel")
-                        .HasColumnType("int");
-
-                    b.Property<int>("QuantidadeNecessaria")
-                        .HasColumnType("int");
-
-                    b.Property<int>("QuantidadeReservada")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Recurso")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Metas");
                 });
 
             modelBuilder.Entity("nexumApp.Models.Ong", b =>
@@ -510,25 +424,11 @@ namespace nexumApp.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("nexumApp.Models.Doacao", b =>
-                {
-                    b.HasOne("nexumApp.Models.Meta", "Meta")
-                        .WithMany("Doacoes")
-                        .HasForeignKey("MetaId");
-
-                    b.Navigation("Meta");
-                });
-
             modelBuilder.Entity("nexumApp.Models.Ong", b =>
                 {
                     b.HasOne("nexumApp.Models.User", null)
                         .WithMany("Ongs")
                         .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("nexumApp.Models.Meta", b =>
-                {
-                    b.Navigation("Doacoes");
                 });
 
             modelBuilder.Entity("nexumApp.Models.User", b =>

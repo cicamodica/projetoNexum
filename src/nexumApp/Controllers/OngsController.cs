@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace nexumApp.Controllers
 {
@@ -65,10 +66,39 @@ namespace nexumApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,Descriçao,Endereço, CNPJ")] Ong ong)
+        public async Task<IActionResult> Create([Bind("Id,Nome,Descriçao,Endereço,CNPJ,DocumentoPdf")] Ong ong)
         {
             if (ModelState.IsValid)
             {
+                if (ong.DocumentoPdf == null || ong.DocumentoPdf.Length == 0)
+                {
+                    ModelState.AddModelError(nameof(ong.DocumentoPdf), "É obrigatório anexar um arquivo PDF.");
+                    return View(ong);
+                }
+
+                const long maxSize = 25 * 1024 * 1024; 
+                if (ong.DocumentoPdf.Length > maxSize)
+                {
+                    ModelState.AddModelError(nameof(ong.DocumentoPdf), "Arquivo muito grande (máx 25 MB).");
+                    return View(ong);
+                }
+
+                var isPdf = ong.DocumentoPdf.ContentType == "application/pdf" ||
+                            Path.GetExtension(ong.DocumentoPdf.FileName)
+                                .Equals(".pdf", StringComparison.OrdinalIgnoreCase);
+                if (!isPdf)
+                {
+                    ModelState.AddModelError(nameof(ong.DocumentoPdf), "Apenas arquivos PDF são permitidos.");
+                    return View(ong);
+                }
+
+                using (var ms = new MemoryStream())
+                {
+                    await ong.DocumentoPdf.CopyToAsync(ms);
+                    ong.DocumentoDados = ms.ToArray();
+                    ong.DocumentoTipo = "application/pdf";
+                    ong.DocumentoNome = Path.GetFileName(ong.DocumentoPdf.FileName);
+                }
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 ong.UserId = userId;
                 _context.Add(ong);

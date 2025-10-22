@@ -1,53 +1,64 @@
 ﻿@model nexumApp.Models.Ong
 
-@{
-    ViewData["Title"] = "Create";
-    Layout = "~/Views/Shared/_LayoutNoHeader.cshtml";
-}
+<div class="container min-vh-100 d-flex align-items-center">
+    <div class="row w-100 justify-content-center">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4 p-md-5">
+                    @{
+                        ViewData["Title"] = "Create";
+                        Layout = "~/Views/Shared/_LayoutNoHeader.cshtml";
+                    }
 
-@if(ViewBag.IsFirstOng == true) 
-{ 
-    <h1>Cadastrar nova ONG</h1>
-    <h4>Termine de cadastrar sua ONG</h4>
-}
-else {
-    <h1>Cadastrar nova filial</h1>
-    <h4>Cadastre uma nova filial</h4>
-}
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>         
-            <div class="form-group">
-                <label asp-for="Nome" class="control-label"></label>
-                <input asp-for="Nome" class="form-control" />
-                <span asp-validation-for="Nome" class="text-danger"></span>
+                    @if(ViewBag.IsFirstOng == true) 
+{
+                        <h1 class="text-center mb-4">Cadastrar ONG</h1>
+                        <h4 class="text-center mb-3">Termine de cadastrar sua ONG</h4>
+                    }
+                    else {
+                        <h1 class="text-center mb-4">Cadastrar nova filial</h1>
+                        <h4 class="text-center mb-3">Cadastre uma nova filial</h4>
+                    }
+                    <hr />
+                    <div class="row">
+                        <div class="mb-3">
+                            <form asp-action="Create" enctype="multipart/form-data">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>         
+                                <div class="mb-3">
+                                    <label asp-for="Nome" class="control-label"></label>
+                                    <input asp-for="Nome" class="form-control" />
+                                    <span asp-validation-for="Nome" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3">
+                                    <label asp-for="Descriçao" class="control-label"></label>
+                                    <input asp-for="Descriçao" class="form-control" />
+                                    <span asp-validation-for="Descriçao" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3">
+                                    <label asp-for="Endereço" class="control-label"></label>
+                                    <input asp-for="Endereço" class="form-control" />
+                                    <span asp-validation-for="Endereço" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3">
+                                    <label asp-for="CNPJ" class="control-label"></label>
+                                    <input asp-for="CNPJ" class="form-control" />
+                                    <span asp-validation-for="CNPJ" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3">
+                                    <label asp-for="DocumentoPdf" class="control-label"></label>
+                                    <input asp-for="DocumentoPdf" type="file" class="form-control" accept="application/pdf,.pdf" />
+                                    <span class="form-text">Apenas PDF, até 5 MB.</span>
+                                    <span asp-validation-for="DocumentoPdf" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3">
+                                    <input type="submit" value="Cadastrar" class="w-100 btn btn-lg btn-primary" />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Descriçao" class="control-label"></label>
-                <input asp-for="Descriçao" class="form-control" />
-                <span asp-validation-for="Descriçao" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Endereço" class="control-label"></label>
-                <input asp-for="Endereço" class="form-control" />
-                <span asp-validation-for="Endereço" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CNPJ" class="control-label"></label>
-                <input asp-for="CNPJ" class="form-control" />
-                <span asp-validation-for="CNPJ" class="text-danger"></span>
-            </div>
-            @* <div class="form-group">
-                <label asp-for="Documento" class="control-label"></label>
-                <input type="file" accept="application/pdf" asp-for="Documento" class="form-control" />
-                <span asp-validation-for="Documento" class="text-danger"></span>
-            </div> *@
-            <div class="form-group">
-                <input type="submit" value="Cadastrar" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 

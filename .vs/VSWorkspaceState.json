@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\nexumApp",
+    "\\src\\nexumApp\\Areas",
+    "\\src\\nexumApp\\Areas\\Identity",
+    "\\src\\nexumApp\\Areas\\Identity\\Pages",
+    "\\src\\nexumApp\\Areas\\Identity\\Pages\\Account",
+    "\\src\\nexumApp\\Controllers",
+    "\\src\\nexumApp\\Data",
+    "\\src\\nexumApp\\Models"
+  ],
+  "SelectedNode": "\\src\\nexumApp\\Controllers\\OngsController.cs",
+  "PreviewInSolutionExplorer": false
+}

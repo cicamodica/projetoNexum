@@ -1,8 +1,11 @@
-﻿namespace nexumApp.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace nexumApp.Models
 {
     public class Meta
     {
-        public int IdMeta { get; set; }
+        [Key]
+        public int Id { get; set; }
         public string Status { get; set; }
         public int IdRecurso { get; set; } 
         public string Recurso { get; set; }
