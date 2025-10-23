@@ -1,12 +1,8 @@
 # Template Padrão da Aplicação
 
-<span style="color:red">Pré-requisitos: <a href="2-Especificação do Projeto.md"> Especificação do Projeto</a></span>, <a href="3-Projeto de Interface.md"> Projeto de Interface</a>, <a href="4-Metodologia.md"> Metodologia</a>
+##Tela de Cadastro 
+<img width="1911" height="904" alt="Cadastro 1" src="https://github.com/user-attachments/assets/cd30b872-c20f-4c98-8334-937967bfd662" />
+<img width="1908" height="903" alt="Cadastro 2" src="https://github.com/user-attachments/assets/5ae9c5df-09ed-42f5-a3ca-0c7e9a203686" />
 
-Layout padrão da aplicação que será utilizado em todas as páginas com a definição de identidade visual, aspectos de responsividade e iconografia.
-
-> **Links Úteis**:
->
-> - [CSS Website Layout (W3Schools)](https://www.w3schools.com/css/css_website_layout.asp)
-> - [Website Page Layouts](http://www.cellbiol.com/bioinformatics_web_development/chapter-3-your-first-web-page-learning-html-and-css/website-page-layouts/)
-> - [Perfect Liquid Layout](https://matthewjamestaylor.com/perfect-liquid-layouts)
-> - [How and Why Icons Improve Your Web Design](https://usabilla.com/blog/how-and-why-icons-improve-you-web-design/)
+##Tela de Login
+<img width="1912" height="905" alt="Login" src="https://github.com/user-attachments/assets/93798f0b-01d5-49b8-83bc-9823a45e8259" />
