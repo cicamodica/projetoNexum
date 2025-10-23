@@ -19,9 +19,8 @@ A tabela a seguir é um exemplo de como ela deverá ser preenchida considerando 
 
 |ID    | Descrição do Requisito  | Artefatos produzidos | Aluno(a) responsável |
 |------|-----------------------------------------|----|----|
-|RF-001| A aplicação deve permitir que o usuário avalie uma agência de intercâmbio com base na sua experiência| |  |
-|RF-002| A aplicação deve permitir que o usuário inclua comentários ao fazer uma avaliação de uma agência de intercâmbio     |  |  |
-|RF-003| A aplicação deve permitir que o usuário consulte todas as agências de intercâmbio cadastradas ordenando-as com base em suas notas |  |  |
+|RF-01| A aplicação deve permitir que o usuário (ONG) crie e gerencie seu perfil na plataforma| Página de cadastro do usuário | Erison Guimarães dos Santos e Maria Cecilia Caruzzo Modica|
+|RF-02| A aplicação deve permitir autenticação de usuários (ONGs) por Login e Logout | Página de Login |  Erison Guimarães dos Santos e Maria Cecilia Caruzzo Modica |
 
 
 # Instruções de acesso
