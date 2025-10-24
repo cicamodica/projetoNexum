@@ -6,6 +6,7 @@ namespace nexumApp.Models
     public class Ong
     {
         public int Id { get; set; }
+        public User User { get; set; }
         public string UserId { get; set; }
         [Required(ErrorMessage = "Obrigatório informar a Razão Social!")]
         [Display(Name = "Razão Social")]
