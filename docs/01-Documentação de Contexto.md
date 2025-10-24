@@ -28,10 +28,8 @@ Desenvolver e implementar uma plataforma web colaborativa voltada para Organiza�
 
 **Específicos:**
 
-*    Facilitar o cadastro de ONGs e instituições, com informações institucionais, área de atuação e demandas específicas. 
-*    Disponibilizar um banco de habilidades, com busca e filtros avançados para aproximar voluntários e ONGs. 
+*    Facilitar o cadastro de ONGs e instituições, com informações institucionais, área de atuação e demandas específicas.  
 *    Implementar um marketplace de recursos que possibilite o cadastro, a troca e o empréstimo de equipamentos, espaços e materiais entre instituições. 
-*    Criar um filtro inteligente que relacione necessidades de ONGs com habilidades de voluntários e recursos disponíveis, considerando critérios como geolocalização e disponibilidade.
 *    Desenvolver mecanismos de comunicação, como notificações push e envio de email, para facilitar o contato de voluntários com ONGs.
 *    Garantir segurança, confiabilidade e conformidade legal no armazenamento de dados e no uso da plataforma.
  
@@ -48,7 +46,7 @@ Nesse contexto, a plataforma proposta surge como solução tecnológica capaz de
 
 ## Público-Alvo
 
-O público-alvo que este projeto se propõe a atender abrange Organizações Não Governamentais (ONGs), instituições do terceiro setor e voluntários que desejam contribuir de maneira mais eficiente e estruturada para causas sociais. Em especial, a plataforma visa apoiar ONGs que enfrentam dificuldades na gestão de voluntários e recursos, oferecendo um espaço digital que centraliza demandas e oportunidades de colaboração. 
+O público-alvo que este projeto se propõe a atender abrange Organizações Não Governamentais (ONGs), instituições do terceiro setor e voluntários que desejam contribuir de maneira mais eficiente e estruturada para causas sociais. Em especial, a plataforma visa apoiar ONGs que enfrentam dificuldades na gestão de voluntários , oferecendo um espaço digital que centraliza demandas e oportunidades de colaboração. 
 
 Além das organizações, também se incluem no público-alvo os voluntários, sejam eles profissionais qualificados em áreas específicas ou pessoas interessadas em doar tempo e habilidades para apoiar projetos sociais. Doadores e parceiros institucionais igualmente se beneficiam da solução, uma vez que terão acesso a maior transparência, indicadores de impacto e relatórios de resultados. 
 
