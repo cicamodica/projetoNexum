@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using nexumApp.Data;
 using nexumApp.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ApplicationModels;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,41 +13,25 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<User>(options => 
+{ 
+    options.SignIn.RequireConfirmedAccount = false;
+    options.SignIn.RequireConfirmedEmail = false; 
+})
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddErrorDescriber<DuplicateUserDescriber>();
 
 builder.Services.AddControllersWithViews();
-
-// Filtro para não permitir acesso ao perfil enquanto cadastro não é aprovado
-builder.Services.AddScoped<RequireOngApproved>();
-
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("Ong", p => p.RequireRole("Ong"));
+    options.AddPolicy("HasCreatedOrApprovedONG", policy =>
+    {
+        policy.Requirements.Add(new HasCreatedOrApprovedONGRequirement());
+    });
 });
 
-builder.Services.AddRazorPages(options =>
-{
-        options.Conventions.AuthorizeAreaFolder("Identity", "/Account/Manage", "Ong");
-
-       
-        options.Conventions.AddAreaFolderApplicationModelConvention(
-            "Identity",
-            "/Account/Manage",
-            model => model.Filters.Add(new ServiceFilterAttribute(typeof(RequireOngApproved)))
-        );
-
-        options.Conventions.AddAreaFolderApplicationModelConvention(
-            "Identity",
-            "/Account",
-            model => model.Filters.Add(new ServiceFilterAttribute(typeof(RequireOngApproved)))
-        );
-});
-
-
-builder.Services.AddSingleton<IAuthorizationHandler, OngIsOwnerRequirementHandler>();
+builder.Services.AddSingleton<IAuthorizationHandler, HasCreatedOrApprovedONGRequirementHandler>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 var app = builder.Build();

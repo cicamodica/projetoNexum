@@ -1,20 +1,9 @@
 ﻿@using System.Security.Claims;
 @model IEnumerable<nexumApp.Models.Ong>
-
 @{
     ViewData["Title"] = "Index";
 }
-
-@{string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;}
-@{bool isAuthenticated = User.Identity.IsAuthenticated;}
-
-<h1>ONGs</h1>
-
-@if(isAuthenticated) {
-    <p>
-        <a asp-action="Create">Cadastrar ONG</a>
-    </p>
-}
+<h1>ONG pendentes</h1>
 <table class="table">
     <thead>
         <tr>
@@ -27,7 +16,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Endereço)
             </th>
-            <th></th>
+            <th>
+                Aprovação
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -43,11 +34,9 @@
                 @Html.DisplayFor(modelItem => item.Endereço)
             </td>
             <td>
-                <a asp-action="Details" asp-route-id="@item.Id">Perfil</a>
-                @if(item.UserId == userId) {
-                <a asp-action="Edit" asp-route-id="@item.Id">Editar</a>
-                <a asp-action="Delete" asp-route-id="@item.Id">Excluir</a>
-                }
+               <form asp-controller="Admin" asp-action="Approve" asp-route-id="@item.Id">
+                   <input type="submit" value="Aprovar" class="btn btn-primary" />
+               </form>
             </td>
         </tr>
 }
