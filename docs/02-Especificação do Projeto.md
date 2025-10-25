@@ -70,7 +70,7 @@ O projeto está restrito pelos itens apresentados na tabela a seguir.
 |01| O projeto deverá ser entregue até o final do semestre.          |
 |02| O front-end deve ser desenvolvido usando tecnologias web padrão como HTML, CSS, JavaScript e Bootstrap         |
 |03| O backend deve ser implementado utilizando C#.         |
-|04| O banco de dados relacional (como PostgreSQL ou MySQL) deve ser utilizado para implementar no mínimo 2 CRUD's.         |
+|04| O banco de dados relacional ( SQL Server) deve ser utilizado para implementar no mínimo 2 CRUD's.         |
 |05| O desenvolvimento do projeto deve ser realizado com o uso de ferramentas e softwares gratuitos ou com licenças acadêmicas, assegurando que todos os membros da equipe tenham acesso às tecnologias necessárias.          |
 |06| Todo o código deve seguir as melhores práticas de codificação e padrões estabelecidos para garantir legibilidade e manutenção.         |
 |07| A equipe deve colaborar em todas as etapas do projeto, assegurando que todos os membros estejam envolvidos nas decisões e no desenvolvimento das atividades de forma ativa e participativa.        |
