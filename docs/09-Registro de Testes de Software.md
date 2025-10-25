@@ -13,7 +13,8 @@ Para cada caso de teste definido no Plano de Testes de Software, realize o regis
 |:---:	|:---:	|
 |	Requisito Associado 	| RF-01 Permitir que o usuário (ONG) crie e gerencie seu perfil na plataforma. RF-02 Permitir autenticação de usuários (ONGs) por Login e Logout.|
 |Objetivo do Teste | Verificar se o usuário consegue realizar seu login na plataforma sem dificuldades |
-|Registro de evidência | www.teste.com.br/drive/ct-02 |
+|Registro de evidência | ![Video-teste-login-2025-10-25-at-13 06 23](https://github.com/user-attachments/assets/754f1b41-3803-47c9-afa3-8a6b9533c2d0)
+ |
 
 
 ## Relatório de testes de software
