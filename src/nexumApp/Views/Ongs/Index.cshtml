@@ -6,15 +6,15 @@
 }
 
 @{string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;}
-@{bool isAuthenticated = User.Identity.IsAuthenticated;}
+@* @{bool isAuthenticated = User.Identity.IsAuthenticated;} *@
 
 <h1>ONGs</h1>
 
-@if(isAuthenticated) {
+@* @if(isAuthenticated) {
     <p>
         <a asp-action="Create">Cadastrar ONG</a>
     </p>
-}
+} *@
 <table class="table">
     <thead>
         <tr>
