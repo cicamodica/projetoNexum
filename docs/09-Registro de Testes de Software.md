@@ -11,8 +11,10 @@ Para cada caso de teste definido no Plano de Testes de Software, realize o regis
 
 | **Caso de Teste** 	| **CT02 – Realizar login** 	|
 |:---:	|:---:	|
-|	Requisito Associado 	| RF-00Y - A aplicação deve permitir que um usuário previamente cadastrado faça login |
+|	Requisito Associado 	| RF-01 Permitir que o usuário (ONG) crie e gerencie seu perfil na plataforma. RF-02 Permitir autenticação de usuários (ONGs) por Login e Logout.|
+|Objetivo do Teste | Verificar se o usuário consegue realizar seu login na plataforma sem dificuldades |
 |Registro de evidência | www.teste.com.br/drive/ct-02 |
+
 
 ## Relatório de testes de software
 
