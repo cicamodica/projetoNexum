@@ -1,0 +1,85 @@
+﻿.fc-card {
+    max-width: 780px;
+    margin: 48px auto;
+    background: #fff;
+    padding: 32px 36px;
+    border-radius: 16px;
+    box-shadow: 0 6px 18px rgba(0,0,0,.06);
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Título e subtítulo */
+.fc-title {
+    color: #196896;
+    font-weight: 700;
+    font-size: clamp(24px, 4vw, 34px);
+    margin: 0 0 6px 0;
+}
+
+.fc-subtitle {
+    color: #6b6b6b;
+    margin: 0;
+    font-size: .98rem;
+}
+
+/* Linha fina sob o título */
+.fc-sep {
+    height: 2px;
+    background: rgba(25,104,150,.18);
+    width: 92%;
+    margin: 18px auto 22px;
+    border-radius: 2px;
+}
+
+/* Labels e inputs */
+.fc-label {
+    color: #2c2c2c;
+    font-weight: 600;
+}
+
+.fc-input,
+.fc-textarea {
+    border: 1px solid #d2d6dc;
+    box-shadow: none;
+}
+
+    .fc-input:focus,
+    .fc-textarea:focus {
+        border-color: #2987BF;
+        box-shadow: 0 0 0 .18rem rgba(41,135,191,.25);
+    }
+
+/* Textarea tamanho e borda mais suave */
+.fc-textarea {
+    resize: vertical;
+    min-height: 140px;
+    border-radius: 14px;
+}
+
+/* Botão principal (padrão Nexum) */
+.fc-btn {
+    background-color: #2987BF;
+    color: #fff;
+    border: none;
+    border-radius: 28px;
+    padding: 12px 0;
+    font-weight: 700;
+    font-size: 1.05rem;
+    transition: background-color .2s ease, transform .05s ease;
+}
+
+    .fc-btn:hover {
+        background-color: #196896;
+    }
+
+    .fc-btn:active {
+        transform: translateY(1px);
+    }
+
+/* Responsivo */
+@media (max-width: 576px) {
+    .fc-card {
+        margin: 28px 14px;
+        padding: 22px 18px;
+    }
+}

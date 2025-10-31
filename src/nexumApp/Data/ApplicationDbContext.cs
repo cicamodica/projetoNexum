@@ -27,5 +27,6 @@ namespace nexumApp.Data
         public DbSet<AdministradorModel> Administradores { get; set; }
         public DbSet<Doacao> Doacao { get; set; }
         public DbSet<Meta> Metas { get; set; }
+        public DbSet<FaleConoscoModel> FaleConoscoModels=> Set<FaleConoscoModel>();
     }
 }

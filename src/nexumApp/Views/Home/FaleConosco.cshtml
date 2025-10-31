@@ -1,7 +1,53 @@
-﻿
+﻿@model nexumApp.Models.FaleConoscoModel
 @{
-    ViewData["Title"] = "FaleConosco";
+    ViewData["Title"] = "Fale conosco";
 }
 
-<h1>FaleConosco</h1>
+<div class="fc-card">
+    <div class="text-center mt-2 mb-3">
+        <h1 class="fc-title">@ViewData["Title"]</h1>
+        <p class="fc-subtitle">Essa página é voltada para atendimento ao usuário</p>
+    </div>
+
+    <div class="fc-sep"></div>
+
+    <form asp-action="Index" method="post" class="needs-validation" novalidate>
+        @Html.AntiForgeryToken()
+
+        <div class="mb-3">
+            <label asp-for="Nome" class="form-label fc-label"></label>
+            <input asp-for="Nome" class="form-control fc-input rounded-pill" />
+            <span asp-validation-for="Nome" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Email" class="form-label fc-label"></label>
+            <input asp-for="Email" class="form-control fc-input rounded-pill" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Assunto" class="form-label fc-label"></label>
+            <select asp-for="Assunto" class="form-select fc-input rounded-pill"
+                    asp-items="Html.GetEnumSelectList<nexumApp.Models.ContactSubject>()">
+                <option value="">Selecione um assunto</option>
+            </select>
+            <span asp-validation-for="Assunto" class="text-danger"></span>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="Mensagem" class="form-label fc-label"></label>
+            <textarea asp-for="Mensagem" rows="5" class="form-control fc-textarea rounded-3"></textarea>
+            <span asp-validation-for="Mensagem" class="text-danger"></span>
+        </div>
+
+        <div class="d-grid">
+            <button type="submit" class="btn fc-btn">Enviar</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
 
