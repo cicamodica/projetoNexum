@@ -1,3 +1,49 @@
+@font-face {
+    font-family: 'Poppins';
+    src: url('/fonts/Poppins-ExtraBold.ttf') format('truetype');
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('/fonts/Poppins-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('/fonts/Poppins-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('/fonts/Poppins-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('/fonts/Poppins-Thin.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    margin-bottom: 60px;
+}
+
 html {
   font-size: 14px;
 }
@@ -17,6 +63,45 @@ html {
   min-height: 100%;
 }
 
-body {
-  margin-bottom: 60px;
+/*CSS do menu dropdown na HOME*/
+
+.navbar .dropdown-menu {
+    background-color: #2987BF !important;
+    color: #ffffff !important; 
+    border: none;
+    border-radius: 10px;
+    padding: 6px 0;
 }
+
+.navbar .dropdown-menu .dropdown-item {
+    color: #ffffff !important;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+ }
+
+.navbar .dropdown-menu .dropdown-item:hover,
+.navbar .dropdown-menu .dropdown-item:focus {
+     background-color: #196896 !important;
+     color: #ffffff !important;
+     text-decoration: none;
+}
+
+.nav-link.dropdown-toggle::after {
+    display: none !important;
+}
+
+.navbar-nav .nav-link,
+.navbar .btn.btn-link.nav-link {
+    color: #ffffff !important;
+    font-weight: 500;
+}
+
+    .navbar-nav .nav-link:hover,
+    .navbar .btn.btn-link.nav-link:hover {
+        color: #e6e6e6 !important;
+    }
+
+.navbar-nav + .navbar-nav {
+    margin-left: 0 !important; 
+}
+
