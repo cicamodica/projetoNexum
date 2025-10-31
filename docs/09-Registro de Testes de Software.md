@@ -9,10 +9,17 @@ Para cada caso de teste definido no Plano de Testes de Software, realize o regis
 |	Requisito Associado 	| RF-00X - A aplicação deve apresentar, na página principal, a funcionalidade de cadastro de usuários para que esses consigam criar e gerenciar seu perfil. |
 |Registro de evidência | www.teste.com.br/drive/ct-01 |
 
-| **Caso de Teste** 	| **CT02 – Realizar login** 	|
+| **Caso de Teste** 	| **CT03 – Cadastro de ONG** 	|
 |:---:	|:---:	|
-|	Requisito Associado 	| RF-00Y - A aplicação deve permitir que um usuário previamente cadastrado faça login |
-|Registro de evidência | www.teste.com.br/drive/ct-02 |
+|	Requisito Associado 	| RF-01 - A aplicação deve permitir que o usuário (ONG) crie e gerencie seu perfil na plataforma. |
+|Registro de evidência |![TesteCadastro](https://github.com/user-attachments/assets/d6694a74-285c-4d42-b3b0-5bbd2ca146e6) |
+
+| **Caso de Teste** 	| **CT04 – Realizar login** 	|
+|:---:	|:---:	|
+|	Requisito Associado 	| RF-01 Permitir que o usuário (ONG) crie e gerencie seu perfil na plataforma. RF-02 Permitir autenticação de usuários (ONGs) por Login e Logout.|
+|Objetivo do Teste | Verificar se o usuário consegue realizar seu login na plataforma sem dificuldades |
+|Registro de evidência | ![Video-teste-login-2025-10-25-at-13 06 23](https://github.com/user-attachments/assets/754f1b41-3803-47c9-afa3-8a6b9533c2d0)|
+
 
 ## Relatório de testes de software
 

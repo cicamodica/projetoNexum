@@ -40,19 +40,17 @@ As tabelas que se seguem apresentam os requisitos funcionais e não funcionais q
 
 |   ID   | Descrição do Requisito  | Prioridade |
 |-------|-------------------------|------------|
-|RF-01| Permitir que o usuário (ONG/Administrador) crie e gerencie seu perfil na plataforma. | ALTA | 
-|RF-02| Permitir autenticação de usuários (ONGs/Administrador) por Login e Logout. | ALTA |
+|RF-01| Permitir que o usuário (ONG) crie e gerencie seu perfil na plataforma. | ALTA | 
+|RF-02| Permitir autenticação de usuários (ONGs) por Login e Logout. | ALTA |
 |RF-03| Permitir recuperação/redefinição de senha.  | ALTA |
 |RF-04| Permitir que ONGs cadastrem oportunidades de voluntariado e recursos disponíveis.  | ALTA |
 |RF-05| Permitir que voluntários e doadores pesquisem causas filtrando por necessidades, localização, área de interesse e disponibilidade.  | ALTA |
 |RF-06| Permitir a gestão de recursos e inventário para ONGs. | ALTA |
-|RF-07|Gerar relatórios de recursos, inventário, vagas disponibilizadas/preenchidas e candidaturas (ONGs).  | ALTA |
-|RF-08| Gerar relatórios de ONGs cadastradas, vagas disponibilizadas/preenchidas e candidaturas (Administrador).  | ALTA |
-|RF-09| Implementar um sistema de verificação/aprovação para perfis (ONGs).   | ALTA |
-|RF-10| Permitir que ONGs solicitem empréstimo de recursos e equipamentos.  | MÉDIA |
-|RF-11| Disponibilizar um sistema de notificação por e-mail (voluntários) ou push (ONGs).  | MÉDIA |
-|RF-12| Permitir avaliação e feedback de usuários sobre o sistema.   | BAIXA |
-
+|RF-07| Gerar relatórios de recursos, inventário, vagas disponibilizadas/preenchidas e candidaturas (ONGs).  | ALTA |
+|RF-08| Implementar um sistema de verificação/aprovação para perfis (ONGs).   | ALTA |
+|RF-09| Permitir que ONGs solicitem empréstimo de recursos e equipamentos.  | MÉDIA |
+|RF-10| Disponibilizar um sistema de notificação por e-mail (voluntários) ou push (ONGs).  | MÉDIA |
+|RF-11| Permitir avaliação e feedback de usuários sobre o sistema.   | BAIXA |
 
 ### Requisitos não Funcionais
 
@@ -72,7 +70,7 @@ O projeto está restrito pelos itens apresentados na tabela a seguir.
 |01| O projeto deverá ser entregue até o final do semestre.          |
 |02| O front-end deve ser desenvolvido usando tecnologias web padrão como HTML, CSS, JavaScript e Bootstrap         |
 |03| O backend deve ser implementado utilizando C#.         |
-|04| O banco de dados relacional (como PostgreSQL ou MySQL) deve ser utilizado para implementar no mínimo 2 CRUD's.         |
+|04| O banco de dados relacional ( SQL Server) deve ser utilizado para implementar no mínimo 2 CRUD's.         |
 |05| O desenvolvimento do projeto deve ser realizado com o uso de ferramentas e softwares gratuitos ou com licenças acadêmicas, assegurando que todos os membros da equipe tenham acesso às tecnologias necessárias.          |
 |06| Todo o código deve seguir as melhores práticas de codificação e padrões estabelecidos para garantir legibilidade e manutenção.         |
 |07| A equipe deve colaborar em todas as etapas do projeto, assegurando que todos os membros estejam envolvidos nas decisões e no desenvolvimento das atividades de forma ativa e participativa.        |

@@ -1,13 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Drawing;
-using Microsoft.AspNetCore.Http;
 
 namespace nexumApp.Models
 {
     public class Ong
     {
         public int Id { get; set; }
+        public User User { get; set; }
         public string UserId { get; set; }
         [Required(ErrorMessage = "Obrigatório informar a Razão Social!")]
         [Display(Name = "Razão Social")]
@@ -40,5 +39,22 @@ namespace nexumApp.Models
         [Required(ErrorMessage = "Anexe o documento PDF para aprovação")]
         [Display(Name = "Documento PDF para aprovação")]
         public IFormFile DocumentoPdf { get; set; }
+    }
+    public class OngEditViewModel
+    {
+        public int Id { get; set; }
+
+        [Display(Name = "Razão Social")]
+        [StringLength(50)]
+        public string Nome { get; set; }
+
+        [Required(ErrorMessage = "Obrigatório informar a Descrição!")]
+        [Display(Name = "Descrição de atividades")]
+        [StringLength(300)]
+        public string Descriçao { get; set; }
+
+        [Required(ErrorMessage = "Obrigatório informar o Endereço!")]
+        [StringLength(300)]
+        public string Endereço { get; set; }
     }
 }

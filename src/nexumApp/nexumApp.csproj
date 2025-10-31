@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="NovaPasta\**" />
     <Compile Remove="wwwroot\NovaPasta1\**" />
     <Compile Remove="wwwroot\NovaPasta2\**" />
     <Content Remove="wwwroot\NovaPasta1\**" />
@@ -25,10 +26,6 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.20" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.20" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="NovaPasta\" />
   </ItemGroup>
 
 </Project>

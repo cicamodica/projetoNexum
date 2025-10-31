@@ -30,17 +30,8 @@
 
 <br>
 
-| **Caso de Teste** 	| **CT04 – Teste da página de Cadastro (ADMIN)** 	|
-|:---:	|:---:	|
-|	**Requisitos Associados** 	| RF-01 |
-| **Objetivo do Teste** 	| Verificar se o usuário consegue realizar o cadastro de ADMIN |
-| **Passos** 	| 01.	Acessar a aplicação por link público; <br> 02.	Na homepage clicar em “Entrar”; <br> 03.	Na página “Como deseja entrar?” selecionar “Cadastro”; <br> 04.	Em cadastro selecionar o tipo do cadastro a ser realizado (ADMIN); <br> 05.	Realizar o preenchimento de dados corretamente; <br> 06.	Clicar em “Próximo”; <br> 07.	Visualizar a mensagem “Cadastro realizado com sucesso!” (ADMIN); <br> 08.	Usuário é redirecionado para a página de login;|
-|**Critérios de Êxito** | O usuário consegue realizar o cadastro sem dificuldades; O usuário finaliza o cadastro e recebe a mensagem informando sucesso; após a aprovação do cadastro o usuário redirecionado para a página de Login|
-|  **Responsável pela elaboração do caso de teste**	|  Maria Cecilia Caruzzo Modica	|
 
-<br>
-
-| **Caso de Teste** 	| **CT05 – Teste da página de Login** 	|
+| **Caso de Teste** 	| **CT04 – Teste da página de Login** 	|
 |:---:	|:---:	|
 |	**Requisitos Associados** 	| RF-01 e RF-02 |
 | **Objetivo do Teste** 	| Verificar se o usuário consegue realizar seu login na plataforma sem dificuldades |
@@ -50,7 +41,7 @@
 
 <br>
 
-| **Caso de Teste** 	| **CT06 – Teste da página de Gerenciamento de cadastros (ADMIN)** 	|
+| **Caso de Teste** 	| **CT05 – Teste da página de Gerenciamento de cadastros (ADMIN)** 	|
 |:---:	|:---:	|
 |	**Requisitos Associados** 	| RF-09 |
 | **Objetivo do Teste** 	| Verificar se o ADMIN consegue gerenciar (aprovar/reprovar) o cadastro da ONG sem dificuldades |
@@ -60,7 +51,7 @@
 
 <br>
 
-| **Caso de Teste** 	| **CT07 – Teste da página de redefinição de senha** 	|
+| **Caso de Teste** 	| **CT06 – Teste da página de redefinição de senha** 	|
 |:---:	|:---:	|
 |	**Requisitos Associados** 	| RF-03 |
 | **Objetivo do Teste** 	| Verificar se o usuário consegue realizar a redefinição de senha sem dificuldades |
@@ -70,7 +61,7 @@
 
 <br>
 
-| **Caso de Teste** 	| **CT08 – Teste da página de ONGs cadastradas** 	|
+| **Caso de Teste** 	| **CT07 – Teste da página de ONGs cadastradas** 	|
 |:---:	|:---:	|
 |	**Requisitos Associados** 	| -- |
 | **Objetivo do Teste** 	| Verificar se o usuário (externo ou cadastrado) consegue acessar a página com as ONGs cadastradas na aplicação corretamente |
@@ -80,7 +71,7 @@
 
 <br>
 
-| **Caso de Teste** 	| **CT09 – Teste da página Homepage logado - Menu** 	|
+| **Caso de Teste** 	| **CT08 – Teste da página Homepage logado - Menu** 	|
 |:---:	|:---:	|
 |	**Requisitos Associados** 	| -- |
 | **Objetivo do Teste** 	| No homepage logado, verificar se ao passar o mouse no Menu “Quem somos” abre as opções “Sobre”, “FAQ” e “Fale conosco”. |
@@ -90,7 +81,7 @@
 
 <br>
 
-| **Caso de Teste** 	| **CT10 – Teste da página Homepage logado - Menu Quem somos** 	|
+| **Caso de Teste** 	| **CT09 – Teste da página Homepage logado - Menu Quem somos** 	|
 |:---:	|:---:	|
 |	**Requisitos Associados** 	| -- |
 | **Objetivo do Teste** 	| Verificar se ao passar o mouse no Menu “Quem somos” e clicar em uma das opções disponíveis será redirecionado respectivamente para a página correta.|
@@ -100,7 +91,7 @@
 
 <br>
 
-| **Caso de Teste** 	| **CT11 – Teste da página Homepage logado - Menu Lateral** 	|
+| **Caso de Teste** 	| **CT10 – Teste da página Homepage logado - Menu Lateral** 	|
 |:---:	|:---:	|
 |	**Requisitos Associados** 	| -- |
 | **Objetivo do Teste** 	| No homepage logado, conforme o perfil, verificar se ao clicar nos “três traços” (menu lateral) irá abrir as opções disponíveis. |
@@ -110,7 +101,7 @@
 
 <br>
 
-| **Caso de Teste** 	| **CT12 – Teste da página Homepage logado e não logado - Pesquisar** 	|
+| **Caso de Teste** 	| **CT11 – Teste da página Homepage logado e não logado - Pesquisar** 	|
 |:---:	|:---:	|
 |	**Requisitos Associados** 	| -- |
 | **Objetivo do Teste** 	| No homepage logado e não logado, verificar se ao digitar na barra de Pesquisa a página levará o usuário às opções disponíveis com o conteúdo digitado. |
@@ -120,7 +111,7 @@
 
 <br>
 
-| **Caso de Teste** | **CT13 - Teste da Página de pesquisa** |
+| **Caso de Teste** | **CT12 - Teste da Página de pesquisa** |
 |:---:	|:---:	|
 |	**Requisitos Associados**  | RF-05 |
 | **Objetivo do Teste** 	| Verificar se o Usuário (externo ou cadastrado) consegue acessar a página, realizar pesquisa e ser encaminhado para tela de resultado de pesquisa . |
@@ -130,7 +121,7 @@
 
 <br>
 
-| **Caso de Teste** | **CT14 - Teste da Página de Resultado de pesquisa** |
+| **Caso de Teste** | **CT13 - Teste da Página de Resultado de pesquisa** |
 |:---:	|:---:	|
 |	**Requisitos Associados**  | RF-05 |
 | **Objetivo do Teste** 	| Verificar se o Usuário (externo ou cadastrado) consegue acessar a página de resultado, aparece todas as opções de acordo com a busca, se ele escolher o conteúdo e clicar irá ser encaminhado para a página que escolheu. |
@@ -140,7 +131,7 @@
 
 <br>
 
-| **Caso de Teste** | **CT15 - Teste da Página de Marketplace** |
+| **Caso de Teste** | **CT14 - Teste da Página de Marketplace** |
 |:---:	|:---:	|
 |	**Requisitos Associados**  | RF-05 |
 | **Objetivo do Teste** 	| Verificar se o Usuário (externo ou cadastrado) consegue acessar a página do marketplace, todos os ícones-botões estão funcionais, ícones que levam para outras páginas fazem o percurso correto. Verificar se o filtro está funcional cada opção. Verificar se o modal aparece corretamente e está funcional, se os links levam para as páginas corretas e se as imagens estão carregando. |
@@ -150,7 +141,7 @@
 
 <br>
 
-| **Caso de Teste** | **CT16 - Teste da Página de Voluntariado** |
+| **Caso de Teste** | **CT15 - Teste da Página de Voluntariado** |
 |:---:	|:---:	|
 |	**Requisitos Associados**  | RF-05 |
 | **Objetivo do Teste** 	| Verificar se o Usuário (externo ou cadastrado) consegue acessar a página de voluntariado, consegue realizar filtragem para acessar apenas conteúdos que deseja, verificar se todos os botões links estão encaminhando para as páginas corretas, se botões estão funcionais é se o usuário consegue fazer aplicação para se voluntariar. |

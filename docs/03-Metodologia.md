@@ -9,6 +9,9 @@ Na primeira etapa discutimos a definição do problema, realizamos pesquisas par
 ### Etapa 2
 Na segunda etapa definimos como será a metodologia de todo o projeto, incluindo ferramentas que vamos utilizar para o desenvolvimento e documentação do projeto, papéis que cada integrante irá desempenhar, além de diagramas de fluxo e de classes, wireframes, projeto da base de dados e planos de testes de software e de usabilidade.
 
+### Etapa 3
+Na terceira etapa avançamos no desenvolvimento do projeto, criando a estrutura principal da aplicação e implementando as funcionalidades mais importantes. Atualizamos a documentação, realizamos os primeiros testes de software e desenvolvemos a prova de conceito (PoC) para validar o funcionamento inicial do sistema.
+
 ## Controle de Versão
 
 A ferramenta de controle de versão adotada no projeto foi o
@@ -54,11 +57,16 @@ In progress: quando uma tarefa é iniciada, é movida para esta lista.
 In review: os integrantes da equipe avaliam as tarefas antes de finalizá-las.
 Done: essa lista indica que uma tarefa foi concluída após passar pelos testes necessários e ser aprovada pelo cliente.
 
-O quadro kanban do grupo desenvolvido na ferramenta de gerenciamento de projetos está disponível através desta URL e é apresentado abaixo no estado atual.
+O quadro kanban do grupo desenvolvido na ferramenta de gerenciamento de projetos está disponível através desta URL e é apresentado abaixo referente a cada etapa.
 
+### Etapa 1 e 2
 <img width="1908" height="841" alt="image" src="https://github.com/user-attachments/assets/8faa6fb0-c168-4a6b-b35c-aa00770f3ab7" />
 
-Figura 1 - Tela do quadro kanban (GitHub Projects) utilizada pelo grupo
+Figura 1 - Tela do quadro kanban (GitHub Projects) utilizada pelo grupo na primeira e segunda etapa do projeto.
+### Etapa 3 
+<img width="952" height="721" alt="Image" src="https://github.com/user-attachments/assets/ca8bfcf3-376a-48c5-b9dc-f90943f29ead" />
+
+Figura 2 - Tela do quadro kanban (GitHub Projects) utilizada pelo grupo na terceira etapa do projeto.
 
 ### Ferramentas
 
