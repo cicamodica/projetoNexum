@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using nexumApp.Data;
 
@@ -11,9 +12,11 @@ using nexumApp.Data;
 namespace nexumApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251101014524_AdicionaTabelaMetas")]
+    partial class AdicionaTabelaMetas
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -335,10 +338,13 @@ namespace nexumApp.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Descricao")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("IdRecurso")
+                        .HasColumnType("int");
 
-                    b.Property<int>("OngId")
+                    b.Property<int>("QuantidadeDisponivel")
+                        .HasColumnType("int");
+
+                    b.Property<int>("QuantidadeNecessaria")
                         .HasColumnType("int");
 
                     b.Property<int>("QuantidadeReservada")
@@ -350,15 +356,7 @@ namespace nexumApp.Data.Migrations
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ValorAlvo")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ValorAtual")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("OngId");
 
                     b.ToTable("Metas");
                 });
@@ -560,21 +558,10 @@ namespace nexumApp.Data.Migrations
             modelBuilder.Entity("nexumApp.Models.Doacao", b =>
                 {
                     b.HasOne("nexumApp.Models.Meta", "Meta")
-                        .WithMany()
+                        .WithMany("Doacoes")
                         .HasForeignKey("MetaId");
 
                     b.Navigation("Meta");
-                });
-
-            modelBuilder.Entity("nexumApp.Models.Meta", b =>
-                {
-                    b.HasOne("nexumApp.Models.Ong", "Ong")
-                        .WithMany()
-                        .HasForeignKey("OngId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Ong");
                 });
 
             modelBuilder.Entity("nexumApp.Models.Ong", b =>
@@ -585,6 +572,11 @@ namespace nexumApp.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("nexumApp.Models.Meta", b =>
+                {
+                    b.Navigation("Doacoes");
                 });
 
             modelBuilder.Entity("nexumApp.Models.User", b =>

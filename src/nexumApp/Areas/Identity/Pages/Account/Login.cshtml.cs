@@ -25,12 +25,14 @@ namespace nexumApp.Areas.Identity.Pages.Account
         private readonly SignInManager<User> _signInManager;
         private readonly ILogger<LoginModel> _logger;
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<User> _userManager;
 
-        public LoginModel(SignInManager<User> signInManager, ILogger<LoginModel> logger, ApplicationDbContext context)
+        public LoginModel(SignInManager<User> signInManager, ILogger<LoginModel> logger, ApplicationDbContext context, UserManager<User> userManager)
         {
             _signInManager = signInManager;
             _logger = logger;
             _context = context;
+            _userManager = userManager;
         }
         [BindProperty]
         public InputModel Input { get; set; }
@@ -99,31 +101,41 @@ namespace nexumApp.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-                    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                    var UserOng = _context.Ongs.FirstOrDefault(ong => ong.UserId == userId);
-                    if (UserOng == null) {
-                        return LocalRedirect("~/Ongs/Create");
+
+                    //  Pega o usuário que acabou de logar USANDO O EMAIL
+                    var user = await _userManager.FindByEmailAsync(Input.Email);
+
+                    //  Verifica se o usuário existe e se tem a Role "Ong"
+                    if (user != null && await _userManager.IsInRoleAsync(user, "Ong"))
+                    {
+                        //  Se for ONG, manda para o "Dashboard"
+                        return RedirectToAction("Dashboard", "Ongs");
                     }
+
+                    //  Se for qualquer outro tipo de usuário (Doador, Admin, etc.)
+                    //    manda para a página inicial padrão.
                     return LocalRedirect(returnUrl);
                 }
-                if (result.RequiresTwoFactor)
-                {
-                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
-                }
-                if (result.IsLockedOut)
-                {
-                    _logger.LogWarning("User account locked out.");
-                    return RedirectToPage("./Lockout");
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Email ou senha inválidos.");
-                    return Page();
-                }
-            }
 
-            // If we got this far, something failed, redisplay form
-            return Page();
+                    if (result.RequiresTwoFactor)
+                    {
+                        return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
+                    }
+                    if (result.IsLockedOut)
+                    {
+                        _logger.LogWarning("User account locked out.");
+                        return RedirectToPage("./Lockout");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "Email ou senha inválidos.");
+                        return Page();
+                    }
+                }
+
+                // If we got this far, something failed, redisplay form
+                return Page();
+            }
         }
     }
-}
+

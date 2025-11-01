@@ -1,0 +1,59 @@
+﻿@model nexumApp.Models.Meta
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Meta</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Recurso)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Recurso)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Descricao)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Descricao)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ValorAlvo)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.QuantidadeReservada)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.QuantidadeReservada)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ValorAlvo)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ValorAtual)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ValorAtual)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Ong)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Ong.CNPJ)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
