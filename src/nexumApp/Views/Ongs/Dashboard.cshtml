@@ -1,0 +1,69 @@
+﻿@model nexumApp.Models.Ong
+@{
+    ViewData["Title"] = "Meu Painel";
+
+    // Recuperamos os dados do ViewBag e convertemos para os tipos corretos
+    var metas = (IEnumerable<nexumApp.Models.Meta>)ViewBag.Metas;
+    //var vagas = (IEnumerable<nexumApp.Models.Vaga>)ViewBag.Vagas;
+}
+
+<h1>Olá, @Model.Nome!</h1>
+<hr />
+
+<div class="d-flex justify-content-between align-items-center mt-4">
+    <h2>Minhas vagas</h2>
+    <a class="btn btn-primary" asp-controller="Vagas" asp-action="Create">Adicionar</a>
+</div>
+
+
+
+<div class="d-flex justify-content-between align-items-center mt-5">
+    <h2>Minhas metas</h2>
+    <a class="btn btn-success" asp-controller="Metas" asp-action="Create">+ Adicionar</a>
+</div>
+
+<div class="row mt-3">
+    @if (metas.Any())
+    {
+        @foreach (var meta in metas)
+        {
+            <div class="col-md-4 mb-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">@meta.Recurso</h5>
+
+                        @{
+                            double progresso = (meta.ValorAlvo > 0)
+                            ? ((double)meta.ValorAtual / meta.ValorAlvo) * 100
+                            : 0;
+                        }
+                        <div class="progress mb-2" style="height: 20px;">
+                            <div class="progress-bar" role="progressbar"
+                                 style="width: @progresso.ToString("F0")%;"
+                                 aria-valuenow="@meta.ValorAtual"
+                                 aria-valuemin="0"
+                                 aria-valuemax="@meta.ValorAlvo">
+                                @progresso.ToString("F0")%
+                            </div>
+                        </div>
+                        <p class="card-text text-center font-weight-bold">
+                            @meta.ValorAtual / @meta.ValorAlvo
+                        </p>
+
+                        <p class="card-text">Status: @meta.Status</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-top-0 text-right">
+                        <a asp-controller="Metas" asp-action="Edit" asp-route-id="@meta.Id" class="btn btn-outline-primary btn-sm">Editar</a>
+                        <a asp-controller="Metas" asp-action="Delete" asp-route-id="@meta.Id" class="btn btn-outline-danger btn-sm">Excluir</a>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="col">
+            <p>Você ainda não criou nenhuma meta. Clique em "Adicionar" para começar!</p>
+        </div>
+    }
+</div>
