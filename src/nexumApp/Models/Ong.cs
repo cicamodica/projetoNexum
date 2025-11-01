@@ -36,8 +36,8 @@ namespace nexumApp.Models
         public byte[] DocumentoDados { get; set; }
 
         [NotMapped]
-        [Required(ErrorMessage = "Anexe o documento PDF para aprovação")]
-        [Display(Name = "Documento PDF para aprovação")]
+        //[Required(ErrorMessage = "Anexe o documento PDF para aprovação")]
+        //[Display(Name = "Documento PDF para aprovação")]
         public IFormFile DocumentoPdf { get; set; }
     }
     public class OngEditViewModel
