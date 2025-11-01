@@ -69,16 +69,17 @@ namespace nexumApp.Controllers
 
             // Verifica a aprovação (do seu modelo Ong.cs)
             if (ong.Aprovaçao == false)
-            {
-                return RedirectToAction(nameof(Wait)); // Redireciona se não aprovada
+             {
+            return RedirectToAction(nameof(Wait)); // Redireciona se não aprovada
             }
 
             //Busca as metas SOMENTE desta ONG
             var metas = await _context.Metas
-                                      .Where(m => m.OngId == ong.Id)
-                                      .ToListAsync();
+                                  .Include(m => m.Ong) 
+                                      .Where(m => m.OngId == ong.Id)
+                   .ToListAsync();
 
-           
+
             // Passamos os dados extras para a View usando o ViewBag
             ViewBag.Metas = metas;
             
