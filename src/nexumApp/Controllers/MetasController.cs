@@ -74,7 +74,7 @@ namespace nexumApp.Controllers
         // POST: Metas/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Recurso,ValorAlvo")] Meta meta)
+        public async Task<IActionResult> Create([Bind("Recurso,Descricao,ValorAlvo")] Meta meta)
         {
 
             var ongId = await GetOngIdLogadaAsync();
@@ -117,7 +117,7 @@ namespace nexumApp.Controllers
         // POST: Metas/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Recurso,ValorAlvo,Status")] Meta meta)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Recurso,Descricao,ValorAlvo,Status")] Meta meta)
         {
             if (id != meta.Id) return NotFound();
 
