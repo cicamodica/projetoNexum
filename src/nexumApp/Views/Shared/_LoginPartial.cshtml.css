@@ -1,0 +1,21 @@
+﻿/* CSS Ícone de perfil na NavBar */
+.profile-icon i {
+    font-size: 2rem;
+    color: #fff;
+    transition: color 0.2s ease;
+}
+
+    .profile-icon i:hover {
+        color: #dcefff;
+    }
+
+/* CSS Botão de logout na Navbar*/
+.logout-btn {
+    color: #fff !important;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+    .logout-btn:hover {
+        color: #dcefff !important;
+    }

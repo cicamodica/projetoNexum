@@ -8,11 +8,10 @@
     font-family: 'Poppins', sans-serif;
 }
 
-/* Título e subtítulo */
 .fc-title {
-    color: #196896;
+    color: #16435D;
     font-weight: 700;
-    font-size: clamp(24px, 4vw, 34px);
+    font-size: clamp(25px, 7vw, 44px);
     margin: 0 0 6px 0;
 }
 
@@ -22,7 +21,13 @@
     font-size: .98rem;
 }
 
-/* Linha fina sob o título */
+.fc-message {
+    color: #6b6b6b;
+    margin: 0 0 10px 0;
+    font-size: .98rem;
+    text-align: center;
+}
+
 .fc-sep {
     height: 2px;
     background: rgba(25,104,150,.18);
