@@ -32,29 +32,32 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "dbo.Administradores.sql",
+              "Title": "dbo.Administradores [Dados]",
               "DocumentMoniker": "ViewDataWindow_MSSQL__/_localdb__MSSQLLocalDB/aspnet_nexumApp_b36d416a_3c8b_4332_9caa_5ef5842bd23b/True/SqlTable/dbo.Administradores.sql",
-              "ToolTip": "ViewDataWindow_MSSQL__/_localdb__MSSQLLocalDB/aspnet_nexumApp_b36d416a_3c8b_4332_9caa_5ef5842bd23b/True/SqlTable/dbo.Administradores.sql",
+              "ToolTip": "dbo.Administradores [Dados]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2025-11-01T20:34:14.826Z"
+              "WhenOpened": "2025-11-01T20:34:14.826Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "dbo.AspNetRoles.sql",
+              "Title": "dbo.AspNetRoles [Dados]",
               "DocumentMoniker": "ViewDataWindow_MSSQL__/_localdb__MSSQLLocalDB/aspnet_nexumApp_b36d416a_3c8b_4332_9caa_5ef5842bd23b/True/SqlTable/dbo.AspNetRoles.sql",
-              "ToolTip": "ViewDataWindow_MSSQL__/_localdb__MSSQLLocalDB/aspnet_nexumApp_b36d416a_3c8b_4332_9caa_5ef5842bd23b/True/SqlTable/dbo.AspNetRoles.sql",
+              "ToolTip": "dbo.AspNetRoles [Dados]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2025-11-01T20:33:36.047Z"
+              "WhenOpened": "2025-11-01T20:33:36.047Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "dbo.AspNetUsers.sql",
+              "Title": "dbo.AspNetUsers [Dados]",
               "DocumentMoniker": "ViewDataWindow_MSSQL__/_localdb__MSSQLLocalDB/aspnet_nexumApp_b36d416a_3c8b_4332_9caa_5ef5842bd23b/True/SqlTable/dbo.AspNetUsers.sql",
-              "ToolTip": "ViewDataWindow_MSSQL__/_localdb__MSSQLLocalDB/aspnet_nexumApp_b36d416a_3c8b_4332_9caa_5ef5842bd23b/True/SqlTable/dbo.AspNetUsers.sql",
+              "ToolTip": "dbo.AspNetUsers [Dados]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2025-11-01T20:33:21.56Z"
+              "WhenOpened": "2025-11-01T20:33:21.56Z",
+              "EditorCaption": ""
             }
           ]
         }

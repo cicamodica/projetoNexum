@@ -1,0 +1,51 @@
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using nexumApp.Data;
+using nexumApp.Models;
+
+namespace nexumApp.Controllers
+{
+    [Authorize]
+    public class VagasController : Controller
+    {
+        private readonly ApplicationDbContext _context;
+        private readonly UserManager<User> _userManager;
+
+        public VagasController(ApplicationDbContext context, UserManager<User> userManager)
+        {
+            _context = context;
+            _userManager = userManager;
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind(",Titulo,Descricao,Status")] Vaga vaga)
+        {
+            var userId = _userManager.GetUserId(User);
+            if (userId == null)
+            {
+                return Challenge();
+            }
+            var ong = await _context.Ongs
+                                    .FirstOrDefaultAsync(o => o.UserId == userId);
+            if (ong == null)
+            {
+                TempData["ErrorMessage"] = "Nenhuma ONG associada a este usuário.";
+                return RedirectToAction("Index", "Home");
+            }
+            if (ModelState.IsValid)
+            {
+                vaga.IdONG = ong.Id;
+                _context.Add(vaga);
+                await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Vaga criada com sucesso.";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Erro ao criar a vaga. Verifique os dados informados.";
+            }
+            return RedirectToAction("Dashboard", "Ongs");
+        }   
+    }
+}

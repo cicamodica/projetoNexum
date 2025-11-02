@@ -28,5 +28,7 @@ namespace nexumApp.Data
         public DbSet<Doacao> Doacao { get; set; }
         public DbSet<Meta> Metas { get; set; }
         public DbSet<FaleConoscoModel> FaleConoscoModels=> Set<FaleConoscoModel>();
+
+        public DbSet<Vaga> Vagas { get; set; } //Não e uma lista generica de objetos!
     }
 }
