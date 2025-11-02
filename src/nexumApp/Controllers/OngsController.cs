@@ -68,10 +68,10 @@ namespace nexumApp.Controllers
             }
 
             // Verifica a aprovação (do seu modelo Ong.cs)
-            if (ong.Aprovaçao == false)
-             {
-            return RedirectToAction(nameof(Wait)); // Redireciona se não aprovada
-            }
+            //if (ong.Aprovaçao == false)
+             //{
+            //return RedirectToAction(nameof(Wait)); // Redireciona se não aprovada
+            //}
 
             //Busca as metas SOMENTE desta ONG
             var metas = await _context.Metas
