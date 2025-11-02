@@ -79,10 +79,15 @@ namespace nexumApp.Controllers
                                       .Where(m => m.OngId == ong.Id)
                    .ToListAsync();
 
+            var vagas = await _context.Vagas
+                .Where(v => v.IdONG == ong.Id)
+                .ToListAsync();
 
             // Passamos os dados extras para a View usando o ViewBag
             ViewBag.Metas = metas;
-            
+
+            ViewBag.Vagas = vagas;
+
 
             // Passamos a própria ONG como o Modelo principal da View
             return View(ong);
