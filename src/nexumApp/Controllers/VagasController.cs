@@ -20,7 +20,7 @@ namespace nexumApp.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind(",Titulo,Descricao,Status")] Vaga vaga)
+        public async Task<IActionResult> Create([Bind("IdONG,Titulo,Descricao,Status")] Vaga vaga)
         {
             var userId = _userManager.GetUserId(User);
             if (userId == null)
@@ -46,6 +46,37 @@ namespace nexumApp.Controllers
                 TempData["ErrorMessage"] = "Erro ao criar a vaga. Verifique os dados informados.";
             }
             return RedirectToAction("Dashboard", "Ongs");
-        }   
+        }
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var vaga = await _context.Vagas.FindAsync(id);
+            if (vaga == null)
+            {
+                TempData["Error"] = "Vaga não encontrada.";
+                return RedirectToAction("Dashboard", "Ongs");
+            }
+
+           
+            var ong = await GetOngDoUsuarioLogado();
+            if (vaga.IdONG != ong.Id)
+            {
+                TempData["Error"] = "Você não tem permissão para excluir esta vaga.";
+                return RedirectToAction("Dashboard", "Ongs");
+            }
+
+            _context.Vagas.Remove(vaga); 
+            await _context.SaveChangesAsync();
+            TempData["Success"] = "Vaga excluída com sucesso!";
+
+            return RedirectToAction("Dashboard", "Ongs");
+        }
+        private async Task<Ong> GetOngDoUsuarioLogado()
+        {
+            var userId = _userManager.GetUserId(User);
+            var ong = await _context.Ongs.FirstOrDefaultAsync(o => o.UserId == userId);
+            return ong;
+        }
     }
 }
