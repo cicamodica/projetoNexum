@@ -1,0 +1,101 @@
+﻿@model IEnumerable<nexumApp.Models.Ong>
+@{
+    ViewData["Title"] = "Dashboard do Admin";
+}
+
+<div class="admin-wrap">
+    
+
+    <h1 class="admin-hello">Olá, @User.Identity?.Name!</h1>
+
+    <!-- Cadastros pendentes -->
+    <section class="admin-section">
+        <h2 class="admin-h2">Cadastros pendentes</h2>
+
+        @if (!Model.Any())
+        {
+            <div class="alert alert-success mt-3">Sem pendências no momento 🎉</div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table admin-table">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Endereço</th>
+                            <th>CNPJ</th>
+                            <th>Descrição</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var ong in Model)
+                    {
+                        <tr>
+                            <td>@ong.Nome</td>
+                            <td>@ong.Endereço</td>
+                            <td>@ong.CNPJ</td>
+                            <td>@ong.Descriçao</td>
+                            <td class="text-end">
+                                <div class="d-flex gap-2 justify-content-end">
+                                    <a asp-controller="Ongs" asp-action="Details" asp-route-id="@ong.Id" class="btn btn-outline-primary admin-pill">Visualizar</a>
+                                    <form asp-area="Admin" asp-controller="Dashboard" asp-action="Approve" asp-route-id="@ong.Id" method="post" class="d-inline">
+                                        <button type="submit" class="btn btn-primary admin-pill">Aprovar</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="text-center mt-2">
+                <button class="btn btn-outline-secondary admin-pill-sm">Ver mais</button>
+            </div>
+        }
+    </section>
+
+    <!-- Administrar (atalhos) -->
+    <section class="admin-section">
+        <h3 class="admin-h3">Administrar</h3>
+        <div class="admin-chips">
+            <a class="admin-chip" asp-controller="Home" asp-action="Feedback">Feedbacks <span class="badge rounded-pill text-bg-light">1</span></a>
+            <a class="admin-chip" asp-controller="Home" asp-action="QuemSomos">Quem somos</a>
+            <a class="admin-chip" asp-controller="FaleConosco" asp-action="Index">Fale conosco</a>
+        </div>
+    </section>
+
+    <!-- Relatórios -->
+    <section class="admin-section">
+        <h3 class="admin-h3">Relatórios</h3>
+
+        <div class="admin-card">
+            <div class="admin-card-title">Relatório de ONGs</div>
+            <div class="admin-chips">
+                <button class="admin-chip" type="button">Nome Razão</button>
+                <button class="admin-chip" type="button">Descrições</button>
+                <button class="admin-chip" type="button">Quantidade de cadastros</button>
+                <button class="admin-chip" type="button">Status de aprovação</button>
+                <button class="admin-chip" type="button">Data de aprovação</button>
+                <button class="admin-chip" type="button">Causas</button>
+                <button class="admin-chip" type="button">CNPJ</button>
+                <button class="admin-chip" type="button">E-mail</button>
+                <button class="admin-chip" type="button">Aprovações</button>
+                <button class="admin-chip" type="button">Reprovações</button>
+                <button class="admin-chip" type="button">Documento de comprovação</button>
+            </div>
+            <div class="text-center mt-3">
+                <button class="btn btn-primary admin-pill">Gerar relatório</button>
+            </div>
+        </div>
+    </section>
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/adminDashboard.css" asp-append-version="true" /> <!-- CSS específico do dashboard -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+}
+
+@section Scripts { }

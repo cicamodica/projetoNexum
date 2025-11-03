@@ -12,7 +12,7 @@ public class FaleConoscoController(ApplicationDbContext db, ILogger<FaleConoscoC
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> FaleConosco(FaleConoscoModel model)
+    public async Task<IActionResult> Index(FaleConoscoModel model)
     {
         if (!ModelState.IsValid) return View(model);
 
@@ -20,7 +20,7 @@ public class FaleConoscoController(ApplicationDbContext db, ILogger<FaleConoscoC
         await db.SaveChangesAsync();
 
         TempData["MensagemSucesso"] = "Sua mensagem foi enviada com sucesso!";
-        return RedirectToAction(nameof(Sucesso)); // agora funciona pela convenção
+        return RedirectToAction(nameof(Sucesso));
     }
 
     public IActionResult Sucesso() => View();
