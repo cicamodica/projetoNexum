@@ -5,32 +5,23 @@ using nexumApp.Models;
 
 namespace nexumApp.Controllers;
 
-public class ContactController(ApplicationDbContext db, ILogger<ContactController> logger) : Controller
+public class FaleConoscoController(ApplicationDbContext db, ILogger<FaleConoscoController> logger) : Controller
 {
     [HttpGet]
-    public IActionResult Index()
-    {
-        return View(new FaleConoscoModel());
-    }
+    public IActionResult Index() => View(new FaleConoscoModel());
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Index(FaleConoscoModel model)
+    public async Task<IActionResult> FaleConosco(FaleConoscoModel model)
     {
-        if (!ModelState.IsValid)
-        {
-            return View(model);
-        }
+        if (!ModelState.IsValid) return View(model);
 
         db.FaleConoscoModels.Add(model);
         await db.SaveChangesAsync();
 
-        TempData["ContactOk"] = "Mensagem enviada com sucesso! Em breve entraremos em contato.";
-        return RedirectToAction(nameof(Sucesso));
+        TempData["MensagemSucesso"] = "Sua mensagem foi enviada com sucesso!";
+        return RedirectToAction(nameof(Sucesso)); // agora funciona pela convenção
     }
 
-    public IActionResult Sucesso()
-    {
-        return View();
-    }
+    public IActionResult Sucesso() => View();
 }
