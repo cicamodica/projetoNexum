@@ -72,7 +72,7 @@ namespace nexumApp.Areas.Identity.Pages.Account
                 }
                 TempData["Email"] = Input.Email;
                 TempData["Password"] = Input.Password;
-                return RedirectToAction("Create", "Ongs");
+                return RedirectToAction("Create", "Ongs", new { area = "" });
             }
             return Page();
         }
