@@ -182,6 +182,16 @@
         border-radius: 20px;
         font-weight: 600;
     }
+
+    .image-preview {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        margin-top: 10px;
+        display: none; 
+    }
 </style>
 
 <h1 class="mb-4">Olá, @Model.Nome!</h1>
@@ -211,7 +221,13 @@
                 
                 <div class="vaga-card-design">
                     <div>
-                       
+
+                            @if (!string.IsNullOrEmpty(vaga.ImagemUrl))
+                            {
+                                
+                                <img src="@vaga.ImagemUrl" asp-append-version="true" class="card-img-top mb-3" style="border-radius: 15px; height: 180px; object-fit: cover;" alt="@vaga.Titulo">
+                            }
+
                         <h5 class="card-title-public">@vaga.Titulo</h5>
                         <p class="card-ong-name">@Model.Nome</p> 
                         <p class="card-text-public">
@@ -289,12 +305,13 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content" style="border-radius: 15px;">
 
-            <form asp-controller="Vagas" asp-action="Edit" method="post">
+            <form asp-controller="Vagas" asp-action="Edit" method="post" enctype="multipart/form-data">
                 @Html.AntiForgeryToken()
 
                
                 <input type="hidden" id="editVagaId" name="IdVaga" />
                 <input type="hidden" id="editVagaIdOng" name="IdONG" />
+                    <input type="hidden" id="editImagemUrlAtual" name="ImagemUrl" />
 
               <div class="modal-header border-0 pb-0 bg-primary text-white" style="border-top-left-radius: 15px; border-top-right-radius: 15px;">
                     <h5 class="modal-title w-100 text-center" id="modalEditarVagaLabel" style="font-weight: 700; font-size: 1.5rem;">
@@ -319,6 +336,15 @@
                         <label for="editStatus" class="form-label">Status ou Data</label>
                         <input type="text" class="form-control rounded-pill form-control-custom" id="editStatus" name="Status" required>
                     </div>
+
+                    <div class="mb-3">
+                         <label for="editImagemFile" class="form-label">Alterar Imagem da Vaga (Opcional)</label>
+                         <input type="file" class="form-control form-control-custom" id="editImagemFile" name="imagemFile" accept="image/png, image/jpeg">
+                        <small class="text-muted">Deixe em branco para manter a imagem atual.</small>
+                    </div>
+                       
+                        <img id="editImagePreview" src="" alt="Pré-visualização" class="image-preview" />
+
                 </div>
                 <div class="modal-footer border-0 d-flex justify-content-center p-4 pt-0">
                     <button type="submit" class="btn btn-primary btn-custom btn-adicionar-small" style="background-color: #0d6efd;">Salvar Alterações</button>
@@ -388,7 +414,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content" style="border-radius: 15px;">
             
-            <form asp-controller="Vagas" asp-action="Create" method="post">
+            <form asp-controller="Vagas" asp-action="Create" method="post" enctype="multipart/form-data">
                 <div class="modal-header border-0 pb-0">
                   
                     <h5 class="modal-title w-100 text-center" id="modalNovaVagaLabel" style="font-weight: 700; font-size: 1.5rem;">
@@ -412,6 +438,10 @@
                     <div class="mb-3">
                         <label for="Status" class="form-label">Status ou Data</label>
                         <input type="text" class="form-control rounded-pill form-control-custom" id="Status" name="Status" placeholder="Ex: Recorrente ou 20/11/2025" required>
+                    </div>
+                    <div class="mb-3">
+                            <label for="imagemFile" class="form-label">Imagem da Vaga (Opcional)</label>
+                            <input type="file" class="form-control form-control-custom" id="imagemFile" name="imagemFile" accept="image/png, image/jpeg">
                     </div>
                     <p class="text-center text-muted small mt-4">
                         Após criar a vaga, ela será exibida no seu painel.
@@ -517,6 +547,9 @@
                     var modalStatus = document.getElementById('editStatus');
                     var modalVagaIdInput = document.getElementById('editVagaId');
                     var modalVagaIdOngInput = document.getElementById('editVagaIdOng');
+                      var modalImagemUrlInput = document.getElementById('editImagemUrlAtual');
+                      var modalImagePreview = document.getElementById('editImagePreview'); 
+                      var modalFileInput = document.getElementById('editImagemFile'); 
 
                     
                     modalTitulo.value = 'Carregando...';
@@ -524,6 +557,10 @@
                     modalStatus.value = '';
                     modalVagaIdInput.value = '';
                     modalVagaIdOngInput.value = '';
+                     modalImagemUrlInput.value = ''; 
+                     modalImagePreview.style.display = 'none'; 
+                     modalImagePreview.src = ''; 
+                     modalFileInput.value = ''; 
 
                
                     fetch('/Vagas/GetVagaDetails?id=' + vagaId)
@@ -542,9 +579,9 @@
                             modalDescricao.value = data.descricao;
                             modalStatus.value = data.status;
 
-                       
                             modalVagaIdInput.value = data.id;
                             modalVagaIdOngInput.value = data.idONG;
+                                modalImagemUrlInput.value = data.imagemUrl;
                         })
                         .catch(error => {
                             console.error('Erro no fetch:', error);
