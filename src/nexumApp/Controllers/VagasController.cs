@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using nexumApp.Data;
 using nexumApp.Models;
+using Microsoft.AspNetCore.Hosting; 
+using System.IO;
 
 namespace nexumApp.Controllers
 {
@@ -12,15 +14,18 @@ namespace nexumApp.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<User> _userManager;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public VagasController(ApplicationDbContext context, UserManager<User> userManager)
+        public VagasController(ApplicationDbContext context, UserManager<User> userManager, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
             _userManager = userManager;
+            _webHostEnvironment = webHostEnvironment;
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdONG,Titulo,Descricao,Status")] Vaga vaga)
+        public async Task<IActionResult> Create(Vaga vaga, IFormFile? imagemFile)
         {
             var userId = _userManager.GetUserId(User);
             if (userId == null)
@@ -36,6 +41,12 @@ namespace nexumApp.Controllers
             }
             if (ModelState.IsValid)
             {
+
+                if (imagemFile != null && imagemFile.Length > 0)
+                { 
+                    vaga.ImagemUrl = await SalvarImagem(imagemFile);
+                }
+
                 vaga.IdONG = ong.Id;
                 _context.Add(vaga);
                 await _context.SaveChangesAsync();
@@ -50,7 +61,7 @@ namespace nexumApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Vaga vaga) 
+        public async Task<IActionResult> Edit(Vaga vaga, IFormFile? imagemFile) 
         {
             var ong = await GetOngDoUsuarioLogado();
             if (ong == null)
@@ -85,7 +96,23 @@ namespace nexumApp.Controllers
                         return RedirectToAction("Dashboard", "Ongs");
                     }
 
-                    
+                    if (imagemFile != null && imagemFile.Length > 0)
+                    {
+                        
+                        if (!string.IsNullOrEmpty(vagaParaAtualizar.ImagemUrl))
+                        {
+                            DeletarImagem(vagaParaAtualizar.ImagemUrl);
+                        }
+                       
+                        vagaParaAtualizar.ImagemUrl = await SalvarImagem(imagemFile);
+                    }
+                    else
+                    {
+                        
+                        vagaParaAtualizar.ImagemUrl = vaga.ImagemUrl;
+                    }
+
+
                     vagaParaAtualizar.Titulo = vaga.Titulo;
                     vagaParaAtualizar.Descricao = vaga.Descricao;
                     vagaParaAtualizar.Status = vaga.Status;
@@ -142,7 +169,8 @@ namespace nexumApp.Controllers
                 idONG = vaga.IdONG,
                 titulo = vaga.Titulo,
                 descricao = vaga.Descricao,
-                status = vaga.Status
+                status = vaga.Status,
+                imagemUrl = vaga.ImagemUrl
             });
         }
 
@@ -165,6 +193,11 @@ namespace nexumApp.Controllers
                 return RedirectToAction("Dashboard", "Ongs");
             }
 
+            if (!string.IsNullOrEmpty(vaga.ImagemUrl))
+            {
+                DeletarImagem(vaga.ImagemUrl);
+            }
+
             _context.Vagas.Remove(vaga); 
             await _context.SaveChangesAsync();
             TempData["Success"] = "Vaga excluída com sucesso!";
@@ -176,6 +209,47 @@ namespace nexumApp.Controllers
             var userId = _userManager.GetUserId(User);
             var ong = await _context.Ongs.FirstOrDefaultAsync(o => o.UserId == userId);
             return ong;
+        }
+
+        private async Task<string> SalvarImagem(IFormFile imagemFile)
+        {
+            
+            string nomeUnico = Guid.NewGuid().ToString() + Path.GetExtension(imagemFile.FileName);
+
+            
+            string pastaImagens = Path.Combine(_webHostEnvironment.WebRootPath, "imagens", "vagas");
+
+        
+            if (!Directory.Exists(pastaImagens))
+            {
+                Directory.CreateDirectory(pastaImagens);
+            }
+
+            string caminhoFisico = Path.Combine(pastaImagens, nomeUnico);
+
+            
+            await using (var fileStream = new FileStream(caminhoFisico, FileMode.Create))
+            {
+                await imagemFile.CopyToAsync(fileStream);
+            }
+
+           
+            return $"/imagens/vagas/{nomeUnico}";
+        }
+
+        private void DeletarImagem(string imagemUrl)
+        {
+            if (string.IsNullOrEmpty(imagemUrl)) return;
+
+            
+            var nomeArquivo = Path.GetFileName(imagemUrl);
+            string caminhoFisico = Path.Combine(_webHostEnvironment.WebRootPath, "imagens", "vagas", nomeArquivo);
+
+           
+            if (System.IO.File.Exists(caminhoFisico))
+            {
+                System.IO.File.Delete(caminhoFisico);
+            }
         }
     }
 }
