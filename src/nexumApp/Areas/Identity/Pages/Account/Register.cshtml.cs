@@ -4,28 +4,34 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using nexumApp.Data;
 using nexumApp.Models;
 using System.ComponentModel.DataAnnotations;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace nexumApp.Areas.Identity.Pages.Account
 {
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<User> _signInManager;
         private readonly ApplicationDbContext _dbContext;
+        private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
+        private readonly IUserStore<User> _userStore;
+        private readonly IUserEmailStore<User> _emailStore;
+        private readonly ILogger<RegisterModel> _logger;
         public RegisterModel(
-            SignInManager<User> signInManager,
             ApplicationDbContext dbContext,
-            UserManager<User> userManager
+            SignInManager<User> signInManager,
+            UserManager<User> userManager,
+            IUserStore<User> userStore,
+            ILogger<RegisterModel> logger
         )
         {
-            _signInManager = signInManager;
             _dbContext = dbContext;
+            _signInManager = signInManager;
             _userManager = userManager;
+            _userStore = userStore;
+            _emailStore = GetEmailStore();
+            _logger = logger;
         }
 
         [BindProperty]
@@ -37,21 +43,44 @@ namespace nexumApp.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-         
-            [Required(ErrorMessage = "O Email � obrigat�rio.")]
+            // USER
+            [Required(ErrorMessage = "O Email é obrigatório.")]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
-            [Required(ErrorMessage = "A Senha � obrigat�ria.")]
+            [Required(ErrorMessage = "A Senha é obrigatória.")]
             [StringLength(100, ErrorMessage = "A Senha deve conter entre {2} e {1} caracteres", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }
-       
+
             [DataType(DataType.Password)]
             [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "A Senha e a confirma��o de senha n�o combinam.")]
+            [Compare("Password", ErrorMessage = "A Senha e a confirmação de senha não combinam.")]
             public string ConfirmPassword { get; set; }
+
+            //ONG
+            [Required(ErrorMessage = "Obrigatório informar a Razão Social!")]
+            [Display(Name = "Razão Social")]
+            [StringLength(50)]
+            public string Nome { get; set; }
+
+            [Required(ErrorMessage = "Obrigatório informar a Descrição!")]
+            [Display(Name = "Descrição de atividades")]
+            [StringLength(300)]
+            public string Descriçao { get; set; }
+
+            [Required(ErrorMessage = "Obrigatório informar o Endereço!")]
+            [StringLength(300)]
+            public string Endereço { get; set; }
+
+            [Required(ErrorMessage = "Obrigatório informar o CNPJ!")]
+            [StringLength(14, MinimumLength = 14, ErrorMessage = "O CNPJ deve conter 14 números")]
+            public string CNPJ { get; set; }
+
+            [Required(ErrorMessage = "Anexe o documento PDF para aprovação")]
+            [Display(Name = "Documento PDF para aprovação")]
+            public IFormFile DocumentoPdf { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -60,21 +89,88 @@ namespace nexumApp.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(string CadastroAction)
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByEmailAsync(Input.Email);
-                if(user != null)
+                if (Input.DocumentoPdf == null || Input.DocumentoPdf.Length == 0)
                 {
-                    ModelState.AddModelError(string.Empty, "Esse email j� foi cadastrado.");
+                    ModelState.AddModelError(nameof(Input.DocumentoPdf), "É obrigatório anexar um arquivo PDF.");
                     return Page();
                 }
-                TempData["Email"] = Input.Email;
-                TempData["Password"] = Input.Password;
-                return RedirectToAction("Create", "Ongs", new { area = "" });
+                const long maxSize = 25 * 1024 * 1024;
+                if (Input.DocumentoPdf.Length > maxSize)
+                {
+                    ModelState.AddModelError(nameof(Input.DocumentoPdf), "Arquivo muito grande (máx 25 MB).");
+                    return Page();
+                }
+                var isPdf = Input.DocumentoPdf.ContentType == "application/pdf" ||
+                            Path.GetExtension(Input.DocumentoPdf.FileName)
+                                .Equals(".pdf", StringComparison.OrdinalIgnoreCase);
+                if (!isPdf)
+                {
+                    ModelState.AddModelError(nameof(Input.DocumentoPdf), "Apenas arquivos PDF são permitidos.");
+                    return Page();
+                }
+                var user = CreateUser();
+                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
+                await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+                var result = await _userManager.CreateAsync(user, Input.Password);
+                if (result.Succeeded)
+                {
+                    _logger.LogInformation("User created a new account with password.");
+                    var userId = await _userManager.GetUserIdAsync(user);
+                    await _userManager.AddToRoleAsync(user, "Ong");
+                    //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    //code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+
+                    var ong = new Ong
+                    {
+                     Nome = Input.Nome,
+                     Descriçao = Input.Descriçao,
+                     Endereço = Input.Endereço,
+                     CNPJ = Input.CNPJ,
+                     UserId = userId
+                    };
+                    using (var ms = new MemoryStream())
+                    {
+                        await Input.DocumentoPdf.CopyToAsync(ms);
+                        ong.DocumentoDados = ms.ToArray();
+                        ong.DocumentoTipo = "application/pdf";
+                        ong.DocumentoNome = Path.GetFileName(Input.DocumentoPdf.FileName);
+                    }
+                    _dbContext.Add(ong);
+                    await _dbContext.SaveChangesAsync();
+                    await _signInManager.SignInAsync(user, isPersistent: true);
+                    if(CadastroAction == "Cadastrar")
+                    {
+                        return RedirectToAction("Index", "Home", new { area = "" });
+                    }
+                    return RedirectToAction("Create", "Filials", new { area = "" });
+                }
             }
             return Page();
+        }
+        private User CreateUser()
+        {
+            try
+            {
+                return Activator.CreateInstance<User>();
+            }
+            catch
+            {
+                throw new InvalidOperationException($"Can't create an instance of '{nameof(User)}'. " +
+                    $"Ensure that '{nameof(User)}' is not an abstract class and has a parameterless constructor, or alternatively " +
+                    $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
+            }
+        }
+        private IUserEmailStore<User> GetEmailStore()
+        {
+            if (!_userManager.SupportsUserEmail)
+            {
+                throw new NotSupportedException("The default UI requires a user store with email support.");
+            }
+            return (IUserEmailStore<User>)_userStore;
         }
     }
 }

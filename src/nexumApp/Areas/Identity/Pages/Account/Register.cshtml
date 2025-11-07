@@ -2,37 +2,73 @@
 @model RegisterModel
 @{
     ViewData["Title"] = "Cadastrar ONG";
-     Layout = "~/Views/Shared/_LayoutNoHeader.cshtml";
+     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<main class="min-vh-100 d-flex align-items-center justify-content-center overflow-hidden">
+<main class="min-vh-100 d-flex align-items-center justify-content-center">
     <div class="container py-0">
         <div class="row w-100 justify-content-center g-0">
             <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
-                <div class="card shadow-sm border-0 m-0">
+                <div >
                     <div class="card-body p-4 p-md-5">
                         <h1 class="text-center mb-3">@ViewData["Title"]</h1>
-
-                                <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                                <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">
                                     <h4 class="text-center mb-3">Primeiro passo para criar uma conta Nexum</h4>
                                     <hr class="my-3" />
                                     <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>     
                                     <div class="mb-3">
                                         <label asp-for="Input.Email">Email</label>
-                                        <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                                        <input style="border: 1px solid #16435d;border-radius: 30px;" asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
                                         <span asp-validation-for="Input.Email" class="text-danger"></span>
                                     </div>
                                     <div class="mb-3">
                                         <label asp-for="Input.Password">Senha</label>
-                                        <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" />
+                                        <input style="border: 1px solid #16435d;border-radius: 30px;" asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" />
                                         <span asp-validation-for="Input.Password" class="text-danger"></span>
                                     </div>
                                     <div class="mb-3">
                                         <label asp-for="Input.ConfirmPassword">Confirmar senha</label>
-                                        <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" />
+                                        <input style="border: 1px solid #16435d;border-radius: 30px;" asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" />
                                         <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
                                     </div>
-                                    <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Avançar</button>
+                                    <div class="mb-3">
+                                    <label asp-for="Input.Nome" class="control-label"></label>
+                                    <input style="border: 1px solid #16435d;border-radius: 30px;" asp-for="Input.Nome" class="form-control" />
+                                    <span asp-validation-for="Input.Nome" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3">
+                                    <label asp-for="Input.Descriçao" class="control-label"></label>
+                                    <input style="border: 1px solid #16435d;border-radius: 30px;" asp-for="Input.Descriçao" class="form-control" />
+                                    <span asp-validation-for="Input.Descriçao" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3">
+                                    <label asp-for="Input.Endereço" class="control-label"></label>
+                                    <input style="border: 1px solid #16435d;border-radius: 30px;" asp-for="Input.Endereço" class="form-control" />
+                                    <span asp-validation-for="Input.Endereço" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3">
+                                    <label asp-for="Input.CNPJ" class="control-label"></label>
+                                    <input maxlength="14" style="border: 1px solid #16435d;border-radius: 30px;" asp-for="Input.CNPJ" class="form-control" placeholder="Somente números" />
+                                    <span asp-validation-for="Input.CNPJ" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3">
+                                    <label asp-for="Input.DocumentoPdf" class="control-label"></label>
+                                    <input style="border: 1px solid #16435d;border-radius: 30px;" asp-for="Input.DocumentoPdf" type="file" class="form-control" accept="application/pdf,.pdf" />
+                                    <span class="form-text">Apenas PDF, até 25 MB.</span>
+                                    <span asp-validation-for="Input.DocumentoPdf" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="Cadastro-radio">
+                                        <p>A ONG possui filiais? (opcional)</p>
+                                        <input type="radio" id="radioY" name="hasFilial" value="sim">
+                                        <label for="radioY">Sim</label><br>
+                                        <input type="radio" id="radioN" name="hasFilial" value="não">
+                                        <label for="radioN">Não</label><br>
+                                    </div>
+                                <div>
+                                <div class="mb-3">
+                                    <input id="Cadastro-button" type="submit" name="CadastroAction" value="Cadastrar" class="w-100 btn btn-lg btn-primary Cadastro-button" />
+                                </div>                
                                 </form>
                             </div>
                         </div>
@@ -45,4 +81,18 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        let cadastroButton = document.getElementById("Cadastro-button")
+        let radioY = document.getElementById("radioY")
+        let radioN = document.getElementById("radioN")
+        radioY.addEventListener("change", () => {
+            console.log(cadastroButton)
+            cadastroButton.value = "Próximo"
+        })
+        radioN.addEventListener("change", () => {
+            console.log(cadastroButton)
+            cadastroButton.value = "Cadastrar"
+        })
+    </script> 
 }
+

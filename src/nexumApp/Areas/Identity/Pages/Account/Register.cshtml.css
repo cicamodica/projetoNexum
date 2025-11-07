@@ -1,0 +1,33 @@
+﻿main {
+    color: #16435d;
+}
+
+.Cadastro-button {
+    background-color: #2987bf;
+    border-radius: 30px
+}
+.Cadastro-pdf {
+    background-color: black !important;
+}
+
+.Cadastro-radio {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 15px
+}
+.Cadastro-radio p {
+    margin: 0;
+    margin-right: 15px;
+}
+
+.Cadastro-radio label {
+    margin-left: 5px;
+    margin-right: 10px
+}
+
+#radioN, #radioY {
+    accent-color: #16435d;
+    height: 20px;
+    width: 20px;
+} 

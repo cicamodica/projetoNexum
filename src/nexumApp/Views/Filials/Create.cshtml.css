@@ -1,0 +1,23 @@
+﻿.FilialCadastro {
+    margin-top: 150px
+}
+.FilialCadastro-title, .FilialCadastro-subtitle, .FilialCadastro-message {
+    color: #16435d;
+}
+.FilialCadastro-container {
+    border: 1px solid #16435d;
+    border-radius: 30px;
+    padding: 19px
+}
+.FilialCadastro-button {
+    border-radius: 30px;
+    background-color: #2987bf;
+}
+.FilialCadastro-button-continue {
+    border-radius: 30px;
+    background-color: #16435d;
+}
+.FilialCadastro-message {
+    margin-top: 5px;
+    text-align: center;
+}

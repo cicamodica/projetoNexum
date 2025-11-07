@@ -1,0 +1,47 @@
+﻿@model nexumApp.Models.Filial
+@{
+    ViewData["Title"] = "Cadastrar filial";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="FilialCadastro container d-flex align-items-center">
+    <div class="row w-100 justify-content-center">
+    <h1 class="FilialCadastro-title text-center mb-3">Cadastrar filial</h1>
+    <h4 class="FilialCadastro-subtitle text-center mb-3">Cadastre abaixo uma filial da ONG matriz</h4>
+        <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
+            <div class="FilialCadastro-container">
+                <div>
+                    <div class="row">
+                        <div class="mb-3">
+                            <form asp-action="Create" enctype="multipart/form-data">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>         
+                                <div class="mb-3">
+                                    <label asp-for="Endereço" class="control-label" style="color: #16435d;"></label>
+                                    <input asp-for="Endereço" class="form-control" style="border-radius: 30px; border-color: #16435d"/>
+                                    <span asp-validation-for="Endereço" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3">
+                                    <label asp-for="CNPJ" class="control-label" style="color: #16435d;"></label>
+                                    <input maxlength="14" asp-for="CNPJ" class="form-control" placeholder="Somente números" style="border-radius: 30px; border-color: #16435d" />
+                                    <span asp-validation-for="CNPJ" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3">
+                                    <input type="submit" name="Action" value="Continuar" class="w-100 btn btn-lg btn-primary FilialCadastro-button-continue" />
+                                </div> 
+                                <div class="mb-3">
+                                    <input type="submit" name="Action" value="Finalizar" class="w-100 btn btn-lg btn-primary FilialCadastro-button" />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <p class="FilialCadastro-message">@ViewBag.Message</p>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
