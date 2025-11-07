@@ -1,0 +1,71 @@
+﻿
+h1 {
+    color: #16435D;
+    font-weight: 600;
+    font-size: clamp(25px, 7vw, 44px);
+    margin: 0 0 6px 0;
+}
+
+h4 {
+    color: #6b6b6b;
+    margin: 0;
+    font-size: .98rem;
+}
+
+label.form-label {
+    color: #6b6b6b;
+    margin: 0;
+    font-size: .98rem;
+}
+
+button {
+    color: #ffffff;
+    background-color: #2987bf;
+    border: none;
+    border-radius: 24px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #16435D;
+    color: #ffffff;
+}
+
+.btn-link-register {
+    text-align: center;
+    background-color: #16435D;
+    color: #ffffff;
+    margin-top: 15px;
+    padding: 5px 90px;
+    text-decoration: none;
+    border: none;
+    border-radius: 24px;
+    font-weight: 400;
+    transition: background 0.3s;
+    font-size: 13px;
+    cursor: pointer;
+    width: 100% !important;
+}
+
+    .btn-link-register:hover {
+        background-color: #2987bf;
+    }
+
+.btn-link-password {
+    text-align: center;
+    background-color: #16435D;
+    color: #ffffff;
+    padding: 5px 110px;
+    text-decoration: none;
+    border: none;
+    border-radius: 24px;
+    font-weight: 400;
+    transition: background 0.3s;
+    font-size: 13px;
+    cursor: pointer;
+    width: 100% !important;
+}
+
+    .btn-link-password:hover {
+        background-color: #2987bf;
+    }

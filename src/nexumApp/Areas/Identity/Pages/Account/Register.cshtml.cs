@@ -44,11 +44,11 @@ namespace nexumApp.Areas.Identity.Pages.Account
         public class InputModel
         {
             // USER
-            [Required(ErrorMessage = "O Email È obrigatÛrio.")]
+            [Required(ErrorMessage = "O Email √© obrigat√≥rio.")]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
-            [Required(ErrorMessage = "A Senha È obrigatÛria.")]
+            [Required(ErrorMessage = "A Senha √© obrigat√≥ria.")]
             [StringLength(100, ErrorMessage = "A Senha deve conter entre {2} e {1} caracteres", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
@@ -56,30 +56,30 @@ namespace nexumApp.Areas.Identity.Pages.Account
 
             [DataType(DataType.Password)]
             [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "A Senha e a confirmaÁ„o de senha n„o combinam.")]
+            [Compare("Password", ErrorMessage = "A Senha e a confirma√ß√£o de senha n√£o combinam.")]
             public string ConfirmPassword { get; set; }
 
             //ONG
-            [Required(ErrorMessage = "ObrigatÛrio informar a Raz„o Social!")]
-            [Display(Name = "Raz„o Social")]
+            [Required(ErrorMessage = "Obrigat√≥rio informar a Raz√£o Social!")]
+            [Display(Name = "Raz√£o Social")]
             [StringLength(50)]
             public string Nome { get; set; }
 
-            [Required(ErrorMessage = "ObrigatÛrio informar a DescriÁ„o!")]
-            [Display(Name = "DescriÁ„o de atividades")]
+            [Required(ErrorMessage = "Obrigat√≥rio informar a Descri√ß√£o!")]
+            [Display(Name = "Descri√ß√£o de atividades")]
             [StringLength(300)]
-            public string DescriÁao { get; set; }
+            public string Descri√ßao { get; set; }
 
-            [Required(ErrorMessage = "ObrigatÛrio informar o EndereÁo!")]
+            [Required(ErrorMessage = "Obrigat√≥rio informar o Endere√ßo!")]
             [StringLength(300)]
-            public string EndereÁo { get; set; }
+            public string Endere√ßo { get; set; }
 
-            [Required(ErrorMessage = "ObrigatÛrio informar o CNPJ!")]
-            [StringLength(14, MinimumLength = 14, ErrorMessage = "O CNPJ deve conter 14 n˙meros")]
+            [Required(ErrorMessage = "Obrigat√≥rio informar o CNPJ!")]
+            [StringLength(14, MinimumLength = 14, ErrorMessage = "O CNPJ deve conter 14 n√∫meros")]
             public string CNPJ { get; set; }
 
-            [Required(ErrorMessage = "Anexe o documento PDF para aprovaÁ„o")]
-            [Display(Name = "Documento PDF para aprovaÁ„o")]
+            [Required(ErrorMessage = "Anexe o documento PDF para aprova√ß√£o")]
+            [Display(Name = "Documento PDF para aprova√ß√£o")]
             public IFormFile DocumentoPdf { get; set; }
         }
 
@@ -95,13 +95,13 @@ namespace nexumApp.Areas.Identity.Pages.Account
             {
                 if (Input.DocumentoPdf == null || Input.DocumentoPdf.Length == 0)
                 {
-                    ModelState.AddModelError(nameof(Input.DocumentoPdf), "… obrigatÛrio anexar um arquivo PDF.");
+                    ModelState.AddModelError(nameof(Input.DocumentoPdf), "√â obrigat√≥rio anexar um arquivo PDF.");
                     return Page();
                 }
                 const long maxSize = 25 * 1024 * 1024;
                 if (Input.DocumentoPdf.Length > maxSize)
                 {
-                    ModelState.AddModelError(nameof(Input.DocumentoPdf), "Arquivo muito grande (m·x 25 MB).");
+                    ModelState.AddModelError(nameof(Input.DocumentoPdf), "Arquivo muito grande (m√°x 25 MB).");
                     return Page();
                 }
                 var isPdf = Input.DocumentoPdf.ContentType == "application/pdf" ||
@@ -109,7 +109,7 @@ namespace nexumApp.Areas.Identity.Pages.Account
                                 .Equals(".pdf", StringComparison.OrdinalIgnoreCase);
                 if (!isPdf)
                 {
-                    ModelState.AddModelError(nameof(Input.DocumentoPdf), "Apenas arquivos PDF s„o permitidos.");
+                    ModelState.AddModelError(nameof(Input.DocumentoPdf), "Apenas arquivos PDF s√£o permitidos.");
                     return Page();
                 }
                 var user = CreateUser();
@@ -127,8 +127,8 @@ namespace nexumApp.Areas.Identity.Pages.Account
                     var ong = new Ong
                     {
                      Nome = Input.Nome,
-                     DescriÁao = Input.DescriÁao,
-                     EndereÁo = Input.EndereÁo,
+                     Descri√ßao = Input.Descri√ßao,
+                     Endere√ßo = Input.Endere√ßo,
                      CNPJ = Input.CNPJ,
                      UserId = userId
                     };

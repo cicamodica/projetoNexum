@@ -4,10 +4,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Nexum</title>
+    @RenderSection("Styles", required: false)
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/nexumApp.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/fonts.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 </head>
 <body>
     <header>
@@ -33,7 +35,7 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="sobreNosMenu">
                                 <li><a class="dropdown-item" asp-controller="Home" asp-action="QuemSomos">Quem somos</a></li>
-                                <li><a class="dropdown-item" asp-controller="Home" asp-action="FaleConosco">Fale conosco</a></li>
+                                <li><a class="dropdown-item" asp-controller="FaleConosco" asp-action="Index">Fale conosco</a></li>
                                 <li><a class="dropdown-item" asp-controller="Home" asp-action="Feedback">Feedback</a></li>
                             </ul>
                         </li>

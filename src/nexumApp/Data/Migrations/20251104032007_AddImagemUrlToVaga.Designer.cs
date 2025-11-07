@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using nexumApp.Data;
 
@@ -11,9 +12,11 @@ using nexumApp.Data;
 namespace nexumApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251104032007_AddImagemUrlToVaga")]
+    partial class AddImagemUrlToVaga
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -327,43 +330,6 @@ namespace nexumApp.Data.Migrations
                     b.ToTable("Feedbacks");
                 });
 
-            modelBuilder.Entity("nexumApp.Models.Filial", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("CNPJ")
-                        .IsRequired()
-                        .HasMaxLength(14)
-                        .HasColumnType("nvarchar(14)");
-
-                    b.Property<string>("Descriçao")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Endereço")
-                        .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
-
-                    b.Property<string>("Nome")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("OngId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OngId");
-
-                    b.ToTable("Filials");
-                });
-
             modelBuilder.Entity("nexumApp.Models.Meta", b =>
                 {
                     b.Property<int>("Id")
@@ -638,10 +604,6 @@ namespace nexumApp.Data.Migrations
                     b.Navigation("Meta");
                 });
 
-            modelBuilder.Entity("nexumApp.Models.Filial", b =>
-                {
-                    b.HasOne("nexumApp.Models.Ong", "Ong")
-                        .WithMany("Filials")
             modelBuilder.Entity("nexumApp.Models.Meta", b =>
                 {
                     b.HasOne("nexumApp.Models.Ong", "Ong")
@@ -672,11 +634,6 @@ namespace nexumApp.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Ong");
-                });
-
-            modelBuilder.Entity("nexumApp.Models.Ong", b =>
-                {
-                    b.Navigation("Filials");
                 });
 
             modelBuilder.Entity("nexumApp.Models.User", b =>

@@ -29,10 +29,42 @@ builder.Services.AddAuthorization(options =>
     {
         policy.Requirements.Add(new HasCreatedOrApprovedONGRequirement());
     });
+
+    options.AddPolicy("RequireAdmin", p =>
+       p.RequireAuthenticatedUser()
+        .RequireRole("Admin"));
 });
+
+
 
 builder.Services.AddSingleton<IAuthorizationHandler, HasCreatedOrApprovedONGRequirementHandler>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+// Seeder Startup
+static async Task SeedAdminAsync(IServiceProvider services, IConfiguration config)
+{
+    using var scope = services.CreateScope();
+    var roleMgr = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<User>>(); // seu User
+
+    // 2) Primeiro admin (opcional)
+    var email = config["AdminBootstrap:Email"];
+    var pwd = config["AdminBootstrap:Password"];
+
+    if (!string.IsNullOrWhiteSpace(email) && !string.IsNullOrWhiteSpace(pwd))
+    {
+        var user = await userMgr.FindByEmailAsync(email);
+        if (user == null)
+        {
+            user = new User { UserName = email, Email = email, EmailConfirmed = true };
+            var create = await userMgr.CreateAsync(user, pwd);
+            if (!create.Succeeded)
+                throw new Exception(string.Join("; ", create.Errors.Select(e => e.Description)));
+        }
+        if (!await userMgr.IsInRoleAsync(user, "Admin"))
+            await userMgr.AddToRoleAsync(user, "Admin");
+    }
+}
 
 var app = builder.Build();
 
@@ -48,6 +80,8 @@ using (var scope = app.Services.CreateScope())
         }
     }
 }
+
+await SeedAdminAsync(app.Services, builder.Configuration);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -68,6 +102,10 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
     name: "default",

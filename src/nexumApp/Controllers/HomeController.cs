@@ -14,8 +14,16 @@ namespace nexumApp.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        [AllowAnonymous]
+        [HttpGet]
+        public IActionResult Index([FromQuery] bool publicView = false)
         {
+  
+            if (!publicView && User.Identity?.IsAuthenticated == true && User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+            }
+
             return View();
         }
 

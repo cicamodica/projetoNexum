@@ -1,0 +1,9 @@
+﻿@{
+    ViewData["Title"] = "Mensagem enviada";
+}
+@if (TempData["MensagemSucesso"] != null)
+{
+    <div class="alert alert-success mt-3 text-center">
+        @TempData["MensagemSucesso"]
+    </div>
+}

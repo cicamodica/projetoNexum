@@ -1,0 +1,31 @@
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace nexumApp.Models
+{
+    [Table("Vaga")]
+    public class Vaga
+    {
+        [Key]
+        public int IdVaga { get; set; }
+
+        [Required]
+        public int IdONG { get; set; }
+
+        [ForeignKey("IdONG")]
+        public virtual Ong Ong { get; set; }
+
+        [Required]
+        [StringLength(90)]
+        public string Titulo { get; set; }
+
+        [Required]
+        [StringLength(500)]
+        public string Descricao { get; set; }
+
+        [StringLength(50)]
+        public string Status { get; set; }
+
+        public string ImagemUrl { get; set; }
+    }
+}

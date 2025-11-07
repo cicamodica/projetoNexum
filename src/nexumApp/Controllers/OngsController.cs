@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using nexumApp.Data;
 using nexumApp.Models;
 using System.Security.Claims;
+using System.Text;
+using Microsoft.AspNetCore.Authorization;
 
 namespace nexumApp.Controllers
 {
@@ -20,6 +22,50 @@ namespace nexumApp.Controllers
         {
             var ongs = await _context.Ongs.Where(ong => ong.Aprovaçao == true).ToListAsync();
             return View(ongs);
+        }
+
+        [Authorize(Roles = "Ong")] // Só ONGs logadas podem ver
+        public async Task<IActionResult> Dashboard()
+        {
+            //  Pega o UserId (string) do usuário logado
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
+            {
+                return Challenge(); // Não está logado, força login
+            }
+
+            //  Encontra a entidade ONG (pelo UserId)
+            var ong = await _context.Ongs.FirstOrDefaultAsync(o => o.UserId == userId);
+            if (ong == null)
+            {
+                // Isso pode acontecer se o usuário foi deletado mas o cookie persiste
+                return NotFound("Nenhuma ONG associada a este usuário.");
+            }
+
+            // Verifica a aprovação (do seu modelo Ong.cs)
+            //if (ong.Aprovaçao == false)
+             //{
+            //return RedirectToAction(nameof(Wait)); // Redireciona se não aprovada
+            //}
+
+            //Busca as metas SOMENTE desta ONG
+            var metas = await _context.Metas
+                                  .Include(m => m.Ong) 
+                                      .Where(m => m.OngId == ong.Id)
+                   .ToListAsync();
+
+            var vagas = await _context.Vagas
+                .Where(v => v.IdONG == ong.Id)
+                .ToListAsync();
+
+            // Passamos os dados extras para a View usando o ViewBag
+            ViewBag.Metas = metas;
+
+            ViewBag.Vagas = vagas;
+
+
+            // Passamos a própria ONG como o Modelo principal da View
+            return View(ong);
         }
 
         // GET: Ongs/Details/5

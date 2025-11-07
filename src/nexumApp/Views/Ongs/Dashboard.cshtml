@@ -1,0 +1,656 @@
+﻿@model nexumApp.Models.Ong
+@using nexumApp.Models;
+@{
+    ViewData["Title"] = "Meu Dashboard";
+
+   
+    var metas = (IEnumerable<nexumApp.Models.Meta>)ViewBag.Metas;
+    var vagas = (IEnumerable<nexumApp.Models.Vaga>)ViewBag.Vagas;
+}
+
+<style>
+
+   .horizontal-scroll-container{
+        overflow-x: auto;
+        white-space: nowrap;
+        padding-bottom: 1.5rem;
+        -webkit-overflow-scrolling: touch;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+   }
+
+   .horizontal-scroll-container::-webkit-scrollbar {
+            display: none;
+        }
+
+   .vaga-card-item{
+        display: inline-block;
+        margin-right: 1.5rem;
+        width: 320px;
+        max-width:90vw;
+        vertical-align: top;
+        white-space: normal;
+   }
+
+    .vagas-carousel-wrapper {
+        position: relative;
+        padding: 0 20px; 
+    }
+
+    .vaga-carousel-btn {
+        position: absolute;
+        top: 140px;
+        justify-content: center;
+        z-index: 10;
+        background-color: rgba(255, 255, 255, 0.9);
+        border: 1px solid #ddd;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        font-size: 1.5rem;
+        color: #16435D;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        display: flex; 
+        align-items:center;
+    }
+
+        .vaga-carousel-btn:hover {
+            background-color: #fff;
+            color: #000;
+        }
+
+        .vaga-carousel-btn.prev {
+            left: 5px; 
+        }
+
+        .vaga-carousel-btn.next {
+            right: 5px;
+        }
+    
+    /* Design do Card de Vaga */
+    .vaga-card-design {
+        background-color: #fff;
+        border: 1.5px solid #e0e0e0;
+        border-radius: 30px;
+        padding: 1.25rem;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between; 
+        box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+        transition: all 0.2s ease-in-out;
+    }
+
+    .vaga-card-design:hover {
+            border-color: #16435D;
+        box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+    }
+
+    .vaga-card-design .card-title-public 
+    {
+        text-align:center;
+    }
+
+    .card-ong-name {
+        font-size: 0.9rem;
+        color: #6c757d; 
+        margin-bottom: 0.75rem;
+        text-align: center;
+    }
+    
+    .card-text-public {
+        font-size: 0.95rem;
+        color: #333;
+    }
+
+    .location-info {
+        font-size: 0.9rem;
+        color: #6c757d;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        justify-content: center;
+    }
+    
+    /* Status (Data ou Recorrente) */
+    .vaga-status-tag {
+        width: 100%;
+        padding: 8px 12px;
+        border-radius: 8px;
+        text-align: center;
+        font-weight: 600;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    /* Cor para status "Data/caixinha" */
+    .status-data {
+        background-color: #16435D; 
+        color: white;
+        border-radius: 80px;
+    }
+
+    /* Cor para status "Recorrente" */
+    .status-recorrente {
+        background-color: #16435D;
+        color: #fff;
+    }
+
+    /* Botao "Editar" e "Excluir" */
+    .vaga-actions {
+        display: flex;
+        gap: 10px;
+        justify-content: space-between;
+    }
+
+    .vaga-actions .btn {
+        flex-grow: 1; 
+        border-radius: 20px;
+        font-weight: 500;
+    }
+
+    /* Estilos do Modal  */
+    .form-divider {
+        margin: 1rem 0;
+        border-top: 1px solid #eee;
+    }
+    .btn-close-custom {
+        background: none;
+        border: none;
+        font-size: 1.75rem;
+        font-weight: 300;
+        line-height: 1;
+        color: #888;
+        opacity: 1;
+    }
+    .btn-close-custom:hover {
+        color: #000;
+    }
+    .form-control-custom {
+        border-radius: 8px;
+        border: 1px solid #ced4da;
+    }
+    .form-control-custom:focus {
+        border-color: #86b7fe;
+        box-shadow: 0 0 0 0.25rem rgba(13,110,253,.25);
+    }
+    .btn-custom.btn-adicionar-small {
+        background-color: #16435D;
+        color: white;
+        border: none;
+        padding: 10px 40px;
+        border-radius: 20px;
+        font-weight: 600;
+    }
+
+    .image-preview {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        margin-top: 10px;
+        display: none; 
+    }
+</style>
+
+<h1 class="mb-4">Olá, @Model.Nome!</h1>
+
+
+<div class="d-flex align-items-center gap-3 mt-5">
+    <h2 class="mb-0" style="font-weight: 600;">Minhas vagas</h2>
+    
+    <button type="button" class="btn btn-outline-primary btn-adicionar-custom" style="border-radius: 80px"; data-bs-toggle="modal" data-bs-target="#modalNovaVaga">
+        Adicionar
+    </button>
+    
+</div>
+
+<div class="vagas-carousel-wrapper">
+   
+    <button class="btn vaga-carousel-btn prev" id="vaga-scroll-prev" aria-label="Rolar para esquerda">&lt;</button>
+
+
+
+<div class="horizontal-scroll-container m-3" id="vagas-container">
+    @if (vagas != null && vagas.Any())
+    {
+        @foreach (var vaga in vagas)
+        {
+            <div class="vaga-card-item">
+                
+                <div class="vaga-card-design">
+                    <div>
+
+                            @if (!string.IsNullOrEmpty(vaga.ImagemUrl))
+                            {
+                                
+                                <img src="@vaga.ImagemUrl" asp-append-version="true" class="card-img-top mb-3" style="border-radius: 15px; height: 180px; object-fit: cover;" alt="@vaga.Titulo">
+                            }
+
+                        <h5 class="card-title-public">@vaga.Titulo</h5>
+                        <p class="card-ong-name">@Model.Nome</p> 
+                        <p class="card-text-public">
+                            @vaga.Descricao
+                        </p>
+                        <div class="location-info mt-2">
+                            <i class="bi bi-geo-alt-fill"></i> 
+                            <span>
+                                @Model.Endereço 
+                            </span>
+                        </div>
+                    </div>
+
+                    <div>
+                        
+                        <div class="vaga-status-tag @(vaga.Status != null && vaga.Status.ToLower() == "recorrente" ? "status-recorrente" : "status-data")">
+                            @vaga.Status
+                        </div>
+
+                        
+                        <div class="vaga-actions">
+                            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalEditarVaga"
+                                    data-vaga-id="@vaga.IdVaga">Editar</button>
+
+                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"data-bs-target="#modalExcluirVaga" 
+                              data-vaga-id="@vaga.IdVaga" data-vaga-titulo="@vaga.Titulo">Excluir</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="col">
+            <p>Você ainda não criou nenhuma vaga. Clique em "Adicionar" para começar!</p>
+        </div>
+    }
+
+        <button class="btn vaga-carousel-btn next" id="vaga-scroll-next" aria-label="Rolar para direita">&gt;</button>
+
+</div>
+
+<div class="modal fade" id="modalExcluirVaga" tabindex="-1" aria-labelledby="modalExcluirVagaLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 15px;">
+           
+            <form asp-controller="Vagas" asp-action="Delete" method="post">
+                
+               @Html.AntiForgeryToken()
+                <input type="hidden" id="deleteVagaId" name="id" />
+
+                <div class="modal-header border-0 pb-0 bg-danger text-white" style="border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                    <h5 class="modal-title w-100 text-center" id="modalExcluirVagaLabel" style="font-weight: 700; font-size: 1.5rem;">
+                        CONFIRMAR EXCLUSÃO
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4 text-center">
+                    <p class="lead mt-3 fw-bold">Tem certeza que deseja excluir esta vaga?</p>
+                   
+                    <h3 id="deleteVagaTitulo" class="text-danger"></h3>
+                    <p class="text-muted small mt-3">Esta ação não pode ser desfeita.</p>
+                </div>
+                <div class="modal-footer border-0 d-flex justify-content-center p-4 pt-0 gap-2">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" style="border-radius: 20px; padding: 10px 40px;">Cancelar</button>
+                    <button type="submit" class="btn btn-danger" style="border-radius: 20px; padding: 10px 40px;"> Excluir</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalEditarVaga" tabindex="-1" aria-labelledby="modalEditarVagaLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 15px;">
+
+            <form asp-controller="Vagas" asp-action="Edit" method="post" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
+
+               
+                <input type="hidden" id="editVagaId" name="IdVaga" />
+                <input type="hidden" id="editVagaIdOng" name="IdONG" />
+                    <input type="hidden" id="editImagemUrlAtual" name="ImagemUrl" />
+
+              <div class="modal-header border-0 pb-0 bg-primary text-white" style="border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                    <h5 class="modal-title w-100 text-center" id="modalEditarVagaLabel" style="font-weight: 700; font-size: 1.5rem;">
+                        EDITAR VAGA
+                    </h5>
+                    <button type="button" class="btn-close-custom" data-bs-dismiss="modal" aria-label="Close">
+                        &times;
+                    </button>
+                </div>
+                <div class="modal-body p-4 pt-2">
+                        <p class="text-center fw-bold text-muted small">Altere os dados da vaga</p>
+                    <hr class="form-divider" />
+                    <div class="mb-3">
+                        <label for="editTitulo" class="form-label">Título da Vaga</label>
+                        <input type="text" class="form-control rounded-pill form-control-custom" id="editTitulo" name="Titulo" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editDescricao" class="form-label">Descrição da Vaga</label>
+                        <textarea class="form-control form-control-custom" id="editDescricao" name="Descricao" style="height: 100px" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editStatus" class="form-label">Status ou Data</label>
+                        <input type="text" class="form-control rounded-pill form-control-custom" id="editStatus" name="Status" required>
+                    </div>
+
+                    <div class="mb-3">
+                         <label for="editImagemFile" class="form-label">Alterar Imagem da Vaga (Opcional)</label>
+                         <input type="file" class="form-control form-control-custom" id="editImagemFile" name="imagemFile" accept="image/png, image/jpeg">
+                        <small class="text-muted">Deixe em branco para manter a imagem atual.</small>
+                    </div>
+                       
+                        <img id="editImagePreview" src="" alt="Pré-visualização" class="image-preview" />
+
+                </div>
+                <div class="modal-footer border-0 d-flex justify-content-center p-4 pt-0">
+                    <button type="submit" class="btn btn-primary btn-custom btn-adicionar-small" style="background-color: #0d6efd;">Salvar Alterações</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="d-flex align-items-center gap-3 mt-5">
+    <h2 class="mb-0" style="font-weight: 600;">Minhas metas</h2>
+
+    <button type="button" class="btn btn-outline-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#modalCriarMeta">
+        Adicionar
+    </button>
+</div>
+
+<div class="row mt-3">
+    @if (metas.Any())
+    {
+        @foreach (var meta in metas)
+        {
+            <div class="col-md-4 mb-3">
+                <div class="card h-100 meta-card-public">
+                    <div class="card-body text-center">
+
+                        <h5 class="card-title-public">@meta.Recurso</h5>
+
+                        <div class="progress-display-public">
+                            <span>@meta.ValorAtual / @meta.ValorAlvo</span>
+                        </div>
+
+                        <p class="card-text-public">
+                            @meta.Descricao
+                        </p>
+
+                        <div class="location-info">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <span>
+                                @meta.Ong.Endereço
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="col">
+            <p>Você ainda não criou nenhuma meta. Clique em "Adicionar" para começar!</p>
+        </div>
+    }
+
+    <div class="col-md-4 mb-3 d-flex align-items-center justify-content-center">
+        <button class="btn-add-meta" data-bs-toggle="modal" data-bs-target="#modalCriarMeta">
+            &plus;
+        </button>
+    </div>
+
+</div>
+
+<div class="modal fade" id="modalNovaVaga" tabindex="-1" aria-labelledby="modalNovaVagaLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 15px;">
+            
+            <form asp-controller="Vagas" asp-action="Create" method="post" enctype="multipart/form-data">
+                <div class="modal-header border-0 pb-0">
+                  
+                    <h5 class="modal-title w-100 text-center" id="modalNovaVagaLabel" style="font-weight: 700; font-size: 1.5rem;">
+                        FORMULÁRIO DE NOVA VAGA
+                    </h5>
+                    <button type="button" class="btn-close-custom" data-bs-dismiss="modal" aria-label="Close">
+                        &times;
+                    </button>
+                </div>
+                <div class="modal-body p-4 pt-2">
+                    <p class="text-center text-muted small">Preencha os dados abaixo</p>
+                    <hr class="form-divider" />
+                    <div class="mb-3">
+                        <label for="Titulo" class="form-label">Título da Vaga</label>
+                        <input type="text" class="form-control rounded-pill form-control-custom" id="Titulo" name="Titulo" placeholder="Ex: Fotógrafo(a) PET" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Descricao" class="form-label">Descrição da Vaga</label>
+                        <textarea class="form-control form-control-custom" id="Descricao" name="Descricao" placeholder="Ex: Precisamos de voluntários para..." style="height: 100px" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Status" class="form-label">Status ou Data</label>
+                        <input type="text" class="form-control rounded-pill form-control-custom" id="Status" name="Status" placeholder="Ex: Recorrente ou 20/11/2025" required>
+                    </div>
+                    <div class="mb-3">
+                            <label for="imagemFile" class="form-label">Imagem da Vaga (Opcional)</label>
+                            <input type="file" class="form-control form-control-custom" id="imagemFile" name="imagemFile" accept="image/png, image/jpeg">
+                    </div>
+                    <p class="text-center text-muted small mt-4">
+                        Após criar a vaga, ela será exibida no seu painel.
+                    </p>
+                </div>
+                <div class="modal-footer border-0 d-flex justify-content-center p-4 pt-0">
+                    <button type="submit" class="btn btn-primary btn-custom btn-adicionar-small">Adicionar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalCriarMeta" tabindex="-1" aria-labelledby="modalCriarMetaLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 15px;">
+            <form asp-controller="Metas" asp-action="Create" method="post">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title w-100 text-center" id="modalCriarMetaLabel" style="font-weight: 700; font-size: 1.5rem;">
+                        FORMULÁRIO DE NOVA META
+                    </h5>
+                    <button type="button" class="btn-close-custom" data-bs-dismiss="modal" aria-label="Close">
+                        &times;
+                    </button>
+                </div>
+                <div class="modal-body p-4 pt-2">
+                    <p class="text-center text-muted small">Preencha os dados abaixo</p>
+                    <hr class="form-divider" />
+                    <div class="mb-3">
+                        <label for="Recurso" class="form-label">Nome do Recurso</label>
+                        <input type="text" class="form-control rounded-pill form-control-custom" id="Recurso" name="Recurso" placeholder="Ex: Ração para cães" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Descricao" class="form-label">Descrição</label>
+                        <textarea class="form-control form-control-custom" id="Descricao" name="Descricao" placeholder="Ex: 5 sacos de ração de 1kg" style="height: 100px" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="QuantidadeNecessaria" class="form-label">Quantidade Necessária</label>
+                        <input type="number" class="form-control rounded-pill form-control-custom" id="QuantidadeNecessaria" name="QuantidadeNecessaria" placeholder="Ex: 200" required>
+                    </div>
+                    <p class="text-center text-muted small mt-4">
+                        Após criar a meta, ela será exibida no seu painel.
+                    </p>
+                </div>
+                <div class="modal-footer border-0 d-flex justify-content-center p-4 pt-0">
+                    <button type="submit" class="btn btn-primary btn-custom btn-adicionar-small">Adicionar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+
+       
+        
+        window.addEventListener('load', function() {
+
+            
+            var deleteModalElement = document.getElementById('modalExcluirVaga');
+            if (deleteModalElement) {
+
+                deleteModalElement.addEventListener('show.bs.modal', function (event) {
+
+
+                    var button = event.relatedTarget;
+
+
+                    if (button) {
+
+                        var vagaId = button.getAttribute('data-vaga-id');
+                        var vagaTitulo = button.getAttribute('data-vaga-titulo');
+
+                        var modalTituloElement = deleteModalElement.querySelector('#deleteVagaTitulo');
+                        var modalInputElement = deleteModalElement.querySelector('#deleteVagaId');
+
+
+                        if (modalTituloElement) {
+                            modalTituloElement.textContent = '"' + vagaTitulo + '"';
+                        }
+                        if (modalInputElement) {
+                            modalInputElement.value = vagaId;
+                        }
+                    }
+                });
+            }
+
+            
+            var editModalElement = document.getElementById('modalEditarVaga');
+            if (editModalElement) {
+
+                editModalElement.addEventListener('show.bs.modal', function (event) {
+                    var button = event.relatedTarget; 
+                    if (!button) return;
+
+                    var vagaId = button.getAttribute('data-vaga-id');
+
+                   
+                    var modalTitulo = document.getElementById('editTitulo');
+                    var modalDescricao = document.getElementById('editDescricao');
+                    var modalStatus = document.getElementById('editStatus');
+                    var modalVagaIdInput = document.getElementById('editVagaId');
+                    var modalVagaIdOngInput = document.getElementById('editVagaIdOng');
+                      var modalImagemUrlInput = document.getElementById('editImagemUrlAtual');
+                      var modalImagePreview = document.getElementById('editImagePreview'); 
+                      var modalFileInput = document.getElementById('editImagemFile'); 
+
+                    
+                    modalTitulo.value = 'Carregando...';
+                    modalDescricao.value = '';
+                    modalStatus.value = '';
+                    modalVagaIdInput.value = '';
+                    modalVagaIdOngInput.value = '';
+                     modalImagemUrlInput.value = ''; 
+                     modalImagePreview.style.display = 'none'; 
+                     modalImagePreview.src = ''; 
+                     modalFileInput.value = ''; 
+
+               
+                    fetch('/Vagas/GetVagaDetails?id=' + vagaId)
+                        .then(response => {
+                            if (!response.ok) {
+                              
+                                return response.text().then(text => {
+                                    throw new Error('Falha ao buscar dados: ' + response.status + " " + text);
+                                });
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            
+                            modalTitulo.value = data.titulo;
+                            modalDescricao.value = data.descricao;
+                            modalStatus.value = data.status;
+
+                            modalVagaIdInput.value = data.id;
+                            modalVagaIdOngInput.value = data.idONG;
+                                modalImagemUrlInput.value = data.imagemUrl;
+                        })
+                        .catch(error => {
+                            console.error('Erro no fetch:', error);
+                            modalTitulo.value = 'Erro ao carregar dados.';
+                        });
+                });
+            }
+
+          
+            const container = document.getElementById('vagas-container');
+            const prevBtn = document.getElementById('vaga-scroll-prev');
+            const nextBtn = document.getElementById('vaga-scroll-next');
+
+            if (container && prevBtn && nextBtn) {
+
+                // Função para  setas
+                function checkScrollButtons() {
+                    
+                    setTimeout(() => {
+                        const scrollLeft = container.scrollLeft;
+                        const scrollWidth = container.scrollWidth; 
+                        const clientWidth = container.clientWidth; 
+
+                        console.log(`Verificando scroll: scrollWidth=${scrollWidth}, clientWidth=${clientWidth}, scrollLeft=${scrollLeft}`);
+
+                      
+                        if (scrollWidth <= clientWidth) {
+                            prevBtn.style.display = 'none';
+                            nextBtn.style.display = 'none';
+                            return;
+                        }
+
+                       
+                        if (scrollLeft > 0) {
+                            prevBtn.style.display = 'flex';
+                        } else {
+                            prevBtn.style.display = 'none';
+                        }
+
+                       
+                        if (scrollLeft < (scrollWidth - clientWidth - 1)) { 
+                            nextBtn.style.display = 'flex';
+                        } else {
+                            nextBtn.style.display = 'none';
+                        }
+                    }, 1000); 
+                }
+
+                
+                nextBtn.addEventListener('click', () => {
+                    const cardWidth = 320 + 24; 
+                    container.scrollLeft += cardWidth;
+                });
+
+               
+                prevBtn.addEventListener('click', () => {
+                    const cardWidth = 320 + 24;
+                    container.scrollLeft -= cardWidth;
+                });
+
+              
+                container.addEventListener('scroll', checkScrollButtons);
+
+               
+                checkScrollButtons();
+
+                
+                window.addEventListener('resize', checkScrollButtons);
+            }
+        });
+    </script>
+}
