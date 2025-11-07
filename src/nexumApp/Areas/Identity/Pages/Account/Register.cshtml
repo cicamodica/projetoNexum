@@ -2,14 +2,14 @@
 @model RegisterModel
 @{
     ViewData["Title"] = "Cadastrar ONG";
-     Layout = "~/Views/Shared/_LayoutNoHeader.cshtml";
+     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<main class="min-vh-100 d-flex align-items-center justify-content-center overflow-hidden">
+<main class="min-vh-100 d-flex align-items-center justify-content-center">
     <div class="container py-0">
         <div class="row w-100 justify-content-center g-0">
             <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
-                <div class="card shadow-sm border-0 m-0">
+                <div >
                     <div class="card-body p-4 p-md-5">
                         <h1 class="text-center mb-3">@ViewData["Title"]</h1>
                                 <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">
@@ -18,47 +18,47 @@
                                     <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>     
                                     <div class="mb-3">
                                         <label asp-for="Input.Email">Email</label>
-                                        <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                                        <input style="border: 1px solid #16435d;border-radius: 30px;" asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
                                         <span asp-validation-for="Input.Email" class="text-danger"></span>
                                     </div>
                                     <div class="mb-3">
                                         <label asp-for="Input.Password">Senha</label>
-                                        <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" />
+                                        <input style="border: 1px solid #16435d;border-radius: 30px;" asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" />
                                         <span asp-validation-for="Input.Password" class="text-danger"></span>
                                     </div>
                                     <div class="mb-3">
                                         <label asp-for="Input.ConfirmPassword">Confirmar senha</label>
-                                        <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" />
+                                        <input style="border: 1px solid #16435d;border-radius: 30px;" asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" />
                                         <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
                                     </div>
                                     <div class="mb-3">
                                     <label asp-for="Input.Nome" class="control-label"></label>
-                                    <input asp-for="Input.Nome" class="form-control" />
+                                    <input style="border: 1px solid #16435d;border-radius: 30px;" asp-for="Input.Nome" class="form-control" />
                                     <span asp-validation-for="Input.Nome" class="text-danger"></span>
                                 </div>
                                 <div class="mb-3">
                                     <label asp-for="Input.Descriçao" class="control-label"></label>
-                                    <input asp-for="Input.Descriçao" class="form-control" />
+                                    <input style="border: 1px solid #16435d;border-radius: 30px;" asp-for="Input.Descriçao" class="form-control" />
                                     <span asp-validation-for="Input.Descriçao" class="text-danger"></span>
                                 </div>
                                 <div class="mb-3">
                                     <label asp-for="Input.Endereço" class="control-label"></label>
-                                    <input asp-for="Input.Endereço" class="form-control" />
+                                    <input style="border: 1px solid #16435d;border-radius: 30px;" asp-for="Input.Endereço" class="form-control" />
                                     <span asp-validation-for="Input.Endereço" class="text-danger"></span>
                                 </div>
                                 <div class="mb-3">
                                     <label asp-for="Input.CNPJ" class="control-label"></label>
-                                    <input asp-for="Input.CNPJ" class="form-control" placeholder="Somente números" />
+                                    <input style="border: 1px solid #16435d;border-radius: 30px;" asp-for="Input.CNPJ" class="form-control" placeholder="Somente números" />
                                     <span asp-validation-for="Input.CNPJ" class="text-danger"></span>
                                 </div>
                                 <div class="mb-3">
                                     <label asp-for="Input.DocumentoPdf" class="control-label"></label>
-                                    <input asp-for="Input.DocumentoPdf" type="file" class="form-control" accept="application/pdf,.pdf" />
+                                    <input style="border: 1px solid #16435d;border-radius: 30px;" asp-for="Input.DocumentoPdf" type="file" class="form-control" accept="application/pdf,.pdf" />
                                     <span class="form-text">Apenas PDF, até 25 MB.</span>
                                     <span asp-validation-for="Input.DocumentoPdf" class="text-danger"></span>
                                 </div>
                                 <div class="mb-3">
-                                    <input type="submit" value="Cadastrar" class="w-100 btn btn-lg btn-primary" />
+                                    <input type="submit" value="Cadastrar" class="w-100 btn btn-lg btn-primary Cadastro-button" />
                                 </div>                
                                 </form>
                             </div>

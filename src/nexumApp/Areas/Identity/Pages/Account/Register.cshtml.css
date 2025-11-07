@@ -1,0 +1,15 @@
+﻿main {
+    color: #16435d;
+}
+
+input[type="file"]::file-selector-button {
+    background-color: #a29bfe !important; /* Example: light purple background */
+}
+
+.Cadastro-button {
+    background-color: #2987bf;
+    border-radius: 30px
+}
+.Cadastro-pdf {
+    background-color: black !important;
+}
