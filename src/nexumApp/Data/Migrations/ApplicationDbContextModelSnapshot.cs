@@ -641,49 +641,50 @@ namespace nexumApp.Data.Migrations
             modelBuilder.Entity("nexumApp.Models.Filial", b =>
                 {
                     b.HasOne("nexumApp.Models.Ong", "Ong")
-                        .WithMany("Filials")
-            modelBuilder.Entity("nexumApp.Models.Meta", b =>
-                {
-                    b.HasOne("nexumApp.Models.Ong", "Ong")
-                        .WithMany()
-                        .HasForeignKey("OngId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Filials");
+                    modelBuilder.Entity("nexumApp.Models.Meta", b =>
+                        {
+                            b.HasOne("nexumApp.Models.Ong", "Ong")
+                                .WithMany()
+                                .HasForeignKey("OngId")
+                                .OnDelete(DeleteBehavior.Cascade)
+                                .IsRequired();
 
-                    b.Navigation("Ong");
-                });
+                            b.Navigation("Ong");
+                        });
 
-            modelBuilder.Entity("nexumApp.Models.Ong", b =>
-                {
-                    b.HasOne("nexumApp.Models.User", "User")
-                        .WithMany("Ongs")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                    modelBuilder.Entity("nexumApp.Models.Ong", b =>
+                        {
+                            b.HasOne("nexumApp.Models.User", "User")
+                                .WithMany("Ongs")
+                                .HasForeignKey("UserId")
+                                .OnDelete(DeleteBehavior.Cascade);
 
-                    b.Navigation("User");
-                });
+                            b.Navigation("User");
+                        });
 
-            modelBuilder.Entity("nexumApp.Models.Vaga", b =>
-                {
-                    b.HasOne("nexumApp.Models.Ong", "Ong")
-                        .WithMany()
-                        .HasForeignKey("IdONG")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    modelBuilder.Entity("nexumApp.Models.Vaga", b =>
+                        {
+                            b.HasOne("nexumApp.Models.Ong", "Ong")
+                                .WithMany()
+                                .HasForeignKey("IdONG")
+                                .OnDelete(DeleteBehavior.Cascade)
+                                .IsRequired();
 
-                    b.Navigation("Ong");
-                });
+                            b.Navigation("Ong");
+                        });
 
-            modelBuilder.Entity("nexumApp.Models.Ong", b =>
-                {
-                    b.Navigation("Filials");
-                });
+                    modelBuilder.Entity("nexumApp.Models.Ong", b =>
+                        {
+                            b.Navigation("Filials");
+                        });
 
-            modelBuilder.Entity("nexumApp.Models.User", b =>
-                {
-                    b.Navigation("Ongs");
-                });
+                    modelBuilder.Entity("nexumApp.Models.User", b =>
+                        {
+                            b.Navigation("Ongs");
+                        });
 #pragma warning restore 612, 618
+                });
         }
     }
 }

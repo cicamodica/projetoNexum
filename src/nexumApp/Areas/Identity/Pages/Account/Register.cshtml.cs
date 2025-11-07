@@ -144,9 +144,9 @@ namespace nexumApp.Areas.Identity.Pages.Account
                     await _signInManager.SignInAsync(user, isPersistent: true);
                     if(CadastroAction == "Cadastrar")
                     {
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Home", new { area = "" });
                     }
-                    return RedirectToAction("Create", "Filials");
+                    return RedirectToAction("Create", "Filials", new { area = "" });
                 }
             }
             return Page();

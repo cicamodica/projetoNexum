@@ -34,13 +34,13 @@
                                 Sobre nós
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="sobreNosMenu">
-                                <li><a class="dropdown-item" asp-controller="Home" asp-action="QuemSomos">Quem somos</a></li>
-                                <li><a class="dropdown-item" asp-controller="FaleConosco" asp-action="Index">Fale conosco</a></li>
-                                <li><a class="dropdown-item" asp-controller="Home" asp-action="Feedback">Feedback</a></li>
+                                <li><a class="dropdown-item" asp-controller="Home" asp-action="QuemSomos" asp-area="">Quem somos</a></li>
+                                <li><a class="dropdown-item" asp-controller="FaleConosco" asp-action="Index" asp-area="">Fale conosco</a></li>
+                                <li><a class="dropdown-item" asp-controller="Home" asp-action="Feedback" asp-area="">Feedback</a></li>
                             </ul>
                         </li>
                         <li>
-                            <a class="nav-link" asp-controller="Ongs" asp-action="Index">ONGs cadastradas</a>
+                            <a class="nav-link" asp-controller="Ongs" asp-action="Index" asp-area="">ONGs cadastradas</a>
                         </li>
                     </ul>
                     <partial name="_LoginPartial" />
