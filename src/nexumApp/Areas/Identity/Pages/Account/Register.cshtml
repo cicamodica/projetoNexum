@@ -48,7 +48,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label asp-for="Input.CNPJ" class="control-label"></label>
-                                    <input style="border: 1px solid #16435d;border-radius: 30px;" asp-for="Input.CNPJ" class="form-control" placeholder="Somente números" />
+                                    <input maxlength="14" style="border: 1px solid #16435d;border-radius: 30px;" asp-for="Input.CNPJ" class="form-control" placeholder="Somente números" />
                                     <span asp-validation-for="Input.CNPJ" class="text-danger"></span>
                                 </div>
                                 <div class="mb-3">
@@ -58,7 +58,16 @@
                                     <span asp-validation-for="Input.DocumentoPdf" class="text-danger"></span>
                                 </div>
                                 <div class="mb-3">
-                                    <input type="submit" value="Cadastrar" class="w-100 btn btn-lg btn-primary Cadastro-button" />
+                                    <div class="Cadastro-radio">
+                                        <p>A ONG possui filiais? (opcional)</p>
+                                        <input type="radio" id="radioY" name="hasFilial" value="sim">
+                                        <label for="radioY">Sim</label><br>
+                                        <input type="radio" id="radioN" name="hasFilial" value="não">
+                                        <label for="radioN">Não</label><br>
+                                    </div>
+                                <div>
+                                <div class="mb-3">
+                                    <input id="Cadastro-button" type="submit" name="CadastroAction" value="Cadastrar" class="w-100 btn btn-lg btn-primary Cadastro-button" />
                                 </div>                
                                 </form>
                             </div>
@@ -72,5 +81,18 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        let cadastroButton = document.getElementById("Cadastro-button")
+        let radioY = document.getElementById("radioY")
+        let radioN = document.getElementById("radioN")
+        radioY.addEventListener("change", () => {
+            console.log(cadastroButton)
+            cadastroButton.value = "Próximo"
+        })
+        radioN.addEventListener("change", () => {
+            console.log(cadastroButton)
+            cadastroButton.value = "Cadastrar"
+        })
+    </script> 
 }
 

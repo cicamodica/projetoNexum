@@ -75,7 +75,7 @@ namespace nexumApp.Areas.Identity.Pages.Account
             public string Endereço { get; set; }
 
             [Required(ErrorMessage = "Obrigatório informar o CNPJ!")]
-            [StringLength(14, MinimumLength = 14)]
+            [StringLength(14, MinimumLength = 14, ErrorMessage = "O CNPJ deve conter 14 números")]
             public string CNPJ { get; set; }
 
             [Required(ErrorMessage = "Anexe o documento PDF para aprovação")]
@@ -89,7 +89,7 @@ namespace nexumApp.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(string CadastroAction)
         {
             if (ModelState.IsValid)
             {
@@ -142,6 +142,10 @@ namespace nexumApp.Areas.Identity.Pages.Account
                     _dbContext.Add(ong);
                     await _dbContext.SaveChangesAsync();
                     await _signInManager.SignInAsync(user, isPersistent: true);
+                    if(CadastroAction == "Cadastrar")
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
                     return RedirectToAction("Create", "Filials");
                 }
             }

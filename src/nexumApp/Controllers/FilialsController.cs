@@ -31,7 +31,7 @@ namespace nexumApp.Controllers
                 CreateFilial(Filial);
                 if(Action == "Finalizar")
                 {
-                return RedirectToAction("Wait", "Ongs");
+                return RedirectToAction("Index", "Home");
                 }
                 ModelState.Clear();
                 ViewBag.Message = "Filial cadastrada com sucesso!";

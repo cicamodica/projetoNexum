@@ -22,7 +22,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label asp-for="CNPJ" class="control-label" style="color: #16435d;"></label>
-                                    <input asp-for="CNPJ" class="form-control" placeholder="Somente números" style="border-radius: 30px; border-color: #16435d" />
+                                    <input maxlength="14" asp-for="CNPJ" class="form-control" placeholder="Somente números" style="border-radius: 30px; border-color: #16435d" />
                                     <span asp-validation-for="CNPJ" class="text-danger"></span>
                                 </div>
                                 <div class="mb-3">

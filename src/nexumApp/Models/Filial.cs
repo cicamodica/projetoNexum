@@ -14,7 +14,7 @@ namespace nexumApp.Models
         [StringLength(300)]
         public string Endereço { get; set; }
         [Required(ErrorMessage = "Obrigatório informar o CNPJ!")]
-        [StringLength(14, MinimumLength = 14)]
+        [StringLength(14, MinimumLength = 14, ErrorMessage = "O CNPJ deve conter 14 números")]
         public string CNPJ { get; set; }
     }
 }
