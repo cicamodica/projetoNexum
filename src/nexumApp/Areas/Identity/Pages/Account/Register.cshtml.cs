@@ -142,7 +142,7 @@ namespace nexumApp.Areas.Identity.Pages.Account
                     _dbContext.Add(ong);
                     await _dbContext.SaveChangesAsync();
                     await _signInManager.SignInAsync(user, isPersistent: true);
-                    return RedirectToAction("Wait", "Ongs");
+                    return RedirectToAction("Create", "Filials");
                 }
             }
             return Page();

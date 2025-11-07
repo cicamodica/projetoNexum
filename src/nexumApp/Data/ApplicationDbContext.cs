@@ -18,9 +18,14 @@ namespace nexumApp.Data
                 .HasMany(User => User.Ongs)
                 .WithOne(Ong => Ong.User)
                 .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Ong>()
+                .HasMany(Ong => Ong.Filials)
+                .WithOne(Filial => Filial.Ong)
+                .OnDelete(DeleteBehavior.Cascade);
         }
 
         public DbSet<Ong> Ongs {  get; set; }
+        public DbSet<Filial> Filials { get; set; }
         public DbSet<Candidato> Candidatos { get; set; }
         public DbSet<VoluntarioModel> Voluntarios { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }

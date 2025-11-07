@@ -23,6 +23,7 @@ namespace nexumApp.Models
         [StringLength(14, MinimumLength = 14)] 
         public string CNPJ { get; set; }
         public bool Aprovaçao { get; set; } = false;
+        public ICollection<Filial> Filials { get; set; }
 
         // ====== Campos do PDF ======
 
