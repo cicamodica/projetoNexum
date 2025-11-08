@@ -20,7 +20,7 @@ namespace nexumApp.Controllers
         // GET: Ongs
         public async Task<IActionResult> Index()
         {
-            var ongs = await _context.Ongs.Where(ong => ong.Aprovaçao == true).ToListAsync();
+            var ongs = await _context.Ongs.Where(ong => ong.Aprovaçao == false).ToListAsync();
             return View(ongs);
         }
 
