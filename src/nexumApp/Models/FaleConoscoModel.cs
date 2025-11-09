@@ -33,11 +33,9 @@ public class FaleConoscoModel
     [Display(Name = "Enviado em")]
     public DateTime CriadoEm { get; set; } = DateTime.UtcNow;
 
-    // opcional: status do atendimento
     [StringLength(20)]
     public string Status { get; set; } = "Novo";
 
-    // opcional: IP do usuário
     [StringLength(64)]
     public string Ip { get; set; }
 }

@@ -30,9 +30,10 @@
 
     <h1 class="admin-hello">Olá, @User.Identity?.Name!</h1>
 
+    <hr class="section-divider" />
 
     <section class="admin-section">
-        <h2 class="admin-h2">Cadastros pendentes</h2>
+        <h2 class="admin-h2">Cadastros pendentes de aprovação</h2>
 
         @if (!(Model?.Any() ?? false))
         {
@@ -57,14 +58,18 @@
                             <tr>
                                 <td>@ong.Nome</td>
                                 <td>@ong.Endereço</td>
-                                <td>@ong.CNPJ</td>
+                                <td>@string.Format("{0:00\\.000\\.000\\/0000\\-00}", Convert.ToInt64(ong.CNPJ))</td>
                                 <td>@ong.Descriçao</td>
                                 <td class="text-end">
                                     <div class="d-flex gap-2 justify-content-end">
-                                        <a class="btn btn-outline-primary admin-pill"
-                                           asp-area="" asp-controller="Ongs" asp-action="Details" asp-route-id="@ong.Id">
+                                        <button type="button"
+                                                class="btn btn-outline-primary btn-sm btn-visualizar"
+                                                data-id="@ong.Id"
+                                                data-nome="@ong.Nome"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#ongModal">
                                             Visualizar
-                                        </a>
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
@@ -73,22 +78,107 @@
                 </table>
             </div>
 
+            <div class="modal fade" id="ongModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">
+                                Detalhes da ONG
+                                <small class="text-muted d-block" id="ongModalSub"></small>
+                            </h5>
+                         
+                        </div>
+
+                        <div class="modal-body" id="ongModalBody">
+                            <div class="text-center py-5" id="ongModalLoading">
+                                Carregando...
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Fechar</button>
+                            <button type="button" class="btn btn-danger" id="btnReprovar">Reprovar</button>
+                            <button type="button" class="btn btn-success" id="btnAprovar">Aprovar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                document.addEventListener('click', async (e) => {
+                  const btn = e.target.closest('.btn-visualizar');
+                  if (!btn) return;
+
+                  const id = btn.dataset.id;
+                  const nome = btn.dataset.nome;
+                  const sub = document.getElementById('ongModalSub');
+                  const body = document.getElementById('ongModalBody');
+
+                  sub.textContent = nome || '';
+                  body.innerHTML = '<div class="text-center py-5">Carregando...</div>';
+
+                  try {
+                    const url = '@Url.Action("PendingDetails", "Ongs", new { area = "Admin" })' + `?id=${id}`;
+                    const resp = await fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' }});
+                    if (!resp.ok) throw new Error('Erro ao carregar detalhes');
+
+                    const html = await resp.text();
+                    body.innerHTML = html;
+                  } catch (err) {
+                    body.innerHTML = `<div class="alert alert-danger m-0">${err.message}</div>`;
+                  }
+                });
+
+                // Delegação de eventos: captura cliques em botões dentro do modal
+                document.addEventListener('click', (e) => {
+                  // Botão "Visualizar PDF"
+                  const btnView = e.target.closest('.js-view-pdf');
+                  if (btnView) {
+                    const url = btnView.dataset.url;
+                    const wrap   = document.getElementById('pdfViewerWrap');
+                    const loader = document.getElementById('pdfLoader');
+                    const frame  = document.getElementById('pdfFrame');
+
+                    if (!wrap || !loader || !frame) return;
+
+                    wrap.style.display = 'block';
+                    loader.style.display = 'flex';
+                    frame.style.display = 'none';
+
+                    // Define/atualiza o src só quando necessário
+                    if (frame.src !== url) {
+                      frame.src = url;
+                    }
+
+                    frame.onload = function () {
+                      loader.style.display = 'none';
+                      frame.style.display = 'block';
+                    };
+                  }
+                });
+            </script>
+
             <div class="text-center mt-2">
                 <button class="btn btn-outline-secondary admin-pill-sm" type="button">Ver mais</button>
             </div>
         }
     </section>
 
+    <hr class="section-divider" />
+
     <section class="admin-section">
         <h3 class="admin-h3">Administrar</h3>
         <div class="admin-chips">
-            <a class="admin-chip" asp-area="" asp-controller="Home" asp-action="Feedback">
-                Feedbacks <span class="badge rounded-pill text-bg-light">1</span>
+            <a class="admin-chip-adm" asp-area="" asp-controller="Home" asp-action="Feedback">Feedbacks</a>
+            <a class="admin-chip-adm" asp-area="" asp-controller="Home" asp-action="QuemSomos">Quem somos</a>
+            <a class="admin-chip-adm"
+               href='@Url.Action("Index","FaleConosco", new { area = "Admin" })'>
+                Fale conosco
             </a>
-            <a class="admin-chip" asp-area="" asp-controller="Home" asp-action="QuemSomos">Quem somos</a>
-            <a class="admin-chip" asp-area="" asp-controller="FaleConosco" asp-action="Index">Fale conosco</a>
         </div>
     </section>
+
+    <hr class="section-divider" />
 
     <section class="admin-section">
         <h3 class="admin-h3">Relatórios</h3>

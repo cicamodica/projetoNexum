@@ -1,0 +1,112 @@
+﻿@model IEnumerable<nexumApp.Models.FaleConoscoModel>
+@{
+    ViewData["Title"] = "Fale conosco";
+    var status = (string)ViewBag.Status ?? "Todos";
+}
+
+<h2 class="mb-3">Mensagens – Fale conosco</h2>
+
+<div class="mb-3 d-flex gap-2">
+    <a class="btn btn-sm @(status == "Todos" ? "btn-primary" : "btn-outline-primary")"
+       asp-action="Index" asp-route-status="Todos">Todos</a>
+    <a class="btn btn-sm @(status == "Novo" ? "btn-primary" : "btn-outline-primary")"
+       asp-action="Index" asp-route-status="Novo">Novos</a>
+    <a class="btn btn-sm @(status == "Respondido" ? "btn-primary" : "btn-outline-primary")"
+       asp-action="Index" asp-route-status="Respondido">Respondidos</a>
+    <a class="btn btn-sm @(status == "Arquivado" ? "btn-primary" : "btn-outline-primary")"
+       asp-action="Index" asp-route-status="Arquivado">Arquivados</a>
+</div>
+
+<table class="table table-hover align-middle">
+    <thead>
+        <tr>
+            <th>Data</th>
+            <th>Nome</th>
+            <th>E-mail</th>
+            <th>Assunto</th>
+            <th>Status</th>
+            <th class="text-end">Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var m in Model)
+        {
+            <tr>
+                <td>@m.CriadoEm.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</td>
+                <td>@m.Nome</td>
+                <td>@m.Email</td>
+                <td>@m.Assunto</td>
+                <td>@m.Status</td>
+                <td class="text-end">
+                    <button class="btn btn-sm btn-primary js-open-reply"
+                            data-id="@m.Id"
+                            data-bs-toggle="modal" data-bs-target="#replyModal">
+                        Responder
+                    </button>
+                    <button class="btn btn-sm btn-outline-secondary js-archive"
+                            data-id="@m.Id">
+                        Arquivar
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Modal de resposta -->
+<div class="modal fade" id="replyModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Responder – Fale conosco</h5>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="replyBody">Carregando...</div>
+            <div class="modal-footer">
+                <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Fechar</button>
+                <button id="btnSendReply" class="btn btn-success">Enviar resposta</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        let currentId = null;
+
+        document.addEventListener('click', async (e) => {
+          const open = e.target.closest('.js-open-reply');
+          if (open) {
+            currentId = open.dataset.id;
+            const url = '@Url.Action("Reply", "FaleConosco", new { area = "Admin" })' + `?id=${currentId}`;
+            const html = await (await fetch(url, { headers: { 'X-Requested-With':'XMLHttpRequest' } })).text();
+            document.getElementById('replyBody').innerHTML = html;
+          }
+
+          const arch = e.target.closest('.js-archive');
+          if (arch) {
+            const id = arch.dataset.id;
+            const resp = await fetch('@Url.Action("Archive", "FaleConosco", new { area = "Admin" })' + `?id=${id}`, {
+              method:'POST', headers: { 'X-Requested-With':'XMLHttpRequest' }
+            });
+            if (resp.ok) location.reload();
+          }
+        });
+
+        document.getElementById('btnSendReply').addEventListener('click', async () => {
+          const textarea = document.querySelector('#replyBody textarea[name="responseText"]');
+          if (!textarea) return;
+
+          const form = new FormData();
+          form.append('id', currentId);
+          form.append('responseText', textarea.value);
+
+          const resp = await fetch('@Url.Action("Reply", "FaleConosco", new { area = "Admin" })', {
+            method: 'POST',
+            body: form,
+            headers: { 'X-Requested-With':'XMLHttpRequest' }
+          });
+          if (resp.ok) location.reload();
+        });
+    </script>
+}
