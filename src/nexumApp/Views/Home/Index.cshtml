@@ -4,6 +4,51 @@
 }
 
 <style>
+
+    .header-banner {
+        position: relative; 
+        width: 100vw;
+        left: 50%;
+        transform: translateX(-50%);
+        height: 250px; 
+        overflow: hidden;
+        background: url('/images/banner.jpeg') no-repeat center top;
+        background-size: cover;
+        background-position: center 25%;
+        margin-bottom: 2rem; 
+    }
+
+    .header-banner-overlay {
+        position: absolute; 
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.4);
+        display: flex;
+        align-items: center;
+        
+    }
+
+    .header-text {
+        color: white;
+        text-align: left;
+        width: 100%;
+        max-width: 1140px;
+        margin: 0 auto;
+    }
+
+   .header-text h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0;
+   }
+
+   .header-text p {
+            font-size: 1.5rem;
+            font-weight: 300;
+            line-height: 1.2;
+   }
     .vaga-card-item {
         display: inline-block;
         margin-right: 1.5rem;
@@ -76,6 +121,15 @@
         }
 </style>
 
+<div class="header-banner">
+    <div class="header-banner-overlay">
+        <div class="header-text">
+            <h1>NEXUM</h1>
+            <p>CONECTANDO PESSOAS,<br>FORTALECENDO CAUSAS</p>
+        </div>
+    </div>
+</div>
+
 <div class="container">
     <div class="text-center my-5">
         <h1 class="display-4" style="font-weight: 600;">Marketplace Nexum</h1>
@@ -85,7 +139,7 @@
     <div class="row">
         @if (Model.Any())
         {
-            @foreach (var meta in Model)
+            foreach (var meta in Model)
             {
                 <div class="col-md-6 col-lg-4 mb-4">
                     <div class="vaga-card-design">
