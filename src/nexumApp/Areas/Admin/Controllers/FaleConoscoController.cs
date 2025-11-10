@@ -22,17 +22,27 @@ public class FaleConoscoController : Controller
 
     // GET
     [HttpGet]
-    public async Task<IActionResult> Index(string status = "Todos")
+    public async Task<IActionResult> Index(string? status = "Todos")
     {
-        IQueryable<FaleConoscoModel> q = _db.FaleConoscoModels
-            .AsNoTracking()
-            .OrderByDescending(x => x.CriadoEm);
+        ViewBag.Status = status ?? "Todos";
 
-        if (!string.Equals(status, "Todos", StringComparison.OrdinalIgnoreCase))
-            q = q.Where(x => x.Status == status);
+        var q = _db.FaleConoscoModels.AsNoTracking();
 
-        ViewBag.Status = status;
-        return View(await q.ToListAsync());
+        switch ((status ?? "Todos").Trim().ToLowerInvariant())
+        {
+            case "novo":
+                q = q.Where(x => !x.Visualizada && !x.Respondida && !x.Arquivada);
+                break;
+            case "respondido":
+                q = q.Where(x => x.Respondida && !x.Arquivada);
+                break;
+            case "arquivado":
+                q = q.Where(x => x.Arquivada);
+                break;
+        }
+
+        var lista = await q.OrderByDescending(x => x.CriadoEm).ToListAsync();
+        return View(lista);
     }
 
     // GET (Partial)
@@ -41,7 +51,22 @@ public class FaleConoscoController : Controller
     {
         var item = await _db.FaleConoscoModels.FindAsync(id);
         if (item == null) return NotFound();
+        if (!item.Visualizada)
+        {
+            item.Visualizada = true;
+            await _db.SaveChangesAsync();
+        }
+
         return PartialView("_ReplyFaleConosco", item);
+    }
+
+    // GET
+    [HttpGet]
+    public async Task<IActionResult> UnreadCount()
+    {
+        var count = await _db.FaleConoscoModels
+            .CountAsync(m => !m.Visualizada && !m.Arquivada);
+        return Json(new { count });
     }
 
     // POST
@@ -57,7 +82,11 @@ public class FaleConoscoController : Controller
 
         await _email.SendEmailAsync(item.Email, $"Re: {item.Assunto} - Nexum", responseText);
 
+        item.Respondida = true;
+        item.Visualizada = true;
+        item.Arquivada = false;
         item.Status = "Respondido";
+
         await _db.SaveChangesAsync();
 
         return Ok(new { ok = true });
@@ -65,14 +94,50 @@ public class FaleConoscoController : Controller
 
     // POST
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Archive(int id)
     {
         var item = await _db.FaleConoscoModels.FindAsync(id);
         if (item == null) return NotFound();
 
+        item.Arquivada = true;
         item.Status = "Arquivado";
         await _db.SaveChangesAsync();
 
         return Ok(new { ok = true });
     }
+
+    //POST
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> MarkAsRead(int id)
+    {
+        var item = await _db.FaleConoscoModels.FindAsync(id);
+        if (item == null) return NotFound();
+
+        if (!item.Visualizada)
+        {
+            item.Visualizada = true;
+            if (string.IsNullOrEmpty(item.Status) || item.Status == "Novo")
+                item.Status = "Novo";
+            await _db.SaveChangesAsync();
+        }
+        return Ok(new { ok = true });
+    }
+
+    // POST
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Unarchive(int id)
+    {
+        var item = await _db.FaleConoscoModels.FindAsync(id);
+        if (item == null) return NotFound();
+
+        item.Arquivada = false;
+        item.Status = item.Respondida ? "Respondido" : "Novo";
+        await _db.SaveChangesAsync();
+
+        return Ok(new { ok = true });
+    }
+
 }

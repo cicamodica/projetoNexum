@@ -14,11 +14,8 @@ public class DashboardController : Controller
 
     public async Task<IActionResult> Index()
     {
-
-        var ongsPendentes = await _db.Ongs
-            .Where(o => !o.Aprovaçao)
-            .ToListAsync();
-
+        var ongsPendentes = await _db.Ongs.Where(o => !o.Aprovaçao).ToListAsync();
+        ViewBag.UnreadFale = await _db.FaleConoscoModels.CountAsync(m => m.Visualizada == false);
         return View(ongsPendentes);
     }
 
@@ -31,5 +28,14 @@ public class DashboardController : Controller
         ong.Aprovaçao = true;
         await _db.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> UnreadMessagesCount()
+    {
+
+        var count = await _db.FaleConoscoModels
+    .CountAsync(f => f.Visualizada == false);
+        return Json(new { count });
     }
 }

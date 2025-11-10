@@ -33,10 +33,12 @@ public class FaleConoscoModel
     [Display(Name = "Enviado em")]
     public DateTime CriadoEm { get; set; } = DateTime.UtcNow;
 
+    // flags para filtrar mensagens fale conosco
+    public bool Visualizada { get; set; } = false;
+    public bool Respondida { get; set; } = false;
+    public bool Arquivada { get; set; } = false;
+
     [StringLength(20)]
     public string Status { get; set; } = "Novo";
-
-    [StringLength(64)]
-    public string Ip { get; set; }
 }
 

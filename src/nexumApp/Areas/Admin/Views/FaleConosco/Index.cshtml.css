@@ -1,0 +1,108 @@
+﻿h2 {
+    color: #16435D;
+    font-weight: 600;
+    font-size: clamp(25px, 7vw, 44px);
+    margin: 25px 0 20px 0;
+}
+
+.btn-sm {
+    color: #ffffff;
+    background-color: #16435D;
+    border: 1.5px solid transparent;
+    border-radius: 24px;
+    cursor: pointer;
+    padding: 5px 10px;
+}
+
+    .btn-sm:hover {
+        color: #16435D;
+        background-color: #ffffff;
+        border: 1.5px solid #16435D;
+    }
+
+.fale-table {
+    width: 100%;
+    table-layout: auto;
+}
+
+    .fale-table th, .fale-table td {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        vertical-align: middle;
+    }
+
+    .fale-table .col-acoes {
+        width: 230px;
+    }
+
+.actions-wrap {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.btn-sm-reply,
+.btn-action {
+    inline-size: 120px;
+}
+
+.btn-sm-reply {
+    padding: 6px 12px;
+    border-radius: 24px;
+}
+
+.btn-action {
+    padding: 6px 12px;
+    border-radius: 24px;
+}
+
+
+.btn-sm-reply {
+    color: #fff;
+    background: #2987bf;
+    border: 1.5px solid transparent;
+    transition: .2s;
+}
+
+    .btn-sm-reply:hover {
+        color: #2987bf;
+        background: #fff;
+        border-color: #2987bf;
+    }
+
+.btn-action {
+    color: #2987bf;
+    background: #fff;
+    border: 1.5px solid #2987bf;
+    transition: .2s;
+}
+
+    .btn-action:hover {
+        color: #fff;
+        background: #2987bf;
+        border-color: #2987bf;
+    }
+
+
+@media (max-width: 992px) {
+    .fale-table th, .fale-table td {
+        white-space: normal;
+    }
+}
+
+@media (max-width: 768px) {
+    .fale-table .col-acoes {
+        width: auto;
+    }
+
+    .actions-wrap {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .btn-sm-reply, .btn-action {
+        inline-size: 100%;
+    }
+}
+
+
