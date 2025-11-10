@@ -1,6 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\src",
+    "\\src\\nexumApp",
+    "\\src\\nexumApp\\Views",
+    "\\src\\nexumApp\\Views\\Home"
   ],
   "PreviewInSolutionExplorer": false
 }
