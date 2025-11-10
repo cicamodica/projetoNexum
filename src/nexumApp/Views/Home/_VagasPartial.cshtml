@@ -1,0 +1,44 @@
+﻿@model IEnumerable<nexumApp.Models.Vaga>
+
+
+@if (Model.Any())
+{
+    foreach (var vaga in Model)
+    {
+     
+        <div class="col-lg-4 col-md-6 mb-4 card-item-vaga">
+            <div class="vaga-card">
+                <div class="vaga-card-logo">
+                   
+                    @if (!string.IsNullOrEmpty(vaga.ImagemUrl))
+                    {
+                        <img src="@vaga.ImagemUrl" alt="@vaga.Titulo">
+                    }
+                    
+                </div>
+                <div class="vaga-card-body">
+                    <h5 class="vaga-title">@vaga.Titulo</h5>
+                    <p class="vaga-ong">@vaga.Ong?.Nome</p>
+                    <p class="vaga-description">@vaga.Descricao</p>
+                    <div class="vaga-info">
+                        <i class="bi bi-geo-alt-fill"></i>
+                      
+                        <span>@vaga.Ong?.Endereço</span>
+                    </div>
+                   
+                </div>
+                <div class="vaga-card-footer">
+                    <a href="@Url.Action("Details", "Vagas", new { id = vaga.IdVaga })" class="btn btn-visualizar">
+                        Visualizar vaga
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div class="col-12 text-center">
+        <p class="lead">Nenhuma vaga de voluntariado encontrada no momento.</p>
+    </div>
+}

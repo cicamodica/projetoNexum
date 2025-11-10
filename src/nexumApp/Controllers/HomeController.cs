@@ -53,6 +53,28 @@ namespace nexumApp.Controllers
             return View(metasPublicas);
         }
 
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> GetVagasPartial()
+        {
+            
+            var vagasQuery = _context.Vagas
+                .Include(v => v.Ong)
+                //.Where(v => v.Status == "Ativa")
+                .AsNoTracking();
+
+            if (User.Identity?.IsAuthenticated == true)
+            {
+                vagasQuery = vagasQuery.Where(v => v.Ong.Aprovaçao == true);
+            }
+
+            var vagasPublicas = await vagasQuery
+                .OrderBy(v => v.Titulo) 
+                .ToListAsync();
+
+            
+            return PartialView("_VagasPartial", vagasPublicas);
+        }
 
         public IActionResult About()
         {

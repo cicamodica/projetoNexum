@@ -4,22 +4,21 @@
 }
 
 <style>
-
     .header-banner {
-        position: relative; 
+        position: relative;
         width: 100vw;
         left: 50%;
         transform: translateX(-50%);
-        height: 250px; 
+        height: 250px;
         overflow: hidden;
         background: url('/images/banner.jpeg') no-repeat center top;
         background-size: cover;
         background-position: center 25%;
-        margin-bottom: 2rem; 
+        margin-bottom: 2rem;
     }
 
     .header-banner-overlay {
-        position: absolute; 
+        position: absolute;
         top: 0;
         left: 0;
         right: 0;
@@ -27,7 +26,6 @@
         background: rgba(0, 0, 0, 0.4);
         display: flex;
         align-items: center;
-        
     }
 
     .header-text {
@@ -38,17 +36,19 @@
         margin: 0 auto;
     }
 
-   .header-text h1 {
+        .header-text h1 {
             font-size: 2.5rem;
             font-weight: 700;
             margin-bottom: 0;
-   }
+        }
 
-   .header-text p {
+        .header-text p {
             font-size: 1.5rem;
             font-weight: 300;
             line-height: 1.2;
-   }
+        }
+
+    
     .vaga-card-item {
         display: inline-block;
         margin-right: 1.5rem;
@@ -58,12 +58,12 @@
         white-space: normal;
     }
 
-    .vaga-card-design {
+    .meta-card-design {
         background-color: #fff;
         border: 1.5px solid #e0e0e0;
         border-radius: 30px;
         padding: 1.25rem;
-        height: 100%; /* Garante que os cards tenham a mesma altura */
+        height: 100%;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -71,11 +71,10 @@
         transition: all 0.2s ease-in-out;
     }
 
-        /* Efeito de hover */
-        .vaga-card-design:hover {
-            border-color: #16435D;
-            box-shadow: 0 6px 16px rgba(0,0,0,0.08);
-        }
+    .meta-card-design:hover {
+         border-color: #16435D;
+        box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+     }
 
     .card-title-public {
         text-align: center;
@@ -103,7 +102,6 @@
         justify-content: center;
     }
 
-    /* Botão público de doação */
     .btn-doar {
         background-color: #16435D;
         border-color: #16435D;
@@ -115,11 +113,195 @@
         transition: all 0.2s ease;
     }
 
-        .btn-doar:hover {
+    .btn-doar:hover {
             background-color: #103347;
+            color: white;
+    }
+
+   
+    .page-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 30px;
+        margin-top: 2rem;
+    }
+
+    .sidebar {
+        flex: 0 0 280px;
+        background-color: #f8f9fa;
+        border-radius: 15px;
+        padding: 20px;
+        height: fit-content;
+    }
+
+    .sidebar h5 {
+            font-weight: 600;
+            margin-bottom: 1rem;
+    }
+
+    .main-content {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .main-content h4 {
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+    }
+
+    .btn-toggle-group {
+        display: flex;
+        margin-bottom: 1.5rem;
+        border: 1px solid #16435D;
+        border-radius: 20px;
+        overflow: hidden;
+    }
+
+    .btn-toggle {
+        flex: 1;
+        text-align: center;
+        padding: 8px 10px;
+        text-decoration: none;
+        color: #16435D;
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        cursor: pointer;
+        background-color: #fff;
+        border: none;
+    }
+
+    .btn-toggle.active, .btn-toggle:hover {
+            background-color: #16435D;
+            color: white;
+    }
+
+    .filter-section {
+        margin-bottom: 1.5rem;
+    }
+
+    .filter-section h6 {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+    }
+
+     .filter-section .form-check {
+            margin-bottom: 0.5rem;
+     }
+
+    .filter-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .filter-tag {
+        background-color: #e0e0e0;
+        border-radius: 15px;
+        padding: 5px 12px;
+        font-size: 0.85rem;
+    }
+
+    
+    .vaga-card {
+        border: 1.5px solid #e0e0e0;
+        border-radius: 25px;
+        height: 100%;
+        background-color: #fff;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+        transition: all 0.2s ease-in-out;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .vaga-card:hover {
+            border-color: #16435D;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+    }
+
+    .vaga-card-logo {
+        padding: 1.5rem 1.5rem 1rem;
+        text-align: center;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .vaga-card-logo img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            border-radius: 15px;
+    }
+
+    .vaga-card-body {
+        padding: 1rem 1.5rem;
+        flex-grow: 1;
+    }
+
+    .vaga-title {
+        font-weight: 600;
+        font-size: 1.15rem;
+        color: #333;
+        margin-bottom: 0.25rem;
+    }
+
+    .vaga-ong {
+        font-size: 0.9rem;
+        color: #555;
+        font-weight: 500;
+        margin-bottom: 0.75rem;
+    }
+
+    .vaga-description {
+        font-size: 0.9rem;
+        color: #6c757d;
+        margin-bottom: 1rem;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .vaga-info {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.85rem;
+        color: #6c757d;
+        margin-bottom: 0.5rem;
+    }
+
+   .vaga-info i {
+            color: #16435D;
+            font-size: 1rem;
+   }
+
+    .vaga-card-footer {
+        padding: 0 1.5rem 1.5rem;
+        margin-top: auto;
+    }
+
+    .btn-visualizar {
+        width: 100%;
+        background-color: transparent;
+        border: 2px solid #16435D;
+        color: #16435D;
+        font-weight: 600;
+        border-radius: 20px;
+        padding: 10px;
+        transition: all 0.2s ease;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+        .btn-visualizar:hover {
+            background-color: #16435D;
             color: white;
         }
 </style>
+
 
 <div class="header-banner">
     <div class="header-banner-overlay">
@@ -131,75 +313,161 @@
 </div>
 
 <div class="container">
-    <div class="text-center my-5">
-        <h1 class="display-4" style="font-weight: 600;">Marketplace Nexum</h1>
-        <p class="lead text-muted">Encontre uma meta para apoiar e faça a diferença!</p>
-    </div>
+    
+    <div class="page-container">
 
-    <div class="row">
-        @if (Model.Any())
-        {
-            foreach (var meta in Model)
-            {
-                <div class="col-md-6 col-lg-4 mb-4">
-                    <div class="vaga-card-design">
+       
+        <aside class="sidebar">
+            <h5>O que você procura?</h5>
+            <div class="btn-toggle-group">
+                <button id="btn-toggle-doacoes" class="btn btn-toggle active">Doações</button>
+                <button id="btn-toggle-voluntariado" class="btn btn-toggle">Voluntariado</button>
+            </div>
+           
+            <div class="filter-section">
+                <h6>Filtrar por:</h6>
+                <!-- (filtros aqui) -->
+            </div>
+        </aside>
 
-                        <div>
-                            @if (!string.IsNullOrEmpty(meta.ImagemUrl))
-                            {
-                                <img src="@meta.ImagemUrl" asp-append-version="true" class="card-img-top mb-3" style="border-radius: 15px; height: 180px; object-fit: cover;" alt="@meta.Recurso">
-                            }
+        <
+        <main class="main-content">
 
-                            <h5 class="card-title-public">@meta.Recurso</h5>
+            <h4 id="resultados-titulo">Resultados para Doações (@Model.Count())</h4>
 
-                            <p class="card-ong-name">@meta.Ong.Nome</p>
+            
+            <div id="metas-container">
+                <div class="row">
+                    @if (Model.Any())
+                    {
+                        foreach (var meta in Model)
+                        {
+                           
+                            <div class="col-md-6 col-lg-4 mb-4 card-item-meta">
+                                <div class="meta-card-design">
+                                    <div>
+                                        @if (!string.IsNullOrEmpty(meta.ImagemUrl))
+                                        {
+                                            <img src="@meta.ImagemUrl" asp-append-version="true" class="card-img-top mb-3" style="border-radius: 15px; height: 180px; object-fit: cover;" alt="@meta.Recurso">
+                                        }
+                                        <h5 class="card-title-public">@meta.Recurso</h5>
+                                        <p class="card-ong-name">@meta.Ong.Nome</p>
+                                        <p class="card-text-public">@meta.Descricao</p>
+                                        <div class="location-info mt-2">
+                                            <i class="bi bi-geo-alt-fill"></i>
+                                            <span>@meta.Ong.Endereço</span>
+                                        </div>
 
-                            <p class="card-text-public">@meta.Descricao</p>
+                                        @{
+                                            var progresso = (meta.ValorAlvo > 0) ? ((double)meta.ValorAtual / meta.ValorAlvo) * 100 : 0;
+                                            var progressoFormatado = progresso.ToString("F0"); 
+                                        }
+                                        <div class="mb-2 mt-3">
+                                            <small class="text-muted">Progresso: @meta.ValorAtual.ToString("C") de @meta.ValorAlvo.ToString("C")</small>
+                                            <div class="progress" style="height: 20px;">
+                                                <div class="progress-bar" role="progressbar"
+                                                     style="width: @(progressoFormatado)%;"
+                                                     aria-valuenow="@progressoFormatado"
+                                                     aria-valuemin="0"
+                                                     aria-valuemax="100">
+                                                    @(progressoFormatado)%
+                                                </div>
+                                            </div>
+                                        </div>
 
-                            <div class="location-info mt-2">
-                                <i class="bi bi-geo-alt-fill"></i>
-                                <span>@meta.Ong.Endereço</span>
-                            </div>
-
-                            @{
-                                var progresso = (meta.ValorAlvo > 0) ? ((double)meta.ValorAtual / meta.ValorAlvo) * 100 : 0;
-                                var progressoFormatado = progresso.ToString("F0"); // Sem casas decimais
-                            }
-                            <div class="mb-2 mt-3">
-                                <small class="text-muted">Progresso: @meta.ValorAtual de @meta.ValorAlvo</small>
-                                <div class="progress" style="height: 20px;">
-                                    <div class="progress-bar" role="progressbar"
-                                         style="width: @(progressoFormatado)%;"
-                                         aria-valuenow="@progressoFormatado"
-                                         aria-valuemin="0"
-                                         aria-valuemax="100">
-                                        @(progressoFormatado)%
+                                        @if (meta.DataFim.HasValue)
+                                        {
+                                            <p class="small text-muted mt-2 mb-2 text-center">
+                                                Encerra em: @meta.DataFim.Value.ToString("dd/MM/yyyy")
+                                            </p>
+                                        }
+                                    </div>
+                                    <div class="mt-3">
+                                        <a href="#" class="btn btn-doar">
+                                            Doar
+                                        </a>
                                     </div>
                                 </div>
                             </div>
-
-                            @if (meta.DataFim.HasValue)
-                            {
-                                <p class="small text-muted mt-2 mb-2 text-center">
-                                    Encerra em: @meta.DataFim.Value.ToString("dd/MM/yyyy")
-                                </p>
-                            }
+                        }
+                    }
+                    else
+                    {
+                        <div class="col-12 text-center">
+                            <p class="lead">Nenhuma meta ativa encontrada no momento.</p>
                         </div>
-
-                        <div class="mt-3">
-                            <a href="#" class="btn btn-doar">
-                                Doar
-                            </a>
-                        </div>
+                    }
+                </div>
+            </div> 
+           
+            <div id="vagas-container" style="display:none;">
+                <div class="row">
+                   
+                    <div class="col-12 text-center">
+                        <p class="lead">Buscando vagas...</p>
                     </div>
                 </div>
-            }
-        }
-        else
-        {
-            <div class="col-12 text-center">
-                <p class="lead">Nenhuma meta ativa encontrada no momento.</p>
             </div>
-        }
+
+        </main>
+
     </div>
 </div>
+
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+           
+            const btnDoacoes = document.getElementById('btn-toggle-doacoes');
+            const btnVoluntariado = document.getElementById('btn-toggle-voluntariado');
+            const metasContainer = document.getElementById('metas-container');
+            const vagasContainer = document.getElementById('vagas-container');
+            const titulo = document.getElementById('resultados-titulo');
+
+            let vagasCarregadas = false;
+            let totalMetas = @Model.Count();
+            let totalVagas = 0;
+
+         
+            btnDoacoes.addEventListener('click', function() {
+                btnDoacoes.classList.add('active');
+                btnVoluntariado.classList.remove('active');
+                metasContainer.style.display = 'block';
+                vagasContainer.style.display = 'none';
+                titulo.textContent = `Resultados para Doações (${totalMetas})`;
+            });
+
+            
+            btnVoluntariado.addEventListener('click', function() {
+                btnDoacoes.classList.remove('active');
+                btnVoluntariado.classList.add('active');
+                metasContainer.style.display = 'none';
+                vagasContainer.style.display = 'block';
+
+                if (!vagasCarregadas) {
+                    vagasContainer.innerHTML = `<div class="col-12 text-center"><p class="lead">Buscando vagas...</p></div>`;
+                    fetch('@Url.Action("GetVagasPartial", "Home")')
+                        .then(response => {
+                            if (!response.ok) { throw new Error('Falha ao buscar vagas.'); }
+                            return response.text();
+                        })
+                        .then(html => {
+                            vagasContainer.innerHTML = `<div class="row">${html}</div>`;
+                            vagasCarregadas = true;
+                            totalVagas = vagasContainer.querySelectorAll('.card-item-vaga').length;
+                            titulo.textContent = `Resultados para Voluntariado (${totalVagas})`;
+                        })
+                        .catch(error => {
+                            console.error('Erro no AJAX:', error);
+                            vagasContainer.innerHTML = `<div class="col-12 text-center"><p class="lead text-danger">Erro ao carregar vagas.</p></div>`;
+                        });
+                } else {
+                     titulo.textContent = `Resultados para Voluntariado (${totalVagas})`;
+                }
+            });
+
+        });
+    </script>
+}
