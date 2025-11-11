@@ -1,19 +1,21 @@
 ﻿@using System.Security.Claims;
-@model IEnumerable<nexumApp.Models.Ong>
+@using X.PagedList.Mvc.Core;
+@model X.PagedList.IPagedList<nexumApp.Models.Ong>;
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Ongs cadastradas";
+    var currentPage = Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber;
 }
+<link rel="stylesheet" href="~/css/ongsIndex.css" />
 
 @{string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;}
 
-<link rel="stylesheet" href="~/css/ongsIndex.css" />
-@if(@Model.Count() == 0) {
+@if(@Model.Count == 0) {
     <h4 class="ONGS-empty">Não há nenhuma ONG cadastrada :(</h4>
 } 
 else {
 <h1 class="ONGS-title">ONGs cadastradas</h1>
-<h4 class="ONGS-subtitle">@Model.Count() ONGs</h4>
+<h4 class="ONGS-subtitle">@ViewBag.Total ONGs</h4>
 
 <div class="ONGS-flex-container">
 @foreach (var item in Model) {
@@ -28,6 +30,11 @@ else {
     </a>
 }
 </div>
-}
+<span>Página @currentPage de @Model.PageCount</span>
+<span>@Html.PagedListPager( Model, page => Url.Action("Index", new { page }), new PagedListRenderOptions()
+    {
+        LiElementClasses = new List<string> {"paginationItem"}
+    })</span>
 
+}
         

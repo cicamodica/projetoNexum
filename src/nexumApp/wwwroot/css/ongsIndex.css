@@ -74,3 +74,16 @@ h5 {
     color: #16435d;
     font-weight: bold;
 }
+
+.paginationItem {
+    margin-right: 15px;
+    margin-top: 15px;
+}
+
+.paginationItem a {
+    background-color: #2987BF;
+    padding: 5px 10px;
+    border-radius: 4px;
+    color: white;
+    text-decoration: none;
+}
