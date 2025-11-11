@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Views\Ongs\Index.cshtml.css" />
     <None Remove="Views\Shared\StyleSheet.css" />
   </ItemGroup>
 
