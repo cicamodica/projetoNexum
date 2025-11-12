@@ -196,6 +196,28 @@
         gap: 8px;
     }
 
+    .btn-tag {
+        background-color: #fff;
+        border: 1.5px solid #16435D;
+        color: #16435D;
+        border-radius: 15px;
+        padding: 5px 12px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .btn-tag:hover {
+            background-color: #f0f0f0;
+     }
+
+     .btn-tag.active {
+            background-color: #16435D;
+            color: white;
+            border-color: #16435D;
+      }
+
     .filter-tag {
         background-color: #e0e0e0;
         border-radius: 15px;
@@ -355,7 +377,14 @@
            
             <div class="filter-section">
                 <h6>Filtrar por:</h6>
-                
+
+                <div id="filtro-dias-atuacao" class="filter-section" style="display:none;">
+                    <h6>Dias de atuação</h6>
+                    <div class="filter-tags">
+                        <button type="button" class="btn-tag" data-value="semana">Dias de semana</button>
+                        <button type="button" class="btn-tag" data-value="fds">Finais de semana</button>
+                    </div>
+                </div>
 
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="filtroEndereco" id="radioEndereco" onclick="toggleLocationInputs(true)">
@@ -372,6 +401,8 @@
                 </div>
 
                 <button id="btn-filtrar" class="btn btn-filtrar">Filtrar</button>
+
+                
 
             </div>
         </aside>
@@ -479,16 +510,38 @@
             const cidadeInput = document.getElementById('cidade-input');
             const btnFiltrar = document.getElementById('btn-filtrar');
 
+            const filtroDiasContainer = document.getElementById('filtro-dias-atuacao');
+            const btnsDiasAtuacao = document.querySelectorAll('#filtro-dias-atuacao .btn-tag');
+            let filtroDiasSelecionado = '';
+
             let vagasCarregadas = false;
             let totalMetas = @Model.Count();
             let totalVagas = 0;
 
+              btnsDiasAtuacao.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const valor = this.getAttribute('data-value');
+
+                    
+                    if (this.classList.contains('active')) {
+                        this.classList.remove('active');
+                        filtroDiasSelecionado = '';
+                    } else {
+                        
+                        btnsDiasAtuacao.forEach(b => b.classList.remove('active'));
+                        
+                        this.classList.add('active');
+                        filtroDiasSelecionado = valor;
+                    }
+                });
+            });
          
             btnDoacoes.addEventListener('click', function() {
                 btnDoacoes.classList.add('active');
                 btnVoluntariado.classList.remove('active');
                 metasContainer.style.display = 'block';
                 vagasContainer.style.display = 'none';
+                 filtroDiasContainer.style.display = 'none';
                 titulo.textContent = `Resultados para Doações (${totalMetas})`;
             });
 
@@ -498,6 +551,7 @@
                 btnVoluntariado.classList.add('active');
                 metasContainer.style.display = 'none';
                 vagasContainer.style.display = 'block';
+                filtroDiasContainer.style.display = 'block';
 
                 if (!vagasCarregadas) {
                     vagasContainer.innerHTML = `<div class="col-12 text-center"><p class="lead">Buscando vagas...</p></div>`;
@@ -565,7 +619,7 @@
             btnFiltrar.addEventListener('click', function() {
                 const cep = cepInput.value;
                 const numero = numeroInput.value;
-                const cidade = cidadeInput.value; /
+                const cidade = cidadeInput.value; 
 
               
                 if (btnVoluntariado.classList.contains('active')) {
@@ -573,7 +627,7 @@
                     vagasContainer.innerHTML = `<div class="col-12 text-center"><p class="lead">Buscando vagas filtradas...</p></div>`;
                     titulo.textContent = 'Resultados para Voluntariado (0)';
 
-                    fetchVagas(cep, numero, cidade);
+                    fetchVagas(cep, numero, cidade, filtroDiasSelecionado);
 
                 } else if (btnDoacoes.classList.contains('active')) {
                     
@@ -592,7 +646,7 @@
                 vagasCarregadas = false; 
                 let url = new URL('@Url.Action("GetVagasPartial", "Home")', window.location.origin);
 
-                /
+                
                 if (cep) url.searchParams.append('cep', cep);
                 if (numero) url.searchParams.append('numero', numero);
                 if (cidade && !cidade.includes("...")) url.searchParams.append('cidade', cidade);
