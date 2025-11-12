@@ -182,39 +182,70 @@ namespace nexumApp.Controllers
         // POST: Metas/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Recurso,Descricao,ValorAlvo,Status")] Meta meta)
+        public async Task<IActionResult> Edit(
+            // O Bind SÓ inclui o que o usuário pode editar (e o Id)
+            [Bind("Id,Recurso,Descricao,ValorAlvo,Status,DataFim")] Meta metaFormData,
+            IFormFile imagemFile)
         {
-            if (id != meta.Id) return NotFound();
+            // O 'id' agora vem do próprio formulário.
+            int id = metaFormData.Id;
 
-            var ongId = await GetOngIdLogadaAsync();
-            var metaOriginal = await _context.Metas
-                                             .AsNoTracking()
-                                             .FirstOrDefaultAsync(m => m.Id == id);
-
-            if (metaOriginal == null || metaOriginal.OngId != ongId)
+            //  Busca a meta ORIGINAL do banco de dados
+            var metaOriginal = await _context.Metas.FindAsync(id);
+            if (metaOriginal == null)
             {
-                return Forbid();
+                TempData["ErrorMessage"] = "Meta não encontrada.";
+                return RedirectToAction("Dashboard", "Ongs");
             }
 
-            meta.OngId = metaOriginal.OngId;
-            meta.ValorAtual = metaOriginal.ValorAtual;
-            meta.QuantidadeReservada = metaOriginal.QuantidadeReservada;
+            // VERIFICAÇÃO DE SEGURANÇA (usando a meta do banco)
+            var ongIdLogada = await GetOngIdLogadaAsync();
+            if (metaOriginal.OngId != ongIdLogada)
+            {
+                TempData["ErrorMessage"] = "Acesso negado.";
+                return RedirectToAction("Dashboard", "Ongs");
+            }
+
+            //  Remove validações desnecessárias
+            ModelState.Remove("imagemFile");
+            ModelState.Remove("Ong");
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(meta);
+                    //  Copia os dados do formulário para a meta do banco
+                    
+                    metaOriginal.Recurso = metaFormData.Recurso;
+                    metaOriginal.Descricao = metaFormData.Descricao;
+                    metaOriginal.ValorAlvo = metaFormData.ValorAlvo;
+                    metaOriginal.Status = metaFormData.Status;
+                    metaOriginal.DataFim = metaFormData.DataFim;
+
+                    // Lógica de Upload de Imagem (reaproveitando sua função)
+                    if (imagemFile != null && imagemFile.Length > 0)
+                    {
+                        
+                        metaOriginal.ImagemUrl = await SalvarImagemAsync(imagemFile);
+                    }
+
+                    // Salva a meta original que foi atualizada
+                    _context.Update(metaOriginal);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    // ... (código de erro)
+                    throw;
                 }
-                // Redireciona para o Dashboard
+
+                TempData["SuccessMessage"] = "Meta atualizada com sucesso!";
                 return RedirectToAction("Dashboard", "Ongs");
             }
-            return View(meta);
+
+            // Se o modelo for inválido
+            var errorMessages = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
+            TempData["ErrorMessage"] = "Falha na validação: " + string.Join(" | ", errorMessages);
+            return RedirectToAction("Dashboard", "Ongs");
         }
 
         // GET: Metas/Delete/5
@@ -253,6 +284,24 @@ namespace nexumApp.Controllers
 
             //  Redireciona para o Dashboard
             return RedirectToAction("Dashboard", "Ongs");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetMetaDetails(int id)
+        {
+            var ongId = await GetOngIdLogadaAsync();
+            var meta = await _context.Metas
+                                     .AsNoTracking()
+                                     .FirstOrDefaultAsync(m => m.Id == id);
+
+            // Validação de Segurança
+            if (meta == null || meta.OngId != ongId)
+            {
+                return Forbid(); // Retorna 403 Forbidden
+            }
+
+            // Retorna os dados como JSON (o ASP.NET Core converte para camelCase por padrão)
+            return Json(meta);
         }
     }
 }

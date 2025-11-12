@@ -422,8 +422,20 @@
                                 </div>
 
                                 <div class="vaga-actions">
-                                    <a asp-controller="Metas" asp-action="Edit" asp-route-id="@meta.Id" class="btn btn-outline-primary">Editar</a>
-                                    <a asp-controller="Metas" asp-action="Delete" asp-route-id="@meta.Id" class="btn btn-outline-danger">Excluir</a>
+                                    <a asp-controller="Metas" asp-action="Edit" asp-route-id="@meta.Id"
+                                       class="btn btn-outline-primary"
+                                       data-bs-toggle="modal"
+                                       data-bs-target="#modalEditarMeta"
+                                       data-meta-id="@meta.Id">
+                                        Editar
+                                    </a>
+                                    <a asp-controller="Metas" asp-action="Delete" asp-route-id="@meta.Id"
+                                       class="btn btn-outline-danger"
+                                       data-bs-toggle="modal"
+                                       data-bs-target="#modalExcluirMeta"
+                                       data-meta-id="@meta.Id" data-meta-recurso="@meta.Recurso">
+                                        Excluir
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -485,12 +497,15 @@
     </div>
 </div>
 
+    <!-- Modal Criar Meta -->
     <div class="modal fade" id="modalCriarMeta" tabindex="-1" aria-labelledby="modalCriarMetaLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content" style="border-radius: 15px;">
 
                 <form asp-controller="Metas" asp-action="Create" method="post" enctype="multipart/form-data">
+                    @Html.AntiForgeryToken()
 
+                    
                     <div class="modal-header border-0 pb-0">
                         <h5 class="modal-title w-100 text-center" id="modalCriarMetaLabel" style="font-weight: 700; font-size: 1.5rem;">
                             FORMULÁRIO DE NOVA META
@@ -539,14 +554,101 @@
                         </div>
                     </div>
 
+                    
                     <div class="modal-footer border-0 d-flex justify-content-center p-4 pt-0">
-                        <button type="submit" class="btn btn-primary btn-custom btn-adicionar-small">Adicionar</button>
+                        <button type="submit" class="btn btn-primary btn-custom btn-adicionar-small">
+                            Adicionar
+                        </button>
                     </div>
+                </form> 
 
-                </form>
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="modalExcluirMeta" tabindex="-1" aria-labelledby="modalExcluirMetaLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content" style="border-radius: 15px;">
+
+                                <form asp-controller="Metas" asp-action="Delete" method="post">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" id="deleteMetaId" name="id" />
+
+                                    <div class="modal-header border-0 pb-0 bg-danger text-white" style="border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                                        <h5 class="modal-title w-100 text-center" id="modalExcluirMetaLabel" style="font-weight: 700; font-size: 1.5rem;">
+                                            CONFIRMAR EXCLUSÃO
+                                        </h5>
+                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body p-4 text-center">
+                                        <p class="lead mt-3 fw-bold">Tem certeza que deseja excluir esta meta?</p>
+                                        <h3 id="deleteMetaRecurso" class="text-danger"></h3>
+                                        <p class="text-muted small mt-3">Esta ação não pode ser desfeita.</p>
+                                    </div>
+                                    <div class="modal-footer border-0 d-flex justify-content-center p-4 pt-0 gap-2">
+                                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" style="border-radius: 20px; padding: 10px 40px;">Cancelar</button>
+                                        <button type="submit" class="btn btn-danger" style="border-radius: 20px; padding: 10px 40px;">Excluir</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="modalEditarMeta" tabindex="-1" aria-labelledby="modalEditarMetaLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content" style="border-radius: 15px;">
+
+                                <form asp-controller="Metas" asp-action="Edit" method="post" enctype="multipart/form-data">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" id="editMetaId" name="Id" />
+
+                                    <div class="modal-header border-0 pb-0 bg-primary text-white" style="border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                                        <h5 class="modal-title w-100 text-center" id="modalEditarMetaLabel" style="font-weight: 700; font-size: 1.5rem;">
+                                            EDITAR META
+                                        </h5>
+                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body p-4 pt-2">
+                                        <p class="text-center fw-bold text-muted small">Altere os dados da meta</p>
+                                        <hr class="form-divider" />
+
+                                        <div class="mb-3">
+                                            <label for="editMetaRecurso" class="form-label">Recurso</label>
+                                            <input type="text" class="form-control rounded-pill form-control-custom" id="editMetaRecurso" name="Recurso" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editMetaDescricao" class="form-label">Descrição</label>
+                                            <textarea class="form-control form-control-custom" id="editMetaDescricao" name="Descricao" style="height: 100px" required></textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editMetaValorAlvo" class="form-label">Valor Alvo</label>
+                                            <input type="number" class="form-control rounded-pill form-control-custom" id="editMetaValorAlvo" name="ValorAlvo" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editMetaStatus" class="form-label">Status</label>
+                                            <select class="form-select form-control-custom rounded-pill" id="editMetaStatus" name="Status" required>
+                                                <option value="Ativa">Ativa</option>
+                                                <option value="Pausada">Pausada</option>
+                                                <option value="Concluída">Concluída</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editMetaDataFim" class="form-label">Data de Encerramento (Opcional)</label>
+                                            <input type="date" class="form-control rounded-pill form-control-custom" id="editMetaDataFim" name="DataFim">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editMetaImagemFile" class="form-label">Alterar Imagem (Opcional)</label>
+                                            <input type="file" class="form-control form-control-custom" id="editMetaImagemFile" name="imagemFile" accept="image/png, image/jpeg">
+                                            <small class="text-muted">Deixe em branco para manter a imagem atual.</small>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer border-0 d-flex justify-content-center p-4 pt-0">
+                                        <button type="submit" class="btn btn-primary" style="border-radius: 20px; padding: 10px 40px; font-weight: 600;">Salvar Alterações</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
 
 
 @section Scripts {
@@ -724,6 +826,88 @@
                     window.addEventListener('resize', checkMetasScrollButtons);
                 }
                 // --- FIM: NOVO BLOCO PARA SCROLLER DE METAS ---
+                                    // INÍCIO: CÓDIGO PARA MODAL EXCLUIR META (NOVO)
+                                // ===================================================
+                                var deleteMetaModal = document.getElementById('modalExcluirMeta');
+                                if (deleteMetaModal) {
+                                    deleteMetaModal.addEventListener('show.bs.modal', function (event) {
+                                        var button = event.relatedTarget;
+                                        if (button) {
+                                            var metaId = button.getAttribute('data-meta-id');
+                                            var metaRecurso = button.getAttribute('data-meta-recurso');
+
+                                            var modalRecursoElement = deleteMetaModal.querySelector('#deleteMetaRecurso');
+                                            var modalInputElement = deleteMetaModal.querySelector('#deleteMetaId');
+
+                                            if (modalRecursoElement) {
+                                                modalRecursoElement.textContent = '"' + metaRecurso + '"';
+                                            }
+                                            if (modalInputElement) {
+                                                modalInputElement.value = metaId;
+                                            }
+                                        }
+                                    });
+                                }
+
+                                // ===================================================
+                                // INÍCIO: CÓDIGO PARA MODAL EDITAR META (NOVO)
+                                // ===================================================
+                                var editMetaModal = document.getElementById('modalEditarMeta');
+                                if (editMetaModal) {
+                                    editMetaModal.addEventListener('show.bs.modal', function (event) {
+                                        var button = event.relatedTarget;
+                                        if (!button) return;
+
+                                        var metaId = button.getAttribute('data-meta-id');
+
+                                        // 1. Referencia todos os campos do formulário
+                                        var modalIdInput = document.getElementById('editMetaId');
+                                        var modalRecursoInput = document.getElementById('editMetaRecurso');
+                                        var modalDescricaoInput = document.getElementById('editMetaDescricao');
+                                        var modalValorAlvoInput = document.getElementById('editMetaValorAlvo');
+                                        var modalStatusInput = document.getElementById('editMetaStatus');
+                                        var modalDataFimInput = document.getElementById('editMetaDataFim');
+                                        var modalFileInput = document.getElementById('editMetaImagemFile');
+
+                                        // 2. Limpa o formulário
+                                        modalRecursoInput.value = 'Carregando...';
+                                        modalDescricaoInput.value = '';
+                                        modalValorAlvoInput.value = '';
+                                        modalStatusInput.value = 'Ativa';
+                                        modalDataFimInput.value = '';
+                                        modalFileInput.value = '';
+
+                                        // 3. Faz a chamada 'fetch' para o MetasController
+                                        // (Vamos criar esta ação 'GetMetaDetails' no próximo passo)
+                                        fetch('/Metas/GetMetaDetails?id=' + metaId)
+                                            .then(response => {
+                                                if (!response.ok) {
+                                                    throw new Error('Falha ao buscar dados da meta.');
+                                                }
+                                                return response.json();
+                                            })
+                                            .then(data => {
+                                                // 4. Popula o formulário com os dados da meta
+                                                // (Usando camelCase, que é o padrão do JSON do ASP.NET)
+                                                modalIdInput.value = data.id;
+                                                modalRecursoInput.value = data.recurso;
+                                                modalDescricaoInput.value = data.descricao;
+                                                modalValorAlvoInput.value = data.valorAlvo;
+                                                modalStatusInput.value = data.status;
+
+                                                // Formata a data para o input type="date" (AAAA-MM-DD)
+                                                if (data.dataFim) {
+                                                    modalDataFimInput.value = data.dataFim.split('T')[0];
+                                                } else {
+                                                    modalDataFimInput.value = '';
+                                                }
+                                            })
+                                            .catch(error => {
+                                                console.error('Erro no fetch:', error);
+                                                modalRecursoInput.value = 'Erro ao carregar dados.';
+                                            });
+                                    });
+                                }
 
             });
     </script>
