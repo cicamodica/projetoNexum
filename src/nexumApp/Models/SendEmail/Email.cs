@@ -14,7 +14,7 @@ namespace nexumApp.Models.SendEmail
     {
         public string Provedor { get; private set; }
         public string Username { get; private set; }
-        public string Password { get; private set; }sddsdssd
+        public string Password { get; private set; }
 
         public Email(string provedor, string username, string password)
         {
