@@ -1,55 +1,40 @@
 ﻿@using System.Security.Claims;
-@model IEnumerable<nexumApp.Models.Ong>
+@using X.PagedList.Mvc.Core;
+@model X.PagedList.IPagedList<nexumApp.Models.Ong>;
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Ongs cadastradas";
+    var currentPage = Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber;
 }
+<link rel="stylesheet" href="~/css/ongsIndex.css" />
 
 @{string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;}
-@* @{bool isAuthenticated = User.Identity.IsAuthenticated;} *@
 
-<h1>ONGs</h1>
+@if(@Model.Count == 0) {
+    <h4 class="ONGS-empty">Não há nenhuma ONG cadastrada :(</h4>
+} 
+else {
+<h1 class="ONGS-title">ONGs cadastradas</h1>
+<h4 class="ONGS-subtitle">@ViewBag.Total ONGs</h4>
 
-@* @if(isAuthenticated) {
-    <p>
-        <a asp-action="Create">Cadastrar ONG</a>
-    </p>
-} *@
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nome)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Descriçao)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Endereço)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
+<div class="ONGS-flex-container">
 @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descriçao)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Endereço)
-            </td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.Id">Perfil</a>
-                @if(item.UserId == userId) {
-                <a asp-action="Edit" asp-route-id="@item.Id">Editar</a>
-                <a asp-action="Delete" asp-route-id="@item.Id">Excluir</a>
-                }
-            </td>
-        </tr>
+
+    <a class="ONGS-flex-container-item" asp-action="Details" asp-route-id="@item.Id">
+        <div class="ONGS-flex-container-item-img">
+
+        </div>
+        <h5>@Html.DisplayFor(modelItem => item.Nome)</h5>
+        <p class="ONGS-flex-container-item-endereço">@Html.DisplayFor(modelItem => item.Endereço)</p>
+        <p class="ONGS-flex-container-item-descriçao">@Html.DisplayFor(modelItem => item.Descriçao)</p>
+    </a>
 }
-    </tbody>
-</table>
+</div>
+<span>Página @currentPage de @Model.PageCount</span>
+<span>@Html.PagedListPager( Model, page => Url.Action("Index", new { page }), new PagedListRenderOptions()
+    {
+        LiElementClasses = new List<string> {"paginationItem"}
+    })</span>
+
+}
+        

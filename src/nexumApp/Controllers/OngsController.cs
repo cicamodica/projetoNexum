@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using nexumApp.Data;
 using nexumApp.Models;
 using System.Security.Claims;
 using System.Text;
-using Microsoft.AspNetCore.Authorization;
+using X.PagedList.Extensions;
 
 namespace nexumApp.Controllers
 {
@@ -18,10 +19,13 @@ namespace nexumApp.Controllers
         }
 
         // GET: Ongs
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page)
         {
-            var ongs = await _context.Ongs.Where(ong => ong.Aprovaçao == true).ToListAsync();
-            return View(ongs);
+            int pageSize = 3;
+            int pageNumber = (page ?? 1);
+            var ongs = await _context.Ongs.Where(ong => ong.Aprovaçao == false).ToListAsync();
+            ViewBag.Total = ongs.Count;
+            return View(ongs.ToPagedList(pageNumber, pageSize));
         }
 
         [Authorize(Roles = "Ong")] // Só ONGs logadas podem ver
