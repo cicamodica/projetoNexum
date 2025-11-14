@@ -1,0 +1,84 @@
+﻿h1 {
+    color: #16435D;
+    font-weight: 600;
+    font-size: clamp(25px, 7vw, 44px);
+    margin: 25px 0 20px 0;
+}
+
+h2 {
+    font-size: 30px;
+    margin: 0px 0 20px 0;
+}
+
+.section-divider {
+    border: none;
+    color: #16435D;
+    border-top: 1px solid #d0d0d0; 
+    margin: 30px 0; 
+    opacity: 1;
+}
+
+button.btn-visualizar {
+    color: #ffffff;
+    background-color: #16435D;
+    border: none;
+    border-radius: 24px;
+    cursor: pointer;
+    padding: 5px 10px;
+}
+
+h5 {
+    color: #16435D;
+    font-size: 30px;
+    font-weight: 600;
+}
+
+.btn-outline-secondary {
+    border-radius: 24px;
+    cursor: pointer;
+    padding: 5px 20px;
+}
+
+.btn-danger {
+    border-radius: 24px;
+    cursor: pointer;
+    padding: 5px 20px;
+}
+
+.btn-success {
+    border-radius: 24px;
+    cursor: pointer;
+    padding: 5px 20px;
+}
+
+h3 {
+    font-size: 30px;
+    margin: 0px 0 20px 0;
+}
+
+.admin-pill {
+    color: #ffffff;
+    background-color: #2987bf;
+    border: none;
+    border-radius: 24px;
+    cursor: pointer;
+    margin-top: 10px;
+    padding: 5px 20px;
+    font-size: 17px;
+}
+
+.chip-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    border-radius: 999px;
+    background: #fff;
+    color: #16435D;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 20px;
+    margin-left: 5px;
+}
+

@@ -1,2 +1,97 @@
-﻿body {
+﻿.admin-chip-adm,
+.admin-chip-adm:link,
+.admin-chip-adm:visited {
+    display: inline-block;
+    color: #ffffff !important;
+    background-color: #16435D;
+    border: 1.5px solid transparent;
+    border-radius: 24px;
+    padding: 6px 16px;
+    text-decoration: none !important;
+    line-height: 1.25;
+    cursor: pointer;
+    transition: background .2s, color .2s, border-color .2s;
 }
+
+    .admin-chip-adm:hover,
+    .admin-chip-adm:focus {
+        background-color: #2987bf;
+        color: #ffffff !important;
+        text-decoration: none !important;
+        border-color: #2987bf;
+    }
+
+    .admin-chip-adm .chip-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 22px;
+        height: 22px;
+        margin-left: 8px;
+        padding: 0 6px;
+        border-radius: 999px;
+        background: #fff;
+        color: #16435D;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+.filtros a.btn.btn-sm,
+.filtros a.btn.btn-sm:link,
+.filtros a.btn.btn-sm:visited {
+    text-decoration: none !important;
+    border-radius: 24px; 
+    padding: 6px 14px;
+    line-height: 1.25;
+}
+
+
+.filtros a.btn-primary {
+    background-color: #16435D;
+    border-color: #16435D;
+    color: #fff !important;
+}
+
+    .filtros a.btn-primary:hover,
+    .filtros a.btn-primary:focus {
+        background-color: #2987bf;
+        border-color: #2987bf;
+        color: #fff !important;
+    }
+
+
+.filtros a.btn-outline-primary {
+    background-color: #fff;
+    color: #16435D !important;
+    border-color: #16435D;
+}
+
+    .filtros a.btn-outline-primary:hover,
+    .filtros a.btn-outline-primary:focus {
+        background-color: #16435D;
+        color: #fff !important;
+        border-color: #16435D;
+    }
+
+/* CSS do PDF: */
+.admin-chips.selectable .admin-chip {
+    border: 1.5px solid #16435D;
+    background: #ffffff;
+    color: #16435D;
+    border-radius: 999px;
+    padding: 6px 12px;
+    line-height: 1.2;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+    .admin-chips.selectable .admin-chip:hover {
+        background: #2987bf;
+        border-color: #2987bf;
+    }
+
+    .admin-chips.selectable .admin-chip.selected {
+        background: #16435D;
+        color: #ffffff;
+        border-color: #16435D;
+    }

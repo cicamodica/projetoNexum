@@ -1,0 +1,9 @@
+﻿@model nexumApp.Models.FaleConoscoModel
+<div>
+    <div class="mb-2"><strong>De:</strong> @Model.Nome &lt;@Model.Email&gt;</div>
+    <div class="mb-2"><strong>Assunto:</strong> @Model.Assunto</div>
+    <div class="mb-3"><strong>Mensagem:</strong><br /> @Model.Mensagem</div>
+
+    <label class="form-label">Sua resposta (e-mail)</label>
+    <textarea name="responseText" class="form-control" rows="6" placeholder="Digite sua resposta..."></textarea>
+</div>

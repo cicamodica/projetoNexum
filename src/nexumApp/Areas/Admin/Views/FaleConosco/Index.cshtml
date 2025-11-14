@@ -1,0 +1,194 @@
+﻿@model IEnumerable<nexumApp.Models.FaleConoscoModel>
+@{
+    ViewData["Title"] = "Fale conosco";
+}
+@Html.AntiForgeryToken()
+
+<h2 class="mb-3">Fale conosco</h2>
+
+@{
+    var status = ViewBag.Status as string ?? "Todos";
+}
+<div class="mb-3 d-flex gap-2 filtros">
+    <a class="btn btn-sm @(status == "Todos" ? "btn-primary" : "btn-outline-primary")"
+       asp-area="Admin" asp-controller="FaleConosco" asp-action="Index" asp-route-status="Todos">Todos</a>
+
+    <a class="btn btn-sm @(status == "Novo" ? "btn-primary" : "btn-outline-primary")"
+       asp-area="Admin" asp-controller="FaleConosco" asp-action="Index" asp-route-status="Novo">Novos</a>
+
+    <a class="btn btn-sm @(status == "Respondido" ? "btn-primary" : "btn-outline-primary")"
+       asp-area="Admin" asp-controller="FaleConosco" asp-action="Index" asp-route-status="Respondido">Respondidos</a>
+
+    <a class="btn btn-sm @(status == "Arquivado" ? "btn-primary" : "btn-outline-primary")"
+       asp-area="Admin" asp-controller="FaleConosco" asp-action="Index" asp-route-status="Arquivado">Arquivados</a>
+</div>
+<div class="table-responsive">
+    <table class="table table-hover align-middle fale-table">
+        <colgroup>
+            <col class="col-date" style="width:16%" />
+            <col class="col-name" style="width:18%" />
+            <col class="col-email" style="width:24%" />
+            <col class="col-assunto" style="width:18%" />
+            <col class="col-status" style="width:14%" />
+            <col class="col-acoes" />
+        </colgroup>
+        <thead>
+             <tr>
+                <th>Data</th>
+                <th>Nome</th>
+                <th>E-mail</th>
+                <th>Assunto</th>
+                <th>Status</th>
+                <th class="text-end">Ações</th>
+             </tr>
+        </thead>
+        <tbody>
+        @foreach (var m in Model)
+        {
+            <tr>
+                <td>@m.CriadoEm.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</td>
+                <td>@m.Nome</td>
+                <td>@m.Email</td>
+                <td>@m.Assunto</td>
+                <td>@m.Status</td>
+                <td class="text-end">
+                    <div class="actions-wrap">
+                        <button class="btn btn-sm-reply btn-primary js-open-reply"
+                                data-id="@m.Id"
+                                data-bs-toggle="modal" data-bs-target="#replyModal">
+                            Responder
+                        </button>
+                       
+                     @if (m.Arquivada)
+                         {
+                           <button class="btn btn-action btn-outline-secondary btn-sm-unarchive js-unarchive" data-id="@m.Id">Desarquivar</button>
+                          }
+                          else
+                          {
+                            <button class="btn btn-action btn-outline-secondary btn-sm-archive js-archive" data-id="@m.Id">Arquivar</button>
+                          }
+                    </div>
+                </td>
+             </tr>
+        }
+        </tbody>
+    </table>
+</div>
+<!-- Modal de resposta -->
+<div class="modal fade" id="replyModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Responder – Fale conosco</h5>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="replyBody">Carregando...</div>
+            <div class="modal-footer">
+                <button class="btn btn-outline-secondary btn-fechar" data-bs-dismiss="modal">Fechar</button>
+                <button id="btnSendReply" class="btn btn-success btn-enviar">Enviar resposta</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    @section Scripts {
+<script>
+  function getAfToken() {
+    const el = document.querySelector('input[name="__RequestVerificationToken"]');
+    return el ? el.value : '';
+  }
+
+  const URLS = {
+    replyGet: '@Url.Action("Reply", "FaleConosco", new { area = "Admin" })',
+    replyPost: '@Url.Action("Reply", "FaleConosco", new { area = "Admin" })',
+    archive: '@Url.Action("Archive", "FaleConosco", new { area = "Admin" })',
+    unarchive: '@Url.Action("Unarchive", "FaleConosco", new { area = "Admin" })',
+    markAsRead: '@Url.Action("MarkAsRead", "FaleConosco", new { area = "Admin" })'
+  };
+
+  let currentId = null;
+
+  document.addEventListener('click', async (e) => {
+    const open = e.target.closest('.js-open-reply');
+    if (open) {
+      currentId = open.dataset.id;
+
+      
+      const url = `${URLS.replyGet}?id=${encodeURIComponent(currentId)}`;
+      const html = await (await fetch(url, {
+        headers: { 'X-Requested-With': 'XMLHttpRequest' },
+        credentials: 'same-origin'
+      })).text();
+      document.getElementById('replyBody').innerHTML = html;
+
+      
+      try {
+        await fetch(`${URLS.markAsRead}?id=${encodeURIComponent(currentId)}`, {
+          method: 'POST',
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'RequestVerificationToken': getAfToken()
+          },
+          credentials: 'same-origin'
+        });
+      } catch (_) { }
+    }
+
+    // Arquivar
+    const arch = e.target.closest('.js-archive');
+    if (arch) {
+      const id = arch.dataset.id;
+      const resp = await fetch(`${URLS.archive}?id=${encodeURIComponent(id)}`, {
+        method: 'POST',
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'RequestVerificationToken': getAfToken()
+        },
+        credentials: 'same-origin'
+      });
+      if (resp.ok) location.reload();
+    }
+
+    // Desarquivar
+    const unarch = e.target.closest('.js-unarchive');
+    if (unarch) {
+      const id = unarch.dataset.id;
+      const resp = await fetch(`${URLS.unarchive}?id=${encodeURIComponent(id)}`, {
+        method: 'POST',
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'RequestVerificationToken': getAfToken()
+        },
+        credentials: 'same-origin'
+      });
+      if (resp.ok) location.reload();
+    }
+  });
+
+  
+  document.addEventListener('click', async (e) => {
+    const send = e.target.closest('#btnSendReply');
+    if (!send) return;
+
+    const ta = document.querySelector('#replyBody textarea[name="responseText"]');
+    if (!ta || !currentId) return;
+
+    const form = new FormData();
+    form.append('id', currentId);
+    form.append('responseText', ta.value);
+    form.append('__RequestVerificationToken', getAfToken());
+
+    const resp = await fetch(URLS.replyPost, {
+      method: 'POST',
+      body: form,
+      headers: { 'X-Requested-With': 'XMLHttpRequest' },
+      credentials: 'same-origin'
+    });
+
+    if (resp.ok) location.reload();
+  });
+</script>
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/adminDashboard.css" asp-append-version="true" />
+}
