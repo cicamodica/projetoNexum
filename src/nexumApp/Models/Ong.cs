@@ -24,6 +24,7 @@ namespace nexumApp.Models
         public string CNPJ { get; set; }
         public bool Aprovaçao { get; set; } = false;
         public ICollection<Filial> Filials { get; set; }
+        public int? Tag { get; set; }
 
         // ====== Campos do PDF ======
 

@@ -4,7 +4,7 @@
     ViewData["Title"] = "Cadastrar ONG";
      Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<link rel="stylesheet" href="~/css/register.css" />
 <main class="min-vh-100 d-flex align-items-center justify-content-center">
     <div class="container py-0">
         <div class="row w-100 justify-content-center g-0">
@@ -18,42 +18,47 @@
                                     <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>     
                                     <div class="mb-3">
                                         <label asp-for="Input.Email">Email</label>
-                                        <input style="border: 1px solid #16435d;border-radius: 30px;" asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                                        <input asp-for="Input.Email" class="form-control Cadastro-input" autocomplete="username" aria-required="true" placeholder="name@example.com" />
                                         <span asp-validation-for="Input.Email" class="text-danger"></span>
                                     </div>
                                     <div class="mb-3">
                                         <label asp-for="Input.Password">Senha</label>
-                                        <input style="border: 1px solid #16435d;border-radius: 30px;" asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" />
+                                        <input asp-for="Input.Password" class="form-control Cadastro-input" autocomplete="new-password" aria-required="true" />
                                         <span asp-validation-for="Input.Password" class="text-danger"></span>
                                     </div>
                                     <div class="mb-3">
                                         <label asp-for="Input.ConfirmPassword">Confirmar senha</label>
-                                        <input style="border: 1px solid #16435d;border-radius: 30px;" asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" />
+                                        <input asp-for="Input.ConfirmPassword" class="form-control Cadastro-input" autocomplete="new-password" aria-required="true" />
                                         <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
                                     </div>
                                     <div class="mb-3">
+                                        <label asp-for="Input.SelectedTagId">Área de atuação</label>
+                                        @Html.DropDownListFor(Model => Model.Input.SelectedTagId, (IEnumerable<SelectListItem>)ViewData["Tags"], "Selecione uma opção", new { @class = "form-control Cadastro-input" })
+                                        <span asp-validation-for="Input.SelectedTagId" class="text-danger"></span>
+                                    </div>
+                                    <div class="mb-3">
                                     <label asp-for="Input.Nome" class="control-label"></label>
-                                    <input style="border: 1px solid #16435d;border-radius: 30px;" asp-for="Input.Nome" class="form-control" />
+                                    <input asp-for="Input.Nome" class="form-control Cadastro-input" />
                                     <span asp-validation-for="Input.Nome" class="text-danger"></span>
                                 </div>
                                 <div class="mb-3">
                                     <label asp-for="Input.Descriçao" class="control-label"></label>
-                                    <input style="border: 1px solid #16435d;border-radius: 30px;" asp-for="Input.Descriçao" class="form-control" />
+                                    <input asp-for="Input.Descriçao" class="form-control Cadastro-input" />
                                     <span asp-validation-for="Input.Descriçao" class="text-danger"></span>
                                 </div>
                                 <div class="mb-3">
                                     <label asp-for="Input.Endereço" class="control-label"></label>
-                                    <input style="border: 1px solid #16435d;border-radius: 30px;" asp-for="Input.Endereço" class="form-control" />
+                                    <input asp-for="Input.Endereço" class="form-control Cadastro-input" />
                                     <span asp-validation-for="Input.Endereço" class="text-danger"></span>
                                 </div>
                                 <div class="mb-3">
                                     <label asp-for="Input.CNPJ" class="control-label"></label>
-                                    <input maxlength="14" style="border: 1px solid #16435d;border-radius: 30px;" asp-for="Input.CNPJ" class="form-control" placeholder="Somente números" />
+                                    <input maxlength="14" asp-for="Input.CNPJ" class="form-control Cadastro-input" placeholder="Somente números" />
                                     <span asp-validation-for="Input.CNPJ" class="text-danger"></span>
                                 </div>
                                 <div class="mb-3">
                                     <label asp-for="Input.DocumentoPdf" class="control-label"></label>
-                                    <input style="border: 1px solid #16435d;border-radius: 30px;" asp-for="Input.DocumentoPdf" type="file" class="form-control" accept="application/pdf,.pdf" />
+                                    <input asp-for="Input.DocumentoPdf" type="file" class="form-control Cadastro-input" accept="application/pdf,.pdf" />
                                     <span class="form-text">Apenas PDF, até 25 MB.</span>
                                     <span asp-validation-for="Input.DocumentoPdf" class="text-danger"></span>
                                 </div>
