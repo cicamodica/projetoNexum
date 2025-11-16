@@ -23,6 +23,14 @@ namespace nexumApp.Models
         [StringLength(500)]
         public string Descricao { get; set; }
 
+        [Display(Name = "Data de Início")]
+        [DataType(DataType.Date)] 
+        public DateTime DataInicio { get; set; }
+
+        [Display(Name = "Data Final")]
+        [DataType(DataType.Date)]
+        public DateTime DataFim { get; set; }
+
         [StringLength(50)]
         public string Status { get; set; }
 

@@ -7,7 +7,7 @@ namespace nexumApp.Models
         [Key]
         public int IdFormulario { get; set; }
 
-        // --- Campos Principais (do formulário) ---
+        
 
         [Required(ErrorMessage = "O nome é obrigatório")]
         public string Nome { get; set; }

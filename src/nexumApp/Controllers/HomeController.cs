@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using nexumApp.Data;
 using System.Linq; 
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System;
 
 namespace nexumApp.Controllers
 {
@@ -55,9 +57,9 @@ namespace nexumApp.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> GetVagasPartial()
+        
+        public async Task<IActionResult> GetVagasPartial(string cep, string cidade, string datas)
         {
-            
             var vagasQuery = _context.Vagas
                 .Include(v => v.Ong)
                 //.Where(v => v.Status == "Ativa")
@@ -68,11 +70,51 @@ namespace nexumApp.Controllers
                 vagasQuery = vagasQuery.Where(v => v.Ong.Aprovaçao == true);
             }
 
+            
+            if (!string.IsNullOrEmpty(cidade) && !cidade.Contains("..."))
+            {
+                var cidadeQuery = cidade.Split('-')[0].Trim();
+                vagasQuery = vagasQuery.Where(v => v.Ong.Endereço.Contains(cidadeQuery));
+            }
+
+           
+            if (!string.IsNullOrEmpty(cep))
+            {
+                var cepQuery = cep.Replace("-", "");
+                vagasQuery = vagasQuery.Where(v => v.Ong.Endereço.Contains(cepQuery));
+            }
+
+           
+            if (!string.IsNullOrEmpty(datas))
+            {
+                var dateList = new List<DateTime>();
+                var dateStrings = datas.Split(',');
+
+                foreach (var dateStr in dateStrings)
+                {
+                   
+                    if (DateTime.TryParse(dateStr, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.AssumeUniversal, out DateTime parsedDate))
+                    {
+                        dateList.Add(parsedDate.Date);
+                    }
+                }
+
+                if (dateList.Any())
+                {
+                    var minDate = dateList.Min();
+                    var maxDate = dateList.Max();
+
+                   
+
+                    vagasQuery = vagasQuery.Where(v => v.DataInicio <= maxDate && v.DataFim >= minDate);
+                }
+            }
+           
+
             var vagasPublicas = await vagasQuery
-                .OrderBy(v => v.Titulo) 
+                .OrderBy(v => v.Titulo)
                 .ToListAsync();
 
-            
             return PartialView("_VagasPartial", vagasPublicas);
         }
 
