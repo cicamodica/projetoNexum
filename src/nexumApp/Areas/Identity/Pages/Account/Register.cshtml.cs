@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using nexumApp.Data;
 using nexumApp.Models;
 using System.ComponentModel.DataAnnotations;
@@ -24,6 +26,7 @@ namespace nexumApp.Areas.Identity.Pages.Account
             UserManager<User> userManager,
             IUserStore<User> userStore,
             ILogger<RegisterModel> logger
+           
         )
         {
             _dbContext = dbContext;
@@ -33,7 +36,6 @@ namespace nexumApp.Areas.Identity.Pages.Account
             _emailStore = GetEmailStore();
             _logger = logger;
         }
-
         [BindProperty]
         public InputModel Input { get; set; }
 
@@ -81,12 +83,19 @@ namespace nexumApp.Areas.Identity.Pages.Account
             [Required(ErrorMessage = "Anexe o documento PDF para aprovação")]
             [Display(Name = "Documento PDF para aprovação")]
             public IFormFile DocumentoPdf { get; set; }
+
+            [Display(Name = "Área de atuação")]
+            [Required(ErrorMessage = "Selecione uma área de atuação")]
+            public int? SelectedTagId {  get; set; }
+
         }
 
         public async Task OnGetAsync(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            var Tags = new Tags();
+            ViewData["Tags"] = Tags.TagsList;
         }
 
         public async Task<IActionResult> OnPostAsync(string CadastroAction)
@@ -126,11 +135,12 @@ namespace nexumApp.Areas.Identity.Pages.Account
 
                     var ong = new Ong
                     {
-                     Nome = Input.Nome,
-                     Descriçao = Input.Descriçao,
-                     Endereço = Input.Endereço,
-                     CNPJ = Input.CNPJ,
-                     UserId = userId
+                        Nome = Input.Nome,
+                        Descriçao = Input.Descriçao,
+                        Endereço = Input.Endereço,
+                        CNPJ = Input.CNPJ,
+                        UserId = userId,
+                        Tag = Input.SelectedTagId
                     };
                     using (var ms = new MemoryStream())
                     {
@@ -149,6 +159,8 @@ namespace nexumApp.Areas.Identity.Pages.Account
                     return RedirectToAction("Create", "Filials", new { area = "" });
                 }
             }
+            var Tags = new Tags();
+            ViewData["Tags"] = Tags.TagsList;
             return Page();
         }
         private User CreateUser()

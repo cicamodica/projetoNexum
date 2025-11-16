@@ -20,6 +20,15 @@
     flex-wrap: wrap;
 }
 
+.ONGS-flex-container-tag {
+    border-radius: 30px;
+    font-size: 12px;
+    padding: 1px 7px;
+    color: white;
+    background-color: #16435d;
+    margin-bottom: 5px;
+}
+
 .ONGS-flex-container-item {
     cursor: pointer;
     text-decoration: none;

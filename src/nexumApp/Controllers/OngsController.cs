@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using nexumApp.Data;
 using nexumApp.Models;
+using System.Diagnostics;
 using System.Security.Claims;
 using System.Text;
 using X.PagedList.Extensions;
@@ -23,7 +24,9 @@ namespace nexumApp.Controllers
         {
             int pageSize = 3;
             int pageNumber = (page ?? 1);
-            var ongs = await _context.Ongs.Where(ong => ong.Aprovaçao == false).ToListAsync();
+            var ongs = await _context.Ongs.Where(ong => ong.Aprovaçao == false).ToListAsync(); // mudar para true depois!!!!!!!
+            var tags = new Tags().TagsNames;
+            ViewBag.Tags = tags;
             ViewBag.Total = ongs.Count;
             return View(ongs.ToPagedList(pageNumber, pageSize));
         }

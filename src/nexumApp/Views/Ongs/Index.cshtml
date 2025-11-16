@@ -19,12 +19,13 @@ else {
 
 <div class="ONGS-flex-container">
 @foreach (var item in Model) {
-
+    var tagId = item.Tag.GetValueOrDefault();
     <a class="ONGS-flex-container-item" asp-action="Details" asp-route-id="@item.Id">
         <div class="ONGS-flex-container-item-img">
 
         </div>
         <h5>@Html.DisplayFor(modelItem => item.Nome)</h5>
+        <span class="ONGS-flex-container-tag">@ViewBag.Tags[tagId]</span>
         <p class="ONGS-flex-container-item-endereço">@Html.DisplayFor(modelItem => item.Endereço)</p>
         <p class="ONGS-flex-container-item-descriçao">@Html.DisplayFor(modelItem => item.Descriçao)</p>
     </a>
