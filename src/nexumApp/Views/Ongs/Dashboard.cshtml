@@ -396,9 +396,11 @@
                                     var progressoFormatado = progresso.ToString("F0");
                                 }
                                 <div class="mb-2 mt-3">
-                                    <small class="text-muted">Progresso: @meta.ValorAtual de @meta.ValorAlvo</small>
+                                    <small class="text-muted" id="meta-progresso-texto-@meta.Id">
+                                        Progresso: @meta.ValorAtual de @meta.ValorAlvo
+                                    </small>
                                     <div class="progress" style="height: 20px;">
-                                        <div class="progress-bar" role="progressbar"
+                                        <div class="progress-bar" role="progressbar" id="meta-progresso-barra-@meta.Id"
                                              style="width: @(progressoFormatado)%;"
                                              aria-valuenow="@progressoFormatado"
                                              aria-valuemin="0"
@@ -422,6 +424,13 @@
                                 </div>
 
                                 <div class="vaga-actions">
+                                    <button type="button" class="btn btn-outline-info btn-ver-doacoes"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#modalVerDoacoes"
+                                            data-meta-id="@meta.Id"
+                                            data-meta-titulo="@meta.Recurso">
+                                        Ver Doações
+                                    </button>
                                     <a asp-controller="Metas" asp-action="Edit" asp-route-id="@meta.Id"
                                        class="btn btn-outline-primary"
                                        data-bs-toggle="modal"
@@ -649,6 +658,27 @@
                             </div>
                         </div>
                     </div>
+    <div class="modal fade" id="modalVerDoacoes" tabindex="-1" aria-labelledby="modalVerDoacoesLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content" style="border-radius: 15px;">
+                <div class="modal-header bg-info text-white" style="border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                    <h5 class="modal-title" id="modalVerDoacoesLabel">Doações Recebidas</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h4 class="text-center mb-3" id="modalVerDoacoesTitulo"></h4>
+                    <div id="modalVerDoacoesConteudo">
+                        <div class="text-center p-4">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Carregando...</span>
+                            </div>
+                            <p class="mt-2">Buscando doações...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 @section Scripts {
@@ -860,7 +890,7 @@
 
                                         var metaId = button.getAttribute('data-meta-id');
 
-                                        // 1. Referencia todos os campos do formulário
+                                        // Referencia todos os campos do formulário
                                         var modalIdInput = document.getElementById('editMetaId');
                                         var modalRecursoInput = document.getElementById('editMetaRecurso');
                                         var modalDescricaoInput = document.getElementById('editMetaDescricao');
@@ -869,7 +899,7 @@
                                         var modalDataFimInput = document.getElementById('editMetaDataFim');
                                         var modalFileInput = document.getElementById('editMetaImagemFile');
 
-                                        // 2. Limpa o formulário
+                                        //  Limpa o formulário
                                         modalRecursoInput.value = 'Carregando...';
                                         modalDescricaoInput.value = '';
                                         modalValorAlvoInput.value = '';
@@ -877,8 +907,8 @@
                                         modalDataFimInput.value = '';
                                         modalFileInput.value = '';
 
-                                        // 3. Faz a chamada 'fetch' para o MetasController
-                                        // (Vamos criar esta ação 'GetMetaDetails' no próximo passo)
+                                        // Faz a chamada 'fetch' para o MetasController
+                                        
                                         fetch('/Metas/GetMetaDetails?id=' + metaId)
                                             .then(response => {
                                                 if (!response.ok) {
@@ -887,8 +917,8 @@
                                                 return response.json();
                                             })
                                             .then(data => {
-                                                // 4. Popula o formulário com os dados da meta
-                                                // (Usando camelCase, que é o padrão do JSON do ASP.NET)
+                                                // Popula o formulário com os dados da meta
+                                                
                                                 modalIdInput.value = data.id;
                                                 modalRecursoInput.value = data.recurso;
                                                 modalDescricaoInput.value = data.descricao;
@@ -908,6 +938,177 @@
                                             });
                                     });
                                 }
+                                        // ===================================================
+            // INÍCIO: CÓDIGO PARA MODAL VER DOAÇÕES
+            // ===================================================
+                      var verDoacoesModalElement = document.getElementById('modalVerDoacoes');
+                if (verDoacoesModalElement) {
+                    var verDoacoesModal = new bootstrap.Modal(verDoacoesModalElement);
+                    var modalConteudo = document.getElementById('modalVerDoacoesConteudo');
+                    var modalTitulo = document.getElementById('modalVerDoacoesTitulo');
+
+                   
+                    verDoacoesModalElement.addEventListener('show.bs.modal', function (event) {
+                        var button = event.relatedTarget;
+                        if (!button) return;
+
+                        var metaId = button.getAttribute('data-meta-id');
+                        var metaTitulo = button.getAttribute('data-meta-titulo');
+
+                        modalTitulo.textContent = metaTitulo;
+                        modalConteudo.innerHTML = '<div class="text-center p-4"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Carregando...</span></div><p class="mt-2">Buscando doações...</p></div>';
+
+                        // Busca a lista de doações no controller
+                        fetch(`/Doacoes/GetDoacoesParaMeta?metaId=${metaId}`)
+                            .then(response => {
+                                if (!response.ok) throw new Error('Falha ao buscar doações.');
+                                return response.text();
+                            })
+                            .then(html => {
+                                modalConteudo.innerHTML = html;
+                            })
+                            .catch(error => {
+                                console.error('Erro no fetch:', error);
+                                modalConteudo.innerHTML = '<div class="alert alert-danger">Erro ao carregar doações. Tente novamente.</div>';
+                            });
+                    });
+
+                   
+                    modalConteudo.addEventListener('click', function(e) {
+
+                        var targetButton = e.target.closest('.btn-acao-doacao');
+                        var targetEditButton = e.target.closest('.btn-editar-status');
+
+                       
+                        if (targetButton) {
+                            if (targetButton.disabled) return;
+
+                            var doacaoId = targetButton.getAttribute('data-doacao-id');
+                            var novoStatus = targetButton.getAttribute('data-novo-status');
+                            var metaId = targetButton.getAttribute('data-meta-id');
+
+                            var statusBadge = document.getElementById(`doacao-status-${doacaoId}`);
+                            var actionButtonsGroup = document.getElementById(`doacao-actions-${doacaoId}`);
+                            var allButtonsInGroup = actionButtonsGroup.querySelectorAll('.btn-acao-doacao');
+                            var originalButtonHtml = targetButton.innerHTML;
+
+                            allButtonsInGroup.forEach(btn => {
+                                btn.disabled = true;
+                                if (btn === targetButton) {
+                                    btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span>';
+                                }
+                            });
+
+                            fetch(`/Doacoes/AtualizarStatusDoacao`, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                                body: `doacaoId=${doacaoId}&status=${novoStatus}&metaId=${metaId}`
+                            })
+                            .then(response => response.json())
+                            .then(result => {
+                                if (result.success) {
+                                  
+
+                                    //  Atualiza o Status Badge
+                                    if(statusBadge) {
+                                        statusBadge.classList.remove('bg-success', 'bg-warning', 'bg-danger', 'bg-info', 'text-dark');
+                                        statusBadge.textContent = novoStatus;
+                                        if(novoStatus == "Confirmada") statusBadge.classList.add('bg-success');
+                                        else if(novoStatus == "Pendente") statusBadge.classList.add('bg-warning', 'text-dark');
+                                        else if(novoStatus == "NaoRealizada") statusBadge.classList.add('bg-danger');
+                                        else statusBadge.classList.add('bg-info');
+                                    }
+
+                                    // ATUALIZA OS BOTÕES PARA O LÁPIS "EDITAR"
+                                    if(actionButtonsGroup) {
+                                        actionButtonsGroup.innerHTML = `
+                                            <button type="button" class="btn btn-sm btn-outline-secondary btn-editar-status"
+                                                    data-doacao-id="${doacaoId}"
+                                                    data-meta-id="${metaId}">
+                                                <i class="bi bi-pencil"></i> Editar
+                                            </button>
+                                        `;
+                                    }
+
+                                    // Atualiza a Barra de Progresso (fora do modal)
+                                    var textoProgresso = document.getElementById(`meta-progresso-texto-${metaId}`);
+                                    var barraProgresso = document.getElementById(`meta-progresso-barra-${metaId}`);
+
+                                    if (textoProgresso && barraProgresso) {
+                                        var novoAtual = parseFloat(result.novoValorAtual);
+                                        var alvo = parseFloat(result.valorAlvo);
+                                        var novoPercent = (alvo > 0) ? (novoAtual / alvo) * 100 : 0;
+                                        var novoPercentF = novoPercent.toFixed(0);
+
+                                        textoProgresso.textContent = `Progresso: ${novoAtual} de ${alvo}`;
+                                        barraProgresso.style.width = novoPercentF + '%';
+                                        barraProgresso.textContent = novoPercentF + '%';
+                                        barraProgresso.setAttribute('aria-valuenow', novoPercentF);
+                                    }
+
+                                } else {
+                                    // ERRO (vindo do controller)
+                                    alert('Erro: ' + (result.message || 'Erro desconhecido.'));
+                                    allButtonsInGroup.forEach(btn => {
+                                        btn.disabled = false;
+                                        if (btn === targetButton) {
+                                            btn.innerHTML = originalButtonHtml;
+                                        }
+                                    });
+                                }
+                            })
+                            .catch(error => {
+                                // ERRO (de rede/fetch)
+                                console.error('Erro na atualização:', error);
+                                alert('Erro de rede. Tente novamente.');
+                                allButtonsInGroup.forEach(btn => {
+                                    btn.disabled = false;
+                                    if (btn === targetButton) {
+                                        btn.innerHTML = originalButtonHtml;
+                                    }
+                                });
+                             });
+                        }
+                        
+                        else if (targetEditButton) {
+                            var doacaoId = targetEditButton.getAttribute('data-doacao-id');
+                            var metaId = targetEditButton.getAttribute('data-meta-id');
+                            var actionButtonsGroup = document.getElementById(`doacao-actions-${doacaoId}`);
+                            var statusBadge = document.getElementById(`doacao-status-${doacaoId}`);
+                            var currentStatus = statusBadge.textContent.trim();
+
+                            // Recria os botões de ação originais
+                            var buttonsHtml = '';
+
+                            if (currentStatus !== "Confirmada") {
+                                buttonsHtml += `
+                                    <button type="button" class="btn btn-sm btn-outline-success btn-acao-doacao"
+                                            data-doacao-id="${doacaoId}" data-novo-status="Confirmada" data-meta-id="${metaId}">
+                                        Confirmar
+                                    </button>`;
+                            }
+                            if (currentStatus !== "EmContato") {
+                                buttonsHtml += `
+                                    <button type="button" class="btn btn-sm btn-outline-primary btn-acao-doacao"
+                                            data-doacao-id="${doacaoId}" data-novo-status="EmContato" data-meta-id="${metaId}">
+                                        Em Contato
+                                    </button>`;
+                            }
+                            if (currentStatus !== "NaoRealizada") {
+                                buttonsHtml += `
+                                    <button type="button" class="btn btn-sm btn-outline-danger btn-acao-doacao"
+                                            data-doacao-id="${doacaoId}" data-novo-status="NaoRealizada" data-meta-id="${metaId}">
+                                        Não Realizada
+                                    </button>`;
+                            }
+
+                            actionButtonsGroup.innerHTML = buttonsHtml;
+                        }
+                    });
+                }
+                // ===================================================
+                // FIM: CÓDIGO CORRIGIDO PARA MODAL VER DOAÇÕES
+                // ===================================================
 
             });
     </script>

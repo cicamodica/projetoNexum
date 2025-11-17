@@ -1,0 +1,61 @@
+﻿@model List<nexumApp.Models.Doacao>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-light text-center">Nenhuma doação recebida para esta meta ainda.</div>
+}
+else
+{
+    <div class="list-group">
+        @foreach (var doacao in Model)
+        {
+            <div class="list-group-item" id="doacao-card-@doacao.Id">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">@doacao.NomeCompleto</h5>
+                    <small>@doacao.DataCriacao.ToString("dd/MM/yyyy")</small>
+                </div>
+                <p class="mb-1">
+                    <strong>Item:</strong> @doacao.Descricao <br>
+                    <strong>Quantidade:</strong> @doacao.Quantidade <br>
+                    <strong>Contato:</strong> @doacao.Email | @doacao.Telefone
+                </p>
+                <div class="d-flex justify-content-between align-items-center mt-2">
+                    <div>
+                        <strong>Status: </strong>
+                        <span class="badge
+                                    @(doacao.Status == "Confirmada" ? "bg-success" :
+                                                            doacao.Status == "Pendente" ? "bg-warning text-dark" :
+                                                            doacao.Status == "NaoRealizada" ? "bg-danger" : "bg-info")"
+                      id="doacao-status-@doacao.Id">
+                    @doacao.Status
+                </span>
+            </div>
+
+                    <div class="btn-group" role="group" id="doacao-actions-@doacao.Id">
+                @if (doacao.Status != "Confirmada")
+                        {
+                            <button type="button" class="btn btn-sm btn-outline-success btn-acao-doacao"
+                                    data-doacao-id="@doacao.Id" data-novo-status="Confirmada" data-meta-id="@doacao.MetaId">
+                                Confirmar
+                            </button>
+                        }
+                        @if (doacao.Status != "EmContato")
+                        {
+                            <button type="button" class="btn btn-sm btn-outline-primary btn-acao-doacao"
+                                    data-doacao-id="@doacao.Id" data-novo-status="EmContato" data-meta-id="@doacao.MetaId">
+                                Em Contato
+                            </button>
+                        }
+                        @if (doacao.Status != "NaoRealizada")
+                        {
+                            <button type="button" class="btn btn-sm btn-outline-danger btn-acao-doacao"
+                                    data-doacao-id="@doacao.Id" data-novo-status="NaoRealizada" data-meta-id="@doacao.MetaId">
+                                Não Realizada
+                            </button>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

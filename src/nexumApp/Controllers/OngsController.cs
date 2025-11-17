@@ -24,7 +24,7 @@ namespace nexumApp.Controllers
         {
             int pageSize = 3;
             int pageNumber = (page ?? 1);
-            var ongs = await _context.Ongs.Where(ong => ong.Aprovaçao == false).ToListAsync(); // mudar para true depois!!!!!!!
+            var ongs = await _context.Ongs.Where(ong => ong.Aprovaçao == false).ToListAsync(); 
             var tags = new Tags().TagsNames;
             ViewBag.Tags = tags;
             ViewBag.Total = ongs.Count;
@@ -50,10 +50,10 @@ namespace nexumApp.Controllers
             }
 
             // Verifica a aprovação (do seu modelo Ong.cs)
-            //if (ong.Aprovaçao == false)
-             //{
-            //return RedirectToAction(nameof(Wait)); // Redireciona se não aprovada
-            //}
+            if (ong.Aprovaçao == false)
+             {
+            return RedirectToAction(nameof(Wait)); // Redireciona se não aprovada
+            }
 
             //Busca as metas SOMENTE desta ONG
             var metas = await _context.Metas
@@ -65,13 +65,13 @@ namespace nexumApp.Controllers
                 .Where(v => v.IdONG == ong.Id)
                 .ToListAsync();
 
-            // Passamos os dados extras para a View usando o ViewBag
+            // Passa os dados extras para a View usando o ViewBag
             ViewBag.Metas = metas;
 
             ViewBag.Vagas = vagas;
 
 
-            // Passamos a própria ONG como o Modelo principal da View
+            // Passa a própria ONG como o Modelo principal da View
             return View(ong);
         }
 

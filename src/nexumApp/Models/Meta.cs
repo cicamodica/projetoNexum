@@ -34,5 +34,7 @@ namespace nexumApp.Models
 
         [ForeignKey("OngId")]
         public virtual Ong Ong { get; set; } // Propriedade de navegação
+
+        public ICollection<Doacao> Doacoes { get; set; } = new List<Doacao>();
     }
 }

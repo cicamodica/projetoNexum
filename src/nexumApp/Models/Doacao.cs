@@ -4,21 +4,29 @@ namespace nexumApp.Models
 {
     public class Doacao
     {
-        [Key]
         public int Id { get; set; }
-        public string Tipo { get; set; }
-        public DateTime Data { get; set; }
-        public string Status { get; set; }
-        public int Quantidade { get; set; }
-        public string NomeRazaoSocial { get; set; }
-        public string Email { get; set; }
-        public int IdOngDestinataria { get; set; }
-        public int IdOngDoadora { get; set; }
 
-        // Chave Estrangeira e Propriedade de Navegação:
-        // Isso representa o relacionamento com a Meta.
-        // Uma Doação pertence a exatamente uma Meta.
-        public int IdMeta { get; set; }
-        public virtual Meta Meta { get; set; }
+        public int MetaId { get; set; }
+        public Meta Meta { get; set; }
+
+        // Dados do doador externo (quando não estiver logado)
+        public string NomeCompleto { get; set; }
+        public string Email { get; set; }
+        public string CPF { get; set; }
+        public string Telefone { get; set; }
+        public string Descricao { get; set; }
+
+        // Doação por ONG logada
+        public int? OngDoadoraId { get; set; }           
+        public string OngDoadoraRazaoSocial { get; set; } // Nome/razão social da ONG
+
+        public int Quantidade { get; set; }
+
+        public string Status { get; set; } // Pendente, Confirmada, EmContato, Negada
+
+        public DateTime DataCriacao { get; set; } = DateTime.Now;
     }
+
+
+
 }

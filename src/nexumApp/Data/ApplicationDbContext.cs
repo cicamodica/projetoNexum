@@ -43,7 +43,7 @@ namespace nexumApp.Data
         public DbSet<VoluntarioModel> Voluntarios { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
         public DbSet<AdministradorModel> Administradores { get; set; }
-        public DbSet<Doacao> Doacao { get; set; }
+        public DbSet<Doacao> Doacoes { get; set; }
         public DbSet<Meta> Metas { get; set; }
         public DbSet<FaleConoscoModel> FaleConoscoModels=> Set<FaleConoscoModel>();
         public DbSet<ConviteAdministrador> ConviteAdministradors { get; set; } = null!;
