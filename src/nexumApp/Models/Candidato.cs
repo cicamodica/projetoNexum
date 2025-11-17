@@ -11,7 +11,7 @@ namespace nexumApp.Models
         public int Id { get; set; }
         [StringLength(3)]
         [ForeignKey("Voluntario")]
-        public int IdVoluntario { get; set; }
+        public int? IdVoluntario { get; set; }
 
         [StringLength(45)]
         [Required(ErrorMessage = "Obrigatorio informar o nome")]
@@ -31,5 +31,7 @@ namespace nexumApp.Models
         [Display(Name = "Tem Experiência?")]
         public bool TemExperiencia { get; set; }
         public string Descricao { get; set; }
+        [Display(Name = "Foto do Candidato")]
+        public byte[] Foto { get; set; }
     }
 }

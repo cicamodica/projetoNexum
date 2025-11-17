@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using nexumApp.Models;
 using System.Diagnostics;
@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System;
+using System.IO;
 
 namespace nexumApp.Controllers
 {
@@ -38,13 +39,13 @@ namespace nexumApp.Controllers
                 .Where(m => m.Status == "Ativa");
 
             
-            // O filtro de aprova��o S� � aplicado se o usu�rio estiver logado
-            // (e n�o for um Admin, pois ele j� foi redirecionado).
+            // O filtro de aprovação SÓ é aplicado se o usuário estiver logado
+            // (e não for um Admin, pois ele já foi redirecionado).
             if (User.Identity?.IsAuthenticated == true)
             {
-                query = query.Where(m => m.Ong.Aprova�ao == true);
+                query = query.Where(m => m.Ong.Aprovaçao == true);
             }
-            // Se o usu�rio N�O estiver logado (an�nimo), o filtro de aprova��o � pulado.
+            // Se o usuário NÃO estiver logado (anônimo), o filtro de aprovação é pulado.
 
             // 4. Executa a consulta
             var metasPublicas = await query
@@ -67,21 +68,21 @@ namespace nexumApp.Controllers
 
             if (User.Identity?.IsAuthenticated == true)
             {
-                vagasQuery = vagasQuery.Where(v => v.Ong.Aprova�ao == true);
+                vagasQuery = vagasQuery.Where(v => v.Ong.Aprovaçao == true);
             }
 
             
             if (!string.IsNullOrEmpty(cidade) && !cidade.Contains("..."))
             {
                 var cidadeQuery = cidade.Split('-')[0].Trim();
-                vagasQuery = vagasQuery.Where(v => v.Ong.Endere�o.Contains(cidadeQuery));
+                vagasQuery = vagasQuery.Where(v => v.Ong.Endereço.Contains(cidadeQuery));
             }
 
            
             if (!string.IsNullOrEmpty(cep))
             {
                 var cepQuery = cep.Replace("-", "");
-                vagasQuery = vagasQuery.Where(v => v.Ong.Endere�o.Contains(cepQuery));
+                vagasQuery = vagasQuery.Where(v => v.Ong.Endereço.Contains(cepQuery));
             }
 
            
@@ -117,6 +118,135 @@ namespace nexumApp.Controllers
 
             return PartialView("_VagasPartial", vagasPublicas);
         }
+
+        // ====================================================================
+        // ▼▼▼ NOVAS AÇÕES ADICIONADAS PARA O MODAL ▼▼▼
+        // ====================================================================
+
+
+
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> GetVagaDetalheFormPartial(int vagaId)
+        {
+            var vaga = await _context.Vagas
+                                     .Include(v => v.Ong)
+                                     .AsNoTracking()
+                                     .FirstOrDefaultAsync(v => v.IdVaga == vagaId);
+
+            if (vaga == null)
+            {
+                return NotFound("Vaga não encontrada.");
+            }
+
+            return PartialView("_VagaDetalheFormPartial", vaga);
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> InscreverVoluntario(int id, string nomeCompleto, string email, string telefone, string cpf, DateTime? dataNascimento, string genero, string habilidades, IFormFile foto)
+        {
+            var vaga = await _context.Vagas.AsNoTracking().FirstOrDefaultAsync(v => v.IdVaga == id);
+            if (vaga == null)
+            {
+                ModelState.AddModelError("", "A vaga para a qual você tentou se inscrever não existe mais.");
+            }
+
+            if (string.IsNullOrEmpty(nomeCompleto))
+            {
+                ModelState.AddModelError("NomeCompleto", "O nome é obrigatório.");
+            }
+            if (string.IsNullOrEmpty(email))
+            {
+                ModelState.AddModelError("Email", "O e-mail é obrigatório.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                var vagaParaReexibir = await _context.Vagas
+                                                     .Include(v => v.Ong)
+                                                     .AsNoTracking()
+                                                     .FirstOrDefaultAsync(v => v.IdVaga == id);
+
+                Response.StatusCode = 400;
+                return PartialView("_VagaDetalheFormPartial", vagaParaReexibir);
+            }
+
+            
+            byte[] fotoBytes = null;
+            if (foto != null && foto.Length > 0)
+            {
+                using (var ms = new MemoryStream())
+                {
+                    await foto.CopyToAsync(ms);
+                    fotoBytes = ms.ToArray();
+                }
+            }
+
+
+            var novoCandidato = new Candidato
+            {
+                Nome = nomeCompleto,
+                Email = email,
+                Telefone = telefone,
+                CPF = cpf,
+                Descricao = habilidades,
+                DataInscricao = DateTime.Now,
+                Foto = fotoBytes,
+
+                
+                IdVoluntario = null
+            };
+
+
+            try
+            {
+                _context.Candidatos.Add(novoCandidato);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao salvar novo candidato no banco.");
+                ModelState.AddModelError("", "Ocorreu um erro inesperado ao salvar seus dados de candidato.");
+
+                var vagaParaReexibir = await _context.Vagas.Include(v => v.Ong).AsNoTracking().FirstOrDefaultAsync(v => v.IdVaga == id);
+                Response.StatusCode = 500;
+                return PartialView("_VagaDetalheFormPartial", vagaParaReexibir);
+            }
+
+            var novaInscricao = new Inscricoes
+            {
+                IdVaga = id,
+                IdCandidato = novoCandidato.Id,
+                DataInscricao = DateTime.Now,
+                Status = "Pendente"
+            };
+
+            try
+            {
+                
+                _context.Inscricoes.Add(novaInscricao);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao salvar inscrição no banco.");
+                _context.Candidatos.Remove(novoCandidato);
+                await _context.SaveChangesAsync();
+
+                ModelState.AddModelError("", "Ocorreu um erro inesperado ao salvar sua inscrição.");
+
+                var vagaParaReexibir = await _context.Vagas.Include(v => v.Ong).AsNoTracking().FirstOrDefaultAsync(v => v.IdVaga == id);
+                Response.StatusCode = 500;
+                return PartialView("_VagaDetalheFormPartial", vagaParaReexibir);
+            }
+
+            return Ok();
+        }
+
+       
+
 
         public IActionResult About()
         {
