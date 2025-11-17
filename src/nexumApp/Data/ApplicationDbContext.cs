@@ -22,6 +22,19 @@ namespace nexumApp.Data
                 .HasMany(Ong => Ong.Filials)
                 .WithOne(Filial => Filial.Ong)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Inscricoes>()
+                .HasOne(i => i.Vaga)
+                .WithMany() 
+                .HasForeignKey(i => i.IdVaga)
+                .OnDelete(DeleteBehavior.Restrict);
+
+         
+            modelBuilder.Entity<Inscricoes>()
+                .HasOne(i => i.Candidato)
+                .WithMany() 
+                .HasForeignKey(i => i.IdCandidato)
+                .OnDelete(DeleteBehavior.Restrict);
         }
 
         public DbSet<Ong> Ongs {  get; set; }
@@ -35,5 +48,6 @@ namespace nexumApp.Data
         public DbSet<FaleConoscoModel> FaleConoscoModels=> Set<FaleConoscoModel>();
         public DbSet<ConviteAdministrador> ConviteAdministradors { get; set; } = null!;
         public DbSet<Vaga> Vagas { get; set; } //Não e uma lista generica de objetos!
+        public DbSet<Inscricoes> Inscricoes { get; set; }
     }
 }

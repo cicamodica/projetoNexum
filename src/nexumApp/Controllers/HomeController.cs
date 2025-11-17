@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authorization;
+Ôªøusing Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using nexumApp.Models;
 using System.Diagnostics;
@@ -6,6 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using nexumApp.Data;
 using System.Linq; 
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System;
+using System.IO;
 
 namespace nexumApp.Controllers
 {
@@ -36,13 +39,13 @@ namespace nexumApp.Controllers
                 .Where(m => m.Status == "Ativa");
 
             
-            // O filtro de aprovaÁ„o S” È aplicado se o usu·rio estiver logado
-            // (e n„o for um Admin, pois ele j· foi redirecionado).
+            // O filtro de aprova√ß√£o S√ì √© aplicado se o usu√°rio estiver logado
+            // (e n√£o for um Admin, pois ele j√° foi redirecionado).
             if (User.Identity?.IsAuthenticated == true)
             {
-                query = query.Where(m => m.Ong.AprovaÁao == true);
+                query = query.Where(m => m.Ong.Aprova√ßao == true);
             }
-            // Se o usu·rio N√O estiver logado (anÙnimo), o filtro de aprovaÁ„o È pulado.
+            // Se o usu√°rio N√ÉO estiver logado (an√¥nimo), o filtro de aprova√ß√£o √© pulado.
 
             // 4. Executa a consulta
             var metasPublicas = await query
@@ -55,9 +58,9 @@ namespace nexumApp.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> GetVagasPartial()
+        
+        public async Task<IActionResult> GetVagasPartial(string cep, string cidade, string datas)
         {
-            
             var vagasQuery = _context.Vagas
                 .Include(v => v.Ong)
                 //.Where(v => v.Status == "Ativa")
@@ -65,16 +68,182 @@ namespace nexumApp.Controllers
 
             if (User.Identity?.IsAuthenticated == true)
             {
-                vagasQuery = vagasQuery.Where(v => v.Ong.AprovaÁao == true);
+                vagasQuery = vagasQuery.Where(v => v.Ong.Aprova√ßao == true);
             }
 
+            
+            if (!string.IsNullOrEmpty(cidade) && !cidade.Contains("..."))
+            {
+                var cidadeQuery = cidade.Split('-')[0].Trim();
+                vagasQuery = vagasQuery.Where(v => v.Ong.Endere√ßo.Contains(cidadeQuery));
+            }
+
+           
+            if (!string.IsNullOrEmpty(cep))
+            {
+                var cepQuery = cep.Replace("-", "");
+                vagasQuery = vagasQuery.Where(v => v.Ong.Endere√ßo.Contains(cepQuery));
+            }
+
+           
+            if (!string.IsNullOrEmpty(datas))
+            {
+                var dateList = new List<DateTime>();
+                var dateStrings = datas.Split(',');
+
+                foreach (var dateStr in dateStrings)
+                {
+                   
+                    if (DateTime.TryParse(dateStr, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.AssumeUniversal, out DateTime parsedDate))
+                    {
+                        dateList.Add(parsedDate.Date);
+                    }
+                }
+
+                if (dateList.Any())
+                {
+                    var minDate = dateList.Min();
+                    var maxDate = dateList.Max();
+
+                   
+
+                    vagasQuery = vagasQuery.Where(v => v.DataInicio <= maxDate && v.DataFim >= minDate);
+                }
+            }
+           
+
             var vagasPublicas = await vagasQuery
-                .OrderBy(v => v.Titulo) 
+                .OrderBy(v => v.Titulo)
                 .ToListAsync();
 
-            
             return PartialView("_VagasPartial", vagasPublicas);
         }
+
+      
+
+
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> GetVagaDetalheFormPartial(int vagaId)
+        {
+            var vaga = await _context.Vagas
+                                     .Include(v => v.Ong)
+                                     .AsNoTracking()
+                                     .FirstOrDefaultAsync(v => v.IdVaga == vagaId);
+
+            if (vaga == null)
+            {
+                return NotFound("Vaga n√£o encontrada.");
+            }
+
+            return PartialView("_VagaDetalheFormPartial", vaga);
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> InscreverVoluntario(int id, string nomeCompleto, string email, string telefone, string cpf, DateTime? dataNascimento, string genero, string habilidades, IFormFile foto)
+        {
+            var vaga = await _context.Vagas.AsNoTracking().FirstOrDefaultAsync(v => v.IdVaga == id);
+            if (vaga == null)
+            {
+                ModelState.AddModelError("", "A vaga para a qual voc√™ tentou se inscrever n√£o existe mais.");
+            }
+
+            if (string.IsNullOrEmpty(nomeCompleto))
+            {
+                ModelState.AddModelError("NomeCompleto", "O nome √© obrigat√≥rio.");
+            }
+            if (string.IsNullOrEmpty(email))
+            {
+                ModelState.AddModelError("Email", "O e-mail √© obrigat√≥rio.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                var vagaParaReexibir = await _context.Vagas
+                                                     .Include(v => v.Ong)
+                                                     .AsNoTracking()
+                                                     .FirstOrDefaultAsync(v => v.IdVaga == id);
+
+                Response.StatusCode = 400;
+                return PartialView("_VagaDetalheFormPartial", vagaParaReexibir);
+            }
+
+            
+            byte[] fotoBytes = null;
+            if (foto != null && foto.Length > 0)
+            {
+                using (var ms = new MemoryStream())
+                {
+                    await foto.CopyToAsync(ms);
+                    fotoBytes = ms.ToArray();
+                }
+            }
+
+
+            var novoCandidato = new Candidato
+            {
+                Nome = nomeCompleto,
+                Email = email,
+                Telefone = telefone,
+                CPF = cpf,
+                Descricao = habilidades,
+                DataInscricao = DateTime.Now,
+                Foto = fotoBytes,
+
+                
+                IdVoluntario = null
+            };
+
+
+            try
+            {
+                _context.Candidatos.Add(novoCandidato);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao salvar novo candidato no banco.");
+                ModelState.AddModelError("", "Ocorreu um erro inesperado ao salvar seus dados de candidato.");
+
+                var vagaParaReexibir = await _context.Vagas.Include(v => v.Ong).AsNoTracking().FirstOrDefaultAsync(v => v.IdVaga == id);
+                Response.StatusCode = 500;
+                return PartialView("_VagaDetalheFormPartial", vagaParaReexibir);
+            }
+
+            var novaInscricao = new Inscricoes
+            {
+                IdVaga = id,
+                IdCandidato = novoCandidato.Id,
+                DataInscricao = DateTime.Now,
+                Status = "Pendente"
+            };
+
+            try
+            {
+                
+                _context.Inscricoes.Add(novaInscricao);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao salvar inscri√ß√£o no banco.");
+                _context.Candidatos.Remove(novoCandidato);
+                await _context.SaveChangesAsync();
+
+                ModelState.AddModelError("", "Ocorreu um erro inesperado ao salvar sua inscri√ß√£o.");
+
+                var vagaParaReexibir = await _context.Vagas.Include(v => v.Ong).AsNoTracking().FirstOrDefaultAsync(v => v.IdVaga == id);
+                Response.StatusCode = 500;
+                return PartialView("_VagaDetalheFormPartial", vagaParaReexibir);
+            }
+
+            return Ok();
+        }
+
+       
+
 
         public IActionResult About()
         {

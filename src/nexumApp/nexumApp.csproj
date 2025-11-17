@@ -1,5 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
-
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>disable</Nullable>
@@ -43,6 +42,7 @@
   <ItemGroup>
     <None Remove="Areas\Admin\Views\ConviteAdmin\StyleSheet.css" />
     <None Remove="Areas\Admin\Views\Dashboard\StyleSheet.css" />
+    <None Remove="Areas\Identity\Pages\Account\Register.cshtml.css" />
     <None Remove="Views\Ongs\Index.cshtml.css" />
     <None Remove="Views\Shared\StyleSheet.css" />
   </ItemGroup>
@@ -54,6 +54,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.20" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.20" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
+    <PackageReference Include="X.PagedList.Mvc.Core" Version="10.5.9" />
     <PackageReference Include="QuestPDF" Version="2025.7.4" />
   </ItemGroup>
 

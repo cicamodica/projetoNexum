@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using nexumApp.Data;
 
@@ -11,9 +12,11 @@ using nexumApp.Data;
 namespace nexumApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251114234549_OngTag")]
+    partial class OngTag
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -197,10 +200,7 @@ namespace nexumApp.Data.Migrations
                         .HasMaxLength(90)
                         .HasColumnType("nvarchar(90)");
 
-                    b.Property<byte[]>("Foto")
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<int?>("IdVoluntario")
+                    b.Property<int>("IdVoluntario")
                         .HasMaxLength(3)
                         .HasColumnType("int");
 
@@ -220,31 +220,6 @@ namespace nexumApp.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Candidato");
-                });
-
-            modelBuilder.Entity("nexumApp.Models.ConviteAdministrador", b =>
-                {
-                    b.Property<Guid>("Token")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(254)
-                        .HasColumnType("nvarchar(254)");
-
-                    b.Property<DateTime>("ExpiresAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("Used")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Token");
-
-                    b.ToTable("ConviteAdministradors");
                 });
 
             modelBuilder.Entity("nexumApp.Models.Doacao", b =>
@@ -395,36 +370,6 @@ namespace nexumApp.Data.Migrations
                     b.HasIndex("OngId");
 
                     b.ToTable("Filials");
-                });
-
-            modelBuilder.Entity("nexumApp.Models.Inscricoes", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("DataInscricao")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("IdCandidato")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdVaga")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Status")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IdCandidato");
-
-                    b.HasIndex("IdVaga");
-
-                    b.ToTable("Inscricoes");
                 });
 
             modelBuilder.Entity("nexumApp.Models.Meta", b =>
@@ -598,12 +543,6 @@ namespace nexumApp.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdVaga"));
 
-                    b.Property<DateTime>("DataFim")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DataInicio")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Descricao")
                         .IsRequired()
                         .HasMaxLength(500)
@@ -744,25 +683,6 @@ namespace nexumApp.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Ong");
-                });
-
-            modelBuilder.Entity("nexumApp.Models.Inscricoes", b =>
-                {
-                    b.HasOne("nexumApp.Models.Candidato", "Candidato")
-                        .WithMany()
-                        .HasForeignKey("IdCandidato")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("nexumApp.Models.Vaga", "Vaga")
-                        .WithMany()
-                        .HasForeignKey("IdVaga")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Candidato");
-
-                    b.Navigation("Vaga");
                 });
 
             modelBuilder.Entity("nexumApp.Models.Meta", b =>
