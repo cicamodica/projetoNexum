@@ -53,7 +53,14 @@
                 <td>@m.Status</td>
                 <td class="text-end">
                     <div class="actions-wrap">
-                        <button class="btn btn-sm-reply btn-primary js-open-reply"
+                    <button class="btn btn-sm-view js-open-view"
+                               data-id="@m.Id"
+                               data-bs-toggle="modal"
+                               data-bs-target="#viewModal">
+                           Visualizar
+                    </button>
+                    
+                    <button class="btn btn-sm-reply btn-primary js-open-reply"
                                 data-id="@m.Id"
                                 data-bs-toggle="modal" data-bs-target="#replyModal">
                             Responder
@@ -91,6 +98,22 @@
     </div>
 </div>
 
+<!-- Modal de visualização -->
+<div class="modal fade" id="viewModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Detalhes – Fale conosco</h5>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="viewBody">Carregando...</div>
+            <div class="modal-footer">
+                <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
     @section Scripts {
 <script>
   function getAfToken() {
@@ -103,90 +126,97 @@
     replyPost: '@Url.Action("Reply", "FaleConosco", new { area = "Admin" })',
     archive: '@Url.Action("Archive", "FaleConosco", new { area = "Admin" })',
     unarchive: '@Url.Action("Unarchive", "FaleConosco", new { area = "Admin" })',
-    markAsRead: '@Url.Action("MarkAsRead", "FaleConosco", new { area = "Admin" })'
+    markAsRead: '@Url.Action("MarkAsRead", "FaleConosco", new { area = "Admin" })',
+    detailsGet: '@Url.Action("Details", "FaleConosco", new { area = "Admin" })'
   };
 
   let currentId = null;
 
-  document.addEventListener('click', async (e) => {
+document.addEventListener('click', async (e) => {
+
+    const view = e.target.closest('.js-open-view');
+    if (view) {
+        const id = view.dataset.id;
+        const body = document.getElementById('viewBody');
+        body.innerHTML = 'Carregando...';
+
+        //Carrega os detalhes da mensagem:
+        const url = `${URLS.detailsGet}?id=${encodeURIComponent(id)}`;
+        const html = await (await fetch(url, {
+            headers: { 'X-Requested-With': 'XMLHttpRequest' },
+            credentials: 'same-origin'
+        })).text();
+
+        body.innerHTML = html;
+
+        //Marca como lido:
+        try {
+            await fetch(`${URLS.markAsRead}?id=${encodeURIComponent(id)}`, {
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'RequestVerificationToken': getAfToken()
+                },
+                credentials: 'same-origin'
+            });
+        } catch (_) { }
+
+        return;
+    }
+
     const open = e.target.closest('.js-open-reply');
     if (open) {
-      currentId = open.dataset.id;
+        currentId = open.dataset.id;
 
-      
-      const url = `${URLS.replyGet}?id=${encodeURIComponent(currentId)}`;
-      const html = await (await fetch(url, {
-        headers: { 'X-Requested-With': 'XMLHttpRequest' },
-        credentials: 'same-origin'
-      })).text();
-      document.getElementById('replyBody').innerHTML = html;
+        const url = `${URLS.replyGet}?id=${encodeURIComponent(currentId)}`;
+        const html = await (await fetch(url, {
+            headers: { 'X-Requested-With': 'XMLHttpRequest' },
+            credentials: 'same-origin'
+        })).text();
+        document.getElementById('replyBody').innerHTML = html;
 
-      
-      try {
-        await fetch(`${URLS.markAsRead}?id=${encodeURIComponent(currentId)}`, {
-          method: 'POST',
-          headers: {
-            'X-Requested-With': 'XMLHttpRequest',
-            'RequestVerificationToken': getAfToken()
-          },
-          credentials: 'same-origin'
-        });
-      } catch (_) { }
+        try {
+            await fetch(`${URLS.markAsRead}?id=${encodeURIComponent(currentId)}`, {
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'RequestVerificationToken': getAfToken()
+                },
+                credentials: 'same-origin'
+            });
+        } catch (_) { }
     }
 
-    // Arquivar
+    //Arquivar:
     const arch = e.target.closest('.js-archive');
     if (arch) {
-      const id = arch.dataset.id;
-      const resp = await fetch(`${URLS.archive}?id=${encodeURIComponent(id)}`, {
-        method: 'POST',
-        headers: {
-          'X-Requested-With': 'XMLHttpRequest',
-          'RequestVerificationToken': getAfToken()
-        },
-        credentials: 'same-origin'
-      });
-      if (resp.ok) location.reload();
+        const id = arch.dataset.id;
+        const resp = await fetch(`${URLS.archive}?id=${encodeURIComponent(id)}`, {
+            method: 'POST',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'RequestVerificationToken': getAfToken()
+            },
+            credentials: 'same-origin'
+        });
+        if (resp.ok) location.reload();
     }
 
-    // Desarquivar
+    //Desarquivar:
     const unarch = e.target.closest('.js-unarchive');
     if (unarch) {
-      const id = unarch.dataset.id;
-      const resp = await fetch(`${URLS.unarchive}?id=${encodeURIComponent(id)}`, {
-        method: 'POST',
-        headers: {
-          'X-Requested-With': 'XMLHttpRequest',
-          'RequestVerificationToken': getAfToken()
-        },
-        credentials: 'same-origin'
-      });
-      if (resp.ok) location.reload();
+        const id = unarch.dataset.id;
+        const resp = await fetch(`${URLS.unarchive}?id=${encodeURIComponent(id)}`, {
+            method: 'POST',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'RequestVerificationToken': getAfToken()
+            },
+            credentials: 'same-origin'
+        });
+        if (resp.ok) location.reload();
     }
-  });
-
-  
-  document.addEventListener('click', async (e) => {
-    const send = e.target.closest('#btnSendReply');
-    if (!send) return;
-
-    const ta = document.querySelector('#replyBody textarea[name="responseText"]');
-    if (!ta || !currentId) return;
-
-    const form = new FormData();
-    form.append('id', currentId);
-    form.append('responseText', ta.value);
-    form.append('__RequestVerificationToken', getAfToken());
-
-    const resp = await fetch(URLS.replyPost, {
-      method: 'POST',
-      body: form,
-      headers: { 'X-Requested-With': 'XMLHttpRequest' },
-      credentials: 'same-origin'
-    });
-
-    if (resp.ok) location.reload();
-  });
+});
 </script>
 }
 @section Styles {

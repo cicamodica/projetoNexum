@@ -9,19 +9,23 @@
 
   <ItemGroup>
     <Compile Remove="Areas\Admin\Views\NovaPasta1\**" />
+    <Compile Remove="Areas\Admin\Views\NovaPasta2\**" />
     <Compile Remove="Areas\Admin\Views\NovaPasta\**" />
     <Compile Remove="NovaPasta\**" />
     <Compile Remove="wwwroot\NovaPasta1\**" />
     <Compile Remove="wwwroot\NovaPasta2\**" />
     <Content Remove="Areas\Admin\Views\NovaPasta1\**" />
+    <Content Remove="Areas\Admin\Views\NovaPasta2\**" />
     <Content Remove="Areas\Admin\Views\NovaPasta\**" />
     <Content Remove="wwwroot\NovaPasta1\**" />
     <Content Remove="wwwroot\NovaPasta2\**" />
     <EmbeddedResource Remove="Areas\Admin\Views\NovaPasta1\**" />
+    <EmbeddedResource Remove="Areas\Admin\Views\NovaPasta2\**" />
     <EmbeddedResource Remove="Areas\Admin\Views\NovaPasta\**" />
     <EmbeddedResource Remove="wwwroot\NovaPasta1\**" />
     <EmbeddedResource Remove="wwwroot\NovaPasta2\**" />
     <None Remove="Areas\Admin\Views\NovaPasta1\**" />
+    <None Remove="Areas\Admin\Views\NovaPasta2\**" />
     <None Remove="Areas\Admin\Views\NovaPasta\**" />
     <None Remove="wwwroot\NovaPasta1\**" />
     <None Remove="wwwroot\NovaPasta2\**" />
@@ -37,6 +41,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Areas\Admin\Views\ConviteAdmin\StyleSheet.css" />
     <None Remove="Areas\Admin\Views\Dashboard\StyleSheet.css" />
     <None Remove="Views\Ongs\Index.cshtml.css" />
     <None Remove="Views\Shared\StyleSheet.css" />

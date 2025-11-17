@@ -1,0 +1,25 @@
+﻿h2 {
+    color: #16435D;
+    font-weight: 600;
+    font-size: clamp(25px, 7vw, 44px);
+    margin: 25px 0 20px 0;
+}
+
+.mb-3 {
+    font-size: 18px;
+}
+
+button {
+    color: #ffffff;
+    background-color: #2987bf;
+    border-radius: 24px;
+    cursor: pointer;
+    border-color: transparent;
+    font-size: 18px;
+}
+
+    button:hover {
+        background-color: #ffffff;
+        color: #2987bf;
+        border-color: #2987bf;
+    }

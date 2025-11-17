@@ -22,6 +22,18 @@ namespace nexumApp.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> OngsPdf(string[] columns)
         {
+            // 1) Busca metas e vagas agrupadas por ONG
+            var metasPorOng = await _db.Metas
+                .AsNoTracking()
+                .GroupBy(m => m.OngId)
+                .ToDictionaryAsync(g => g.Key, g => g.ToList());
+
+            var vagasPorOng = await _db.Vagas
+                .AsNoTracking()
+                .GroupBy(v => v.IdONG)
+                .ToDictionaryAsync(g => g.Key, g => g.ToList());
+
+            // 2) Dicionário de colunas possíveis (agora com filiais, metas e vagas)
             var allowed = new Dictionary<string, (string Header, Func<Ong, string> Value, float weight)>
             {
                 ["nome"] = ("Nome Razão", o => o.Nome ?? "", 2.2f),
@@ -30,9 +42,46 @@ namespace nexumApp.Areas.Admin.Controllers
                 ["cnpj"] = ("CNPJ", o => FormataCnpj(o.CNPJ), 1.4f),
                 ["aprovacao"] = ("Aprovação", o => o.Aprovaçao ? "Aprovada" : "Pendente", 1.2f),
                 ["email"] = ("E-mail", o => o.User?.Email ?? "", 1.8f),
-                ["doc"] = ("Documento", o => string.IsNullOrEmpty(o.DocumentoNome) ? "—" : o.DocumentoNome, 1.6f)
+                ["doc"] = ("Documento", o => string.IsNullOrEmpty(o.DocumentoNome) ? "—" : o.DocumentoNome, 1.6f),
+                ["filiais"] = ("Filiais", o =>
+                    {
+                        if (o.Filials == null || !o.Filials.Any())
+                            return "Não possui filiais";
+
+                        var detalhes = o.Filials.Select(f =>
+                            $"{f.Nome} – {f.Endereço} (CNPJ {FormataCnpj(f.CNPJ)})");
+
+                        
+                        return $"{o.Filials.Count} filiais:\n- " + string.Join("\n- ", detalhes);
+                    },
+                    3.0f),
+
+                ["metas"] = ("Metas", o =>
+                    {
+                        if (!metasPorOng.TryGetValue(o.Id, out var metas) || metas.Count == 0)
+                            return "Nenhuma meta cadastrada";
+
+                        var detalhes = metas.Select(m =>
+                            $"{m.Descricao} – {m.Status} (Atual: {m.ValorAtual}, Alvo: {m.ValorAlvo})");
+
+                        return $"{metas.Count} metas:\n- " + string.Join("\n- ", detalhes);
+                    },
+                    3.0f),
+
+                ["vagas"] = ("Vagas", o =>
+                    {
+                        if (!vagasPorOng.TryGetValue(o.Id, out var vagas) || vagas.Count == 0)
+                            return "Nenhuma vaga cadastrada";
+
+                        var detalhes = vagas.Select(v =>
+                            $"{v.Titulo} – {v.Status}");
+
+                        return $"{vagas.Count} vagas:\n- " + string.Join("\n- ", detalhes);
+                    },
+                    3.0f)
             };
 
+            //Filtra as colunas selecionadas:
             var specs = (columns ?? Array.Empty<string>())
                 .Select(c => c?.Trim().ToLowerInvariant())
                 .Where(c => !string.IsNullOrWhiteSpace(c) && allowed.ContainsKey(c))
@@ -43,11 +92,17 @@ namespace nexumApp.Areas.Admin.Controllers
             if (specs.Count == 0)
                 return BadRequest("Selecione ao menos uma coluna.");
 
-            var data = await _db.Ongs.AsNoTracking().OrderBy(o => o.Nome).ToListAsync();
+            //Busca ONGs com User e Filials:
+            var data = await _db.Ongs
+                .Include(o => o.User)
+                .Include(o => o.Filials)
+                .AsNoTracking()
+                .OrderBy(o => o.Nome)
+                .ToListAsync();
 
-
-            var primary = Colors.Blue.Medium;     
-            var text = Colors.Grey.Darken4;   
+            // Geração do PDF:
+            var primary = Colors.Blue.Medium;
+            var text = Colors.Grey.Darken4;
 
             byte[] pdf = Document.Create(doc =>
             {
@@ -56,11 +111,10 @@ namespace nexumApp.Areas.Admin.Controllers
                     page.Size(PageSizes.A4.Landscape());
                     page.Margin(25);
                     page.DefaultTextStyle(TextStyle.Default
-                        .FontFamily("Poppins")      
+                        .FontFamily("Poppins")
                         .FontSize(10)
                         .FontColor(text));
 
-                    
                     page.Header().Row(row =>
                     {
                         row.RelativeItem().Column(col =>
@@ -75,22 +129,18 @@ namespace nexumApp.Areas.Admin.Controllers
                                 txt.Span(DateTime.Now.ToString("dd/MM/yyyy HH:mm"));
                             });
                         });
-
-                      
                     });
 
                     page.Content().Element(container =>
                     {
                         container.PaddingTop(10).Table(table =>
                         {
-                            
                             table.ColumnsDefinition(cols =>
                             {
                                 foreach (var s in specs)
                                     cols.RelativeColumn(s.weight);
                             });
 
-                            
                             table.Header(header =>
                             {
                                 foreach (var s in specs)
@@ -106,7 +156,6 @@ namespace nexumApp.Areas.Admin.Controllers
                                      .BorderColor(Colors.Grey.Lighten1)
                                      .DefaultTextStyle(TextStyle.Default.SemiBold());
                             });
-
 
                             var i = 0;
                             foreach (var o in data)

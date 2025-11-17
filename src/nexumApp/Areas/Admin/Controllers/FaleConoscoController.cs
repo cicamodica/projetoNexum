@@ -22,7 +22,7 @@ public class FaleConoscoController : Controller
 
     // GET
     [HttpGet]
-    public async Task<IActionResult> Index(string? status = "Todos")
+    public async Task<IActionResult> Index(string status = "Todos")
     {
         ViewBag.Status = status ?? "Todos";
 
@@ -31,11 +31,13 @@ public class FaleConoscoController : Controller
         switch ((status ?? "Todos").Trim().ToLowerInvariant())
         {
             case "novo":
-                q = q.Where(x => !x.Visualizada && !x.Respondida && !x.Arquivada);
+                q = q.Where(x => !x.Visualizada && !x.Arquivada);
                 break;
+
             case "respondido":
                 q = q.Where(x => x.Respondida && !x.Arquivada);
                 break;
+
             case "arquivado":
                 q = q.Where(x => x.Arquivada);
                 break;
@@ -67,6 +69,24 @@ public class FaleConoscoController : Controller
         var count = await _db.FaleConoscoModels
             .CountAsync(m => !m.Visualizada && !m.Arquivada);
         return Json(new { count });
+    }
+
+    // GET (Partial) – só para visualizar os detalhes da mensagem:
+    [HttpGet]
+    public async Task<IActionResult> Details(int id)
+    {
+        var item = await _db.FaleConoscoModels.FindAsync(id);
+        if (item == null) return NotFound();
+
+        if (!item.Visualizada)
+        {
+            item.Visualizada = true;
+            if (string.IsNullOrEmpty(item.Status) || item.Status == "Novo")
+                item.Status = "Lido";
+            await _db.SaveChangesAsync();
+        }
+
+        return PartialView("_FaleConoscoDetails", item);
     }
 
     // POST
@@ -119,7 +139,7 @@ public class FaleConoscoController : Controller
         {
             item.Visualizada = true;
             if (string.IsNullOrEmpty(item.Status) || item.Status == "Novo")
-                item.Status = "Novo";
+                item.Status = "Lido";
             await _db.SaveChangesAsync();
         }
         return Ok(new { ok = true });

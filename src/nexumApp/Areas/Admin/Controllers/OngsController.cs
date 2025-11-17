@@ -23,19 +23,20 @@ namespace nexumApp.Areas.Admin.Controllers
             return View(lista); 
         }
 
+        [Authorize(Policy = "RequireAdmin")]
         [HttpGet]
         public async Task<IActionResult> PendingDetails(int id)
         {
             var ong = await _ctx.Ongs
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .Include(o => o.Filials)
+                .FirstOrDefaultAsync(o => o.Id == id);
 
-            if (ong == null) return NotFound();
+            if (ong == null)
+                return NotFound();
 
-            return PartialView(
-     "~/Areas/Admin/Views/CadastroOngModal/_DetalhesOng.cshtml",
-     ong
- );
+            return PartialView("_DetalhesOng", ong);
         }
+
         [HttpGet]
         public async Task<IActionResult> DownloadDocumento(int id)
         {

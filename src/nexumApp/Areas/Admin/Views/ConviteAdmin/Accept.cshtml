@@ -1,0 +1,45 @@
+﻿@model nexumApp.Models.ConviteAdminViewModel
+@{
+    ViewData["Title"] = "Convite para Administrador";
+}
+
+<h2>Ativar conta de administrador</h2>
+
+<form asp-action="Accept" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Token" />
+
+    <div class="mb-3">
+        <label asp-for="Email" class="form-label">E-mail</label>
+        <input asp-for="Email" class="form-control" readonly />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Password" class="form-label">Senha</label>
+        <input asp-for="Password" type="password" class="form-control" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ConfirmPassword" class="form-label">Confirmar senha</label>
+        <input asp-for="ConfirmPassword" type="password" class="form-control" />
+        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+    </div>
+
+    <button class="btn btn-primary" type="submit">Ativar conta</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+@section Styles {
+    <style>
+
+        .form-control {
+            border-radius: 24px !important;
+        }
+    </style>
+}
+

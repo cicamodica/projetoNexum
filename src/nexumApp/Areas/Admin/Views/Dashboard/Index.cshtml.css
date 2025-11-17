@@ -10,6 +10,12 @@ h2 {
     margin: 0px 0 20px 0;
 }
 
+.form-control {
+    border-radius: 24px;
+    margin-top: 10px;
+    width: 350px;
+}
+
 .section-divider {
     border: none;
     color: #16435D;

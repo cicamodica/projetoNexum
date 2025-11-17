@@ -30,6 +30,23 @@
 
     <h1 class="admin-hello">Olá, @User.Identity?.Name!</h1>
 
+
+    <hr class="section-divider" />
+
+    <section class="admin-section">
+        <h3 class="admin-h3">Convidar novo administrador</h3>
+
+        <form asp-area="Admin" asp-controller="ConviteAdmin" asp-action="CreateInvite" method="post" class="row gy-2 gx-2">
+            @Html.AntiForgeryToken()
+            <div class="col-auto">
+                <input type="email" name="email" class="form-control" placeholder="email@exemplo.com" required />
+            </div>
+            <div class="col-auto">
+                <button class="btn btn-primary admin-pill" type="submit">Gerar convite</button>
+            </div>
+        </form>
+    </section>
+    
     <hr class="section-divider" />
 
     <section class="admin-section">
@@ -37,7 +54,7 @@
 
         @if (!(Model?.Any() ?? false))
         {
-            <div class="alert alert-success mt-3">Sem pendências no momento 🎉</div>
+            <div class="alert alert-success mt-3">Sem pendências no momento</div>
         }
         else
         {
@@ -96,10 +113,101 @@
                         </div>
 
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Fechar</button>
-                            <button type="button" class="btn btn-danger" id="btnReprovar">Reprovar</button>
-                            <button type="button" class="btn btn-success" id="btnAprovar">Aprovar</button>
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                Fechar
+                            </button>
+
+                            <button type="button" class="btn btn-danger" id="btnReprovar" data-ong-id="">
+                                Reprovar
+                            </button>
+
+                            <form id="formAprovar"
+                                  asp-area="Admin"
+                                  asp-controller="Dashboard"
+                                  asp-action="Approve"
+                                  method="post"
+                                  class="d-inline">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" id="aprovarId" />
+                                <button type="submit" class="btn btn-success">Aprovar</button>
+                            </form>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="reprovarModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Motivo da reprovação</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+
+                        <form asp-area="Admin"
+                              asp-controller="Dashboard"
+                              asp-action="Reject"
+                              method="post"
+                              id="formReprovar">
+                            @Html.AntiForgeryToken()
+
+                            <div class="modal-body">
+                                <input type="hidden" name="id" id="reprovarOngId" />
+
+                                <p>Selecione o(s) motivo(s) da reprovação:</p>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox"
+                                           name="motivos"
+                                           id="motivo1"
+                                           value="ENDEREÇO INCOMPLETO OU INEXISTENTE" />
+                                    <label class="form-check-label" for="motivo1">
+                                        Endereço incompleto ou inexistente
+                                    </label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox"
+                                           name="motivos"
+                                           id="motivo2"
+                                           value="CNPJ INVÁLIDO" />
+                                    <label class="form-check-label" for="motivo2">
+                                        CNPJ inválido
+                                    </label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox"
+                                           name="motivos"
+                                           id="motivo3"
+                                           value="DOCUMENTO DE COMPROVAÇÃO INCORRETO" />
+                                    <label class="form-check-label" for="motivo3">
+                                        Documento de comprovação incorreto
+                                    </label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox"
+                                           name="motivos"
+                                           id="motivo4"
+                                           value="DOCUMENTO DE COMPROVAÇÃO INLEGÍVEL" />
+                                    <label class="form-check-label" for="motivo4">
+                                        Documento de comprovação ilegível
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button"
+                                        class="btn btn-outline-secondary"
+                                        data-bs-dismiss="modal">
+                                    Cancelar
+                                </button>
+                                <button type="submit" class="btn btn-danger">
+                                    Reprovar
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -150,7 +258,9 @@
                     <button type="button" class="admin-chip" data-col="aprovacao">Status de aprovação</button>
                     <button type="button" class="admin-chip" data-col="cnpj">CNPJ</button>
                     <button type="button" class="admin-chip" data-col="email">E-mail</button>
-                    <button type="button" class="admin-chip" data-col="filiais">Quantidade de cadastros</button>
+                    <button type="button" class="admin-chip" data-col="filiais">Filiais</button>
+                    <button type="button" class="admin-chip" data-col="metas">Metas</button>
+                    <button type="button" class="admin-chip" data-col="vagas">Vagas</button>
                     <button type="button" class="admin-chip" data-col="doc">Documento de comprovação</button>
                     <button type="button" class="admin-chip" data-col="endereco">Endereço</button>
                 </div>
@@ -171,32 +281,61 @@
 @section Scripts {
 
     <script>
-        document.addEventListener('click', async (e) => {
-          const btn = e.target.closest('.btn-visualizar');
-          if (!btn) return;
 
-          const id = btn.dataset.id;
-          const nome = btn.dataset.nome;
-          const sub = document.getElementById('ongModalSub');
-          const body = document.getElementById('ongModalBody');
+                 document.addEventListener('click', async (e) => {
+            const btnVisualizar = e.target.closest('.btn-visualizar');
+            if (btnVisualizar) {
+                const id   = btnVisualizar.dataset.id;
+                const nome = btnVisualizar.dataset.nome;
 
-          sub.textContent = nome || '';
-          body.innerHTML = '<div class="text-center py-5">Carregando...</div>';
+                const sub  = document.getElementById('ongModalSub');
+                const body = document.getElementById('ongModalBody');
 
-          try {
-            const url = '@Url.Action("PendingDetails", "Ongs", new { area = "Admin" })' + `?id=${id}`;
-            const resp = await fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' }});
-            if (!resp.ok) throw new Error('Erro ao carregar detalhes');
+                // guarda ID pra reprovar
+                const btnReprovar = document.getElementById('btnReprovar');
+                if (btnReprovar) btnReprovar.dataset.ongId = id;
 
-            const html = await resp.text();
-            body.innerHTML = html;
-          } catch (err) {
-            body.innerHTML = `<div class="alert alert-danger m-0">${err.message}</div>`;
-          }
+                // guarda ID no hidden do Aprovar
+                const inputAprovar = document.getElementById('aprovarId');
+                if (inputAprovar) inputAprovar.value = id;
+
+                sub.textContent = nome || '';
+                body.innerHTML = '<div class="text-center py-5">Carregando...</div>';
+
+                try {
+                    const url = '@Url.Action("PendingDetails", "Ongs", new { area = "Admin" })' + `?id=${id}`;
+                    const resp = await fetch(url, {
+                        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                    });
+                    if (!resp.ok) throw new Error('Erro ao carregar detalhes');
+
+                    const html = await resp.text();
+                    body.innerHTML = html;
+                } catch (err) {
+                    body.innerHTML = `<div class="alert alert-danger m-0">${err.message}</div>`;
+                }
+            }
+
+            // abrir modal de motivos ao clicar em Reprovar
+            const btnReprovarClick = e.target.closest('#btnReprovar');
+            if (btnReprovarClick) {
+                const idOng = btnReprovarClick.dataset.ongId;
+                if (!idOng) return;
+
+                document.getElementById('reprovarOngId').value = idOng;
+
+                const ongModalEl = document.getElementById('ongModal');
+                const ongModal   = bootstrap.Modal.getInstance(ongModalEl);
+                if (ongModal) ongModal.hide();
+
+                const reprovarModalEl = document.getElementById('reprovarModal');
+                const reprovarModal   = new bootstrap.Modal(reprovarModalEl);
+                reprovarModal.show();
+            }
         });
 
         document.addEventListener('click', (e) => {
-          // Botão "Visualizar PDF"
+          // Botão "Visualizar PDF":
           const btnView = e.target.closest('.js-view-pdf');
           if (btnView) {
             const url = btnView.dataset.url;

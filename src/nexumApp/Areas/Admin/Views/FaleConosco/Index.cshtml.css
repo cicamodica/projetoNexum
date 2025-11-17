@@ -7,11 +7,13 @@
 
 .btn-sm {
     color: #ffffff;
-    background-color: #16435D;
+    background: #2987bf;
     border: 1.5px solid transparent;
+    transition: .2s;
+    font-size: 15px;
+    inline-size: 120px;
+    padding: 6px 12px;
     border-radius: 24px;
-    cursor: pointer;
-    padding: 5px 10px;
 }
 
     .btn-sm:hover {
@@ -22,42 +24,37 @@
 
 .fale-table {
     width: 100%;
-    table-layout: auto;
 }
 
     .fale-table th, .fale-table td {
         overflow: hidden;
         text-overflow: ellipsis;
-        vertical-align: middle;
+        vertical-align: central;
     }
 
     .fale-table .col-acoes {
         width: 230px;
+        align-items: center;
     }
 
 .actions-wrap {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     gap: 8px;
 }
 
 .btn-sm-reply,
-.btn-action {
+.btn-action,
+.btn-sm-view {
     inline-size: 120px;
-}
-
-.btn-sm-reply {
     padding: 6px 12px;
     border-radius: 24px;
-}
-
-.btn-action {
-    padding: 6px 12px;
-    border-radius: 24px;
+    font-size: 15px;
 }
 
 
-.btn-sm-reply {
+.btn-sm-reply,
+.btn-sm-view {
     color: #fff;
     background: #2987bf;
     border: 1.5px solid transparent;
@@ -65,6 +62,12 @@
 }
 
     .btn-sm-reply:hover {
+        color: #2987bf;
+        background: #fff;
+        border-color: #2987bf;
+    }
+
+    .btn-sm-view:hover {
         color: #2987bf;
         background: #fff;
         border-color: #2987bf;
@@ -100,7 +103,9 @@
         align-items: stretch;
     }
 
-    .btn-sm-reply, .btn-action {
+    .btn-sm-reply,
+    .btn-action,
+    .btn-sm-view {
         inline-size: 100%;
     }
 }
