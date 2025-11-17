@@ -119,10 +119,7 @@ namespace nexumApp.Controllers
             return PartialView("_VagasPartial", vagasPublicas);
         }
 
-        // ====================================================================
-        // ▼▼▼ NOVAS AÇÕES ADICIONADAS PARA O MODAL ▼▼▼
-        // ====================================================================
-
+      
 
 
         [AllowAnonymous]

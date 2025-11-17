@@ -949,36 +949,31 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
 
-            // =============================================================
-            // ▼▼▼ BLOCO DE TESTE DE SEGURANÇA (A CORREÇÃO) ▼▼▼
-            // =============================================================
-
-            console.log("Iniciando script do Marketplace..."); // Log 1
+          
+            console.log("Iniciando script do Marketplace..."); 
 
             const vagaModalElement = document.getElementById('vagaModal');
-            let vagaModal; // Declarado aqui
+            let vagaModal;
             const vagaModalBody = document.getElementById('vagaModalBody');
 
-            // TESTE 1: O HTML do modal foi encontrado?
+           
             if (vagaModalElement === null) {
                 console.error("ERRO GRAVE (TESTE 1): O 'casco' (shell) do modal com id='vagaModal' não foi encontrado no arquivo Marketplace.cshtml.");
-                return; // Para o script se o HTML essencial estiver faltando
+                return; 
             } else {
-                console.log("SUCESSO (TESTE 1): HTML do modal (id='vagaModal') foi encontrado."); // Log 2
+                console.log("SUCESSO (TESTE 1): HTML do modal (id='vagaModal') foi encontrado."); 
             }
 
-            // TESTE 2: O JavaScript do Bootstrap foi carregado?
+            
             if (typeof bootstrap !== 'undefined' && typeof bootstrap.Modal !== 'undefined') {
                 vagaModal = new bootstrap.Modal(vagaModalElement);
-                console.log("SUCESSO (TESTE 2): JavaScript do Bootstrap foi carregado. Modal inicializado."); // Log 3
+                console.log("SUCESSO (TESTE 2): JavaScript do Bootstrap foi carregado. Modal inicializado."); 
             } else {
                 console.error("ERRO GRAVE (TESTE 2): 'bootstrap.Modal' não foi definido. O JS do Bootstrap (bootstrap.bundle.min.js) falhou ou não foi carregado a tempo."); // Log 3
-                return; // Para o script se o Bootstrap JS estiver faltando
+                return; 
             }
 
-            // =============================================================
-            // ▲▲▲ FIM DO BLOCO DE TESTE ▲▲▲
-            // =============================================================
+            
 
 
             const btnDoacoes = document.getElementById('btn-toggle-doacoes');
@@ -1042,7 +1037,7 @@
 
                 if (!vagasCarregadas) {
                     vagasContainer.innerHTML = `<div class="col-12 text-center"><p class="lead">Buscando vagas...</p></div>`;
-                    fetchVagas(); // Carrega vagas sem filtro na primeira vez
+                    fetchVagas(); 
                 } else {
                      titulo.textContent = `Resultados para Voluntariado (${totalVagas})`;
                 }
@@ -1213,7 +1208,6 @@
                     });
             }
 
-            // Delegação de evento para abrir o modal da vaga
             vagasContainer.addEventListener('click', function (event) {
                 const target = event.target.closest('.btn-visualizar');
                 if (target) {
@@ -1225,7 +1219,7 @@
                         return;
                     }
 
-                    // Define o estado de loading no modal
+                    
                     vagaModalBody.innerHTML = `
                         <div class="text-center p-4">
                             <div class="spinner-border text-primary" role="status">
@@ -1234,20 +1228,20 @@
                             <p class="mt-2">Carregando informações da vaga...</p>
                         </div>`;
 
-                    // Abre o modal
+                    
                     if (vagaModal) {
                         vagaModal.show();
                     } else {
                         console.error("Erro: A variável 'vagaModal' não foi inicializada. O JS do Bootstrap está faltando ou o 'casco' do modal não foi encontrado?");
                     }
 
-                    // Busca o conteúdo do modal (detalhes da vaga + formulário)
+                   
                     const url = `@Url.Action("GetVagaDetalheFormPartial", "Home")?vagaId=${vagaId}`;
 
                     fetch(url)
                         .then(response => {
                             if (!response.ok) {
-                                // Se o servidor retornar 404 (Not Found) ou 500 (Erro de Servidor)
+                                
                                 return response.text().then(text => {
                                     throw new Error(`Falha ao carregar detalhes da vaga. Status: ${response.status}. Mensagem: ${text}`);
                                 });
@@ -1284,11 +1278,11 @@
                         const response = await fetch(form.action, {
                             method: 'POST',
                             body: formData
-                            // Se você usa [ValidateAntiForgeryToken], você precisa adicionar o token
+                           
                         });
 
                         if (response.ok) {
-                            // Sucesso!
+                            
                             vagaModalBody.innerHTML = `
                                 <div class="text-center p-5">
                                     <h3 class="text-success">Inscrição Enviada!</h3>
@@ -1296,9 +1290,9 @@
                                     <button type="button" class="btn btn-doar" data-bs-dismiss="modal">Fechar</button>
                                 </div>`;
                         } else {
-                            // Falha (ex: erro de validação do servidor)
+                            
                             const errorHtml = await response.text();
-                            // Recarrega o conteúdo do modal com as mensagens de erro de validação
+                           
                             vagaModalBody.innerHTML = errorHtml;
                         }
 
@@ -1306,13 +1300,12 @@
                         console.error('Erro ao submeter formulário:', error);
                          vagaModalBody.innerHTML = `<div class="alert alert-danger m-0">Ocorreu um erro de rede ao enviar sua inscrição. Tente novamente.</div>`;
                     }
-                    // O 'finally' foi removido porque se a submissão falhar,
-                    // o botão original já não existe mais (o HTML foi substituído)
+                    
                 }
             });
 
 
-            /* --- LÓGICA DO CALENDÁRIO (sem alterações) --- */
+            
             function renderCalendar() {
                 const year = currentDate.getFullYear();
                 const month = currentDate.getMonth();
