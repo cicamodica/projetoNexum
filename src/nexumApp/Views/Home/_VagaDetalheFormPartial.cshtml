@@ -1,0 +1,110 @@
+﻿
+@model nexumApp.Models.Vaga
+
+
+<div class="vaga-info-section">
+    <div class="vaga-info-logo">
+       
+        <img src="@Model.ImagemUrl" alt="Logo @Model.Ong.Nome">
+    </div>
+    <div class="vaga-info-details">
+        <h3>@Model.Titulo</h3>
+        <p class="vaga-ong-name">@Model.Ong.Nome</p>
+        <p class="vaga-description-full">@Model.Descricao</p> 
+        <p class="vaga-location"><i class="bi bi-geo-alt-fill"></i> @Model.Ong.Endereço</p>
+      
+        <p class="vaga-period">
+            <i class="bi bi-calendar-event-fill"></i>
+            De: @Model.DataInicio.ToString("dd/MM/yyyy")
+            Até: @Model.DataFim.ToString("dd/MM/yyyy")
+        </p>
+    </div>
+</div>
+
+<div class="form-vaga-section">
+    <h4>FORMULÁRIO DE INSCRIÇÃO</h4>
+
+    @* Este formulário será enviado via AJAX pelo script em Marketplace.cshtml.
+        O 'asp-action' aponta para a Ação no seu Controller que vai RECEBER os dados.
+        O 'id' é usado pelo JavaScript para interceptar o 'submit'.
+    *@
+    <form id="formInscricaoVaga" asp-action="InscreverVoluntario" asp-controller="Home" method="post" enctype="multipart/form-data">
+
+        @* Adicione um campo oculto para o ID da Vaga, para saber a qual vaga o voluntário está se inscrevendo *@
+      
+        <input type="hidden" asp-for="IdVaga" name="id" />
+
+        @* Adicione aqui um 'div' para mostrar erros de submissão, se houver *@
+        @* <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div> *@
+
+        <div class="form-vaga-flex">
+            <div class="form-vaga-profile">
+                <div class="form-vaga-profile-pic" onclick="document.getElementById('fotoVoluntario').click()">
+                    <img id="fotoPreview" src="https://placehold.co/150x150/f0f0f0/aaa?text=+" alt="Preview da foto">
+                    @* <i class="bi bi-person-fill form-vaga-profile-pic-icon"></i> *@
+                </div>
+                <label for="fotoVoluntario" class="btn btn-secondary btn-sm btn-upload">Carregar Imagem</label>
+                <input type="file" id="fotoVoluntario" name="Foto" class="d-none" accept="image/*" onchange="previewImagem(event)">
+            </div>
+
+            <div class="form-vaga-fields">
+                <div class="form-group">
+                    <label for="nomeVoluntario" class="form-label">Nome Completo</label>
+                    <input type="text" id="nomeVoluntario" name="NomeCompleto" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="emailVoluntario" class="form-label">E-mail</label>
+                    <input type="email" id="emailVoluntario" name="Email" class="form-control" required>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="contatoVoluntario" class="form-label">Número de contato</label>
+            <input type="tel" id="contatoVoluntario" name="Telefone" class="form-control">
+        </div>
+
+        <div class="form-vaga-split">
+            <div class="form-group">
+                <label for="cpfVoluntario" class="form-label">CPF</label>
+                <input type="text" id="cpfVoluntario" name="CPF" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="nascimentoVoluntario" class="form-label">Data de nascimento</label>
+                <input type="date" id="nascimentoVoluntario" name="DataNascimento" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="generoVoluntario" class="form-label">Gênero (opcional)</label>
+                <input type="text" id="generoVoluntario" name="Genero" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="habilidadesVoluntario" class="form-label">Habilidades</label>
+            <textarea id="habilidadesVoluntario" name="Habilidades" class="form-control" rows="3" placeholder="Descreva aqui as habilidades que você possui que podem torná-lo apto para preencher a vaga"></textarea>
+        </div>
+
+        <div class="form-vaga-footer">
+            <p class="form-text text-muted">Após enviar o formulário você será notificado via e-mail</p>
+            <button type="submit" class="btn btn-submit-vaga">Enviar formulário</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    
+    function previewImagem(event) {
+        const input = event.target;
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const preview = document.getElementById('fotoPreview');
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+               
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
