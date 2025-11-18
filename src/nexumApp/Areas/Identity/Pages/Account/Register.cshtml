@@ -47,9 +47,19 @@
                                     <span asp-validation-for="Input.Descriçao" class="text-danger"></span>
                                 </div>
                                 <div class="mb-3">
+                                    <label asp-for="Input.CEP" class="control-label"></label>
+                                    <input type="text" maxlength="8" asp-for="Input.CEP" class="form-control Cadastro-input" id="inputCEP" placeholder="Somente números"/>
+                                    <span asp-validation-for="Input.CEP" class="text-danger" id="inputCEPValidation"></span>
+                                </div>
+                                <div class="mb-3">
                                     <label asp-for="Input.Endereço" class="control-label"></label>
-                                    <input asp-for="Input.Endereço" class="form-control Cadastro-input" />
+                                    <input readonly asp-for="Input.Endereço" class="form-control Cadastro-input" id="inputEndereço"/>
                                     <span asp-validation-for="Input.Endereço" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3">
+                                    <label asp-for="Input.Complemento" class="control-label"></label>
+                                    <input asp-for="Input.Complemento" class="form-control Cadastro-input"/>
+                                    <span asp-validation-for="Input.Complemento" class="text-danger"></span>
                                 </div>
                                 <div class="mb-3">
                                     <label asp-for="Input.CNPJ" class="control-label"></label>
@@ -86,6 +96,7 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+
     <script>
         let cadastroButton = document.getElementById("Cadastro-button")
         let radioY = document.getElementById("radioY")
@@ -98,6 +109,46 @@
             console.log(cadastroButton)
             cadastroButton.value = "Cadastrar"
         })
-    </script> 
-}
+     </script>
 
+     <script>
+        let inputCEP = document.getElementById("inputCEP")
+        let inputCEPValidation = document.getElementById("inputCEPValidation")
+        let inputEndereço = document.getElementById("inputEndereço")
+
+        const fillAddress = (data) => {
+            if(data.erro) {
+                return inputCEPValidation.textContent = "CEP inválido"
+            }
+            
+            const { logradouro, bairro, localidade, uf } = data
+            const address = `${logradouro} - ${bairro}, ${localidade} - ${uf}`
+            inputEndereço.value = address
+        }
+
+        const fetchCEP = (CEP) => {
+         URL = `https://viacep.com.br/ws/${CEP}/json/`
+         fetch(URL)
+         .then(res => res.json())
+         .then(data => fillAddress(data))
+         .catch(err => {
+            console.log(err)
+        }) 
+        }
+
+        inputCEP.addEventListener("focusout", () => {
+            let isNum =  /^\d+$/.test(inputCEP.value)
+            inputCEPValidation.textContent = ""
+            if(!inputCEP.value) {
+                inputEndereço.value = ""
+                return inputCEPValidation.textContent = "Obrigatório informar o CEP!"
+            }
+            if(inputCEP.value.length < 8 || !isNum) {
+                inputEndereço.value = ""
+                return inputCEPValidation.textContent = "O CEP deve conter 8 números"
+            }
+                fetchCEP(inputCEP.value)
+        })
+     </script>
+   
+}

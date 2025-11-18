@@ -24,7 +24,7 @@ namespace nexumApp.Controllers
         {
             int pageSize = 3;
             int pageNumber = (page ?? 1);
-            var ongs = await _context.Ongs.Where(ong => ong.Aprovaçao == false).ToListAsync(); 
+            var ongs = await _context.Ongs.Where(ong => ong.Aprovaçao == true).ToListAsync(); 
             var tags = new Tags().TagsNames;
             ViewBag.Tags = tags;
             ViewBag.Total = ongs.Count;

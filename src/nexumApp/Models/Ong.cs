@@ -16,6 +16,8 @@ namespace nexumApp.Models
         [Display(Name = "Descrição de atividades")]
         [StringLength(300)]
         public string Descriçao { get; set; }
+        public string CEP { get; set; }
+
         [Required(ErrorMessage = "Obrigatório informar o Endereço!")]
         [StringLength(300)]
         public string Endereço { get; set; }

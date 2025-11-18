@@ -72,9 +72,17 @@ namespace nexumApp.Areas.Identity.Pages.Account
             [StringLength(300)]
             public string Descriçao { get; set; }
 
+            [Required(ErrorMessage = "Obrigatório informar o CEP!")]
+            [StringLength(8, MinimumLength = 8, ErrorMessage = "O CEP deve conter 8 números")]
+            public string CEP { get; set; }
+
             [Required(ErrorMessage = "Obrigatório informar o Endereço!")]
             [StringLength(300)]
             public string Endereço { get; set; }
+
+            [Required(ErrorMessage = "Obrigatório informar o complemento!")]
+            [StringLength(100)]
+            public string Complemento { get; set; }
 
             [Required(ErrorMessage = "Obrigatório informar o CNPJ!")]
             [StringLength(14, MinimumLength = 14, ErrorMessage = "O CNPJ deve conter 14 números")]
@@ -137,10 +145,12 @@ namespace nexumApp.Areas.Identity.Pages.Account
                     {
                         Nome = Input.Nome,
                         Descriçao = Input.Descriçao,
-                        Endereço = Input.Endereço,
+                        Endereço = $"{Input.Complemento} - {Input.Endereço}",
                         CNPJ = Input.CNPJ,
                         UserId = userId,
-                        Tag = Input.SelectedTagId
+                        Tag = Input.SelectedTagId,
+                        CEP = Input.CEP
+                        
                     };
                     using (var ms = new MemoryStream())
                     {
