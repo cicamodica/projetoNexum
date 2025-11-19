@@ -337,6 +337,13 @@
                         <input type="text" class="form-control rounded-pill form-control-custom" id="editStatus" name="Status" required>
                     </div>
 
+                        <div class="mb-3">
+                            <label for="editEndereco" class="form-label">Local da Vaga</label>
+                            <select class="form-select form-control-custom rounded-pill" id="editEndereco" name="IdFilial">
+                                <option value="" selected disabled>Carregando...</option>
+                            </select>
+                        </div>
+
                     <div class="mb-3">
                          <label for="editImagemFile" class="form-label">Alterar Imagem da Vaga (Opcional)</label>
                          <input type="file" class="form-control form-control-custom" id="editImagemFile" name="imagemFile" accept="image/png, image/jpeg">
@@ -502,12 +509,23 @@
                             <input type="file" class="form-control form-control-custom" id="imagemFile" name="imagemFile" accept="image/png, image/jpeg">
                         </div>
 
+                       
+
                         <div class="mb-3">
                             <label for="Endereco" class="form-label">Selecione a matriz ou a filial</label>
-                            <select class="form-select form-control-custom rounded-pill" id="Endereco" name="Endereco" required>
-                                <option value="" selected disabled>Carregando locais...</option>
+                            <select class="form-select form-control-custom rounded-pill" id="Endereco" name="IdFilial" required>
+                                <option value="" selected disabled>Selecione o local</option>
+                                <option value="">Sede Principal (@Model.Nome)</option>
+                                @if (ViewBag.Filiais != null)
+                                {
+                                    foreach (var filial in ViewBag.Filiais)
+                                    {
+                                        <option value="@filial.Id">@filial.Endereço</option>
+                                    }
+                                }
                             </select>
                         </div>
+
                         <p class="text-center text-muted small mt-4">
                             Após criar a vaga, ela será exibida no seu painel.
                         </p>
@@ -724,119 +742,106 @@
         
         window.addEventListener('load', function() {
 
-                //  FUNÇÃO PARA CARREGAR AS FILIAIS (DROPDOWN)
-               
-                function carregarFiliais() {
-                    fetch('/Vagas/GetFiliais')
-                        .then(r => r.json())
-                        .then(data => {
-                            const selects = [
-                                document.getElementById('Endereco'),      // Modal Criar
-                                document.getElementById('editEndereco')   // Modal Editar
-                            ];
-                            selects.forEach(sel => {
-                                if(sel) {
-                                    sel.innerHTML = '<option value="" selected disabled>Selecione a matriz ou a filial</option>';
-                                    data.forEach(item => {
-                                        var opt = document.createElement('option');
-                                        opt.value = item.valor; // Endereço (o que vai pro banco)
-                                        opt.text = item.nome;   // Nome da Filial (vai ter ?)
-                                        sel.appendChild(opt);
-                                    });
-                                }
-                            });
-                        })
-                        .catch(err => console.error("Erro ao carregar filiais:", err));
-                }
-                    carregarFiliais();
+            
 
             
-            var deleteModalElement = document.getElementById('modalExcluirVaga');
-            if (deleteModalElement) {
+                var deleteModalElement = document.getElementById('modalExcluirVaga');
+                if (deleteModalElement) {
+                    deleteModalElement.addEventListener('show.bs.modal', function (event) {
+                        var button = event.relatedTarget;
+                        if (button) {
+                            var vagaId = button.getAttribute('data-vaga-id');
+                            var vagaTitulo = button.getAttribute('data-vaga-titulo');
+                            var modalTituloElement = deleteModalElement.querySelector('#deleteVagaTitulo');
+                            var modalInputElement = deleteModalElement.querySelector('#deleteVagaId');
+                            if (modalTituloElement) modalTituloElement.textContent = '"' + vagaTitulo + '"';
+                            if (modalInputElement) modalInputElement.value = vagaId;
+                        }
+                    });
+                }
 
-                deleteModalElement.addEventListener('show.bs.modal', function (event) {
-
-
-                    var button = event.relatedTarget;
-
-
-                    if (button) {
+                // 2. LÓGICA DO MODAL EDITAR VAGA (AQUI ESTÁ A MÁGICA DAS FILIAIS)
+                var editModalElement = document.getElementById('modalEditarVaga');
+                if (editModalElement) {
+                    editModalElement.addEventListener('show.bs.modal', function (event) {
+                        var button = event.relatedTarget;
+                        if (!button) return;
 
                         var vagaId = button.getAttribute('data-vaga-id');
-                        var vagaTitulo = button.getAttribute('data-vaga-titulo');
 
-                        var modalTituloElement = deleteModalElement.querySelector('#deleteVagaTitulo');
-                        var modalInputElement = deleteModalElement.querySelector('#deleteVagaId');
+                        // Referências
+                        var modalTitulo = document.getElementById('editTitulo');
+                        var modalDescricao = document.getElementById('editDescricao');
+                        var modalStatus = document.getElementById('editStatus');
+                        var modalVagaIdInput = document.getElementById('editVagaId');
+                        var modalVagaIdOngInput = document.getElementById('editVagaIdOng');
+                        var modalImagemUrlInput = document.getElementById('editImagemUrlAtual');
+                        var modalImagePreview = document.getElementById('editImagePreview');
+                        var modalFileInput = document.getElementById('editImagemFile');
+                        var modalEnderecoSelect = document.getElementById('editEndereco');
 
+                        // Limpar
+                        modalTitulo.value = 'Carregando...';
+                        modalDescricao.value = '';
+                        modalStatus.value = '';
+                        modalVagaIdInput.value = '';
+                        modalVagaIdOngInput.value = '';
+                        modalImagemUrlInput.value = '';
+                        modalImagePreview.style.display = 'none';
+                        modalImagePreview.src = '';
+                        modalFileInput.value = '';
 
-                        if (modalTituloElement) {
-                            modalTituloElement.textContent = '"' + vagaTitulo + '"';
-                        }
-                        if (modalInputElement) {
-                            modalInputElement.value = vagaId;
-                        }
-                    }
-                });
-            }
+                        // Passo 1: Buscar Filiais (Popula o Select)
+                        fetch('/Vagas/GetFiliais')
+                            .then(r => r.json())
+                            .then(filiais => {
+                                modalEnderecoSelect.innerHTML = '';
+                                // Adiciona Sede
+                                var optSede = document.createElement('option');
+                                optSede.value = "";
+                                optSede.text = "Sede Principal";
+                                modalEnderecoSelect.appendChild(optSede);
 
-            
-            var editModalElement = document.getElementById('modalEditarVaga');
-            if (editModalElement) {
-
-                editModalElement.addEventListener('show.bs.modal', function (event) {
-                    var button = event.relatedTarget; 
-                    if (!button) return;
-
-                    var vagaId = button.getAttribute('data-vaga-id');
-
-                   
-                    var modalTitulo = document.getElementById('editTitulo');
-                    var modalDescricao = document.getElementById('editDescricao');
-                    var modalStatus = document.getElementById('editStatus');
-                    var modalVagaIdInput = document.getElementById('editVagaId');
-                    var modalVagaIdOngInput = document.getElementById('editVagaIdOng');
-                      var modalImagemUrlInput = document.getElementById('editImagemUrlAtual');
-                      var modalImagePreview = document.getElementById('editImagePreview'); 
-                      var modalFileInput = document.getElementById('editImagemFile'); 
-
-                    
-                    modalTitulo.value = 'Carregando...';
-                    modalDescricao.value = '';
-                    modalStatus.value = '';
-                    modalVagaIdInput.value = '';
-                    modalVagaIdOngInput.value = '';
-                     modalImagemUrlInput.value = ''; 
-                     modalImagePreview.style.display = 'none'; 
-                     modalImagePreview.src = ''; 
-                     modalFileInput.value = ''; 
-
-               
-                    fetch('/Vagas/GetVagaDetails?id=' + vagaId)
-                        .then(response => {
-                            if (!response.ok) {
-                              
-                                return response.text().then(text => {
-                                    throw new Error('Falha ao buscar dados: ' + response.status + " " + text);
+                                // Adiciona Filiais
+                                filiais.forEach(item => {
+                                    var opt = document.createElement('option');
+                                    opt.value = item.id || item.Id;
+                                    opt.text = item.endereço || item.Endereco || item.nome;
+                                    modalEnderecoSelect.appendChild(opt);
                                 });
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            
-                            modalTitulo.value = data.titulo;
-                            modalDescricao.value = data.descricao;
-                            modalStatus.value = data.status;
 
-                            modalVagaIdInput.value = data.id;
-                            modalVagaIdOngInput.value = data.idONG;
+                                // Passo 2: Buscar Detalhes da Vaga (Seleciona a opção correta)
+                                return fetch('/Vagas/GetVagaDetails?id=' + vagaId);
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                modalTitulo.value = data.titulo;
+                                modalDescricao.value = data.descricao;
+                                modalStatus.value = data.status;
+                                modalVagaIdInput.value = data.id;
+                                modalVagaIdOngInput.value = data.idONG;
                                 modalImagemUrlInput.value = data.imagemUrl;
-                        })
-                        .catch(error => {
-                            console.error('Erro no fetch:', error);
-                            modalTitulo.value = 'Erro ao carregar dados.';
-                        });
-                });
-            }
+
+                                if (data.imagemUrl) {
+                                    modalImagePreview.src = data.imagemUrl;
+                                    modalImagePreview.style.display = 'block';
+                                } else {
+                                    modalImagePreview.style.display = 'none';
+                                }
+
+                                // Selecionar a filial correta
+                                if (data.idFilial) {
+                                    modalEnderecoSelect.value = data.idFilial;
+                                } else {
+                                    modalEnderecoSelect.value = ""; // Sede
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Erro:', error);
+                                modalTitulo.value = 'Erro ao carregar dados.';
+                            });
+                    });
+                }
 
           
                 const vagasContainer = document.getElementById('vagas-container');
