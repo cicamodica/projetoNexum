@@ -95,13 +95,83 @@ namespace nexumApp.Controllers
                 return NotFound();
             }
 
+            // Instância do serviço de Tags para resolver o nome (assumindo que a classe Tags está acessível)
+            var tagsService = new nexumApp.Models.Tags();
+
+            // 1. Carregar a ONG, Usuário (para Email), Metas e Vagas, incluindo todas as coleções aninhadas.
             var ong = await _context.Ongs
+                .Include(o => o.User)
+                .Include(o => o.Metas)
+                    .ThenInclude(m => m.Doacoes)  // ESSENCIAL: Para Contagem de Colaboradores/Doadores
+                .Include(o => o.Metas)
+                    .ThenInclude(m => m.Filial)   // ESSENCIAL: Para Endereço Condicional da Meta
+                .Include(o => o.Vagas)
+                    //.ThenInclude(v => v.Filial)   // ESSENCIAL: Para Endereço Condicional da Vaga
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (ong == null)
             {
                 return NotFound();
             }
 
+            // 2. Resolver a Tag
+            ViewBag.TagsList = tagsService.TagsList;
+            ViewBag.TagName = tagsService.TagsNames.ElementAtOrDefault(ong.Tag ?? -1) ?? "Não Classificado";
+
+            // 3. Preparar as Listas de Metas e Vagas Separadamente (para as abas)
+
+            var metasResumos = new List<object>();
+            var vagasResumos = new List<object>();
+
+            // A. Lógica para METAS (Incluindo Progresso e Colaboradores)
+            foreach (var meta in ong.Metas.Where(m => m.Status != "Concluída"))
+            {
+                // Contagem de Doadores (Doações Confirmadas)
+                var colaboradores = meta.Doacoes.Count(d => d.Status == "Confirmada");
+
+                // Progresso (para a barra)
+                var progressoPerc = (meta.ValorAlvo > 0) ? ((double)meta.ValorAtual / meta.ValorAlvo) * 100 : 0;
+
+                // Endereço (Filial ou Matriz)
+                var endereco = meta.Filial?.Endereço ?? ong.Endereço;
+
+                metasResumos.Add(new
+                {
+                    Tipo = "Meta",
+                    Titulo = meta.Recurso,
+                    DataCriacao = meta.DataFim.HasValue ? meta.DataFim.Value.ToShortDateString() : "Sem Data",
+                    Objetivo = meta.Descricao, // Usando Descrição como Objetivo na View
+                    Progresso = progressoPerc.ToString("F0"), // Porcentagem
+                    Colaboradores = colaboradores,
+                    Endereco = endereco,
+                    Id = meta.Id
+                });
+            }
+
+            // B. Lógica para VAGAS (Incluindo Endereço)
+            foreach (var vaga in ong.Vagas.Where(v => v.Status != "Vaga Fechada"))
+            {
+                //var endereco = vaga.Filial?.Endereço ?? ong.Endereço;
+                var endereco = ong.Endereço;
+
+                vagasResumos.Add(new
+                {
+                    Tipo = "Vaga",
+                    Titulo = vaga.Titulo,
+                    DataCriacao = vaga.DataInicio.ToShortDateString(),
+                    Objetivo = vaga.Descricao,
+                    Progresso = vaga.Status, // Status na coluna Progresso
+                    Colaboradores = 1, // Placeholder simples para Vagas
+                    Endereco = endereco,
+                    Id = vaga.IdVaga
+                });
+            }
+
+            // 4. Injetar as listas separadas na ViewBag
+            ViewBag.MetasResumos = metasResumos.OrderByDescending(r => ((dynamic)r).DataCriacao).ToList();
+            ViewBag.VagasResumos = vagasResumos.OrderByDescending(r => ((dynamic)r).DataCriacao).ToList();
+
+            // 5. Retorna a View
             return View(ong);
         }
 
@@ -216,5 +286,71 @@ namespace nexumApp.Controllers
         {
             return _context.Ongs.Any(e => e.Id == id);
         }
+
+        [Authorize(Roles = "Ong")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateDescription(int ongId, string descricao)
+        {
+            // A variável 'ongId' é o ID da ONG que veio do campo hidden do modal.
+            var ong = await _context.Ongs.FindAsync(ongId);
+
+            // 1. Validação de Segurança e Existência da ONG
+            if (ong == null)
+            {
+                TempData["ErrorMessage"] = "ONG não encontrada.";
+                return RedirectToAction("Details", new { id = ongId });
+            }
+
+            // Verifica se o usuário logado é o proprietário da ONG
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (ong.UserId != userId)
+            {
+                TempData["ErrorMessage"] = "Acesso negado.";
+                return Forbid();
+            }
+
+            // 2. Atualiza a descrição no modelo
+            ong.Descriçao = descricao; // Atualiza a propriedade "Descriçao" (com cedilha)
+
+            // 3. Salva a alteração no banco de dados
+            try
+            {
+                await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Descrição atualizada com sucesso!";
+            }
+            catch (Exception ex)
+            {
+                // Trate erros de banco de dados
+                TempData["ErrorMessage"] = "Erro ao salvar a descrição: " + ex.Message;
+            }
+
+            // 4. Redireciona de volta para a página de perfil
+            return RedirectToAction("Details", new { id = ongId });
+        }
+
+        [Authorize(Roles = "Ong")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateSingleTag(int ongId, int selectedTagId)
+        {
+            var ong = await _context.Ongs.FindAsync(ongId);
+
+            // 1. Validação de Segurança
+            if (ong == null || ong.UserId != User.FindFirstValue(ClaimTypes.NameIdentifier))
+            {
+                return Forbid();
+            }
+
+            // 2. Atualiza a Tag (Salva o novo ID)
+            ong.Tag = selectedTagId;
+            await _context.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "Área de atuação atualizada com sucesso!";
+
+            return RedirectToAction("Details", new { id = ongId });
+        }
+
+
     }
 }
