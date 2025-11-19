@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using nexumApp.Data;
 
@@ -11,9 +12,11 @@ using nexumApp.Data;
 namespace nexumApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251119020838_AddFilialIdToMetas")]
+    partial class AddFilialIdToMetas
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -197,8 +200,8 @@ namespace nexumApp.Data.Migrations
                         .HasMaxLength(90)
                         .HasColumnType("nvarchar(90)");
 
-                    b.Property<string>("FotoUrl")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<byte[]>("Foto")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<int?>("IdVoluntario")
                         .HasMaxLength(3)
@@ -785,7 +788,7 @@ namespace nexumApp.Data.Migrations
                         .HasForeignKey("FilialId");
 
                     b.HasOne("nexumApp.Models.Ong", "Ong")
-                        .WithMany("Metas")
+                        .WithMany()
                         .HasForeignKey("OngId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -808,7 +811,7 @@ namespace nexumApp.Data.Migrations
             modelBuilder.Entity("nexumApp.Models.Vaga", b =>
                 {
                     b.HasOne("nexumApp.Models.Ong", "Ong")
-                        .WithMany("Vagas")
+                        .WithMany()
                         .HasForeignKey("IdONG")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -824,10 +827,6 @@ namespace nexumApp.Data.Migrations
             modelBuilder.Entity("nexumApp.Models.Ong", b =>
                 {
                     b.Navigation("Filials");
-
-                    b.Navigation("Metas");
-
-                    b.Navigation("Vagas");
                 });
 
             modelBuilder.Entity("nexumApp.Models.User", b =>

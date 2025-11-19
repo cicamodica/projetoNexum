@@ -31,35 +31,42 @@ namespace nexumApp.Controllers
             return View(ongs.ToPagedList(pageNumber, pageSize));
         }
 
+
+
+        // OngsController.cs
+
         [Authorize(Roles = "Ong")] // Só ONGs logadas podem ver
         public async Task<IActionResult> Dashboard()
         {
-            //  Pega o UserId (string) do usuário logado
+            // Pega o UserId (string) do usuário logado
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (userId == null)
             {
                 return Challenge(); // Não está logado, força login
             }
 
-            //  Encontra a entidade ONG (pelo UserId)
-            var ong = await _context.Ongs.FirstOrDefaultAsync(o => o.UserId == userId);
+            // Encontra a entidade ONG, INCLUINDO as Filiais
+            var ong = await _context.Ongs
+                                    .Include(o => o.Filials)
+                                    .FirstOrDefaultAsync(o => o.UserId == userId);
+
             if (ong == null)
             {
-                // Isso pode acontecer se o usuário foi deletado mas o cookie persiste
                 return NotFound("Nenhuma ONG associada a este usuário.");
             }
 
             // Verifica a aprovação (do seu modelo Ong.cs)
             if (ong.Aprovaçao == false)
-             {
-            return RedirectToAction(nameof(Wait)); // Redireciona se não aprovada
+            {
+                return RedirectToAction(nameof(Wait)); // Redireciona se não aprovada
             }
 
-            //Busca as metas SOMENTE desta ONG
+            // Busca as metas SOMENTE desta ONG, INCLUINDO a Filial
             var metas = await _context.Metas
-                                  .Include(m => m.Ong) 
-                                      .Where(m => m.OngId == ong.Id)
-                   .ToListAsync();
+                                        .Include(m => m.Ong)
+                                        .Include(m => m.Filial)
+                                        .Where(m => m.OngId == ong.Id)
+                                        .ToListAsync();
 
             var vagas = await _context.Vagas
                 .Where(v => v.IdONG == ong.Id)
@@ -67,9 +74,14 @@ namespace nexumApp.Controllers
 
             // Passa os dados extras para a View usando o ViewBag
             ViewBag.Metas = metas;
-
             ViewBag.Vagas = vagas;
 
+            // NOVO: Passa a lista de filiais e o nome da ONG para a ViewBag
+            ViewBag.Filiais = ong.Filials;
+            ViewBag.OngNome = ong.Nome;
+
+            // INJEÇÃO CRUCIAL PARA O ÍCONE DE PERFIL NO _LAYOUT.CSHTML
+            ViewBag.OngId = ong.Id;
 
             // Passa a própria ONG como o Modelo principal da View
             return View(ong);

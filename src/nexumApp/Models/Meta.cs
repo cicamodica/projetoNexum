@@ -36,5 +36,9 @@ namespace nexumApp.Models
         public virtual Ong Ong { get; set; } // Propriedade de navegação
 
         public ICollection<Doacao> Doacoes { get; set; } = new List<Doacao>();
+
+        public int? FilialId { get; set; }
+
+        public Filial Filial { get; set; }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
+
 
 namespace nexumApp.Models
 {
@@ -27,6 +29,10 @@ namespace nexumApp.Models
         public bool Aprovaçao { get; set; } = false;
         public ICollection<Filial> Filials { get; set; }
         public int? Tag { get; set; }
+
+        public ICollection<Meta> Metas { get; set; }
+
+        public ICollection<Vaga> Vagas { get; set; }
 
         // ====== Campos do PDF ======
 

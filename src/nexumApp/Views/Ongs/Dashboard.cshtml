@@ -388,7 +388,14 @@
                                 <p class="card-text-public">@meta.Descricao</p>
                                 <div class="location-info mt-2">
                                     <i class="bi bi-geo-alt-fill"></i>
-                                    <span>@meta.Ong.Endereço</span>
+                                    @if (meta.Filial != null)
+                                    {
+                                        <span>@meta.Filial.Endereço</span>
+                                    }
+                                    else
+                                    {
+                                        <span>@meta.Ong.Endereço</span>
+                                    }
                                 </div>
 
                                 @{
@@ -535,6 +542,23 @@
                         <hr class="form-divider" />
 
                         <div class="mb-3">
+                        <label for="FilialId" class="form-label">Filial (Local da Meta)</label>
+                        <select class="form-select form-control-custom rounded-pill" id="FilialId" name="FilialId" required>
+
+                            <option value="">Sede Principal (@ViewBag.OngNome)</option>
+
+                            @if (ViewBag.Filiais != null)
+                            {
+                                @foreach (var filial in ViewBag.Filiais)
+                                {
+                                    <option value="@filial.Id">@filial.Endereço</option>
+                                }
+                            }
+                        </select>
+                        <small class="text-muted">Selecione a filial para qual deseja criar a meta.</small>
+                    </div>
+
+                        <div class="mb-3">
                             <label for="Recurso" class="form-label">Nome do Recurso</label>
                             <input type="text" class="form-control rounded-pill form-control-custom" id="Recurso" name="Recurso" placeholder="Ex: Ração para cães" required>
                         </div>
@@ -646,6 +670,12 @@
                                                 <option value="Pausada">Pausada</option>
                                                 <option value="Concluída">Concluída</option>
                                             </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editMetaFilialId" class="form-label">Filial (Local da Meta)</label>
+                                            <select class="form-select form-control-custom rounded-pill" id="editMetaFilialId" name="FilialId">
+                                                </select>
+                                            <small class="text-muted">Selecione o local onde o recurso será coletado/usado.</small>
                                         </div>
                                         <div class="mb-3">
                                             <label for="editMetaDataFim" class="form-label">Data de Encerramento (Opcional)</label>
@@ -914,62 +944,107 @@
                                 // ===================================================
                                 // INÍCIO: CÓDIGO PARA MODAL EDITAR META (NOVO)
                                 // ===================================================
-                                var editMetaModal = document.getElementById('modalEditarMeta');
-                                if (editMetaModal) {
-                                    editMetaModal.addEventListener('show.bs.modal', function (event) {
-                                        var button = event.relatedTarget;
-                                        if (!button) return;
+                                           function popularFiliaisParaEdicao(selectElement, selectedFilialId) {
 
-                                        var metaId = button.getAttribute('data-meta-id');
+                // --- ASSUME VARIÁVEIS GLOBAIS OU INJETADAS (EX: ONG_FILIALS, ONG_NOME) ---
+                // Você deve garantir que essas variáveis estejam definidas na sua View principal
+                const ongNome = typeof ONG_NOME !== 'undefined' ? ONG_NOME : 'Sede Principal';
+                const filiais = typeof ONG_FILIALS !== 'undefined' ? ONG_FILIALS : [];
+                // --------------------------------------------------------------------------
 
-                                        // Referencia todos os campos do formulário
-                                        var modalIdInput = document.getElementById('editMetaId');
-                                        var modalRecursoInput = document.getElementById('editMetaRecurso');
-                                        var modalDescricaoInput = document.getElementById('editMetaDescricao');
-                                        var modalValorAlvoInput = document.getElementById('editMetaValorAlvo');
-                                        var modalStatusInput = document.getElementById('editMetaStatus');
-                                        var modalDataFimInput = document.getElementById('editMetaDataFim');
-                                        var modalFileInput = document.getElementById('editMetaImagemFile');
+                selectElement.innerHTML = ''; // Limpa as opções
 
-                                        //  Limpa o formulário
-                                        modalRecursoInput.value = 'Carregando...';
-                                        modalDescricaoInput.value = '';
-                                        modalValorAlvoInput.value = '';
-                                        modalStatusInput.value = 'Ativa';
-                                        modalDataFimInput.value = '';
-                                        modalFileInput.value = '';
+                // 1. Adiciona a opção da Sede Principal (valor vazio/nulo)
+                const sedeOption = document.createElement('option');
+                // Para a Sede, o valor deve ser vazio (''), 0, ou nulo. Usaremos '' para o <select>.
+                sedeOption.value = '';
+                sedeOption.textContent = `Sede Principal (${ongNome})`;
+                selectElement.appendChild(sedeOption);
 
-                                        // Faz a chamada 'fetch' para o MetasController
-                                        
-                                        fetch('/Metas/GetMetaDetails?id=' + metaId)
-                                            .then(response => {
-                                                if (!response.ok) {
-                                                    throw new Error('Falha ao buscar dados da meta.');
-                                                }
-                                                return response.json();
-                                            })
-                                            .then(data => {
-                                                // Popula o formulário com os dados da meta
-                                                
-                                                modalIdInput.value = data.id;
-                                                modalRecursoInput.value = data.recurso;
-                                                modalDescricaoInput.value = data.descricao;
-                                                modalValorAlvoInput.value = data.valorAlvo;
-                                                modalStatusInput.value = data.status;
+                // 2. Adiciona as opções das Filiais
+                filiais.forEach(filial => {
+                    const option = document.createElement('option');
+                    // Usamos filial.id como valor (chave estrangeira)
+                    option.value = filial.id;
+                    option.textContent = `${filial.nome || filial.descriçao} (${filial.endereço})`; // Usando Nome ou Descrição para o texto da Filial
+                    selectElement.appendChild(option);
+                });
 
-                                                // Formata a data para o input type="date" (AAAA-MM-DD)
-                                                if (data.dataFim) {
-                                                    modalDataFimInput.value = data.dataFim.split('T')[0];
-                                                } else {
-                                                    modalDataFimInput.value = '';
-                                                }
-                                            })
-                                            .catch(error => {
-                                                console.error('Erro no fetch:', error);
-                                                modalRecursoInput.value = 'Erro ao carregar dados.';
-                                            });
-                                    });
-                                }
+                // 3. Seleciona o valor correto da meta
+                if (selectedFilialId) {
+                    // Se FilialId for um número, seleciona a filial.
+                    selectElement.value = selectedFilialId;
+                } else {
+                    // Caso contrário, seleciona a Sede Principal.
+                    selectElement.value = '';
+                }
+            }
+
+
+            var editMetaModal = document.getElementById('modalEditarMeta');
+            if (editMetaModal) {
+                editMetaModal.addEventListener('show.bs.modal', function (event) {
+                    var button = event.relatedTarget;
+                    if (!button) return;
+
+                    var metaId = button.getAttribute('data-meta-id');
+
+                    // Referencia todos os campos do formulário
+                    var modalIdInput = document.getElementById('editMetaId');
+                    var modalRecursoInput = document.getElementById('editMetaRecurso');
+                    var modalDescricaoInput = document.getElementById('editMetaDescricao');
+                    var modalValorAlvoInput = document.getElementById('editMetaValorAlvo');
+                    var modalStatusInput = document.getElementById('editMetaStatus');
+                    var modalDataFimInput = document.getElementById('editMetaDataFim');
+                    var modalFilialInput = document.getElementById('editMetaFilialId');
+                    var modalFileInput = document.getElementById('editMetaImagemFile');
+
+                    // Limpa o formulário (Mantenha o modalFilialInput limpo antes do carregamento)
+                    modalRecursoInput.value = 'Carregando...';
+                    modalDescricaoInput.value = '';
+                    modalValorAlvoInput.value = '';
+                    modalStatusInput.value = 'Ativa';
+                    modalDataFimInput.value = '';
+                    modalFileInput.value = '';
+
+                    // NOVO: Popula o seletor de Filiais antes do fetch, assumindo que os dados base já foram injetados.
+                    // O valor selecionado será ajustado no '.then'
+                    popularFiliaisParaEdicao(modalFilialInput, null);
+
+                    // Faz a chamada 'fetch' para o MetasController
+                    fetch('/Metas/GetMetaDetails?id=' + metaId)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Falha ao buscar dados da meta.');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            // Popula o formulário com os dados da meta
+                            modalIdInput.value = data.id;
+                            modalRecursoInput.value = data.recurso;
+                            modalDescricaoInput.value = data.descricao;
+                            modalValorAlvoInput.value = data.valorAlvo;
+                            modalStatusInput.value = data.status;
+
+                            // --- NOVO: SELECIONA A FILIAL CORRETA ---
+                            // data.filialId deve ser o ID da filial associada à meta.
+                            popularFiliaisParaEdicao(modalFilialInput, data.filialId);
+                            // ----------------------------------------
+
+                            // Formata a data para o input type="date" (AAAA-MM-DD)
+                            if (data.dataFim) {
+                                modalDataFimInput.value = data.dataFim.split('T')[0];
+                            } else {
+                                modalDataFimInput.value = '';
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Erro no fetch:', error);
+                            modalRecursoInput.value = 'Erro ao carregar dados.';
+                        });
+                });
+            }
                                         // ===================================================
             // INÍCIO: CÓDIGO PARA MODAL VER DOAÇÕES
             // ===================================================

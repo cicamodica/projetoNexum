@@ -1,0 +1,158 @@
+﻿@using nexumApp.Models
+@model Ong
+
+@{
+    ViewData["Title"] = "Perfil da ONG";
+    var tagName = ViewBag.TagName as string;
+    var resumos = ViewBag.Resumos as List<object>;
+    var usuarioEmail = Model.User?.Email ?? "E-mail não disponível";
+}
+
+<div class="perfil-container">
+
+    <div class="profile-header-strip">
+        <button class="edit-button-float"
+                data-bs-toggle="modal"
+                data-bs-target="#modalEditarHeader"
+                title="Editar Imagens de Fundo">
+            <i class="bi bi-pencil"></i>
+        </button>
+
+        
+        <div class="d-flex h-100">
+            <img src="/img/pet_header_1.jpg" class="header-image-item" alt="Fundo 1">
+            <img src="/img/pet_header_2.jpg" class="header-image-item" alt="Fundo 2">
+            <img src="/img/pet_header_3.jpg" class="header-image-item" alt="Fundo 3">
+            <img src="/img/pet_header_4.jpg" class="header-image-item" alt="Fundo 4">
+            <img src="/img/pet_header_5.jpg" class="header-image-item" alt="Fundo 5">
+        </div>
+    </div>
+
+
+    <div class="container pb-5">
+        <div class="row">
+
+            <div class="col-12">
+                <div class="d-flex align-items-end mb-4">
+
+                    <img src="/img/ong_logo_default.png"
+                         alt="Logo da ONG"
+                         class="profile-logo me-4"
+                         style="margin-top: -60px;">
+
+                    <div>
+                        <h2 class="fw-bold mb-0 mt-2">
+                            @Model.Nome
+                            <a href="@Url.Action("Edit", "Ongs", new { id = Model.Id })" class="text-secondary small">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                        </h2>
+                    </div>
+                </div>
+
+                <h6 class="fw-bold">Descrição</h6>
+                <p>@Model.Descriçao</p>
+
+                <div class="d-flex flex-wrap align-items-center gap-2 mb-4">
+
+                    <span class="tag-badge tag-badge-primary">Meio ambiente <i class="bi bi-x-lg tag-remove-icon"></i></span>
+                    <span class="tag-badge tag-badge-primary">Proteção animal <i class="bi bi-x-lg tag-remove-icon"></i></span>
+                    <span class="tag-badge tag-badge-warning">Saúde <i class="bi bi-x-lg tag-remove-icon"></i></span>
+
+                    <button class="btn btn-sm btn-outline-secondary py-1 px-3" disabled>Adicionar</button>
+
+                </div>
+
+                <h6 class="fw-bold">Contatos</h6>
+                <div class="d-flex flex-wrap gap-4 small mb-4">
+                    <p class="mb-0">
+                        **E-mail:** <a href="mailto:@usuarioEmail">@usuarioEmail</a>
+                    </p>
+                    <p class="mb-0">
+                        **Website:** <a href="#">https://forcaanimal.com.br</a>
+                    </p>
+                </div>
+
+                <ul class="nav nav-tabs" id="perfilTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="resumos-tab" data-bs-toggle="tab" data-bs-target="#resumos-pane" type="button" role="tab" aria-controls="resumos-pane" aria-selected="true">Resumos</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="sobre-tab" data-bs-toggle="tab" data-bs-target="#sobre-pane" type="button" role="tab" aria-controls="sobre-pane" aria-selected="false">Sobre</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="relatorios-tab" data-bs-toggle="tab" data-bs-target="#relatorios-pane" type="button" role="tab" aria-controls="relatorios-pane" aria-selected="false">Relatórios</button>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="perfilTabsContent">
+
+                    <div class="tab-pane fade show active" id="resumos-pane" role="tabpanel" aria-labelledby="resumos-tab" tabindex="0">
+                        <h4 class="mt-4 fw-bold">Seus resumos</h4>
+
+                        @if (resumos != null && resumos.Any())
+                        {
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover mb-0 small">
+                                    <thead class="table-light">
+                                        <tr>
+                                            
+                                            <th style="width: 10%;">Tipo</th>
+                                            <th style="width: 25%;">Nome</th>
+                                            <th style="width: 15%;">Data de criação</th>
+                                            <th style="width: 15%;">Objetivo</th>
+                                            <th style="width: 10%;">Progresso</th>
+                                            <th style="width: 15%;">Colaboradores</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (dynamic resumo in resumos)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @if (resumo.Tipo == "Meta")
+                                                    {
+                                                        <span class="badge bg-success">Meta</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="badge bg-info text-dark">Vaga</span>
+                                                    }
+                                                </td>
+                                                
+                                                <td>@resumo.Titulo</td>
+                                                
+                                                <td>@resumo.DataFim</td>
+                                                
+                                                <td>@resumo.Descricao</td>
+                                                
+                                                <td>@resumo.Status</td>
+                                                
+                                                <td>1</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="alert alert-info text-center mt-3">
+                                Esta ONG ainda não possui metas ou vagas ativas.
+                            </div>
+                        }
+                    </div>
+
+                    <div class="tab-pane fade" id="sobre-pane" role="tabpanel" aria-labelledby="sobre-tab" tabindex="0">
+                        <p class="mt-3">Conteúdo detalhado sobre a história, missão e valores da ONG (aba Sobre).</p>
+                    </div>
+
+                    <div class="tab-pane fade" id="relatorios-pane" role="tabpanel" aria-labelledby="relatorios-tab" tabindex="0">
+                        <p class="mt-3">Área para exibir relatórios de impacto e transparência (RF-07, RF-08).</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

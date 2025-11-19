@@ -742,6 +742,17 @@
                 background-color: #103347;
     }
 
+    .modal-body .progress-bar {
+        color: #fff; /* Cor do texto: branco */
+        font-size: 0.75rem; /* Tamanho da fonte: pequeno */
+        font-weight: 500;
+        line-height: 20px; /* Alinha o texto verticalmente se a altura for 20px */
+    }
+
+    .modal-body .progress {
+        height: 20px; /* Use a altura que cabe o texto, ex: 20px */
+    }
+
 
 </style>
 
@@ -881,19 +892,30 @@
                             <p class="card-ong-name">@meta.Ong.Nome</p>
                             <p class="card-text-public">@meta.Descricao</p>
 
-                            <div class="location-info mt-2">
-                                <i class="bi bi-geo-alt-fill"></i>
-                                <span>@meta.Ong.Endereço</span>
-                            </div>
+                                        <div class="location-info mt-2">
+                                            <i class="bi bi-geo-alt-fill"></i>
+                                            @if (meta.Filial != null)
+                                            {
+                                                <span>@meta.Filial.Endereço</span>
+                                            }
+                                            else
+                                            {
+                                                <span>@meta.Ong.Endereço</span>
+                                            }
+                                        </div>
 
                                         @{
-                                            //  LÓGICA DE CÁLCULO DA BARRA
+                                            // Lógica de cálculo da barra
                                             var valorConfirmado = (double)meta.ValorAtual;
                                             var valorAlvo = (double)meta.ValorAlvo;
 
-                                            // Busca o valor pendente no dicionário
-                                            var valorPendente = (double)(pendingValues.ContainsKey(meta.Id) ? pendingValues[meta.Id] : 0);
+                                            // Acessa o dicionário de valores pendentes
+                                            var pendingData = (Dictionary<int, int>)ViewBag.PendingValues;
 
+                                            // Calcula o valor pendente (declarado uma única vez)
+                                            var valorPendente = (double)(pendingData.ContainsKey(meta.Id) ? pendingData[meta.Id] : 0);
+
+                                            // Cálculos de porcentagem
                                             var percConfirmado = (valorAlvo > 0) ? (valorConfirmado / valorAlvo) * 100 : 0;
                                             var percPendente = (valorAlvo > 0) ? (valorPendente / valorAlvo) * 100 : 0;
 
@@ -908,11 +930,11 @@
                                         }
 
                                         <div class="mb-2 mt-3">
-                                            <small class="text-muted">Progresso: @meta.ValorAtual.ToString("C") de @meta.ValorAlvo.ToString("C")</small>
+                                            <small class="text-muted">Progresso: @meta.ValorAtual de @meta.ValorAlvo</small>
 
                                             @if (valorPendente > 0)
                                             {
-                                                <small class="text-muted d-block">(@valorPendente.ToString("C") pendentes de aprovação)</small>
+                                                <small class="text-muted d-block">(@valorPendente pendentes de aprovação)</small>
                                             }
 
                                             <div class="progress" style="height: 20px;">
@@ -948,11 +970,14 @@
                                data-titulo="@meta.Recurso"
                                data-ong="@meta.Ong.Nome"
                                data-descricao="@meta.Descricao"
-                               data-endereco="@meta.Ong.Endereço"
+                               data-endereco="@(meta.Filial != null ? meta.Filial.Endereço : meta.Ong.Endereço)"
                                data-atual="@meta.ValorAtual"
                                data-alvo="@meta.ValorAlvo"
                                data-imagem="@meta.ImagemUrl"
-                               data-ong-cnpj="@meta.Ong.CNPJ">
+                               data-ong-cnpj="@meta.Ong.CNPJ"
+                               data-bs-toggle="modal"
+                               data-bs-target="#modalDoacao">
+                                            
                                 Doar
                             </a>
 
@@ -1004,54 +1029,77 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="modalDoacao" tabindex="-1" aria-labelledby="modalDoacaoLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
+<div class="modal fade" id="modalDoacao" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content" style="border-radius: 15px;">
-            <div class="modal-header" style="border: none; padding-bottom: 0;">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-header">
+                <h5 class="modal-title">INFORMAÇÕES SOBRE A META</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body" style="padding: 0 2.5rem 2rem 2.5rem;">
 
-                <div class="text-center">
-                    <img id="modalDoacaoImagem" src="" alt="Logo da ONG" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid #0d6efd; margin-top: -50px; background-color: white;">
-                </div>
+            <div class="modal-body">
 
-                <div class="mt-3">
-                    <h3 class="text-center" id="modalDoacaoTitulo"></h3>
-                    <p class="text-center text-muted mb-1" id="modalDoacaoOng"></p>
-                    <p class="text-center text-muted small" id="modalDoacaoEndereco"></p>
-                    <p class="text-center" id="modalDoacaoDescricaoMeta"></p>
+                <div class="d-flex align-items-start">
 
-                    <div class="mb-2 mt-3">
-                        <small class="text-muted">Progresso: <span id="modalDoacaoProgressoValores"></span></small>
-                        <div class="progress" style="height: 20px;">
-                            <div id="modalDoacaoProgressoBar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                    <!-- IMAGEM -->
+                    <img id="modalDoacaoLogo"
+                         src=""
+                         class="me-3"
+                         style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover;">
+
+                    <div class="w-100">
+
+                        <!-- TÍTULO -->
+                        <h5 id="modalDoacaoTitulo" class="mb-1 fw-bold"></h5>
+
+                        <!-- NOME DA ONG -->
+                        <div id="modalDoacaoOng" class="text-muted small"></div>
+
+                        <!-- DESCRIÇÃO DA META -->
+                        <div id="modalDoacaoDescricaoMeta" class="mt-1 small"></div>
+
+                        <!-- ENDEREÇO -->
+                        <div id="modalDoacaoEndereco" class="mt-1 small"></div>
+
+                        <!-- VALORES DO PROGRESSO -->
+                        <div id="modalDoacaoProgressoValores" class="mt-2 fw-bold"></div>
+
+                        <!-- BARRA DE PROGRESSO -->
+                        <div class="mt-3">
+                            <div id="modalDoacaoProgressoTextos">
+                                <small class="text-muted d-block" id="modalDoacaoProgressoValores"></small>
+                                <small class="text-muted d-block" id="modalDoacaoProgressoPendente"></small>
+                            </div>
+
+                            <div class="progress modal-progresso-bar mt-2" style="height: 20px;">
+                                <div id="modalDoacaoProgressoConfirmado" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div id="modalDoacaoProgressoPendenteBar" class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <hr class="my-4">
+                <h5 class="text-center mb-3">Como deseja ajudar?</h5>
 
-                <h4 class="text-center mb-3">Como deseja ajudar?</h4>
                 <div class="text-center mb-4 d-flex justify-content-center">
                     <input type="radio" class="btn-check" name="tipoDoacao" id="radio-material" value="material" checked>
-                    <label class="btn btn-outline-primary me-2" for="radio-material" style="border-radius: 20px;">
+                    <label class="btn btn-outline-primary me-3 btn-radio-custom" for="radio-material">
                         <i class="bi bi-box-seam"></i> Quero doar material
                     </label>
 
                     <input type="radio" class="btn-check" name="tipoDoacao" id="radio-valor" value="valor">
-                    <label class="btn btn-outline-primary" for="radio-valor" style="border-radius: 20px;">
+                    <label class="btn btn-outline-primary btn-radio-custom" for="radio-valor">
                         <i class="bi bi-cash-coin"></i> Quero doar um valor
                     </label>
                 </div>
 
 
                 <div id="form-material">
-                    <h5 class="text-center mb-3">FORMULÁRIO DE DOAÇÃO</h5>
+                    <h5 class="text-center mb-3 fw-bold">FORMULÁRIO DE DOAÇÃO</h5>
                     <form asp-controller="Doacoes" asp-action="Create" method="post" id="form-doacao-material">
 
                         @Html.AntiForgeryToken()
-
                         <input type="hidden" id="modalDoacaoMetaId" name="MetaId" />
 
                         <div class="row">
@@ -1074,6 +1122,7 @@
                                 <input type="tel" class="form-control" name="Telefone" required>
                             </div>
                         </div>
+
                         <div class="mb-3">
                             <label for="Descricao" class="form-label">Descrição do que será doado</label>
                             <input type="text" class="form-control" name="Descricao" placeholder="Ex: 2 sacos de ração de 10kg" required>
@@ -1092,12 +1141,10 @@
                 </div>
 
                 <div id="form-valor" style="display: none;">
-                    <h5 class="text-center mb-3">DOAÇÃO VIA PIX</h5>
+                    <h5 class="text-center mb-3 fw-bold">DOAÇÃO VIA PIX</h5>
                     <div class="text-center p-3" style="background-color: #f8f9fa; border-radius: 10px;">
                         <p class="mb-2">Use a chave PIX (CNPJ) abaixo para doar qualquer valor:</p>
-
                         <h4 class="fw-bold" id="modalDoacaoPix" style="color: #0d6efd;"></h4>
-
                         <p class="text-muted small mt-2">Agradecemos de coração a sua contribuição!</p>
                     </div>
                 </div>
@@ -1106,7 +1153,6 @@
         </div>
     </div>
 </div>
-
 
 
 @section Scripts {
@@ -1611,109 +1657,138 @@
 
 
             renderCalendar();
-            
-            // INÍCIO: CÓDIGO  PARA MODAL DE DOAÇÃO
-            
 
-            const doacaoModalElement = document.getElementById('modalDoacao');
-            let doacaoModal;
+                   // INÍCIO: CÓDIGO PARA MODAL DE DOAÇÃO
 
-            // Referências para os novos elementos do modal
-            const radioMaterial = document.getElementById('radio-material');
-            const radioValor = document.getElementById('radio-valor');
-            const formMaterial = document.getElementById('form-material');
-            const formValor = document.getElementById('form-valor');
-            const campoPix = document.getElementById('modalDoacaoPix');
+        const doacaoModalElement = document.getElementById('modalDoacao');
+        let doacaoModal;
 
-            if (doacaoModalElement && typeof bootstrap !== 'undefined') {
-                doacaoModal = new bootstrap.Modal(doacaoModalElement);
-                console.log("SUCESSO: Modal de Doação (id='modalDoacao') inicializado.");
-            } else {
-                console.error("ERRO: O 'casco' do modal (id='modalDoacao') ou o JS do Bootstrap não foram encontrados.");
-            }
+        // Referências para os elementos do formulário e PIX
+        const radioMaterial = document.getElementById('radio-material');
+        const radioValor = document.getElementById('radio-valor');
+        const formMaterial = document.getElementById('form-material');
+        const formValor = document.getElementById('form-valor');
+        const campoPix = document.getElementById('modalDoacaoPix');
 
-            // Adiciona listeners para os Radio Buttons
-            if(radioMaterial && radioValor && formMaterial && formValor) {
-                radioMaterial.addEventListener('change', function() {
-                    if (this.checked) {
-                        formMaterial.style.display = 'block';
-                        formValor.style.display = 'none';
-                    }
-                });
+        if (doacaoModalElement && typeof bootstrap !== 'undefined') {
+            doacaoModal = new bootstrap.Modal(doacaoModalElement);
+            console.log("SUCESSO: Modal de Doação (id='modalDoacao') inicializado.");
+        } else {
+            console.error("ERRO: O 'casco' do modal (id='modalDoacao') ou o JS do Bootstrap não foram encontrados.");
+        }
 
-                radioValor.addEventListener('change', function() {
-                    if (this.checked) {
-                        formMaterial.style.display = 'none';
-                        formValor.style.display = 'block';
-                    }
-                });
-            }
-
-            // Pega TODOS os botões de doação
-            const BotoesDoar = document.querySelectorAll('.abrirModalDoacaoBtn');
-
-            // Adiciona um 'click' listener para CADA botão
-            BotoesDoar.forEach(button => {
-                button.addEventListener('click', function (e) {
-
-                    e.preventDefault();
-                    const btn = this;
-
-                    // Pega todos os dados dos atributos 'data-'
-                    const metaId = btn.dataset.metaId;
-                    const titulo = btn.dataset.titulo;
-                    const ong = btn.dataset.ong;
-                    const descricao = btn.dataset.descricao;
-                    const endereco = btn.dataset.endereco;
-                    const imagem = btn.dataset.imagem;
-                    const atual = parseFloat(btn.dataset.atual);
-                    const alvo = parseFloat(btn.dataset.alvo);
-
-                    //  Pega o CNPJ
-                    const ongCnpj = btn.dataset.ongCnpj;
-
-                    // Calcula o progresso
-                    const progressoPercent = (alvo > 0) ? (atual / alvo) * 100 : 0;
-                    const progressoTexto = progressoPercent.toFixed(0) + '%';
-                    const progressoValores = atual.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) +
-                                             " de " +
-                                             alvo.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-
-                    // Popula o modal com os dados
-                    doacaoModalElement.querySelector('#modalDoacaoImagem').src = imagem || '';
-                    doacaoModalElement.querySelector('#modalDoacaoTitulo').textContent = titulo;
-                    doacaoModalElement.querySelector('#modalDoacaoOng').textContent = ong;
-                    doacaoModalElement.querySelector('#modalDoacaoEndereco').textContent = endereco;
-                    doacaoModalElement.querySelector('#modalDoacaoDescricaoMeta').textContent = descricao;
-
-                    // Popula a barra de progresso
-                    const progressoBar = doacaoModalElement.querySelector('#modalDoacaoProgressoBar');
-                    doacaoModalElement.querySelector('#modalDoacaoProgressoValores').textContent = progressoValores;
-                    progressoBar.style.width = progressoTexto;
-                    progressoBar.textContent = progressoTexto;
-                    progressoBar.setAttribute('aria-valuenow', progressoPercent);
-
-                    // POPULA OS CAMPOS DE FORMULÁRIO
-                    doacaoModalElement.querySelector('#modalDoacaoMetaId').value = metaId;
-                    if(campoPix) {
-                         campoPix.textContent = ongCnpj || "Chave PIX não informada"; // Popula o campo PIX
-                    }
-
-                    //  Reseta o modal para a visão "Material"
-                    if(radioMaterial) radioMaterial.checked = true;
-                    if(formMaterial) formMaterial.style.display = 'block';
-                    if(formValor) formValor.style.display = 'none';
-
-                    // Abre o modal
-                    if (doacaoModal) {
-                        doacaoModal.show();
-                    } else {
-                        console.error("Erro: A instância do 'doacaoModal' não foi criada.");
-                    }
-                });
+        // Adiciona listeners para os Radio Buttons (MANTIDO)
+        if(radioMaterial && radioValor && formMaterial && formValor) {
+            radioMaterial.addEventListener('change', function() {
+                if (this.checked) {
+                    formMaterial.style.display = 'block';
+                    formValor.style.display = 'none';
+                }
             });
 
-            // FIM: CÓDIGO  PARA MODAL DE DOAÇÃO
+            radioValor.addEventListener('change', function() {
+                if (this.checked) {
+                    formMaterial.style.display = 'none';
+                    formValor.style.display = 'block';
+                }
+            });
+        }
+
+        // Pega TODOS os botões de doação
+        const BotoesDoar = document.querySelectorAll('.abrirModalDoacaoBtn');
+
+        // Adiciona um 'click' listener para CADA botão
+        BotoesDoar.forEach(button => {
+            button.addEventListener('click', function (e) {
+
+                e.preventDefault();
+                const btn = this;
+
+                // Pega todos os dados dos atributos 'data-'
+                const metaId = btn.dataset.metaId;
+                const titulo = btn.dataset.titulo;
+                const ong = btn.dataset.ong;
+                const descricao = btn.dataset.descricao;
+                const endereco = btn.dataset.endereco;
+                const imagem = btn.dataset.imagem;
+                const atual = parseFloat(btn.dataset.atual);
+                const alvo = parseFloat(btn.dataset.alvo);
+                const ongCnpj = btn.dataset.ongCnpj;
+
+                // --- LÓGICA DE CÁLCULO E POPULAÇÃO DA BARRA ---
+                const valorConfirmado = atual;
+                const valorAlvo = alvo;
+                const valorPendente = 0; // Para modal público
+
+                let percConfirmado = (valorAlvo > 0) ? (valorConfirmado / valorAlvo) * 100 : 0;
+                let percPendente = (valorAlvo > 0) ? (valorPendente / valorAlvo) * 100 : 0;
+
+                if (percConfirmado + percPendente > 100) {
+                    percPendente = 100 - percConfirmado;
+                }
+
+                const progressoConfirmadoF = percConfirmado.toFixed(0) + '%';
+                const progressoPendenteF = percPendente.toFixed(0) + '%';
+                const progressoValoresTexto = `${valorConfirmado} de ${valorAlvo}`; // Valor sem "Progresso:"
+
+
+                // === POPULAÇÃO DOS DADOS NA ORDEM CORRETA ===
+
+                // 1. Logo (Imagem)
+                doacaoModalElement.querySelector('#modalDoacaoLogo').src = imagem || '';
+
+                // 2. Título (Recurso)
+                doacaoModalElement.querySelector('#modalDoacaoTitulo').textContent = titulo;
+
+                // 3. Nome da ONG
+                doacaoModalElement.querySelector('#modalDoacaoOng').textContent = ong;
+
+                // 4. Descrição
+                doacaoModalElement.querySelector('#modalDoacaoDescricaoMeta').textContent = descricao;
+
+                // 5. Endereço
+                doacaoModalElement.querySelector('#modalDoacaoEndereco').textContent = endereco;
+
+
+                        doacaoModalElement.querySelector('#modalDoacaoProgressoValores').textContent = progressoValoresTexto;
+
+        // 7. Popula a Barra Confirmada (Mantém a porcentagem no centro)
+        const progressoBarConfirmada = doacaoModalElement.querySelector('#modalDoacaoProgressoConfirmado');
+        progressoBarConfirmada.style.width = progressoConfirmadoF;
+        progressoBarConfirmada.textContent = progressoConfirmadoF; // Mantém a % no centro
+
+        // 8. Popula a Barra Pendente e o Texto Pendente
+        const progressoBarPendente = doacaoModalElement.querySelector('#modalDoacaoProgressoPendenteBar');
+        const pendenteTextElement = doacaoModalElement.querySelector('#modalDoacaoProgressoPendente');
+
+        progressoBarPendente.style.width = progressoPendenteF;
+
+        if (valorPendente > 0) {
+            pendenteTextElement.textContent = `(${valorPendente} pendentes de aprovação)`;
+        } else {
+            pendenteTextElement.textContent = '';
+        }
+
+
+                // POPULA OUTROS CAMPOS E ABRE O MODAL
+                doacaoModalElement.querySelector('#modalDoacaoMetaId').value = metaId;
+                if(campoPix) {
+                     campoPix.textContent = ongCnpj || "Chave PIX não informada";
+                }
+
+                // Reseta o modal para a visão "Material"
+                if(radioMaterial) radioMaterial.checked = true;
+                if(formMaterial) formMaterial.style.display = 'block';
+                if(formValor) formValor.style.display = 'none';
+
+                // Abre o modal
+                if (doacaoModal) {
+                    doacaoModal.show();
+                } else {
+                    console.error("Erro: A instância do 'doacaoModal' não foi criada.");
+                }
+            });
+        });
             
            
             // INÍCIO: CÓDIGO PARA ENVIO DO FORMULÁRIO (AJAX)
