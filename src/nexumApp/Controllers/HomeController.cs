@@ -9,9 +9,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System;
 using System.IO;
-using nexumApp.Models;
-using Microsoft.Extensions.Logging;
-using System.Security.Claims;
+
 
 namespace nexumApp.Controllers
 {
@@ -19,12 +17,13 @@ namespace nexumApp.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
-        private readonly Tags _tagsService = new Tags();
 
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
+
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context, IWebHostEnvironment webHostEnvironment)
         {
             _logger = logger;
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         [AllowAnonymous]
@@ -189,9 +188,11 @@ namespace nexumApp.Controllers
         [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [RequestSizeLimit(50 * 1024 * 1024)] // Limite de 50 MB para upload de arquivos
         public async Task<IActionResult> InscreverVoluntario(int id, string nomeCompleto, string email, string telefone, string cpf, DateTime? dataNascimento, string genero, string habilidades, IFormFile foto)
         {
             var vaga = await _context.Vagas.AsNoTracking().FirstOrDefaultAsync(v => v.IdVaga == id);
+            string fotoUrl = null;
             if (vaga == null)
             {
                 ModelState.AddModelError("", "A vaga para a qual você tentou se inscrever não existe mais.");
@@ -206,27 +207,59 @@ namespace nexumApp.Controllers
                 ModelState.AddModelError("Email", "O e-mail é obrigatório.");
             }
 
+            if (foto != null && foto.Length > 0)
+            {
+                // 1. Define o caminho da pasta
+                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads", "candidatos");
+
+                // 2. Cria a pasta se ela não existir
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+
+                // 3. Cria um nome de arquivo único
+                string fileExtension = Path.GetExtension(foto.FileName);
+                string uniqueFileName = Guid.NewGuid().ToString() + fileExtension;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                // 4. Salva o arquivo no disco
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await foto.CopyToAsync(fileStream);
+                }
+
+                // 5. Armazena o URL relativo para o banco de dados
+                fotoUrl = $"/uploads/candidatos/{uniqueFileName}";
+            }
+          
             if (!ModelState.IsValid)
             {
+                
+                ViewBag.NomeCompleto = nomeCompleto;
+                ViewBag.Email = email;
+                ViewBag.Telefone = telefone;
+                ViewBag.CPF = cpf;
+                ViewBag.DataNascimento = dataNascimento;
+                ViewBag.Genero = genero;
+                ViewBag.Habilidades = habilidades;
+
+                
+                if (!string.IsNullOrEmpty(fotoUrl))
+                {
+                    ViewBag.FotoBase64 = fotoUrl;
+                }
+
                 var vagaParaReexibir = await _context.Vagas
-                                                     .Include(v => v.Ong)
-                                                     .AsNoTracking()
-                                                     .FirstOrDefaultAsync(v => v.IdVaga == id);
+                                  .Include(v => v.Ong)
+                                  .AsNoTracking()
+                                  .FirstOrDefaultAsync(v => v.IdVaga == id);
 
                 Response.StatusCode = 400;
                 return PartialView("_VagaDetalheFormPartial", vagaParaReexibir);
             }
 
 
-            byte[] fotoBytes = null;
-            if (foto != null && foto.Length > 0)
-            {
-                using (var ms = new MemoryStream())
-                {
-                    await foto.CopyToAsync(ms);
-                    fotoBytes = ms.ToArray();
-                }
-            }
 
 
             var novoCandidato = new Candidato
@@ -237,7 +270,7 @@ namespace nexumApp.Controllers
                 CPF = cpf,
                 Descricao = habilidades,
                 DataInscricao = DateTime.Now,
-                Foto = fotoBytes,
+                FotoUrl = fotoUrl,
 
 
                 IdVoluntario = null
@@ -253,6 +286,16 @@ namespace nexumApp.Controllers
             {
                 _logger.LogError(ex, "Erro ao salvar novo candidato no banco.");
                 ModelState.AddModelError("", "Ocorreu um erro inesperado ao salvar seus dados de candidato.");
+
+                // Em caso de erro no DB, re-populamos o ViewBag (mantendo a foto, se subiu)
+                ViewBag.NomeCompleto = nomeCompleto;
+                ViewBag.Email = email;
+                ViewBag.Telefone = telefone;
+                ViewBag.CPF = cpf;
+                ViewBag.DataNascimento = dataNascimento;
+                ViewBag.Genero = genero;
+                ViewBag.Habilidades = habilidades;
+                ViewBag.FotoBase64 = fotoUrl; // URL da foto temporária
 
                 var vagaParaReexibir = await _context.Vagas.Include(v => v.Ong).AsNoTracking().FirstOrDefaultAsync(v => v.IdVaga == id);
                 Response.StatusCode = 500;
@@ -280,6 +323,16 @@ namespace nexumApp.Controllers
                 await _context.SaveChangesAsync();
 
                 ModelState.AddModelError("", "Ocorreu um erro inesperado ao salvar sua inscrição.");
+
+                // Em caso de erro no DB, re-populamos o ViewBag (mantendo a foto, se subiu)
+                ViewBag.NomeCompleto = nomeCompleto;
+                ViewBag.Email = email;
+                ViewBag.Telefone = telefone;
+                ViewBag.CPF = cpf;
+                ViewBag.DataNascimento = dataNascimento;
+                ViewBag.Genero = genero;
+                ViewBag.Habilidades = habilidades;
+                ViewBag.FotoBase64 = fotoUrl; // URL da foto temporária
 
                 var vagaParaReexibir = await _context.Vagas.Include(v => v.Ong).AsNoTracking().FirstOrDefaultAsync(v => v.IdVaga == id);
                 Response.StatusCode = 500;

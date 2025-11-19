@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using nexumApp.Data;
 
@@ -11,9 +12,11 @@ using nexumApp.Data;
 namespace nexumApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251119042023_AlterarCandidatoParaFotoUrl2")]
+    partial class AlterarCandidatoParaFotoUrl2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -445,9 +448,6 @@ namespace nexumApp.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("FilialId")
-                        .HasColumnType("int");
-
                     b.Property<string>("ImagemUrl")
                         .HasColumnType("nvarchar(max)");
 
@@ -472,8 +472,6 @@ namespace nexumApp.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("FilialId");
 
                     b.HasIndex("OngId");
 
@@ -780,17 +778,11 @@ namespace nexumApp.Data.Migrations
 
             modelBuilder.Entity("nexumApp.Models.Meta", b =>
                 {
-                    b.HasOne("nexumApp.Models.Filial", "Filial")
-                        .WithMany()
-                        .HasForeignKey("FilialId");
-
                     b.HasOne("nexumApp.Models.Ong", "Ong")
-                        .WithMany("Metas")
+                        .WithMany()
                         .HasForeignKey("OngId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Filial");
 
                     b.Navigation("Ong");
                 });
@@ -808,7 +800,7 @@ namespace nexumApp.Data.Migrations
             modelBuilder.Entity("nexumApp.Models.Vaga", b =>
                 {
                     b.HasOne("nexumApp.Models.Ong", "Ong")
-                        .WithMany("Vagas")
+                        .WithMany()
                         .HasForeignKey("IdONG")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -824,10 +816,6 @@ namespace nexumApp.Data.Migrations
             modelBuilder.Entity("nexumApp.Models.Ong", b =>
                 {
                     b.Navigation("Filials");
-
-                    b.Navigation("Metas");
-
-                    b.Navigation("Vagas");
                 });
 
             modelBuilder.Entity("nexumApp.Models.User", b =>

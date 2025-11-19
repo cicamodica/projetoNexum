@@ -468,51 +468,57 @@
 
     </div>
 
-<div class="modal fade" id="modalNovaVaga" tabindex="-1" aria-labelledby="modalNovaVagaLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content" style="border-radius: 15px;">
-            
-            <form asp-controller="Vagas" asp-action="Create" method="post" enctype="multipart/form-data">
-                <div class="modal-header border-0 pb-0">
-                  
-                    <h5 class="modal-title w-100 text-center" id="modalNovaVagaLabel" style="font-weight: 700; font-size: 1.5rem;">
-                        FORMULÁRIO DE NOVA VAGA
-                    </h5>
-                    <button type="button" class="btn-close-custom" data-bs-dismiss="modal" aria-label="Close">
-                        &times;
-                    </button>
-                </div>
-                <div class="modal-body p-4 pt-2">
-                    <p class="text-center text-muted small">Preencha os dados abaixo</p>
-                    <hr class="form-divider" />
-                    <div class="mb-3">
-                        <label for="Titulo" class="form-label">Título da Vaga</label>
-                        <input type="text" class="form-control rounded-pill form-control-custom" id="Titulo" name="Titulo" placeholder="Ex: Fotógrafo(a) PET" required>
+    <div class="modal fade" id="modalNovaVaga" tabindex="-1" aria-labelledby="modalNovaVagaLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="border-radius: 15px;">
+
+                <form asp-controller="Vagas" asp-action="Create" method="post" enctype="multipart/form-data">
+                    <div class="modal-header border-0 pb-0">
+
+                        <h5 class="modal-title w-100 text-center" id="modalNovaVagaLabel" style="font-weight: 700; font-size: 1.5rem;">
+                            FORMULÁRIO DE NOVA VAGA
+                        </h5>
+                        <button type="button" class="btn-close-custom" data-bs-dismiss="modal" aria-label="Close">
+                            &times;
+                        </button>
                     </div>
-                    <div class="mb-3">
-                        <label for="Descricao" class="form-label">Descrição da Vaga</label>
-                        <textarea class="form-control form-control-custom" id="Descricao" name="Descricao" placeholder="Ex: Precisamos de voluntários para..." style="height: 100px" required></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label for="Status" class="form-label">Status ou Data</label>
-                        <input type="text" class="form-control rounded-pill form-control-custom" id="Status" name="Status" placeholder="Ex: Recorrente ou 20/11/2025" required>
-                    </div>
-                    <div class="mb-3">
+                    <div class="modal-body p-4 pt-2">
+                        <p class="text-center text-muted small">Preencha os dados abaixo</p>
+                        <hr class="form-divider" />
+                        <div class="mb-3">
+                            <label for="Titulo" class="form-label">Título da Vaga</label>
+                            <input type="text" class="form-control rounded-pill form-control-custom" id="Titulo" name="Titulo" placeholder="Ex: Fotógrafo(a) PET" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Descricao" class="form-label">Descrição da Vaga</label>
+                            <textarea class="form-control form-control-custom" id="Descricao" name="Descricao" placeholder="Ex: Precisamos de voluntários para..." style="height: 100px" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Status" class="form-label">Status ou Data</label>
+                            <input type="text" class="form-control rounded-pill form-control-custom" id="Status" name="Status" placeholder="Ex: Recorrente ou 20/11/2025" required>
+                        </div>
+                        <div class="mb-3">
                             <label for="imagemFile" class="form-label">Imagem da Vaga (Opcional)</label>
                             <input type="file" class="form-control form-control-custom" id="imagemFile" name="imagemFile" accept="image/png, image/jpeg">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="Endereco" class="form-label">Selecione a matriz ou a filial</label>
+                            <select class="form-select form-control-custom rounded-pill" id="Endereco" name="Endereco" required>
+                                <option value="" selected disabled>Carregando locais...</option>
+                            </select>
+                        </div>
+                        <p class="text-center text-muted small mt-4">
+                            Após criar a vaga, ela será exibida no seu painel.
+                        </p>
                     </div>
-                    <p class="text-center text-muted small mt-4">
-                        Após criar a vaga, ela será exibida no seu painel.
-                    </p>
-                </div>
-                <div class="modal-footer border-0 d-flex justify-content-center p-4 pt-0">
-                    <button type="submit" class="btn btn-primary btn-custom btn-adicionar-small">Adicionar</button>
-                </div>
-            </form>
+                    <div class="modal-footer border-0 d-flex justify-content-center p-4 pt-0">
+                        <button type="submit" class="btn btn-primary btn-custom btn-adicionar-small">Adicionar</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
-
     <!-- Modal Criar Meta -->
     <div class="modal fade" id="modalCriarMeta" tabindex="-1" aria-labelledby="modalCriarMetaLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -717,6 +723,32 @@
        
         
         window.addEventListener('load', function() {
+
+                //  FUNÇÃO PARA CARREGAR AS FILIAIS (DROPDOWN)
+               
+                function carregarFiliais() {
+                    fetch('/Vagas/GetFiliais')
+                        .then(r => r.json())
+                        .then(data => {
+                            const selects = [
+                                document.getElementById('Endereco'),      // Modal Criar
+                                document.getElementById('editEndereco')   // Modal Editar
+                            ];
+                            selects.forEach(sel => {
+                                if(sel) {
+                                    sel.innerHTML = '<option value="" selected disabled>Selecione a matriz ou a filial</option>';
+                                    data.forEach(item => {
+                                        var opt = document.createElement('option');
+                                        opt.value = item.valor; // Endereço (o que vai pro banco)
+                                        opt.text = item.nome;   // Nome da Filial (vai ter ?)
+                                        sel.appendChild(opt);
+                                    });
+                                }
+                            });
+                        })
+                        .catch(err => console.error("Erro ao carregar filiais:", err));
+                }
+                    carregarFiliais();
 
             
             var deleteModalElement = document.getElementById('modalExcluirVaga');
@@ -1185,6 +1217,7 @@
                 // FIM: CÓDIGO CORRIGIDO PARA MODAL VER DOAÇÕES
                 // ===================================================
 
-            });
+                          
+
     </script>
 }
