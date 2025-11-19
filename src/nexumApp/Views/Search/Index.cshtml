@@ -1,0 +1,76 @@
+﻿@using nexumApp.Models
+@{
+    ViewData["Title"] = "Resultados da busca";
+
+    string q = ViewBag.Query as string;
+    var ongs = ViewBag.Ongs as List<Ong> ?? new();
+    var vagas = ViewBag.Vagas as List<Vaga> ?? new();
+    var metas = ViewBag.Metas as List<Meta> ?? new();
+}
+
+<h2>Resultados da busca</h2>
+
+@if (string.IsNullOrWhiteSpace(q))
+{
+    <p>Digite um termo na barra de pesquisa para começar.</p>
+}
+else if (!ongs.Any() && !vagas.Any() && !metas.Any())
+{
+    <p>Nenhum resultado encontrado para <strong>@q</strong>.</p>
+}
+else
+{
+    <p>Resultados para <strong>@q</strong>:</p>
+
+    @* ONGs *@
+    @if (ongs.Any())
+    {
+        <h3>ONGs</h3>
+        <div class="list-group mb-4">
+            @foreach (var ong in ongs)
+            {
+                <a class="list-group-item list-group-item-action"
+                   asp-controller="Ongs" asp-action="Details" asp-route-id="@ong.Id">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">@ong.Nome</h5>
+                        <small>@ong.CNPJ</small>
+                    </div>
+                    <p class="mb-1">@ong.Descriçao</p>
+                    <small>@ong.Endereço</small>
+                </a>
+            }
+        </div>
+    }
+
+    @* Vagas *@
+    @if (vagas.Any())
+    {
+        <h3>Vagas</h3>
+        <div class="list-group mb-4">
+            @foreach (var vaga in vagas)
+            {
+                <div class="list-group-item">
+                    <h5 class="mb-1">@vaga.Titulo</h5>
+                    <p class="mb-1">@vaga.Descricao</p>
+                    <small>Status: @vaga.Status</small>
+                </div>
+            }
+        </div>
+    }
+
+    @* Metas *@
+    @if (metas.Any())
+    {
+        <h3>Metas</h3>
+        <div class="list-group mb-4">
+            @foreach (var meta in metas)
+            {
+                <div class="list-group-item">
+                    <h5 class="mb-1">@meta.Descricao</h5>
+                    <p class="mb-1">Recurso: @meta.Recurso</p>
+                    <small>Alvo: @meta.ValorAlvo · Atual: @meta.ValorAtual</small>
+                </div>
+            }
+        </div>
+    }
+}

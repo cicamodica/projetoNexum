@@ -63,6 +63,12 @@ html {
   min-height: 100%;
 }
 
+.search-wrapper {
+    position: relative;
+    padding: 10px 10px;
+    flex: 1 1 auto;
+}
+
 /*CSS do menu dropdown na HOME*/
 
 .navbar .dropdown-menu {

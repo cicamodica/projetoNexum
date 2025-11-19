@@ -8,7 +8,9 @@ public enum ContactSubject
     Sugestao = 1,
     [Display(Name = "Dúvida")]
     Duvida = 2,
-    Outro = 3
+    [Display(Name = "Feedback da aplicação")]
+    Feedback = 3,
+    Outro = 4
 }
 public class FaleConoscoModel
     {
