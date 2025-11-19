@@ -36,6 +36,7 @@ namespace nexumApp.Controllers
             //Inicia a consulta base (todas as metas ativas)
             var query = _context.Metas
                 .Include(m => m.Ong)
+                .Include(m => m.Filial)
                 .Include(m => m.Doacoes)
                 .Where(m => m.Status == "Ativa");
 

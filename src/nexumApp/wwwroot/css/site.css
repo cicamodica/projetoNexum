@@ -257,4 +257,83 @@ html {
         border-color: #000;
     }
 /* --- FIM DO CSS CARD META --- */
+/* --- ESTILOS PARA O NOVO MODAL DE DOAÇÃO (Referência 2) --- */
+
+/* Contêiner das Informações da Meta */
+.meta-info-card {
+    /* Fundo branco e bordas suaves para destacar a seção */
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 1.5rem;
+    display: flex; /* Habilita o alinhamento lado a lado (Logo e Texto) */
+    align-items: flex-start;
+    gap: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+/* Logo da ONG */
+#modalDoacaoLogo {
+    /* Dimensões e formato do logo no canto superior esquerdo */
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    /* Usa a cor primária para o anel */
+    border: 3px solid #16435D;
+    background-color: white;
+    /* Garante que o logo fique no canto esquerdo superior do card */
+    flex-shrink: 0;
+}
+
+/* Ajustes no título/texto */
+.meta-info-text h4 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.2rem;
+}
+
+.meta-info-text p {
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+}
+
+/* Barra de Progresso dentro do modal */
+.modal-progresso-bar {
+    border-radius: 50px;
+    height: 12px;
+}
+
+    .modal-progresso-bar .progress-bar {
+        background-color: #00bcd4; /* Cor ciano para o progresso, para contraste */
+    }
+
+/* Botões de rádio (doação) */
+.btn-radio-custom {
+    border-radius: 50px !important;
+    padding: 0.5rem 1.5rem;
+    font-weight: 600;
+    border-color: #16435D;
+    color: #16435D;
+}
+
+    .btn-radio-custom:checked {
+        background-color: #16435D !important;
+        color: white !important;
+    }
+
+/* Ajustes no Modal Header para remover a margem do botão fechar */
+#modalDoacao .modal-header {
+    padding-bottom: 0;
+    padding-top: 1rem;
+    position: relative;
+    border: none;
+}
+
+#modalDoacao .btn-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 10;
+}
 
