@@ -337,92 +337,147 @@ html {
     z-index: 10;
 }
 
-/* --- ESTILOS GERAIS DE PERFIL DA ONG --- */
+/* --- ESTILOS GERAIS DE PERFIL DA ONG (AJUSTADO) --- */
 
-/* Contêiner Principal para alinhar o conteúdo */
+/* --- Cores Base (Dedução a partir do Navbar: #2987BF) --- */
+:root {
+    --color-primary-dark: #16435D; /* Azul marinho escuro (usado em alguns textos e sombras) */
+    --color-primary-blue: #2987BF; /* Azul principal do cabeçalho */
+    --color-tag-info: #0d6efd; /* Azul de tags (Meio ambiente/Proteção Animal) */
+    --color-tag-warning: #ffc107; /* Laranja de tag (Saúde) */
+}
+
+/* --- ESTRUTURA GERAL E CABEÇALHO --- */
+
 .perfil-container {
-    padding-top: 50px; /* Espaço para o cabeçalho flutuante */
+    padding-top: 50px;
     position: relative;
 }
 
-/* 1. Botão Flutuante de Edição (Lápis) */
-.edit-button-float {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    z-index: 10;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: #f8f9fa; /* Fundo claro */
-    color: #16435D;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.2s;
-}
-
-    .edit-button-float:hover {
-        background-color: #e9ecef;
-    }
-
-/* 2. Tags/Áreas de Atuação */
-.tag-badge {
-    padding: 0.4rem 0.8rem;
-    border-radius: 20px; /* Borda arredondada */
-    font-size: 0.85rem;
-    font-weight: 500;
-}
-
-.tag-badge-primary {
-    background-color: #0d6efd; /* Exemplo de azul primário */
-    color: white;
-}
-
-.tag-badge-warning {
-    background-color: #ffc107; /* Exemplo de laranja/amarelo */
-    color: #212529;
-}
-
-.tag-remove-icon {
-    font-size: 0.7rem;
-    margin-left: 5px;
-    cursor: pointer;
-}
-
-
-/* 3. Header de Imagens */
+/* Faixa Superior (Header de Imagens) */
 .profile-header-strip {
-    height: 180px;
+    background-color: var(--color-primary-blue); /* Fundo azul do cabeçalho */
+    height: 150px;
     overflow: hidden;
-    margin-bottom: -60px; /* Para que o perfil flutue sobre a imagem */
-    border-radius: 0 0 15px 15px;
+    margin-bottom: -50px; /* Ajuste para flutuar a logo */
+    border-radius: 0 0 15px 15px; /* Bordas inferiores arredondadas */
     position: relative;
-    background-color: #f8f9fa; /* Fallback */
 }
 
-/* Layout dos itens da foto */
-.header-image-item {
-    width: 20%;
-    height: 100%;
-    object-fit: cover;
-    display: inline-block;
-}
-
-/* 4. Imagem do Perfil (Logo) */
+/* Logo da ONG (Flutuante) */
 .profile-logo {
     width: 100px;
     height: 100px;
     object-fit: cover;
     border-radius: 50%;
     border: 4px solid white; /* Anel branco em volta do logo */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     background-color: white;
     position: relative;
     z-index: 5;
+}
+
+/* Botão Flutuante de Edição (Lápis - Topo Direito) */
+.edit-button-float {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 10;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #fff;
+    color: var(--color-primary-blue);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--color-primary-blue);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+/* --- ESTILOS DAS TAGS (ÁREA DE ATUAÇÃO) --- */
+
+.tag-badge {
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px; /* Bordas levemente retangulares (ajuste se quiser mais arredondado) */
+    font-size: 0.8rem;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+}
+
+.tag-badge-primary { /* Meio ambiente / Proteção Animal */
+    background-color: var(--color-tag-info);
+    color: white;
+}
+
+.tag-badge-warning { /* Saúde */
+    background-color: var(--color-tag-warning);
+    color: #212529;
+}
+
+.tag-remove-icon {
+    font-size: 0.8rem;
+    margin-left: 8px;
+    cursor: pointer;
+    line-height: 1;
+    vertical-align: middle;
+}
+
+/* --- ESTILOS DAS ABAS E TABELAS (Seus Resumos) --- */
+
+/* Aba de Navegação (Menu Resumos, Sobre, Relatórios) */
+.nav-tabs {
+    border-bottom: none;
+}
+
+    .nav-tabs .nav-link {
+        font-weight: 600;
+        color: #495057;
+        border: none;
+    }
+
+        .nav-tabs .nav-link.active {
+            color: var(--color-primary-blue);
+            border-bottom: 2px solid var(--color-primary-blue);
+            background-color: transparent;
+        }
+
+/* Contêiner de Conteúdo */
+.tab-content {
+    border: none !important; /* Remove a borda padrão do Bootstrap */
+    padding: 1rem 0 !important;
+}
+
+/* Tabela de Resumos */
+.table-responsive .table {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+    .table-responsive .table thead th {
+        background-color: #f8f9fa; /* Fundo claro para o cabeçalho */
+        border-bottom: 2px solid #ddd;
+        font-weight: 600;
+        font-size: 0.85rem;
+    }
+
+/* Badges dentro da tabela */
+.badge-meta {
+    background-color: #d1d8ff; /* Exemplo de azul clarinho */
+    color: #212529;
+    font-weight: 600;
+}
+
+.badge-vaga {
+    background-color: #b0f5b0; /* Exemplo de verde clarinho */
+    color: #212529;
+    font-weight: 600;
 }
 

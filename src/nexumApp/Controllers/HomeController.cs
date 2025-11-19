@@ -48,21 +48,27 @@ namespace nexumApp.Controllers
                 .Include(m => m.Doacoes)
                 .Where(m => m.Status == "Ativa");
 
-            // O filtro de aprovação SÓ é aplicado se o usuário estiver logado
             if (User.Identity?.IsAuthenticated == true)
             {
-                query = query.Where(m => m.Ong.Aprovaçao == true);
+                // Verifica se o usuário logado é uma ONG
+                if (User.IsInRole("Ong"))
+                {
+                    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                    // Busca o ID da ONG correspondente ao usuário
+                    var ong = await _context.Ongs
+                                            .FirstOrDefaultAsync(o => o.UserId == userId);
+
+                    // Define o ViewBag.OngId para o _LoginPartial usar
+                    if (ong != null)
+                    {
+                        ViewBag.OngId = ong.Id;
+                    }
+                }
             }
 
-            // NOVO: 1. Adiciona o filtro por Tag
-            if (tagId.HasValue && tagId.Value >= 0)
-            {
-                // Filtra onde a Tag da ONG é igual ao tagId selecionado
-                query = query.Where(m => m.Ong.Tag == tagId.Value);
-            }
-
-            // 4. Executa a consulta
-            var metasPublicas = await query
+                // 4. Executa a consulta
+                var metasPublicas = await query
                 .OrderBy(m => m.DataFim)
                 .ToListAsync();
 
@@ -83,24 +89,6 @@ namespace nexumApp.Controllers
             // Se você tem um dropdown de tags na View, ele precisa dessa lista.
             ViewBag.TagsList = new Tags().TagsList; // Assumindo que você instanciou a classe Tags para pegar a lista.
 
-            if (User.Identity?.IsAuthenticated == true)
-            {
-                // Garante que o usuário logado é uma ONG
-                if (User.IsInRole("Ong"))
-                {
-                    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-                    // Busca a ONG
-                    var ong = await _context.Ongs
-                                            .FirstOrDefaultAsync(o => o.UserId == userId);
-
-                    // Define o ViewBag.OngId para o _Layout.cshtml usar no ícone de perfil
-                    if (ong != null)
-                    {
-                        ViewBag.OngId = ong.Id;
-                    }
-                }
-            }
 
             // 6. Envia o resultado para a View
             return View(metasPublicas);
@@ -346,61 +334,7 @@ namespace nexumApp.Controllers
             return Ok();
         }
 
-        // Ação para exibir o Perfil da ONG
-        public async Task<IActionResult> PerfilONG(int id)
-        {
-            // 1. Carregar a ONG, Usuário (para Email), Metas e Vagas
-            var ong = await _context.Ongs
-                .Include(o => o.User)
-                .Include(o => o.Metas)
-                .Include(o => o.Vagas)
-                .FirstOrDefaultAsync(m => m.Id == id);
-
-            if (ong == null)
-            {
-                return NotFound();
-            }
-
-            // 2. Resolver o Nome da Tag (Área de Atuação)
-            ViewBag.TagName = _tagsService.TagsNames.ElementAtOrDefault(ong.Tag ?? -1) ?? "Não Classificado";
-
-            // 3. Criar a lista consolidada de Resumos (Metas e Vagas) para a tabela
-            var resumos = new List<object>();
-
-            // Adicionar Metas
-            foreach (var meta in ong.Metas.Where(m => m.Status != "Finalizada")) // Exibir apenas metas ativas
-            {
-                resumos.Add(new
-                {
-                    Tipo = "Meta",
-                    Titulo = meta.Recurso,
-                    Descricao = meta.Descricao,
-                    Status = meta.Status,
-                    DataFim = meta.DataFim.HasValue ? meta.DataFim.Value.ToShortDateString() : "Sem Data",
-                    Id = meta.Id
-                });
-            }
-
-            // Adicionar Vagas
-            foreach (var vaga in ong.Vagas.Where(v => v.Status != "Finalizada")) // Exibir apenas vagas ativas
-            {
-                resumos.Add(new
-                {
-                    Tipo = "Vaga",
-                    Titulo = vaga.Titulo,
-                    Descricao = vaga.Descricao,
-                    Status = vaga.Status,
-                    DataFim = vaga.DataFim.ToShortDateString(),
-                    Id = vaga.IdVaga
-                });
-            }
-
-            // Ordenar os resumos por Tipo para facilitar a leitura na tabela
-            ViewBag.Resumos = resumos.OrderBy(r => ((dynamic)r).Tipo).ToList();
-
-            // Passa o objeto ONG como Model
-            return View(ong);
-        }
+      
 
     }
 }

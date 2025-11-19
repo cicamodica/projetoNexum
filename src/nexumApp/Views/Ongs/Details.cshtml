@@ -1,39 +1,353 @@
-﻿@using System.Security.Claims;
+﻿@using System.Security.Claims
+@using nexumApp.Models
 @model nexumApp.Models.Ong
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Perfil da ONG";
+    // Estas variáveis devem ser definidas no seu Controller (OngsController.Details)
+    var tagName = ViewBag.TagName as string;
+    var metasAtivas = ViewBag.MetasResumos as List<object>;
+    var vagasAbertas = ViewBag.VagasResumos as List<object>;
+    var usuarioEmail = Model.User?.Email ?? "E-mail não disponível";
+    string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+    // Placeholder para a URL da imagem/logo (ajuste se Model.LogoImagePath existir)
+    var logoUrl = "/img/ong_logo_default.png";
 }
 
-@{string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;}
-<h1>@Html.DisplayFor(model => model.Nome)</h1>
+<div class="perfil-container">
 
-<div>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nome)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Nome)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Descriçao)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Descriçao)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Endereço)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Endereço)
-        </dd>
-    </dl>
+    <div class="profile-header-strip">
+        @if (userId == Model.UserId)
+        {
+            <button class="edit-button-float"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modalEditarHeader"
+                    title="Editar Imagens de Fundo">
+                <i class="bi bi-pencil"></i>
+            </button>
+        }
+
+        
+        <div class="d-flex h-100">
+            <img src="/img/pet_header_1.jpg" class="header-image-item" alt="Fundo 1">
+            <img src="/img/pet_header_2.jpg" class="header-image-item" alt="Fundo 2">
+            <img src="/img/pet_header_3.jpg" class="header-image-item" alt="Fundo 3">
+            <img src="/img/pet_header_4.jpg" class="header-image-item" alt="Fundo 4">
+            <img src="/img/pet_header_5.jpg" class="header-image-item" alt="Fundo 5">
+        </div>
+    </div>
+
+
+    <div class="container pb-5">
+        <div class="row">
+
+            <div class="col-12">
+                <div class="d-flex align-items-end mb-4">
+
+                    <img src="@logoUrl"
+                         alt="Logo da ONG"
+                         class="profile-logo me-4"
+                         style="margin-top: -60px;">
+
+                    <div>
+                        <h2 class="fw-bold mb-0 mt-2">
+                            @Model.Nome
+                            @if (userId == Model.UserId)
+                            {
+                                <a href="#" class="text-secondary small ms-2"
+                                   data-bs-toggle="modal"
+                                   data-bs-target="#modalEditarLogo"
+                                   title="Editar Logo da ONG">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                            }
+                        </h2>
+                    </div>
+                </div>
+
+                <h6 class="fw-bold">
+                    Descrição
+                    @if (userId == Model.UserId)
+                    {
+                        <a href="#" class="text-secondary small ms-2"
+                           data-bs-toggle="modal"
+                           data-bs-target="#modalEditarDescricao"
+                           title="Editar Descrição da ONG">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                    }
+                </h6>
+                <p>@Model.Descriçao</p>
+
+                <h6 class="fw-bold mt-3">Área de Atuação</h6>
+                <div class="d-flex align-items-center gap-2 mb-4">
+
+                    <span class="tag-badge tag-badge-primary">
+                        @tagName
+                    </span>
+
+                    @if (userId == Model.UserId)
+                    {
+                        <a href="#" class="btn btn-sm btn-outline-secondary py-1 px-3"
+                           data-bs-toggle="modal"
+                           data-bs-target="#modalEditarTag"
+                           title="Editar Área de Atuação">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                    }
+                </div>
+
+                <h6 class="fw-bold">Contatos</h6>
+                <div class="d-flex flex-wrap gap-4 small mb-4">
+                    <p class="mb-0">
+                        **E-mail:** <a href="mailto:@usuarioEmail">@usuarioEmail</a>
+                    </p>
+                    <p class="mb-0">
+                        **Website:** <a href="#">https://forcaanimal.com.br</a>
+                    </p>
+                </div>
+
+                <ul class="nav nav-tabs" id="perfilTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="metas-tab" data-bs-toggle="tab" data-bs-target="#metas-pane" type="button" role="tab" aria-controls="metas-pane" aria-selected="true">Metas</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="vagas-tab" data-bs-toggle="tab" data-bs-target="#vagas-pane" type="button" role="tab" aria-controls="vagas-pane" aria-selected="false">Vagas</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="sobre-tab" data-bs-toggle="tab" data-bs-target="#sobre-pane" type="button" role="tab" aria-controls="sobre-pane" aria-selected="false">Sobre</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="relatorios-tab" data-bs-toggle="tab" data-bs-target="#relatorios-pane" type="button" role="tab" aria-controls="relatorios-pane" aria-selected="false">Relatórios</button>
+                    </li>
+                </ul>
+
+
+                <div class="tab-pane fade show active" id="metas-pane" role="tabpanel" aria-labelledby="metas-tab" tabindex="0">
+                <h4 class="mt-4 fw-bold">Metas Ativas</h4>
+
+                @if (metasAtivas != null && metasAtivas.Any())
+                {
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover mb-0 small">
+                            <thead class="table-light">
+                                <tr>
+                                    <th style="width: 25%;">Nome</th>
+                                    <th style="width: 15%;">Data de Criação</th>
+                                    <th style="width: 15%;">Objetivo</th>
+                                    <th style="width: 25%;">Progresso</th>
+                                    <th style="width: 10%;">Doadores</th>
+                                    <th style="width: 10%;">Local</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (dynamic meta in metasAtivas)
+                                {
+                                    <tr>
+                                        <td>@meta.Titulo</td>
+                                        <td>@meta.DataCriacao</td>
+                                        <td>@meta.Objetivo</td>
+                                        <td>
+                                            @* Progresso (Progresso em texto e a Barra) *@
+                                            @{
+                                                var perc = (double.Parse(meta.Progresso));
+                                            }
+
+                                            <div class="progress" style="height: 15px;">
+                                                <div class="progress-bar bg-success" role="progressbar"
+                                                     style="width: @(perc)%; font-size: 10px;"
+                                                     aria-valuenow="@perc">
+                                                    @meta.Progresso%
+                                                </div>
+                                            </div>
+                                            <small class="text-muted d-block text-center mt-1">@meta.Progresso%</small>
+                                        </td>
+                                        <td>@meta.Colaboradores</td>
+                                        <td>@meta.Endereco</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-info text-center mt-3">Esta ONG não possui metas ativas.</div>
+                }
+            </div>
+
+            <div class="tab-pane fade" id="vagas-pane" role="tabpanel" aria-labelledby="vagas-tab" tabindex="0">
+                <h4 class="mt-4 fw-bold">Vagas Abertas</h4>
+
+                @if (vagasAbertas != null && vagasAbertas.Any())
+                {
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover mb-0 small">
+                            <thead class="table-light">
+                                <tr>
+                                    <th style="width: 25%;">Título</th>
+                                    <th style="width: 40%;">Objetivo/Descrição</th>
+                                    <th style="width: 15%;">Status</th>
+                                    <th style="width: 10%;">Local</th>
+                                    <th style="width: 10%;">Data Início</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (dynamic vaga in vagasAbertas)
+                                {
+                                    <tr>
+                                        <td>@vaga.Titulo</td>
+                                        <td>@vaga.Objetivo</td>
+                                        <td><span class="badge bg-info text-dark">@vaga.Progresso</span></td>
+                                        <td>@vaga.Endereco</td>
+                                        <td>@vaga.DataCriacao</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-info text-center mt-3">Esta ONG não possui vagas abertas.</div>
+                }
+            </div>
+
+                    <div class="tab-pane fade" id="sobre-pane" role="tabpanel" aria-labelledby="sobre-tab" tabindex="0">
+                        <p class="mt-3">Conteúdo detalhado sobre a história, missão e valores da ONG (aba Sobre).</p>
+                    </div>
+
+                    <div class="tab-pane fade" id="relatorios-pane" role="tabpanel" aria-labelledby="relatorios-tab" tabindex="0">
+                        <p class="mt-3">Área para exibir relatórios de impacto e transparência (RF-07, RF-08).</p>
+                    </div>
+
+                </div>
+            </div>
+
+        
+
+        </div>
+    </div>
 </div>
-<div>
-    @if(userId == Model.UserId) {
-    <a asp-action="Edit" asp-route-id="@Model?.Id" asp-route-UserId="@Model?.UserId">Editar</a> 
-    }
-    <a asp-action="Index">Voltar para lista</a>
+
+@* ==================================================================== *@
+@* MODAIS DE EDIÇÃO INTEGRADOS DIRETAMENTE NA VIEW *@
+@* ==================================================================== *@
+
+
+<div class="modal fade" id="modalEditarHeader" tabindex="-1" aria-labelledby="modalEditarHeaderLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEditarHeaderLabel">Editar Imagens de Fundo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-action="UploadHeaderImages" asp-controller="Ongs" method="post" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <input type="hidden" name="ongId" value="@Model.Id" />
+                    <p>Faça upload de até 5 imagens para o cabeçalho do seu perfil. As imagens existentes serão substituídas.</p>
+                    <div class="mb-3">
+                        <label for="headerImages" class="form-label">Selecionar Imagens</label>
+                        <input class="form-control" type="file" id="headerImages" name="headerImages" multiple accept="image/*">
+                        <div class="form-text">Envie arquivos JPG, PNG ou GIF.</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar Imagens</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modalEditarLogo" tabindex="-1" aria-labelledby="modalEditarLogoLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEditarLogoLabel">Editar Logo da ONG</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-action="UploadLogo" asp-controller="Ongs" method="post" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <input type="hidden" name="ongId" value="@Model.Id" />
+                    <div class="mb-3">
+                        <label for="ongLogo" class="form-label">Selecionar Nova Logo</label>
+                        <input class="form-control" type="file" id="ongLogo" name="ongLogo" accept="image/*">
+                    </div>
+                    <div class="text-center mt-3">
+                        <img src="/img/ong_logo_default.png" class="img-thumbnail rounded-circle" style="width: 150px; height: 150px; object-fit: cover;" alt="Logo Atual">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar Logo</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modalEditarDescricao" tabindex="-1" aria-labelledby="modalEditarDescricaoLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEditarDescricaoLabel">Editar Descrição</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-action="UpdateDescription" asp-controller="Ongs" method="post">
+                <div class="modal-body">
+                    <input type="hidden" name="ongId" value="@Model.Id" />
+                    <div class="mb-3">
+                        <label for="descricaoTextarea" class="form-label">Descrição da ONG</label>
+                        <textarea class="form-control" id="descricaoTextarea" name="descricao" rows="5">@Model.Descriçao</textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar Descrição</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalEditarTag" tabindex="-1" aria-labelledby="modalEditarTagLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEditarTagLabel">Editar Área de Atuação</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-action="UpdateSingleTag" asp-controller="Ongs" method="post">
+                <div class="modal-body">
+                    <input type="hidden" name="ongId" value="@Model.Id" />
+
+                    <label for="selectedTagId" class="form-label">Escolha a Nova Área</label>
+                    <select class="form-select" id="selectedTagId" name="selectedTagId" required>
+                        <option value="">-- Selecione uma área --</option>
+
+                        {{-- Renderiza a lista completa de tags da ViewBag --}}
+                        @if (ViewBag.TagsList is List<SelectListItem> tags)
+                        {
+                            @foreach (var item in tags)
+                            {
+                                // Pré-seleciona a Tag atual
+                                <option value="@item.Value" selected="@(Model.Tag.HasValue && Model.Tag.Value.ToString() == item.Value)">
+                                    @item.Text
+                                </option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Salvar Tag</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
