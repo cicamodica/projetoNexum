@@ -13,6 +13,9 @@
     var fotoSrc = string.IsNullOrEmpty(fotoUrl) ? defaultSrc : fotoUrl;
 }
 
+
+
+
 <style>
     /* CSS CRÍTICO: Garante que a imagem apareça */
     .form-vaga-profile-pic {
@@ -135,24 +138,3 @@
     </form>
 </div>
 
-<script>
-    
-    function previewImagemUnica(inputEl, targetImgId) {
-        console.log('1. Preview iniciado para alvo: ' + targetImgId);
-
-        if (inputEl.files && inputEl.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                var imgPreview = document.getElementById(targetImgId);
-                if (imgPreview) {
-                    console.log('2. Atualizando SRC da imagem...');
-                    imgPreview.src = e.target.result;
-                    imgPreview.style.display = 'block';
-                } else {
-                    console.error('ERRO: Imagem com ID ' + targetImgId + ' não encontrada.');
-                }
-            };
-            reader.readAsDataURL(inputEl.files[0]);
-        }
-    }
-</script>
