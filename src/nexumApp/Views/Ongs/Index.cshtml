@@ -22,7 +22,7 @@ else {
     var tagId = item.Tag.GetValueOrDefault();
     <a class="ONGS-flex-container-item" asp-action="Details" asp-route-id="@item.Id">
         <div class="ONGS-flex-container-item-img">
-
+            <img class="ONGS-flex-container-item-img-src" src="@item.ImageURL">
         </div>
         <h5>@Html.DisplayFor(modelItem => item.Nome)</h5>
         <span class="ONGS-flex-container-tag">@ViewBag.Tags[tagId]</span>

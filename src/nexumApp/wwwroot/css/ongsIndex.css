@@ -48,11 +48,18 @@
     }
 
 .ONGS-flex-container-item-img {
-    width: 265px;
-    height: 200px;
+    width: 220px;
+    height: 220px;
     border: 1px solid #003c54;
     border-radius: 30px;
     margin: 15px;
+}
+
+.ONGS-flex-container-item-img-src {
+    width: inherit;
+    height: inherit;
+    object-fit: fill;
+    border-radius: 30px
 }
 
 .ONGS-flex-container-item-endereço {

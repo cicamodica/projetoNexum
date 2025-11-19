@@ -1,14 +1,18 @@
 #nullable disable
 
+using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Newtonsoft.Json.Linq;
 using nexumApp.Data;
 using nexumApp.Models;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 
 namespace nexumApp.Areas.Identity.Pages.Account
 {
@@ -96,17 +100,19 @@ namespace nexumApp.Areas.Identity.Pages.Account
             [Required(ErrorMessage = "Selecione uma área de atuação")]
             public int? SelectedTagId {  get; set; }
 
+            [Required(ErrorMessage = "Anexe uma imagem")]
+            [Display(Name = "Imagem de perfil")]
+            public IFormFile Image {  get; set; }
+
         }
 
         public async Task OnGetAsync(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-            var Tags = new Tags();
-            ViewData["Tags"] = Tags.TagsList;
         }
 
-        public async Task<IActionResult> OnPostAsync(string CadastroAction)
+        public async Task<IActionResult> OnPostAsync(string CadastroAction, Cloudinary cloudinary)
         {
             if (ModelState.IsValid)
             {
@@ -129,6 +135,13 @@ namespace nexumApp.Areas.Identity.Pages.Account
                     ModelState.AddModelError(nameof(Input.DocumentoPdf), "Apenas arquivos PDF são permitidos.");
                     return Page();
                 }
+
+                if (!Input.Image.ContentType.StartsWith("image/"))
+                {
+                    ModelState.AddModelError(nameof(Input.Image), "Apenas arquivos de imagem são permitidos.");                   
+                    return Page();
+                }
+
                 var user = CreateUser();
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
@@ -159,10 +172,28 @@ namespace nexumApp.Areas.Identity.Pages.Account
                         ong.DocumentoTipo = "application/pdf";
                         ong.DocumentoNome = Path.GetFileName(Input.DocumentoPdf.FileName);
                     }
+                    // CLOUDNARY
+                    using (var ms = new MemoryStream())
+                    {
+                        await Input.Image.CopyToAsync(ms);
+                        var uploadParams = new ImageUploadParams()
+                        {
+                            File = new FileDescription(Input.Image.FileName, ms),
+                            UseFilename = true,
+                            UniqueFilename = false,
+                            Overwrite = true,
+                            Format = "jpg"
+                        };
+                        ms.Position = 0;
+                        var uploadResult = cloudinary.Upload(uploadParams);
+                        string imgURL = uploadResult.JsonObj.SelectToken("url")?.Value<string>();
+                        ong.ImageURL = imgURL;
+                    }
                     _dbContext.Add(ong);
                     await _dbContext.SaveChangesAsync();
                     await _signInManager.SignInAsync(user, isPersistent: true);
-                    if(CadastroAction == "Cadastrar")
+
+                    if (CadastroAction == "Cadastrar")
                     {
                         return RedirectToAction("PerfilONG", "Home", new { id = ong.Id });
                     }

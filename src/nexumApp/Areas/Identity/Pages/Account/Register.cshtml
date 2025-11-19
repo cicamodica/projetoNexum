@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Cadastrar ONG";
      Layout = "~/Views/Shared/_Layout.cshtml";
+     var OngTags = new Tags();      
 }
 <link rel="stylesheet" href="~/css/register.css" />
 <main class="min-vh-100 d-flex align-items-center justify-content-center">
@@ -15,7 +16,12 @@
                                 <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">
                                     <h4 class="text-center mb-3">Primeiro passo para criar uma conta Nexum</h4>
                                     <hr class="my-3" />
-                                    <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>     
+                                    <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                                    <div class="mb-3">
+                                        <label asp-for="Input.Image" class="control-label"></label>
+                                        <input asp-for="Input.Image" type="file" class="form-control Cadastro-input" accept="image/*" />                            
+                                        <span asp-validation-for="Input.Image" class="text-danger"></span>
+                                    </div>
                                     <div class="mb-3">
                                         <label asp-for="Input.Email">Email</label>
                                         <input asp-for="Input.Email" class="form-control Cadastro-input" autocomplete="username" aria-required="true" placeholder="name@example.com" />
@@ -33,7 +39,7 @@
                                     </div>
                                     <div class="mb-3">
                                         <label asp-for="Input.SelectedTagId">Área de atuação</label>
-                                        @Html.DropDownListFor(Model => Model.Input.SelectedTagId, (IEnumerable<SelectListItem>)ViewData["Tags"], "Selecione uma opção", new { @class = "form-control Cadastro-input" })
+                                        @Html.DropDownListFor(Model => Model.Input.SelectedTagId, (IEnumerable<SelectListItem>)OngTags.TagsList, "Selecione uma opção", new { @class = "form-control Cadastro-input" })
                                         <span asp-validation-for="Input.SelectedTagId" class="text-danger"></span>
                                     </div>
                                     <div class="mb-3">
