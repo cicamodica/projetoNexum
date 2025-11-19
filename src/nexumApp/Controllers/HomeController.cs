@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System;
 using System.IO;
+using System.Security.Claims;         
+using Microsoft.AspNetCore.Hosting;
 
 
 namespace nexumApp.Controllers
@@ -17,6 +19,8 @@ namespace nexumApp.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly Tags _tagsService = new Tags();
 
 
         public HomeController(ILogger<HomeController> logger, ApplicationDbContext context, IWebHostEnvironment webHostEnvironment)
