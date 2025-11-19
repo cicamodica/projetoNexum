@@ -1,11 +1,16 @@
-﻿@model IEnumerable<nexumApp.Models.Meta>
+﻿
+
+@model IEnumerable<nexumApp.Models.Meta>
 @{
     ViewData["Title"] = "Marketplace";
     var pendingValues = ViewBag.PendingValues as Dictionary<int, int> ?? new Dictionary<int, int>();
 }
 
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 <style>
-    /* Estilos permanecem os mesmos */
+    
     .header-banner {
         position: relative;
         width: 100vw;
@@ -279,16 +284,19 @@
         border-bottom: 1px solid #f0f0f0;
     }
 
-        .vaga-card-logo img {
-            width: 100px;
-            height: 100px;
-            object-fit: contain;
-            border-radius: 15px;
+    .vaga-card-logo img {
+            width: 240px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 10%;
+            border: 3px solid #f0f0f0;
+
         }
 
     .vaga-card-body {
         padding: 1rem 1.5rem;
         flex-grow: 1;
+        text-align: center;
     }
 
     .vaga-title {
@@ -323,12 +331,15 @@
         font-size: 0.85rem;
         color: #6c757d;
         margin-bottom: 0.5rem;
+        justify-content:center;
     }
 
-        .vaga-info i {
+     .vaga-info i {
             color: #16435D;
             font-size: 1rem;
-        }
+      }
+
+     
 
     .vaga-card-footer {
         padding: 0 1.5rem 1.5rem;

@@ -117,6 +117,8 @@ namespace nexumApp.Controllers
                     vagaParaAtualizar.Descricao = vaga.Descricao;
                     vagaParaAtualizar.Status = vaga.Status;
 
+                    
+
                     _context.Update(vagaParaAtualizar);
                     await _context.SaveChangesAsync();
                     TempData["Success"] = "Vaga atualizada com sucesso!";
@@ -170,7 +172,8 @@ namespace nexumApp.Controllers
                 titulo = vaga.Titulo,
                 descricao = vaga.Descricao,
                 status = vaga.Status,
-                imagemUrl = vaga.ImagemUrl
+                imagemUrl = vaga.ImagemUrl,
+                
             });
         }
 
@@ -250,6 +253,37 @@ namespace nexumApp.Controllers
             {
                 System.IO.File.Delete(caminhoFisico);
             }
+        }
+
+
+
+        [HttpGet]
+        public async Task<IActionResult> GetFiliais()
+        {
+            var userId = _userManager.GetUserId(User);
+
+            // 1. Pega a ONG do usuário logado
+            var ong = await _context.Ongs.FirstOrDefaultAsync(o => o.UserId == userId);
+
+            if (ong == null) return Json(new List<object>());
+
+            // 2. Busca as filiais no banco
+            //  Usando "OngId" conforme sua classe Filial
+            var filiais = await _context.Filials
+                .Where(f => f.OngId == ong.Id)
+                .Select(f => new {
+                    nome = f.Nome,
+                    valor = f.Endereço // O JavaScript vai usar isso para preencher o select
+                })
+                .ToListAsync();
+
+            // 3. Adiciona a Sede Principal na lista
+            if (!string.IsNullOrEmpty(ong.Endereço))
+            {
+                filiais.Insert(0, new { nome = "Sede Principal", valor = ong.Endereço });
+            }
+
+            return Json(filiais);
         }
     }
 }

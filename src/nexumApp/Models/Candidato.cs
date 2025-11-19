@@ -32,6 +32,6 @@ namespace nexumApp.Models
         public bool TemExperiencia { get; set; }
         public string Descricao { get; set; }
         [Display(Name = "Foto do Candidato")]
-        public byte[] Foto { get; set; }
+        public string FotoUrl { get; set; }
     }
 }

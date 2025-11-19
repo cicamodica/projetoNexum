@@ -1,18 +1,58 @@
-﻿
-@model nexumApp.Models.Vaga
+﻿@model nexumApp.Models.Vaga
 
+@{
+    
+    // Isso garante que o botão "Carregar" sempre saiba qual imagem atualizar
+    var uniqueId = Guid.NewGuid().ToString("N");
+    var imgPreviewId = "img-" + uniqueId;
+    var inputFileId = "input-" + uniqueId;
+
+    // Lógica da Imagem (Recupera do servidor ou usa placeholder)
+    string fotoUrl = ViewBag.FotoBase64 as string;
+    var defaultSrc = "https://placehold.co/150x150/f0f0f0/aaa?text=Perfil";
+    var fotoSrc = string.IsNullOrEmpty(fotoUrl) ? defaultSrc : fotoUrl;
+}
+
+<style>
+    /* CSS CRÍTICO: Garante que a imagem apareça */
+    .form-vaga-profile-pic {
+        position: relative !important;
+        overflow: hidden !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        width: 150px !important;
+        height: 150px !important;
+        border-radius: 50% !important;
+        border: 2px dashed #ccc;
+        background-color: #f8f9fa;
+        margin: 0 auto 10px auto;
+        cursor: pointer;
+    }
+
+        .form-vaga-profile-pic img {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+            border-radius: 50% !important;
+            display: block !important;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 20; 
+        }
+</style>
 
 <div class="vaga-info-section">
     <div class="vaga-info-logo">
-       
         <img src="@Model.ImagemUrl" alt="Logo @Model.Ong.Nome">
     </div>
     <div class="vaga-info-details">
         <h3>@Model.Titulo</h3>
         <p class="vaga-ong-name">@Model.Ong.Nome</p>
-        <p class="vaga-description-full">@Model.Descricao</p> 
+        <p class="vaga-description-full">@Model.Descricao</p>
         <p class="vaga-location"><i class="bi bi-geo-alt-fill"></i> @Model.Ong.Endereço</p>
-      
+
         <p class="vaga-period">
             <i class="bi bi-calendar-event-fill"></i>
             De: @Model.DataInicio.ToString("dd/MM/yyyy")
@@ -24,68 +64,71 @@
 <div class="form-vaga-section">
     <h4>FORMULÁRIO DE INSCRIÇÃO</h4>
 
-    @* Este formulário será enviado via AJAX pelo script em Marketplace.cshtml.
-        O 'asp-action' aponta para a Ação no seu Controller que vai RECEBER os dados.
-        O 'id' é usado pelo JavaScript para interceptar o 'submit'.
-    *@
     <form id="formInscricaoVaga" asp-action="InscreverVoluntario" asp-controller="Home" method="post" enctype="multipart/form-data">
 
-        @* Adicione um campo oculto para o ID da Vaga, para saber a qual vaga o voluntário está se inscrevendo *@
-      
         <input type="hidden" asp-for="IdVaga" name="id" />
 
-        @* Adicione aqui um 'div' para mostrar erros de submissão, se houver *@
-        @* <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div> *@
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
 
-        <div class="form-vaga-flex">
-            <div class="form-vaga-profile">
-                <div class="form-vaga-profile-pic" onclick="document.getElementById('fotoVoluntario').click()">
-                    <img id="fotoPreview" src="https://placehold.co/150x150/f0f0f0/aaa?text=+" alt="Preview da foto">
-                    @* <i class="bi bi-person-fill form-vaga-profile-pic-icon"></i> *@
+        <div class="form-vaga-flex flex-column flex-md-row">
+            <div class="form-vaga-profile text-center">
+
+                
+                <div class="form-vaga-profile-pic" onclick="document.getElementById('@inputFileId').click()">
+                    <img id="@imgPreviewId" src="@fotoSrc" alt="Preview da foto">
                 </div>
-                <label for="fotoVoluntario" class="btn btn-secondary btn-sm btn-upload">Carregar Imagem</label>
-                <input type="file" id="fotoVoluntario" name="Foto" class="d-none" accept="image/*" onchange="previewImagem(event)">
+
+                <label for="@inputFileId" class="btn btn-secondary btn-sm btn-upload mt-2" style="cursor: pointer;">Carregar Imagem</label>
+
+                
+                <input type="file" id="@inputFileId" name="Foto" class="d-none" accept="image/*" onchange="previewImagemUnica(this, '@imgPreviewId')">
             </div>
 
             <div class="form-vaga-fields">
                 <div class="form-group">
                     <label for="nomeVoluntario" class="form-label">Nome Completo</label>
-                    <input type="text" id="nomeVoluntario" name="NomeCompleto" class="form-control" required>
+                    <input type="text" id="nomeVoluntario" name="NomeCompleto" class="form-control" required
+                           value="@(ViewBag.NomeCompleto ?? "")">
                 </div>
 
                 <div class="form-group">
                     <label for="emailVoluntario" class="form-label">E-mail</label>
-                    <input type="email" id="emailVoluntario" name="Email" class="form-control" required>
+                    <input type="email" id="emailVoluntario" name="Email" class="form-control" required
+                           value="@(ViewBag.Email ?? "")">
                 </div>
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group mt-3">
             <label for="contatoVoluntario" class="form-label">Número de contato</label>
-            <input type="tel" id="contatoVoluntario" name="Telefone" class="form-control">
+            <input type="tel" id="contatoVoluntario" name="Telefone" class="form-control"
+                   value="@(ViewBag.Telefone ?? "")">
         </div>
 
-        <div class="form-vaga-split">
-            <div class="form-group">
+        <div class="form-vaga-split row mt-3">
+            <div class="form-group col-12 col-md-4">
                 <label for="cpfVoluntario" class="form-label">CPF</label>
-                <input type="text" id="cpfVoluntario" name="CPF" class="form-control">
+                <input type="text" id="cpfVoluntario" name="CPF" class="form-control"
+                       value="@(ViewBag.CPF ?? "")">
             </div>
-            <div class="form-group">
+            <div class="form-group col-12 col-md-4">
                 <label for="nascimentoVoluntario" class="form-label">Data de nascimento</label>
-                <input type="date" id="nascimentoVoluntario" name="DataNascimento" class="form-control">
+                <input type="date" id="nascimentoVoluntario" name="DataNascimento" class="form-control"
+                       value="@(ViewBag.DataNascimento != null ? ((DateTime)ViewBag.DataNascimento).ToString("yyyy-MM-dd") : "")">
             </div>
-            <div class="form-group">
+            <div class="form-group col-12 col-md-4">
                 <label for="generoVoluntario" class="form-label">Gênero (opcional)</label>
-                <input type="text" id="generoVoluntario" name="Genero" class="form-control">
+                <input type="text" id="generoVoluntario" name="Genero" class="form-control"
+                       value="@(ViewBag.Genero ?? "")">
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group mt-3">
             <label for="habilidadesVoluntario" class="form-label">Habilidades</label>
-            <textarea id="habilidadesVoluntario" name="Habilidades" class="form-control" rows="3" placeholder="Descreva aqui as habilidades que você possui que podem torná-lo apto para preencher a vaga"></textarea>
+            <textarea id="habilidadesVoluntario" name="Habilidades" class="form-control" rows="3" placeholder="Descreva aqui as habilidades que você possui que podem torná-lo apto para preencher a vaga">@(ViewBag.Habilidades ?? "")</textarea>
         </div>
 
-        <div class="form-vaga-footer">
+        <div class="form-vaga-footer mt-4">
             <p class="form-text text-muted">Após enviar o formulário você será notificado via e-mail</p>
             <button type="submit" class="btn btn-submit-vaga">Enviar formulário</button>
         </div>
@@ -94,17 +137,22 @@
 
 <script>
     
-    function previewImagem(event) {
-        const input = event.target;
-        if (input.files && input.files[0]) {
-            const reader = new FileReader();
+    function previewImagemUnica(inputEl, targetImgId) {
+        console.log('1. Preview iniciado para alvo: ' + targetImgId);
+
+        if (inputEl.files && inputEl.files[0]) {
+            var reader = new FileReader();
             reader.onload = function(e) {
-                const preview = document.getElementById('fotoPreview');
-                preview.src = e.target.result;
-                preview.style.display = 'block';
-               
-            }
-            reader.readAsDataURL(input.files[0]);
+                var imgPreview = document.getElementById(targetImgId);
+                if (imgPreview) {
+                    console.log('2. Atualizando SRC da imagem...');
+                    imgPreview.src = e.target.result;
+                    imgPreview.style.display = 'block';
+                } else {
+                    console.error('ERRO: Imagem com ID ' + targetImgId + ' não encontrada.');
+                }
+            };
+            reader.readAsDataURL(inputEl.files[0]);
         }
     }
 </script>
