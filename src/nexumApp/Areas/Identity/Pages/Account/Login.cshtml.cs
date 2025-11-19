@@ -127,7 +127,7 @@ namespace nexumApp.Areas.Identity.Pages.Account
                             else
                             {
                                 //  Adiciona new { area = "" }
-                                return RedirectToAction("Wait", "Ongs", new { area = "" });
+                                return RedirectToAction("PerfilONG", "Home", new { id = ong.Id });
                             }
                         }
                         else

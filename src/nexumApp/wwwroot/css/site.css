@@ -337,3 +337,92 @@ html {
     z-index: 10;
 }
 
+/* --- ESTILOS GERAIS DE PERFIL DA ONG --- */
+
+/* Contêiner Principal para alinhar o conteúdo */
+.perfil-container {
+    padding-top: 50px; /* Espaço para o cabeçalho flutuante */
+    position: relative;
+}
+
+/* 1. Botão Flutuante de Edição (Lápis) */
+.edit-button-float {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 10;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #f8f9fa; /* Fundo claro */
+    color: #16435D;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.2s;
+}
+
+    .edit-button-float:hover {
+        background-color: #e9ecef;
+    }
+
+/* 2. Tags/Áreas de Atuação */
+.tag-badge {
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px; /* Borda arredondada */
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.tag-badge-primary {
+    background-color: #0d6efd; /* Exemplo de azul primário */
+    color: white;
+}
+
+.tag-badge-warning {
+    background-color: #ffc107; /* Exemplo de laranja/amarelo */
+    color: #212529;
+}
+
+.tag-remove-icon {
+    font-size: 0.7rem;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+
+/* 3. Header de Imagens */
+.profile-header-strip {
+    height: 180px;
+    overflow: hidden;
+    margin-bottom: -60px; /* Para que o perfil flutue sobre a imagem */
+    border-radius: 0 0 15px 15px;
+    position: relative;
+    background-color: #f8f9fa; /* Fallback */
+}
+
+/* Layout dos itens da foto */
+.header-image-item {
+    width: 20%;
+    height: 100%;
+    object-fit: cover;
+    display: inline-block;
+}
+
+/* 4. Imagem do Perfil (Logo) */
+.profile-logo {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid white; /* Anel branco em volta do logo */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    background-color: white;
+    position: relative;
+    z-index: 5;
+}
+

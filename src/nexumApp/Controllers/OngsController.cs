@@ -30,8 +30,10 @@ namespace nexumApp.Controllers
             ViewBag.Total = ongs.Count;
             return View(ongs.ToPagedList(pageNumber, pageSize));
         }
-        
 
+
+
+        // OngsController.cs
 
         [Authorize(Roles = "Ong")] // Só ONGs logadas podem ver
         public async Task<IActionResult> Dashboard()
@@ -62,7 +64,7 @@ namespace nexumApp.Controllers
             // Busca as metas SOMENTE desta ONG, INCLUINDO a Filial
             var metas = await _context.Metas
                                         .Include(m => m.Ong)
-                                        .Include(m => m.Filial) // <== NOVO: INCLUI A FILIAL
+                                        .Include(m => m.Filial)
                                         .Where(m => m.OngId == ong.Id)
                                         .ToListAsync();
 
@@ -77,6 +79,9 @@ namespace nexumApp.Controllers
             // NOVO: Passa a lista de filiais e o nome da ONG para a ViewBag
             ViewBag.Filiais = ong.Filials;
             ViewBag.OngNome = ong.Nome;
+
+            // INJEÇÃO CRUCIAL PARA O ÍCONE DE PERFIL NO _LAYOUT.CSHTML
+            ViewBag.OngId = ong.Id;
 
             // Passa a própria ONG como o Modelo principal da View
             return View(ong);

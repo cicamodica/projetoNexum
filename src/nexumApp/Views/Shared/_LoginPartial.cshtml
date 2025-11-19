@@ -5,9 +5,14 @@
 <ul class="navbar-nav ms-3 align-items-center">
     @if (SignInManager.IsSignedIn(User))
     {
+        var ongId = ViewBag.OngId ?? 0; 
 
         <li class="nav-item me-2">
-            <a class="nav-link profile-icon" asp-area="Identity" asp-page="/Account/Manage/Index" title="Meu Perfil">
+            <a class="nav-link profile-icon"
+               asp-controller="Home"
+               asp-action="PerfilONG"
+               asp-route-id="@ongId"
+               title="Meu Perfil">
                 <i class="bi bi-person-circle"></i>
             </a>
         </li>
