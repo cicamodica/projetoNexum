@@ -3,7 +3,7 @@
     ViewData["Title"] = "Cadastrar filial";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<link rel="stylesheet" href="~/css/filials.css" />
 <div class="FilialCadastro container d-flex align-items-center">
     <div class="row w-100 justify-content-center">
     <h1 class="FilialCadastro-title text-center mb-3">Cadastrar filial</h1>
@@ -14,15 +14,31 @@
                     <div class="row">
                         <div class="mb-3">
                             <form asp-action="Create" enctype="multipart/form-data">
-                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>         
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                                @* CEP *@
                                 <div class="mb-3">
-                                    <label asp-for="Endereço" class="control-label" style="color: #16435d;"></label>
-                                    <input asp-for="Endereço" class="form-control" style="border-radius: 30px; border-color: #16435d"/>
+                                    <label asp-for="CEP" class="control-label FilialCadastro-label"></label>
+                                    <input id="inputCEP" type="text" maxlength="8" asp-for="CEP" class="form-control FilialCadastro-input" id="inputCEP" placeholder="Somente números"/>
+                                    <span id="inputCEPValidation" asp-validation-for="CEP" class="text-danger" id="inputCEPValidation"></span>
+                                </div>
+
+
+                                <div class="mb-3">
+                                    <label asp-for="Endereço" class="control-label FilialCadastro-label"></label>
+                                    <input id="inputEndereço" readonly asp-for="Endereço" class="form-control FilialCadastro-input" />
                                     <span asp-validation-for="Endereço" class="text-danger"></span>
                                 </div>
+                                @* COMPLEMENTO *@
                                 <div class="mb-3">
-                                    <label asp-for="CNPJ" class="control-label" style="color: #16435d;"></label>
-                                    <input maxlength="14" asp-for="CNPJ" class="form-control" placeholder="Somente números" style="border-radius: 30px; border-color: #16435d" />
+                                    <label asp-for="Complemento" class="control-label FilialCadastro-label"></label>
+                                    <input asp-for="Complemento" class="form-control FilialCadastro-input"/>
+                                    <span asp-validation-for="Complemento" class="text-danger"></span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label asp-for="CNPJ" class="control-label FilialCadastro-label" ></label>
+                                    <input maxlength="14" asp-for="CNPJ" class="form-control FilialCadastro-input" placeholder="Somente números" />
                                     <span asp-validation-for="CNPJ" class="text-danger"></span>
                                 </div>
                                 <div class="mb-3">
@@ -43,5 +59,48 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        let inputCEP = document.getElementById("inputCEP")
+        let inputCEPValidation = document.getElementById("inputCEPValidation")
+        let inputEndereço = document.getElementById("inputEndereço")
+
+        const fillAddress = (data) => {
+            if(data.erro) {
+                return inputCEPValidation.textContent = "CEP inválido"
+            }
+            
+            const { logradouro, bairro, localidade, uf } = data
+            const address = `${logradouro} - ${bairro}, ${localidade} - ${uf}`
+            inputEndereço.value = address
+        }
+
+        const fetchCEP = (CEP) => {
+         URL = `https://viacep.com.br/ws/${CEP}/json/`
+         fetch(URL)
+         .then(res => res.json())
+         .then(data => fillAddress(data))
+         .catch(err => {
+            console.log(err)
+        }) 
+        }
+
+        inputCEP.addEventListener("focusout", () => {
+            let isNum =  /^\d+$/.test(inputCEP.value)
+            inputCEPValidation.textContent = ""
+            if(!inputCEP.value) {
+                console.log('teste 1')
+                inputEndereço.value = ""
+                return inputCEPValidation.textContent = "Obrigatório informar o CEP!"
+            }
+            if(inputCEP.value.length < 8 || !isNum) {
+                console.log('teste 2')
+                inputEndereço.value = ""
+                return inputCEPValidation.textContent = "O CEP deve conter 8 números"
+            }
+            console.log("teste 3")
+                fetchCEP(inputCEP.value)
+        })
+     </script>
 }
 

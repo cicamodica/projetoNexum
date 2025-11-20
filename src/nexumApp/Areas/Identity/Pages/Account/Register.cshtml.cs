@@ -172,7 +172,8 @@ namespace nexumApp.Areas.Identity.Pages.Account
                         ong.DocumentoTipo = "application/pdf";
                         ong.DocumentoNome = Path.GetFileName(Input.DocumentoPdf.FileName);
                     }
-                    // CLOUDNARY
+
+                    // CLOUDINARY
                     using (var ms = new MemoryStream())
                     {
                         await Input.Image.CopyToAsync(ms);
