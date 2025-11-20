@@ -1,36 +1,45 @@
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using nexumApp.Data;
-using nexumApp.Models;
-using QuestPDF.Infrastructure;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using dotenv.net;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using nexumApp.Data;
+using nexumApp.Models;
+using nexumApp.Services; // Importante para reconhecer o serviço definido lá embaixo
+using QuestPDF.Infrastructure;
+using System.Net;
+using System.Net.Mail;
 
 QuestPDF.Settings.License = LicenseType.Community;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// 1. Configuração do Banco de Dados
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-
+// 2. REGISTRO DO SERVIÇO DE E-MAIL 
+// Ensina o sistema que quando pedir IEmailService, deve entregar EmailService
+builder.Services.AddTransient<IEmailService, EmailService>();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<User>(options => 
-{ 
+// 3. Configuração de Identidade
+builder.Services.AddDefaultIdentity<User>(options =>
+{
     options.SignIn.RequireConfirmedAccount = false;
-    options.SignIn.RequireConfirmedEmail = false; 
+    options.SignIn.RequireConfirmedEmail = false;
 })
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddErrorDescriber<DuplicateUserDescriber>();
 
 builder.Services.AddControllersWithViews();
+
+// 4. Políticas de Autorização
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("HasCreatedOrApprovedONG", policy =>
@@ -43,19 +52,16 @@ builder.Services.AddAuthorization(options =>
         .RequireRole("Admin"));
 });
 
-
-
 builder.Services.AddSingleton<IAuthorizationHandler, HasCreatedOrApprovedONGRequirementHandler>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-// Seeder Startup
+// 5. Método Seeder (Função Local)
 static async Task SeedAdminAsync(IServiceProvider services, IConfiguration config)
 {
     using var scope = services.CreateScope();
     var roleMgr = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<User>>(); // seu User
+    var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
 
-    // 2) Primeiro admin (opcional)
     var email = config["AdminBootstrap:Email"];
     var pwd = config["AdminBootstrap:Password"];
 
@@ -76,10 +82,11 @@ static async Task SeedAdminAsync(IServiceProvider services, IConfiguration confi
 
 var app = builder.Build();
 
+// 6. Execução do Seeder de Roles
 using (var scope = app.Services.CreateScope())
 {
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    string[] roleNames = { "Admin", "Ong"};
+    string[] roleNames = { "Admin", "Ong" };
     foreach (var roleName in roleNames)
     {
         if (!await roleManager.RoleExistsAsync(roleName))
@@ -91,7 +98,7 @@ using (var scope = app.Services.CreateScope())
 
 await SeedAdminAsync(app.Services, builder.Configuration);
 
-// Configure the HTTP request pipeline.
+// 7. Configuração do Pipeline HTTP
 if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
@@ -99,14 +106,17 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
-// credenciais cloudnary
+// Configuração do Cloudinary
 DotEnv.Load(options: new DotEnvOptions(probeForEnv: true));
-Cloudinary cloudinary = new Cloudinary(Environment.GetEnvironmentVariable("CLOUDINARY_URL"));
-cloudinary.Api.Secure = true;
+string cloudinaryUrl = Environment.GetEnvironmentVariable("CLOUDINARY_URL");
+if (!string.IsNullOrEmpty(cloudinaryUrl))
+{
+    Cloudinary cloudinary = new Cloudinary(cloudinaryUrl);
+    cloudinary.Api.Secure = true;
+}
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
@@ -125,5 +135,64 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
 
-
 app.Run();
+
+
+namespace nexumApp.Services
+{
+    public interface IEmailService
+    {
+        Task SendEmailAsync(string emailDestino, string assunto, string mensagemHtml);
+    }
+
+    public class EmailService : IEmailService
+    {
+        private readonly IConfiguration _configuration;
+
+        public EmailService(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
+        public async Task SendEmailAsync(string emailDestino, string assunto, string mensagemHtml)
+        {
+            try
+            {
+                var mailUser = _configuration["EmailSettings:Mail"];
+                var mailName = _configuration["EmailSettings:DisplayName"];
+                var mailPassword = _configuration["EmailSettings:Password"];
+                var mailHost = _configuration["EmailSettings:Host"];
+                // Validação simples para evitar erro se a porta não estiver configurada
+                int mailPort = 587;
+                if (int.TryParse(_configuration["EmailSettings:Port"], out int parsedPort))
+                {
+                    mailPort = parsedPort;
+                }
+
+                using (var client = new SmtpClient(mailHost, mailPort))
+                {
+                    client.Credentials = new NetworkCredential(mailUser, mailPassword);
+                    client.EnableSsl = true;
+
+                    var mailMessage = new MailMessage
+                    {
+                        From = new MailAddress(mailUser, mailName),
+                        Subject = assunto,
+                        Body = mensagemHtml,
+                        IsBodyHtml = true
+                    };
+
+                    mailMessage.To.Add(emailDestino);
+
+                    await client.SendMailAsync(mailMessage);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Em produção, o ideal é logar o erro em vez de jogar na tela
+                Console.WriteLine($"Erro ao enviar email: {ex.Message}");
+                throw; // Repassa o erro para ser tratado pelo Controller se necessário
+            }
+        }
+    }
+}
