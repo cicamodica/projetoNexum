@@ -1,20 +1,16 @@
 ﻿@model nexumApp.Models.Vaga
 
 @{
-    
     // Isso garante que o botão "Carregar" sempre saiba qual imagem atualizar
     var uniqueId = Guid.NewGuid().ToString("N");
     var imgPreviewId = "img-" + uniqueId;
     var inputFileId = "input-" + uniqueId;
 
-    // Lógica da Imagem (Recupera do servidor ou usa placeholder)
+    // Lógica da Img(Recupera do servidor ou usa placeholder)
     string fotoUrl = ViewBag.FotoBase64 as string;
     var defaultSrc = "https://placehold.co/150x150/f0f0f0/aaa?text=Perfil";
     var fotoSrc = string.IsNullOrEmpty(fotoUrl) ? defaultSrc : fotoUrl;
 }
-
-
-
 
 <style>
     /* CSS CRÍTICO: Garante que a imagem apareça */
@@ -42,7 +38,7 @@
             position: absolute;
             top: 0;
             left: 0;
-            z-index: 20; 
+            z-index: 20;
         }
 </style>
 
@@ -67,6 +63,7 @@
 <div class="form-vaga-section">
     <h4>FORMULÁRIO DE INSCRIÇÃO</h4>
 
+   
     <form id="formInscricaoVaga" asp-action="InscreverVoluntario" asp-controller="Home" method="post" enctype="multipart/form-data">
 
         <input type="hidden" asp-for="IdVaga" name="id" />
@@ -76,14 +73,14 @@
         <div class="form-vaga-flex flex-column flex-md-row">
             <div class="form-vaga-profile text-center">
 
-                
+
                 <div class="form-vaga-profile-pic" onclick="document.getElementById('@inputFileId').click()">
                     <img id="@imgPreviewId" src="@fotoSrc" alt="Preview da foto">
                 </div>
 
                 <label for="@inputFileId" class="btn btn-secondary btn-sm btn-upload mt-2" style="cursor: pointer;">Carregar Imagem</label>
 
-                
+
                 <input type="file" id="@inputFileId" name="Foto" class="d-none" accept="image/*" onchange="previewImagemUnica(this, '@imgPreviewId')">
             </div>
 
