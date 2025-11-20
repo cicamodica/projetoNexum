@@ -4,6 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using nexumApp.Data;
 using nexumApp.Models;
 using QuestPDF.Infrastructure;
+using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
+using dotenv.net;
 
 QuestPDF.Settings.License = LicenseType.Community;
 
@@ -99,6 +102,11 @@ else
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+// credenciais cloudnary
+DotEnv.Load(options: new DotEnvOptions(probeForEnv: true));
+Cloudinary cloudinary = new Cloudinary(Environment.GetEnvironmentVariable("CLOUDINARY_URL"));
+cloudinary.Api.Secure = true;
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
