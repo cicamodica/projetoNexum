@@ -47,6 +47,7 @@ namespace nexumApp.Controllers
             Filial.OngId = ong.Id;
             Filial.Nome = ong.Nome;
             Filial.Descriçao = ong.Descriçao;
+            Filial.Endereço = $"{Filial.Complemento} - {Filial.Endereço}";
             _context.Add(Filial);
             _context.SaveChanges();
         }

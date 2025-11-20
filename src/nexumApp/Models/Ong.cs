@@ -49,6 +49,8 @@ namespace nexumApp.Models
         //[Required(ErrorMessage = "Anexe o documento PDF para aprovação")]
         //[Display(Name = "Documento PDF para aprovação")]
         public IFormFile DocumentoPdf { get; set; }
+
+        public string ImageURL { get; set; }
     }
     public class OngEditViewModel
     {

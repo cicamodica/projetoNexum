@@ -11,7 +11,7 @@ using System;
 using System.IO;
 using System.Security.Claims;         
 using Microsoft.AspNetCore.Hosting;
-
+using nexumApp.Services;
 
 namespace nexumApp.Controllers
 {
@@ -21,13 +21,15 @@ namespace nexumApp.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly Tags _tagsService = new Tags();
+        private readonly IEmailService _emailService;
 
 
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context, IWebHostEnvironment webHostEnvironment)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context, IWebHostEnvironment webHostEnvironment, IEmailService emailService)
         {
             _logger = logger;
             _context = context;
             _webHostEnvironment = webHostEnvironment;
+            _emailService = emailService;
         }
 
         [AllowAnonymous]
@@ -329,6 +331,26 @@ namespace nexumApp.Controllers
                 var vagaParaReexibir = await _context.Vagas.Include(v => v.Ong).AsNoTracking().FirstOrDefaultAsync(v => v.IdVaga == id);
                 Response.StatusCode = 500;
                 return PartialView("_VagaDetalheFormPartial", vagaParaReexibir);
+            }
+            try // codigo que envia o email 
+            {
+                string corpoEmail = $@"
+                    <div style='font-family: Arial, sans-serif; color: #333;'>
+                        <h2 style='color: #16435D;'>Olá, {nomeCompleto}!</h2>
+                        <p>Sua inscrição foi realizada com sucesso!</p>
+                        <hr>
+                        <p><strong>Status atual:</strong> <span style='color: orange;'>Em análise</span></p>
+                        <p>A ONG analisará seu perfil e entrará em contato pelo telefone: <strong>{telefone}</strong>.</p>
+                        <br>
+                        <p>Atenciosamente,<br><strong>Equipe Nexum</strong></p>
+                    </div>";
+
+                await _emailService.SendEmailAsync(email, "Confirmação de Inscrição - Nexum", corpoEmail);
+            }
+            catch (Exception ex)
+            {
+                
+                _logger.LogError(ex, "A inscrição foi salva, mas falhou ao enviar o e-mail de confirmação.");
             }
 
             return Ok();
