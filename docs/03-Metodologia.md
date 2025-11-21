@@ -12,6 +12,9 @@ Na segunda etapa definimos como será a metodologia de todo o projeto, incluindo
 ### Etapa 3
 Na terceira etapa avançamos no desenvolvimento do projeto, criando a estrutura principal da aplicação e implementando as funcionalidades mais importantes. Atualizamos a documentação, realizamos os primeiros testes de software e desenvolvemos a prova de conceito (PoC) para validar o funcionamento inicial do sistema.
 
+### Etapa 4
+Na quarta etapa finalizamos o desenvolvimento do projeto, finalizando a estrutura da aplicação e implementando todas as funcionalidades. Atualizamos a documentação e realizamos os testes de software e de usabilidade.
+
 ## Controle de Versão
 
 A ferramenta de controle de versão adotada no projeto foi o
