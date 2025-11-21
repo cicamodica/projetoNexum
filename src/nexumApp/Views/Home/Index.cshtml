@@ -4,6 +4,64 @@
 @{
     ViewData["Title"] = "Marketplace";
     var pendingValues = ViewBag.PendingValues as Dictionary<int, int> ?? new Dictionary<int, int>();
+    string search = ViewBag.Search as string;
+    var vagas = ViewBag.Vagas as List<nexumApp.Models.Vaga>;
+    var ongs = ViewBag.Ongs as List<nexumApp.Models.Ong>;
+}
+
+
+@if (!string.IsNullOrWhiteSpace(search))
+{
+    <h3 class="mt-4">Resultados para "@search"</h3>
+
+    //ONGs
+    if (ongs != null && ongs.Any())
+    {
+        <h4 class="mt-3">ONGs encontradas (@ongs.Count)</h4>
+        <div class="row">
+            @foreach (var o in ongs)
+            {
+                <div class="col-md-4 mb-3">
+                    <div class="card p-3 shadow-sm">
+                        <h5>@o.Nome</h5>
+                        <p>@o.Endereço</p>
+                        <p><small>CNPJ: @o.CNPJ</small></p>
+                        <a asp-controller="Ongs"
+                           asp-action="Details"
+                           asp-route-id="@o.Id"
+                           class="btn btn-primary">
+                            Ver ONG
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+    //VAGAS
+    if (vagas != null && vagas.Any())
+    {
+        <h4 class="mt-4">Vagas encontradas (@vagas.Count)</h4>
+        <div class="row">
+            @foreach (var v in vagas)
+            {
+                <div class="col-md-4 mb-3">
+                    <div class="card p-3 shadow-sm">
+                        <h5>@v.Titulo</h5>
+                        <p>@v.Descricao</p>
+                        <a asp-controller="Vagas"
+                           asp-action="Details"
+                           asp-route-id="@v.IdVaga"
+                           class="btn btn-outline-primary">
+                            Ver vaga
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+    <h4 class="mt-4">Metas encontradas (@Model.Count())</h4>
 }
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
