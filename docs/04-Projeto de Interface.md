@@ -40,7 +40,7 @@ Figura 3 - Tela Homepage logado (ONG)
 
 ### Homepage logado (ADM)
 
-Requisitos associados: RF-01, RF-04, RF-05, RF-07, RF-08, RF-09, RF-10, RF-11
+Requisitos associados: RF-09, RF-10, RF-11, RF-12, RF-13, RF-14
 
 <img width="1165" height="724" alt="Homepage logado ADM" src="https://github.com/user-attachments/assets/a8b599af-96dc-40d4-a0e5-a69a9a3930d5" />
 
