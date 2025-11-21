@@ -1,5 +1,7 @@
 # Plano de Testes de Software
 
+Os testes funcionais a serem realizados na aplicação são descritos a seguir:
+
 | **Caso de Teste** | **CT01 - Teste da Página de Marketplace** |
 |:---:	|:---:	|
 |	**Requisitos Associados**  | RF-05 |
@@ -10,13 +12,64 @@
 
 <br>
 
-| **Caso de Teste** 	| **CT02 – Página de ONG (visão de usuário externo)** 	|
+| **Caso de Teste** 	| **CT08 – Teste da página de Cadastro (ONG)** 	|
+|:---:	|:---:	|
+|	**Requisitos Associados** 	| RF-01 |
+| **Objetivo do Teste** 	| Verificar se o usuário consegue realizar o cadastro da ONG |
+| **Passos** 	| 01.	Acessar a aplicação por link público; <br> 02.	Na homepage clicar em “Entrar”; <br> 03.	Na página “Como deseja entrar?” selecionar “Cadastro”; <br> 04.	Em cadastro selecionar o tipo do cadastro a ser realizado (ONG); <br> 05.	Realizar o preenchimento de dados corretamente; <br> 06.	Clicar em “Próximo”; <br> 07.	Visualizar a mensagem “Cadastro pendente de aprovação” (ONG); <br> 08.	Aguardar aprovação do ADMIN; <br> 09.	Receber notificação informando aprovação do cadastro;|
+|**Critérios de Êxito** | O usuário consegue realizar o cadastro sem dificuldades; O usuário finaliza o cadastro e recebe a mensagem informando pendência de cadastro; após a aprovação do cadastro o usuário recebe a notificação de conta aprovada |
+|  **Responsável pela elaboração do caso de teste**	|  Maria Cecilia Caruzzo Modica	|
+
+<br>
+
+
+| **Caso de Teste** 	| **CT09 – Teste da página de Login** 	|
+|:---:	|:---:	|
+|	**Requisitos Associados** 	| RF-01 e RF-02 |
+| **Objetivo do Teste** 	| Verificar se o usuário consegue realizar seu login na plataforma sem dificuldades |
+| **Passos** 	| 01.	Acessar a aplicação por link público; <br> 02.	Na homepage clicar em “Entrar”; <br> 03.	Na página “Como deseja entrar?” selecionar “Login”; <br> 4.	Usuário é redirecionado para a página de login; <br> 05.	Preencher os dados de acesso (e-mail e senha), clicar em “Próximo”; <br> 06.	Verificar aparecimento de mensagem de erro caso os dados sejam preenchidos incorretamente; <br> 07.	Receber a notificação de autenticação (Windows Autenticathor) e responder corretamente; <br> 08.	Usuário é redirecionado para a homepage “logado”;|
+|**Critérios de Êxito** | Usuário conseguiu realizar o login sem dificuldade; O usuário conseguiu “responder” a autenticação sem dificuldades; usuário visualizou a mensagem de erro de preenchimento; usuário foi logado|
+|  **Responsável pela elaboração do caso de teste**	|  Maria Cecilia Caruzzo Modica	|
+
+<br>
+
+| **Caso de Teste** 	| **CT07 – Página Homepage do ADMIN** 	|
+|:---:	|:---:	|
+|	**Requisitos Associados** 	| RF-09, RF-10, RF-11, RF-12, RF-13, RF-14 |
+| **Objetivo do Teste** 	| Verificar se a página inicial de ADMIN funciona corretamente |
+| **Passos** 	| 01.	Acessar a aplicação por link público; <br> 02.	Na homepage clicar em “Login”; <br> 03.	Aguardar carregamento da página; <br> 04.	Preencher o dados de acordo com a conta e clicar em "Fazer login"; <br> 05.	Verificar redirecionamento correto para página de administrador; <br> 06. Verificar se todos os campos (Convidar novo administrador, Cadastros pendentes de aprovação, Administrar e relatórios) estão funcionais.|
+|**Critérios de Êxito** | Ao logar como administrador o usuário tem acesso aos dados de ongs cadastradas, consegue criar e enviar um convite de administrador, consegue visualizar, aprovar ou reprovar ongs, consegue administrar a página Quem somos e Fale conosco e consegue filtrar e gerar um relatório com informações pertinentes. |
+|  **Responsável pela elaboração do caso de teste**	|  Maria Cecilia Caruzzo Modica	|
+
+<br>
+
+| **Caso de Teste** 	| **CT07 – Página Homepage da ONG**	|
+|:---:	|:---:	|
+|	**Requisitos Associados** 	| XX |
+| **Objetivo do Teste** 	| Verificar se a página inicial da ONG funciona corretamente |
+| **Passos** 	| 01.	Acessar a aplicação por link público; <br> 02.	Na homepage clicar em “Login”; <br> 03.	Aguardar carregamento da página; <br> 04.	Preencher o dados de acordo com a conta e clicar em "Fazer login"; <br> 05.	Verificar redirecionamento correto para página da ONG; <br> 06. Verificar se todos os campos Adicionar nova vaga/meta, editar ou excluir vagas/metas existentes, estão funcionais.|
+|**Critérios de Êxito** | Ao logar como ONG o usuário tem acesso aos dados da ONG, consegue criar, editar ou excluir uma meta/vaga. |
+|  **Responsável pela elaboração do caso de teste**	|  Maria Cecilia Caruzzo Modica	|
+
+<br>
+
+| **Caso de Teste** 	| **CT02 – Página do perfil da ONG (visão de usuário externo)** 	|
 |:---:	|:---:	|
 |	**Requisito Associado** 	| RF-01, RF-04, RF-06, RF-10 |
 | **Objetivo do Teste** 	| Verificar se a página de perfil de ONGS funciona corretamente |
 | **Passos** 	| - Acessar a página de uma ONG <br> - Verificar se as informações da ONG aparecem corretamente (localidade, nome, descrição, tags)  <br> - Verificar se as tabs funcionam corretamente (sobre, vagas de voluntariado, metas de doações) <br> - Verificar se ao clicar em "aplicar" em uma vaga, o modal de inscrição abre corretamente <br> - Verificar se ao clicar em "doar" em um recurso, o modal de doação abre corretamente |
 |**Critério de Êxito** | - As informações aparecem corretamente na página, e os modais funcionam corretamente |
 |  **Responsável pela elaboração do caso de teste**	|  Erison Guimarães dos Santos	|
+
+<br>
+
+| **Caso de Teste** 	| **CT02 – Página do perfil da ONG (visão da ONG)** 	|
+|:---:	|:---:	|
+|	**Requisito Associado** 	| RF-01, RF-04, RF-06, RF-10 |
+| **Objetivo do Teste** 	| Verificar se a página de perfil de ONGS funciona corretamente |
+| **Passos** 	|01.	Acessar a aplicação por link público; <br> 02.	Fazer login na aplicação como ONG; <br> 03. Aguardar carregamento da Homepage; <br> 04. Clicar no ícone de perfil; <br> 05. Aguardar redirecionamento para a página de perfil da ONG; <br> 06. Verificar se é possível alterar os dados da ONG (Foto de perfil e de fundo, nome, endereço, contato, descrição, sobre etc.), verificar se consegue gerar relatórios com filtro, verificar se é possível visualizar, editar, adicionar ou excluir filiais;|
+|**Critério de Êxito** | - As informações aparecem corretamente na página e o usuário consegue acessar todos os campos funcionais de forma intuitiva |
+|  **Responsável pela elaboração do caso de teste**	| Maria Cecilia Caruzzo Modica	|
 
 <br>
 
@@ -57,37 +110,6 @@
 | **Passos** 	| 01.	Clicar em "Fale Conosco" no menu "Sobre nós"; <br> 02. Verificar se a página abre corretamente; <br> 03. Realizar o preenchimento das informações do formulário; <br> 04. Realizar o envio do formulário; <br> 05. Verificar o aparecimento de mensagem de êxito.  |
 |**Critérios de Êxito** | O usuário deve conseguir preencher o formulário e enviá-lo sem dificuldades.|
 |  **Responsável pela elaboração do caso de teste**	|  Maria Cecilia Caruzzo Modica |
-
-<br>
-
-| **Caso de Teste** 	| **CT07 – Página de ADMIN** 	|
-|:---:	|:---:	|
-|	**Requisitos Associados** 	| RF-09, RF-10, RF-11, RF-12, RF-13, RF-14 |
-| **Objetivo do Teste** 	| Verificar se a página inicial de ADMIN funciona corretamente |
-| **Passos** 	| 01.	Acessar a aplicação por link público; <br> 02.	Na homepage clicar em “Login”; <br> 03.	Aguardar carregamento da página; <br> 04.	Preencher o dados de acordo com a conta e clicar em "Fazer login"; <br> 05.	Verificar redirecionamento correto para página de administrador; <br> 06. Verificar se todos os campos (Convidar novo administrador, Cadastros pendentes de aprovação, Administrar e relatórios) estão funcionais.|
-|**Critérios de Êxito** | Ao logar como administrador o usuário tem acesso aos dados de ongs cadastradas, consegue criar e enviar um convite de administrador, consegue visualizar, aprovar ou reprovar ongs, consegue administrar a página Quem somos e Fale conosco e consegue filtrar e gerar um relatório com informações pertinentes. |
-|  **Responsável pela elaboração do caso de teste**	|  Maria Cecilia Caruzzo Modica	|
-
-<br>
-
-| **Caso de Teste** 	| **CT08 – Teste da página de Cadastro (ONG)** 	|
-|:---:	|:---:	|
-|	**Requisitos Associados** 	| RF-01 |
-| **Objetivo do Teste** 	| Verificar se o usuário consegue realizar o cadastro da ONG |
-| **Passos** 	| 01.	Acessar a aplicação por link público; <br> 02.	Na homepage clicar em “Entrar”; <br> 03.	Na página “Como deseja entrar?” selecionar “Cadastro”; <br> 04.	Em cadastro selecionar o tipo do cadastro a ser realizado (ONG); <br> 05.	Realizar o preenchimento de dados corretamente; <br> 06.	Clicar em “Próximo”; <br> 07.	Visualizar a mensagem “Cadastro pendente de aprovação” (ONG); <br> 08.	Aguardar aprovação do ADMIN; <br> 09.	Receber notificação informando aprovação do cadastro;|
-|**Critérios de Êxito** | O usuário consegue realizar o cadastro sem dificuldades; O usuário finaliza o cadastro e recebe a mensagem informando pendência de cadastro; após a aprovação do cadastro o usuário recebe a notificação de conta aprovada |
-|  **Responsável pela elaboração do caso de teste**	|  Maria Cecilia Caruzzo Modica	|
-
-<br>
-
-
-| **Caso de Teste** 	| **CT09 – Teste da página de Login** 	|
-|:---:	|:---:	|
-|	**Requisitos Associados** 	| RF-01 e RF-02 |
-| **Objetivo do Teste** 	| Verificar se o usuário consegue realizar seu login na plataforma sem dificuldades |
-| **Passos** 	| 01.	Acessar a aplicação por link público; <br> 02.	Na homepage clicar em “Entrar”; <br> 03.	Na página “Como deseja entrar?” selecionar “Login”; <br> 4.	Usuário é redirecionado para a página de login; <br> 05.	Preencher os dados de acesso (e-mail e senha), clicar em “Próximo”; <br> 06.	Verificar aparecimento de mensagem de erro caso os dados sejam preenchidos incorretamente; <br> 07.	Receber a notificação de autenticação (Windows Autenticathor) e responder corretamente; <br> 08.	Usuário é redirecionado para a homepage “logado”;|
-|**Critérios de Êxito** | Usuário conseguiu realizar o login sem dificuldade; O usuário conseguiu “responder” a autenticação sem dificuldades; usuário visualizou a mensagem de erro de preenchimento; usuário foi logado|
-|  **Responsável pela elaboração do caso de teste**	|  Maria Cecilia Caruzzo Modica	|
 
 <br>
 
