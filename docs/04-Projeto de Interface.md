@@ -18,7 +18,7 @@ Conforme o diagrama de fluxo do projeto, apresentado no item anterior, as telas 
 
 Requisitos associados: RF-01, RF-05, RF-12
 
-![alt text](./img/homepage%20não%20logado.png)
+<img width="1288" height="801" alt="Homepage não logado" src="https://github.com/user-attachments/assets/d0f93ed4-0160-421e-b5f7-fa0900c966f1" />
 
 Figura 1 - Tela Homepage não logado
 
@@ -26,7 +26,7 @@ Figura 1 - Tela Homepage não logado
 
 Requisitos associados: RF-01, RF-05, RF-12
 
-![alt text](./img/Menu%20homepage%20não%20logado.png)
+<img width="1288" height="803" alt="Menu homepage não logado" src="https://github.com/user-attachments/assets/45b0ccdd-6d55-4a8b-b9f9-c26954726941" />
 
 Figura 2 - Menu Homepage não logado
 
@@ -34,154 +34,150 @@ Figura 2 - Menu Homepage não logado
 
 Requisitos associados: RF-01, RF-04, RF-05, RF-07, RF-08, RF-10, RF-11
 
-![alt text](./img/homepage%20logado%20ONG.png)
+<img width="1246" height="781" alt="Homepage logado ONG" src="https://github.com/user-attachments/assets/de08f8a9-5420-4bb4-abc3-172fd4ed43f7" />
 
 Figura 3 - Tela Homepage logado (ONG)
-
-### Menu Homepage logado (ONG)
-
-Requisitos associados: RF-01, RF-04, RF-05, RF-07, RF-08, RF-10, RF-11
-
-![alt text](./img/MENU%20homepage%20logado%20ONG.png)
-
-Figura 4 - Menu Homepage logado (ONG)
 
 ### Homepage logado (ADM)
 
 Requisitos associados: RF-01, RF-04, RF-05, RF-07, RF-08, RF-09, RF-10, RF-11
 
-![alt text](./img/homepage%20logado%20ADM.png)
+<img width="1165" height="724" alt="Homepage logado ADM" src="https://github.com/user-attachments/assets/a8b599af-96dc-40d4-a0e5-a69a9a3930d5" />
 
-Figura 5 - Tela Homepage logado (ADM)
+Figura 4 - Tela Homepage logado (ADM)
 
-### Menu Homepage logado (ADM)
-
-Requisitos associados: RF-01, RF-04, RF-05, RF-07, RF-08, RF-09, RF-10, RF-11
-
-![alt text](./img/MENU%20homepage%20logado%20ADM.png)
-
-Figura 6 - Menu Homepage logado (ADM)
-
-### Tela de Pesquisa
+### Tela Barra de Pesquisa
 
 Apresenta campos para realizar pesquisa e sugestões. Requisitos associados: RF-05
 
-<img width="953" height="589" alt="image" src="https://github.com/user-attachments/assets/2cc1c0d6-32e4-4a79-8a92-78b507da9d60" />
+<img width="1164" height="725" alt="Barra de pesquisa" src="https://github.com/user-attachments/assets/b5063e9c-d739-49f7-8eb5-31dc8b15747d" />
 
-Figura 7 - Tela de pesquisa
+Figura 5 - Tela Barra de pesquisa
 
 ### Tela de Resultado de Pesquisa
 
 Apresenta resultados da pesquisa, mostrando varias opções dentro da palavra chave buscada. Requisitos associados:  RF-05
 
-<img width="945" height="584" alt="image" src="https://github.com/user-attachments/assets/7b4241c9-e0a3-4fd0-8a45-4283eb7622d7" />
+<img width="1165" height="725" alt="Tela de resultado de pesquisa" src="https://github.com/user-attachments/assets/8ad5ed92-c673-4564-890c-6e5df7e2b021" />
 
-Figura 8 - Tela de resultado de pesquisa
+Figura 6 - Tela de resultado de pesquisa
 
 ### Tela de Marketplace (Vitrine)
 
 Apresenta pedidos de doações, com filtros para especificar a busca da maneira desejada. Requisitos associados: RF-05
 
-<img width="945" height="586" alt="image" src="https://github.com/user-attachments/assets/40729962-311a-42a8-8758-6975ea303cef" />
+<img width="1164" height="725" alt="Tela de marketplace" src="https://github.com/user-attachments/assets/71e50467-9704-474f-b150-bdfb71c34270" />
 
-Figura 9 - Tela de Marketplace (vitrine)
+Figura 7 - Tela de Marketplace (vitrine)
 
-### Tela de Marketplace (Modal)
+### Tela de Marketplace (Modal doação de material)
 
 Apresenta a extensão da tela de Marketplace para realizar a doação de algo físico. Requisitos associados: RF-05
 
-<img width="945" height="587" alt="image" src="https://github.com/user-attachments/assets/a65d4e9e-45c7-4180-b768-7c9158f3b03c" />
+<img width="1165" height="726" alt="Modal doação de material" src="https://github.com/user-attachments/assets/c301b589-ecbf-4e20-8f60-59c96a2c33c8" />
+
+Figura 8 - Tela de Marketplace (modal)
+
+### Tela de Marketplace (Modal doação de valor)
+
+Apresenta a extensão da tela de Marketplace para realizar a doação de algum valor. Requisitos associados: RF-05
+
+<img width="1164" height="726" alt="Modal doação de valor" src="https://github.com/user-attachments/assets/de3a9600-f6f8-4508-8e42-64c3c6998626" />
+
+Figura 9 - Tela de Marketplace (modal)
+
+### Tela de Marketplace (Modal de vaga)
+
+Demonstra uma extensão da tela de marketplace para o usuário fazer a aplicação e se voluntariar. Requisitos associados: RF-05
+
+<img width="1163" height="724" alt="Modal voluntariado" src="https://github.com/user-attachments/assets/2cd40944-20c1-448b-b838-6034c26637aa" />
 
 Figura 10 - Tela de Marketplace (modal)
 
-### Tela de Voluntariado (Vitrine)
-
-Demostra possíveis oportunidades de voluntariado com um filtro para se achar algo especifico. Requisitos associados:  RF-05
-
-<img width="947" height="590" alt="image" src="https://github.com/user-attachments/assets/8db51330-9822-4512-b43b-31cfab9cb371" />
-
-Figura 11 - Tela de Voluntariado (vitrine)
-
-### Tela de Voluntariado (Modal Formulário)
-
-Demonstra uma extensão da tela de voluntariado para fazer a aplicação para realmente poder se voluntariar. Requisitos associados: RF-05
-
-<img width="951" height="589" alt="image" src="https://github.com/user-attachments/assets/e1fab9a5-283e-4a8a-9ec3-6e3f61bb6829" />
-
-Figura 12 - Tela de Voluntariado (modal formulário)
-
-### Perfil ONG - Sobre
+### Perfil ONG - Visão do usuário
 
 Requisitos associados: RF-01, RF-04, RF-06, RF-10
 
-![alt text](./img/ong-sobre.png)
-Figura 13 - Tela de perfil (ONG - Sobre)
+<img width="1165" height="725" alt="Tela perfil ONG (sobre) visão usuário" src="https://github.com/user-attachments/assets/45960d3f-1619-4e8b-8042-8fc64c449f9f" />
 
-### Perfil ONG - Vagas
+Figura 11 - Tela de perfil (ONG)
 
-Requisitos associados: RF-01, RF-04, RF-06, RF-10
-
-![alt text](./img/ong-vagas.png)
-Figura 14 - Tela de perfil (ONG - Vagas)
-
-### Perfil ONG - Recursos
+### Perfil ONG - Visão da ONG (sobre)
 
 Requisitos associados: RF-01, RF-04, RF-06, RF-10
 
-![alt text](./img/ong-recursos.png)
-Figura 15 - Tela de perfil (ONG - Recursos)
+<img width="1163" height="722" alt="Tela perfil ONG (sobre) visão ONG" src="https://github.com/user-attachments/assets/e2bdca5d-fadd-41c8-a7df-66dba670b273" />
 
-### Tela - Como deseja entrar?
+Figura 12 - Tela de perfil (ONG - Sobre)
 
-Apresenta as opções de redirecinamento para telas de "Login" e/ou "Cadastro". Requisitos associados: RF-01
+### Perfil ONG - Visão da ONG (resumos)
 
-<img width="1055" height="657" alt="Tela como deseja entrar" src="https://github.com/user-attachments/assets/1ccf797e-c3d5-42d4-b8e5-dee289c4838e" />
-Figura 16 - Tela "Como deseja entrar?"
+Requisitos associados: RF-01, RF-04, RF-06, RF-10
+
+<img width="1166" height="725" alt="Tela perfil ONG (resumos) visão ONG" src="https://github.com/user-attachments/assets/63a36aed-1254-40ed-a121-93ab8e594c9c" />
+
+Figura 13 - Tela de perfil (ONG - Resumos)
+
+### Perfil ONG - Visão da ONG (reatórios)
+
+Requisitos associados: RF-01, RF-04, RF-06, RF-10
+
+<img width="1163" height="724" alt="Tela perfil ONG (relatórios) visão ONG" src="https://github.com/user-attachments/assets/7ae35b5a-d41f-4674-92df-7b5995c367e3" />
+
+Figura 14 - Tela de perfil (ONG - Relatórios)
+
+### Perfil ONG - Visão da ONG (filiais)
+
+Requisitos associados: RF-01, RF-04, RF-06, RF-10
+
+<img width="1166" height="726" alt="Tela perfil ONG (filiais) visão ONG" src="https://github.com/user-attachments/assets/e4fa16b9-c6dd-4a09-a3ca-e776d8dba361" />
+
+Figura 15 - Tela de perfil (ONG - Filiais)
 
 ### Tela - Cadastro
 
 Apresenta os campos a serem preenchidos com os dados do usuário para realização do cadastro na plataforma. Requisitos associados: RF-01
 
-<img width="1053" height="655" alt="Tela de cadastro 1" src="https://github.com/user-attachments/assets/1e082ac0-c331-4fea-9e63-c62ab1733e27" />
-Figura 17 - Tela de Cadastro #1
+<img width="1167" height="725" alt="Tela de cadastro 01" src="https://github.com/user-attachments/assets/0c8ada27-ed2f-4eed-a657-a63849be54bd" />
 
+Figura 16 - Tela de Cadastro #1
 
-<img width="1054" height="656" alt="Tela de cadastro 2" src="https://github.com/user-attachments/assets/2d4dc991-013b-4a66-a8a3-a87ad562ad88" />
-Figura 18 - Tela de Cadastro #2
+<img width="1165" height="724" alt="Tela de cadastro 02" src="https://github.com/user-attachments/assets/7b551b11-f7b6-4696-a235-d9d8f700957b" />
 
-### Tela - Autenticação de conta
+Figura 17 - Tela de Cadastro #2
 
-Apresenta a solicitação de autenticação da conta nova do usuário. Requisitos associados: RF-02
+<img width="1166" height="724" alt="Cadastro de filiais" src="https://github.com/user-attachments/assets/e4d68890-ebfe-42b7-ad4e-4074fcc56509" />
 
-<img width="988" height="615" alt="Tela de autenticação de conta" src="https://github.com/user-attachments/assets/857b4d6b-1033-4a9b-98b7-2b3fb340c016" />
-Figura 19 - Tela de Autenticação de conta
+Figura 18 - Tela de Cadastro #3 (filiais)
 
 ### Tela - Login
 
 Apresenta os dados solicitados para acesso á conta do usuário (e-mail cadastrado e senha). Requisitos associados: RF-01
 
-<img width="985" height="613" alt="Tela de login" src="https://github.com/user-attachments/assets/06dc863b-ec43-4ed1-acc8-6d706701569e" />
-Figura 20 - Tela de Login
+<img width="1166" height="725" alt="Tela de login final" src="https://github.com/user-attachments/assets/1d80dd9e-5c75-41a0-af79-b4173334f223" />
+
+Figura 19 - Tela de Login
 
 ### Tela - Esqueceu a senha?
 
 Apresenta campo solicitando o e-mail cadastrado para envio de código de redefinição de senha. Requisitos associados: RF-03
 
-<img width="1055" height="657" alt="Tela esqueceu a senha" src="https://github.com/user-attachments/assets/4c5e00d6-4e5d-4927-bee3-d4a40b595f89" />
-Figura 21 - Tela "Esqueceu a senha?"
+<img width="1166" height="726" alt="Esqueceu a senha" src="https://github.com/user-attachments/assets/68f52eb4-9141-44d8-a67c-5a7595198ad6" />
 
-### Tela - Redefinição de senha
+Figura 20 - Tela esqueceu a senha
 
-Apresenta campos para redefinição de senha do usuário. Requisitos associados: RF-03
+### Tela - Fale Conosco
 
-<img width="1054" height="656" alt="Tela redefinir senha" src="https://github.com/user-attachments/assets/eb079408-664d-412d-849a-47de61787bdc" />
-Figura 22 - Tela de Redefinição de senha
+Apresenta campos que o usuário pode preencher com sugestões, dúvidas ou feedbacks (das funcionalidades) para a equipe NEXUM.
 
-### Tela - Gerenciamento de cadastros de ONGs (ADMIN)
+<img width="1204" height="750" alt="Tela de fale conosco" src="https://github.com/user-attachments/assets/7e8bab83-a01b-424d-af16-e0411770e9bd" />
 
-Apresenta campos com cadastros pendentes para aprovação ou negação. Requisitos associados: RF-09
+Figura 21 - Tela de fale conosco
 
-<img width="833" height="520" alt="Tela gerenciamento de cadastros de ONGs do ADMIN" src="https://github.com/user-attachments/assets/d3c05b55-3b23-432d-8be6-ba8f850d9d56" />
+### Tela de Ongs Cadastradas
 
-Figura 23 - Tela de Gerenciamento de cadastros
+Apresenta todas as ONGs cadastradas (e aprovadas) na aplicação até o momento.
 
+<img width="1166" height="727" alt="Tela de ONGs cadastradas" src="https://github.com/user-attachments/assets/310f7484-591c-415a-8edc-46b01af5be47" />
+
+Figura 22 - Tela de fale conosco
