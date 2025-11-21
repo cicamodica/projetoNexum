@@ -200,6 +200,13 @@ namespace nexumApp.Areas.Identity.Pages.Account
                     }
                     return RedirectToAction("Create", "Filials", new { area = "" });
                 }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                }
             }
             var Tags = new Tags();
             ViewData["Tags"] = Tags.TagsList;
