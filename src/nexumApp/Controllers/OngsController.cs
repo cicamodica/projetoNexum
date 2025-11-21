@@ -1,20 +1,32 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using nexumApp.Data;
 using nexumApp.Models;
+using QuestPDF.Fluent;
+using QuestPDF.Helpers;
+using QuestPDF.Helpers;
+using QuestPDF.Infrastructure;
+using System.Diagnostics;
 using System.Security.Claims;
 using X.PagedList.Extensions;
+using Microsoft.AspNetCore.Hosting; 
+using System.IO;
+
+
 
 namespace nexumApp.Controllers
 {
     public class OngsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IWebHostEnvironment _webHostEnvironment;
         public OngsController(
-            ApplicationDbContext context)
+            ApplicationDbContext context, IWebHostEnvironment webHostEnvironment)
         {
-            _context = context;   
+            _context = context;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         // GET: Ongs
@@ -142,7 +154,7 @@ namespace nexumApp.Controllers
                 {
                     Tipo = "Meta",
                     Titulo = meta.Recurso,
-                    DataCriacao = meta.DataFim.HasValue ? meta.DataFim.Value.ToShortDateString() : "Sem Data",
+                    DataFinal = meta.DataFim.HasValue ? meta.DataFim.Value.ToShortDateString() : "Sem Data",
                     Objetivo = meta.Descricao, // Usando Descrição como Objetivo na View
                     Progresso = progressoPerc.ToString("F0"), // Porcentagem
                     Colaboradores = colaboradores,
@@ -171,7 +183,7 @@ namespace nexumApp.Controllers
             }
 
             // 4. Injetar as listas separadas na ViewBag
-            ViewBag.MetasResumos = metasResumos.OrderByDescending(r => ((dynamic)r).DataCriacao).ToList();
+            ViewBag.MetasResumos = metasResumos.OrderByDescending(r => ((dynamic)r).DataFinal).ToList();
             ViewBag.VagasResumos = vagasResumos.OrderByDescending(r => ((dynamic)r).DataCriacao).ToList();
 
             // 5. Retorna a View
@@ -354,6 +366,283 @@ namespace nexumApp.Controllers
             return RedirectToAction("Details", new { id = ongId });
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditarConteudoSobre(int id, string conteudoSobre)
+        {
+            var ong = await _context.Ongs.FindAsync(id);
 
+            if (ong == null)
+                return NotFound();
+
+            // Atualiza somente o campo correto
+            ong.ConteudoSobre = conteudoSobre;
+
+            _context.Ongs.Update(ong);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Details", new { id = id, tab = "sobre" });
+        }
+
+        // MÉTODO AUXILIAR (Se não estiver definido em outro lugar)
+        private static string FormataCnpj(string cnpj)
+        {
+            if (string.IsNullOrWhiteSpace(cnpj)) return "";
+            var d = new string(cnpj.Where(char.IsDigit).ToArray());
+            return d.Length == 14 ? Convert.ToUInt64(d).ToString(@"00\.000\.000\/0000\-00") : cnpj;
+        }
+
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> OngPdf(string[] columns)
+        {
+            // 1. SEGURANÇA: IDENTIFICAR O USUÁRIO LOGADO
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId))
+            {
+                // Se o [Authorize] falhar por algum motivo, retorna o erro
+                return Unauthorized("Usuário não logado ou ID não encontrado.");
+            }
+
+            // 2. BUSCAR A ONG E DADOS RELACIONADOS (SEGURANÇA E PERFORMANCE)
+            // Filtro essencial para garantir que a ONG seja a do usuário logado.
+            var ong = await _context.Ongs
+                .Include(o => o.User)
+                .Include(o => o.Filials) // Inclui as filiais
+                .AsNoTracking()
+                .FirstOrDefaultAsync(o => o.UserId == userId); // Filtro de Acesso
+
+            if (ong == null)
+            {
+                return NotFound("Nenhuma ONG associada a este usuário logado.");
+            }
+
+            // 3. BUSCAR METAS E VAGAS APENAS DESTA ONG
+            var metas = await _context.Metas
+                .AsNoTracking()
+                .Where(m => m.OngId == ong.Id)
+                .ToListAsync();
+
+            var vagas = await _context.Vagas
+                .AsNoTracking()
+                .Where(v => v.IdONG == ong.Id)
+                .ToListAsync();
+
+            // 4. DEFINIÇÃO DAS COLUNAS (LÓGICA DE FORMATAÇÃO)
+            // O Funções Value (lambda) usam as listas 'metas' e 'vagas' filtradas no escopo.
+            var allowed = new Dictionary<string, (string Header, Func<Ong, string> Value, float weight)>
+            {
+                ["nome"] = ("Nome Razão", o => o.Nome ?? "", 2.2f),
+                ["descricao"] = ("Descrição", o => o.Descriçao ?? "", 3.0f),
+                ["endereco"] = ("Endereço Matriz", o => o.Endereço ?? "", 2.4f),
+                ["cnpj"] = ("CNPJ Matriz", o => FormataCnpj(o.CNPJ), 1.4f),
+                ["aprovacao"] = ("Aprovação", o => o.Aprovaçao ? "Aprovada" : "Pendente", 1.2f),
+                ["email"] = ("E-mail", o => o.User?.Email ?? "", 1.8f),
+
+                ["filiais"] = ("Filiais Cadastradas", o =>
+                {
+                    if (o.Filials == null || !o.Filials.Any())
+                        return "Não possui filiais";
+
+                    var detalhes = o.Filials.Select(f =>
+                        $"{f.Nome} – {f.Endereço} (CNPJ {FormataCnpj(f.CNPJ)})");
+
+                    return $"{o.Filials.Count} filiais:\n- " + string.Join("\n- ", detalhes);
+                },
+                3.0f),
+
+                ["metas"] = ("Metas de Recursos/Doação", o =>
+                {
+                    if (!metas.Any())
+                        return "Nenhuma meta cadastrada";
+
+                    var detalhes = metas.Select(m =>
+                        $"{m.Descricao} – {m.Status} (Atual: {m.ValorAtual}, Alvo: {m.ValorAlvo})");
+
+                    return $"{metas.Count} metas:\n- " + string.Join("\n- ", detalhes);
+                },
+                3.0f),
+
+                ["vagas"] = ("Vagas de Voluntariado", o =>
+                {
+                    if (!vagas.Any())
+                        return "Nenhuma vaga cadastrada";
+
+                    var detalhes = vagas.Select(v =>
+                        $"{v.Titulo} – {v.Status}");
+
+                    return $"{vagas.Count} vagas:\n- " + string.Join("\n- ", detalhes);
+                },
+                3.0f)
+            };
+
+            // 5. FILTRAR E VALIDAR COLUNAS
+            var specs = (columns ?? Array.Empty<string>())
+                .Select(c => c?.Trim().ToLowerInvariant())
+                .Where(c => !string.IsNullOrWhiteSpace(c) && allowed.ContainsKey(c))
+                .Distinct()
+                .Select(c => new { Key = c!, allowed[c!].Header, allowed[c!].Value, allowed[c!].weight })
+                .ToList();
+
+            if (specs.Count == 0)
+                return BadRequest("Selecione ao menos uma coluna para gerar o relatório.");
+
+            // 6. PREPARAR DADOS PARA O PDF: Apenas a ONG logada
+            var data = new List<Ong> { ong };
+
+            // 7. GERAÇÃO DO PDF (QuestPDF)
+            var primary = Colors.Blue.Medium;
+            var text = Colors.Grey.Darken4;
+
+            byte[] pdf = Document.Create(doc =>
+            {
+                doc.Page(page =>
+                {
+                    page.Size(PageSizes.A4.Landscape());
+                    page.Margin(25);
+                    page.DefaultTextStyle(TextStyle.Default.FontFamily("Poppins").FontSize(10).FontColor(text));
+
+                    // Cabeçalho
+                    page.Header().Row(row =>
+                    {
+                        row.RelativeItem().Column(col =>
+                        {
+                            col.Item().Text($"Relatório de Detalhes da ONG: {ong.Nome}")
+                                .FontSize(18).SemiBold().FontColor(primary);
+                            col.Item().Text(txt =>
+                            {
+                                txt.Span("Gerado em ").Light();
+                                txt.Span(DateTime.Now.ToString("dd/MM/yyyy HH:mm"));
+                            });
+                        });
+                    });
+
+                    // Conteúdo: Tabela com os dados da ONG
+                    page.Content().Element(container =>
+                    {
+                        container.PaddingTop(10).Table(table =>
+                        {
+                            // Definição das colunas
+                            table.ColumnsDefinition(cols =>
+                            {
+                                foreach (var s in specs)
+                                    cols.RelativeColumn(s.weight);
+                            });
+
+                            // Header (Cabeçalho da Tabela)
+                            table.Header(header =>
+                            {
+                                foreach (var s in specs)
+                                {
+                                    header.Cell().Element(CellHeader).Text(s.Header);
+                                }
+                                static IContainer CellHeader(IContainer c) =>
+                                    c.Background(Colors.Grey.Lighten3).PaddingVertical(6).PaddingHorizontal(8).BorderBottom(1).BorderColor(Colors.Grey.Lighten1).DefaultTextStyle(TextStyle.Default.SemiBold());
+                            });
+
+                            // Corpo da Tabela: Loop único para a ONG logada
+                            var i = 0;
+                            foreach (var o in data)
+                            {
+                                foreach (var s in specs)
+                                {
+                                    table.Cell().Element(e => CellBody(e, i)).Text(s.Value(o));
+                                }
+                                i++;
+                            }
+
+                            static IContainer CellBody(IContainer c, int rowIndex)
+                            {
+                                var zebra = rowIndex % 2 == 1 ? Colors.Grey.Lighten5 : Colors.White;
+                                return c.Background(zebra).PaddingVertical(5).PaddingHorizontal(8).BorderBottom(1).BorderColor(Colors.Grey.Lighten3);
+                            }
+                        });
+                    });
+
+                    // Rodapé
+                    page.Footer().AlignRight().Text(t =>
+                    {
+                        t.Span("Página ").Light();
+                        t.CurrentPageNumber();
+                        t.Span(" / ").Light();
+                        t.TotalPages();
+                    });
+                });
+            }).GeneratePdf();
+
+            // 8. RETORNO
+            return File(pdf, "application/pdf", $"relatorio-ong-{ong.Nome.Replace(" ", "-")}.pdf");
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Ong")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UploadLogo(int ongId, IFormFile logoFile)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var ong = await _context.Ongs.FindAsync(ongId);
+
+            // 1. Validação de Segurança e Existência
+            if (ong == null || ong.UserId != userId)
+            {
+                // Se a ONG não existe ou o usuário não é o dono
+                return Forbid();
+            }
+
+            if (logoFile != null && logoFile.Length > 0)
+            {
+                // 2. Definir o caminho de upload
+                // Cria um caminho único e usa a extensão original do arquivo
+                string wwwRootPath = _webHostEnvironment.WebRootPath;
+                string uploadPath = Path.Combine(wwwRootPath, "images", "logos"); // Exemplo: wwwroot/images/logos
+
+                // Garante que o diretório exista
+                if (!Directory.Exists(uploadPath))
+                {
+                    Directory.CreateDirectory(uploadPath);
+                }
+
+                // Gera um nome de arquivo único (ex: ONG-ID_timestamp.ext)
+                string fileName = $"{ong.Id}_{DateTime.Now.Ticks}_{Path.GetExtension(logoFile.FileName)}";
+                string filePath = Path.Combine(uploadPath, fileName);
+
+                // 3. Salvar o novo arquivo no servidor
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await logoFile.CopyToAsync(fileStream);
+                }
+
+                // 4. Se a ONG já tinha uma imagem, exclua a antiga
+                if (!string.IsNullOrEmpty(ong.ImageURL))
+                {
+                    // Remove o prefixo do path para obter o caminho do arquivo
+                    string oldImagePath = Path.Combine(wwwRootPath, ong.ImageURL.TrimStart('/'));
+                    if (System.IO.File.Exists(oldImagePath))
+                    {
+                        System.IO.File.Delete(oldImagePath);
+                    }
+                }
+
+                // 5. Atualizar o ImageURL no banco de dados (Caminho relativo para acesso web)
+                ong.ImageURL = Path.Combine("/images", "logos", fileName).Replace('\\', '/');
+
+                // 6. Persistir as mudanças
+                _context.Update(ong);
+                await _context.SaveChangesAsync();
+
+                TempData["SuccessMessage"] = "Logotipo atualizado com sucesso!";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Nenhum arquivo enviado.";
+            }
+
+            return RedirectToAction("Details", new { id = ongId });
+        }
     }
 }
+
+
+
+

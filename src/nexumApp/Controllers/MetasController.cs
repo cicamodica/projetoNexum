@@ -233,18 +233,31 @@ namespace nexumApp.Controllers
         }
 
         // GET: Metas/Delete/5 (Não modificado)
-        public async Task<IActionResult> Delete(int? id)
-        {
-            // ... (código original) ...
-            return View();
-        }
-
-        // POST: Metas/Delete/5 (Não modificado)
+        // POST: Metas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            // ... (código original) ...
+            // 1. Obter a Meta
+            var meta = await _context.Metas.FindAsync(id);
+
+            // 2. Obter o ID do usuário logado
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            // 3. Verificação de Segurança (A Meta existe e pertence à ONG logada?)
+            if (meta == null || meta.Ong.UserId != userId)
+            {
+                // Se a meta não for encontrada ou se o usuário não for o dono
+                TempData["ErrorMessage"] = "Meta não encontrada ou acesso negado.";
+                return RedirectToAction("Dashboard", "Ongs");
+            }
+
+            // 4. Excluir Meta
+            _context.Metas.Remove(meta);
+            await _context.SaveChangesAsync();
+
+            // 5. Redirecionar com mensagem de sucesso
+            TempData["SuccessMessage"] = $"A meta '{meta.Recurso}' foi excluída com sucesso.";
             return RedirectToAction("Dashboard", "Ongs");
         }
 
