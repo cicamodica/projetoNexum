@@ -12,7 +12,7 @@ Os testes funcionais a serem realizados na aplicação são descritos a seguir:
 
 <br>
 
-| **Caso de Teste** 	| **CT08 – Teste da página de Cadastro (ONG)** 	|
+| **Caso de Teste** 	| **CT02 – Teste da página de Cadastro (ONG)** 	|
 |:---:	|:---:	|
 |	**Requisitos Associados** 	| RF-01 |
 | **Objetivo do Teste** 	| Verificar se o usuário consegue realizar o cadastro da ONG |
@@ -23,7 +23,7 @@ Os testes funcionais a serem realizados na aplicação são descritos a seguir:
 <br>
 
 
-| **Caso de Teste** 	| **CT09 – Teste da página de Login** 	|
+| **Caso de Teste** 	| **CT03 – Teste da página de Login** 	|
 |:---:	|:---:	|
 |	**Requisitos Associados** 	| RF-01 e RF-02 |
 | **Objetivo do Teste** 	| Verificar se o usuário consegue realizar seu login na plataforma sem dificuldades |
@@ -33,7 +33,7 @@ Os testes funcionais a serem realizados na aplicação são descritos a seguir:
 
 <br>
 
-| **Caso de Teste** 	| **CT07 – Página Homepage do ADMIN** 	|
+| **Caso de Teste** 	| **CT04 – Página Homepage do ADMIN** 	|
 |:---:	|:---:	|
 |	**Requisitos Associados** 	| RF-09, RF-10, RF-11, RF-12, RF-13, RF-14 |
 | **Objetivo do Teste** 	| Verificar se a página inicial de ADMIN funciona corretamente |
@@ -43,7 +43,7 @@ Os testes funcionais a serem realizados na aplicação são descritos a seguir:
 
 <br>
 
-| **Caso de Teste** 	| **CT07 – Página Homepage da ONG**	|
+| **Caso de Teste** 	| **CT05 – Página Homepage da ONG**	|
 |:---:	|:---:	|
 |	**Requisitos Associados** 	| XX |
 | **Objetivo do Teste** 	| Verificar se a página inicial da ONG funciona corretamente |
@@ -53,7 +53,7 @@ Os testes funcionais a serem realizados na aplicação são descritos a seguir:
 
 <br>
 
-| **Caso de Teste** 	| **CT02 – Página do perfil da ONG (visão de usuário externo)** 	|
+| **Caso de Teste** 	| **CT06 – Página do perfil da ONG (visão de usuário externo)** 	|
 |:---:	|:---:	|
 |	**Requisito Associado** 	| RF-01, RF-04, RF-06, RF-10 |
 | **Objetivo do Teste** 	| Verificar se a página de perfil de ONGS funciona corretamente |
@@ -63,7 +63,7 @@ Os testes funcionais a serem realizados na aplicação são descritos a seguir:
 
 <br>
 
-| **Caso de Teste** 	| **CT02 – Página do perfil da ONG (visão da ONG)** 	|
+| **Caso de Teste** 	| **CT07 – Página do perfil da ONG (visão da ONG)** 	|
 |:---:	|:---:	|
 |	**Requisito Associado** 	| RF-01, RF-04, RF-06, RF-10 |
 | **Objetivo do Teste** 	| Verificar se a página de perfil de ONGS funciona corretamente |
@@ -73,7 +73,7 @@ Os testes funcionais a serem realizados na aplicação são descritos a seguir:
 
 <br>
 
-| **Caso de Teste** 	| **CT03 – Teste da página de ONGs cadastradas** 	|
+| **Caso de Teste** 	| **CT08 – Teste da página de ONGs cadastradas** 	|
 |:---:	|:---:	|
 |	**Requisitos Associados** 	| -- |
 | **Objetivo do Teste** 	| Verificar se o usuário (externo ou cadastrado) consegue acessar a página com as ONGs cadastradas na aplicação corretamente |
@@ -83,7 +83,7 @@ Os testes funcionais a serem realizados na aplicação são descritos a seguir:
 
 <br>
 
-| **Caso de Teste** 	| **CT04 – Teste do Menu Sobre Nós** 	|
+| **Caso de Teste** 	| **CT09 – Teste do Menu Sobre Nós** 	|
 |:---:	|:---:	|
 |	**Requisitos Associados** 	| -- |
 | **Objetivo do Teste** 	| Verificar se ao passar o mouse no Menu “Sobre nós” abre as opções “Quem somos” e “Fale conosco”. |
@@ -93,7 +93,7 @@ Os testes funcionais a serem realizados na aplicação são descritos a seguir:
 
 <br>
 
-| **Caso de Teste** 	| **CT05 – Teste do Menu Sobre Nós** 	|
+| **Caso de Teste** 	| **CT10 – Teste do Menu Sobre Nós** 	|
 |:---:	|:---:	|
 |	**Requisitos Associados** 	| -- |
 | **Objetivo do Teste** 	| Verificar se ao passar o mouse no Menu “Sobre nós” e clicar em uma das opções disponíveis será redirecionado respectivamente para a página correta.|
@@ -103,7 +103,7 @@ Os testes funcionais a serem realizados na aplicação são descritos a seguir:
 
 <br>
 
-| **Caso de Teste** 	| **CT06 – Teste da Página Fale Conosco** 	|
+| **Caso de Teste** 	| **CT11 – Teste da Página Fale Conosco** 	|
 |:---:	|:---:	|
 |	**Requisitos Associados** 	| -- |
 | **Objetivo do Teste** 	| Verificar se ao clicar em "Fale conosco" localizado no menu "Sobre nós" a página abre corretamente e e está funcional|
@@ -113,7 +113,7 @@ Os testes funcionais a serem realizados na aplicação são descritos a seguir:
 
 <br>
 
-| **Caso de Teste** 	| **CT10 – Teste da página de redefinição de senha** 	|
+| **Caso de Teste** 	| **CT12 – Teste da página de redefinição de senha** 	|
 |:---:	|:---:	|
 |	**Requisitos Associados** 	| RF-03 |
 | **Objetivo do Teste** 	| Verificar se o usuário consegue realizar a redefinição de senha sem dificuldades |
@@ -123,7 +123,7 @@ Os testes funcionais a serem realizados na aplicação são descritos a seguir:
 
 <br>
 
-| **Caso de Teste** 	| **CT11 – Teste da página Homepage logado e não logado - Pesquisar** 	|
+| **Caso de Teste** 	| **CT13 – Teste da página Homepage logado e não logado - Pesquisar** 	|
 |:---:	|:---:	|
 |	**Requisitos Associados** 	| -- |
 | **Objetivo do Teste** 	| No homepage logado e não logado, verificar se ao digitar na barra de Pesquisa a página levará o usuário às opções disponíveis com o conteúdo digitado. |
@@ -133,7 +133,7 @@ Os testes funcionais a serem realizados na aplicação são descritos a seguir:
 
 <br>
 
-| **Caso de Teste** | **CT12 - Teste da Página de Resultado de pesquisa** |
+| **Caso de Teste** | **CT14 - Teste da Página de Resultado de pesquisa** |
 |:---:	|:---:	|
 |	**Requisitos Associados**  | RF-05 |
 | **Objetivo do Teste** 	| Verificar se o Usuário (externo ou cadastrado) consegue acessar a página de resultado, aparece todas as opções de acordo com a busca, se ele escolher o conteúdo e clicar irá ser encaminhado para a página que escolheu. |
