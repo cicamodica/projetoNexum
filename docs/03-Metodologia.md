@@ -62,11 +62,6 @@ Done: essa lista indica que uma tarefa foi concluída após passar pelos testes 
 
 O quadro kanban do grupo desenvolvido na ferramenta de gerenciamento de projetos está disponível através desta URL e é apresentado abaixo referente a cada etapa.
 
-### Etapa 1 e 2
-<img width="1908" height="841" alt="image" src="https://github.com/user-attachments/assets/8faa6fb0-c168-4a6b-b35c-aa00770f3ab7" />
-
-Figura 1 - Tela do quadro kanban (GitHub Projects) utilizada pelo grupo na primeira e segunda etapa do projeto.
-### Etapa 3 
 <img width="952" height="721" alt="Image" src="https://github.com/user-attachments/assets/ca8bfcf3-376a-48c5-b9dc-f90943f29ead" />
 
 Figura 2 - Tela do quadro kanban (GitHub Projects) utilizada pelo grupo na terceira etapa do projeto.
