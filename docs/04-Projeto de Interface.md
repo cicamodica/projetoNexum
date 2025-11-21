@@ -180,4 +180,4 @@ Apresenta todas as ONGs cadastradas (e aprovadas) na aplicação até o momento.
 
 <img width="1166" height="727" alt="Tela de ONGs cadastradas" src="https://github.com/user-attachments/assets/310f7484-591c-415a-8edc-46b01af5be47" />
 
-Figura 22 - Tela de fale conosco
+Figura 22 - Tela de ONGs aprovadas
