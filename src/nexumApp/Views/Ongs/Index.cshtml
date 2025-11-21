@@ -5,18 +5,31 @@
 @{
     ViewData["Title"] = "Ongs cadastradas";
     var currentPage = Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber;
+    string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+    var tags = new Tags().TagsNames;
 }
-<link rel="stylesheet" href="~/css/ongsIndex.css" />
 
-@{string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;}
+<link rel="stylesheet" href="~/css/ongsIndex.css" />
 
 @if(@Model.Count == 0) {
     <h4 class="ONGS-empty">Não há nenhuma ONG cadastrada :(</h4>
 } 
 else {
+<div class="ONGS-container">
+<div class="ONGS-filter">
+    <h2 class="ONGS-filter-title">Filtrar ONGS</h2>
+    <div class="ONGS-filter-chips-container">
+        <h5>Causas</h5>
+        @for(int index = 0; index < tags.Count; index++) {
+            <span class="ONGS-filter-chip" id="@index">@tags[index]</span>
+        }
+    </div>
+    <button id="ONGS-filter-submit">Filtrar</button>
+</div>
+
+<div>
 <h1 class="ONGS-title">ONGs cadastradas</h1>
 <h4 class="ONGS-subtitle">@ViewBag.Total ONGs</h4>
-
 <div class="ONGS-flex-container">
 @foreach (var item in Model) {
     var tagId = item.Tag.GetValueOrDefault();
@@ -32,10 +45,48 @@ else {
 }
 </div>
 <span>Página @currentPage de @Model.PageCount</span>
-<span>@Html.PagedListPager( Model, page => Url.Action("Index", new { page }), new PagedListRenderOptions()
+<span>
+    @Html.PagedListPager( Model, page => Url.Action("Index", new { page }), new PagedListRenderOptions()
     {
         LiElementClasses = new List<string> {"paginationItem"}
-    })</span>
+    })
+</span>
+</div>
+</div>
+}
 
+@section Scripts {
+    <script>
+        const chips = document.getElementsByClassName("ONGS-filter-chip")
+        const submitButton = document.getElementById("ONGS-filter-submit")
+        let ids = []
+
+        const selectChip = (chip) => {
+            if(chip.classList.contains("ONGS-filter-chip-selected")) {
+               ids = ids.filter(id => id !== chip.id)
+               return chip.classList.remove("ONGS-filter-chip-selected")   
+            }
+            chip.classList.add("ONGS-filter-chip-selected")
+            ids.push(chip.id)
+        }
+
+        for (let index = 0; index < chips.length; index++) {
+            chips[index].addEventListener("click", () => {              
+                selectChip(chips[index])
+            })
+        }
+
+        submitButton.addEventListener("click", () => {
+            const selectedChips = document.getElementsByClassName("ONGS-filter-chip-selected")
+            if(selectedChips.length && selectedChips.length < chips.length) {
+                let url = new URL(window.location.href);
+                let params = url.searchParams;
+                params.set('ONGtags', ids);
+                console.log(ids)
+                let updatedUrl = url.toString();
+                window.location.href = updatedUrl
+            }
+        })
+    </script>
 }
         

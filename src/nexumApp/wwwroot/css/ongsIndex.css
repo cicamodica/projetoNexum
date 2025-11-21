@@ -1,12 +1,54 @@
 ﻿
+.container {
+    margin-left: 0 !important;
+}
+.ONGS-container {
+    display: flex;
+    margin-top: 50px;
+}
+.ONGS-filter {
+    margin-top: 7px;
+    width:384px;
+}
+.ONGS-filter-title {
+    text-align: center;
+}
+
+.ONGS-filter-chips-container {
+    margin-left: 50px;
+    margin-top: 35px
+}
+
+.ONGS-filter-chip {
+    border: 1px solid #16435d;
+    border-radius: 30px;
+    display: block;
+    width: fit-content;
+    padding: 2px 8px;
+    margin-top: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #16435d;
+}
+
+.ONGS-filter-chip:hover {
+    background-color: #16435d;
+    color: white
+}
+
+.ONGS-filter-chip-selected {
+    background-color: #16435d;
+    color: white
+}
+
 .ONGS-empty {
     text-align: center;
     margin-top: 300px;
     color: #a7a7ab;
 }
-.ONGS-title {
-    margin-top: 50px;
-}
+/*.ONGS-title {
+    
+}*/
 .ONGS-subtitle {
     color: #a7a7ab;
 }

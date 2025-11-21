@@ -3,9 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using nexumApp.Data;
 using nexumApp.Models;
-using System.Diagnostics;
+using System.Linq;
 using System.Security.Claims;
-using System.Text;
 using X.PagedList.Extensions;
 
 namespace nexumApp.Controllers
@@ -20,14 +19,19 @@ namespace nexumApp.Controllers
         }
 
         // GET: Ongs
-        public async Task<IActionResult> Index(int? page)
+        public async Task<IActionResult> Index(int? page, string ONGTags)
         {
             int pageSize = 3;
             int pageNumber = (page ?? 1);
-            var ongs = await _context.Ongs.Where(ong => ong.Aprovaçao == true).ToListAsync(); 
+            var ongs = await _context.Ongs.Where(ong => ong.Aprovaçao == true).ToListAsync();
             var tags = new Tags().TagsNames;
             ViewBag.Tags = tags;
             ViewBag.Total = ongs.Count;
+            if (ONGTags != null)
+            {
+                int?[] idsArray = [.. ONGTags.Split(',').Select(int.Parse)];
+                ongs = ongs.Where(ong => idsArray.Contains(ong.Tag)).ToList();
+            }
             return View(ongs.ToPagedList(pageNumber, pageSize));
         }
 
