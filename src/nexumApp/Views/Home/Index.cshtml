@@ -7,6 +7,8 @@
     string search = ViewBag.Search as string;
     var vagas = ViewBag.Vagas as List<nexumApp.Models.Vaga>;
     var ongs = ViewBag.Ongs as List<nexumApp.Models.Ong>;
+    var selectedTags = ViewBag.SelectedTags as List<int> ?? new List<int>();
+    var tagsModel = new nexumApp.Models.Tags();
 }
 
 
