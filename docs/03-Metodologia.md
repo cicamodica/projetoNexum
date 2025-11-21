@@ -64,7 +64,7 @@ O quadro kanban do grupo desenvolvido na ferramenta de gerenciamento de projetos
 
 <img width="952" height="721" alt="Image" src="https://github.com/user-attachments/assets/ca8bfcf3-376a-48c5-b9dc-f90943f29ead" />
 
-Figura 2 - Tela do quadro kanban (GitHub Projects) utilizada pelo grupo na terceira etapa do projeto.
+Figura 02 - Tela do quadro kanban (GitHub Projects) utilizada pelo grupo na terceira etapa do projeto.
 
 ### Ferramentas
 
