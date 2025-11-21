@@ -10,7 +10,6 @@ using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 using System.Diagnostics;
 using System.Security.Claims;
-using System.Text;
 using X.PagedList.Extensions;
 using Microsoft.AspNetCore.Hosting; 
 using System.IO;
@@ -31,13 +30,18 @@ namespace nexumApp.Controllers
         }
 
         // GET: Ongs
-        public async Task<IActionResult> Index(int? page)
+        public async Task<IActionResult> Index(int? page, string ONGTags)
         {
-            int pageSize = 3;
+            int pageSize = 40;
             int pageNumber = (page ?? 1);
-            var ongs = await _context.Ongs.Where(ong => ong.Aprovaçao == true).ToListAsync(); 
+            var ongs = await _context.Ongs.Where(ong => ong.Aprovaçao == true).ToListAsync();
             var tags = new Tags().TagsNames;
             ViewBag.Tags = tags;
+            if (ONGTags != null)
+            {
+                int?[] idsArray = [.. ONGTags.Split(',').Select(int.Parse)];
+                ongs = ongs.Where(ong => idsArray.Contains(ong.Tag)).ToList();
+            }
             ViewBag.Total = ongs.Count;
             return View(ongs.ToPagedList(pageNumber, pageSize));
         }

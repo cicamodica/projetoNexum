@@ -38,7 +38,7 @@ namespace nexumApp.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> Index(string? cep, string? cidade, int? tagId, [FromQuery] bool publicView = false)
+        public async Task<IActionResult> Index(string? cep, string? cidade, string? tags, [FromQuery] bool publicView = false)
         {
             // O tagId é o índice da tag que vem do formulário de filtro
 
@@ -53,6 +53,21 @@ namespace nexumApp.Controllers
                 .Include(m => m.Filial)
                 .Include(m => m.Doacoes)
                 .Where(m => m.Status == "Ativa");
+
+            if (!string.IsNullOrWhiteSpace(tags))
+            {
+                var tagIds = tags
+                    .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                    .Select(int.Parse)
+                    .ToList();
+
+                query = query.Where(m =>
+                 m.Ong.Tag.HasValue &&
+                  tagIds.Contains(m.Ong.Tag.Value)
+   );
+
+                ViewBag.SelectedTags = tagIds;
+            }
 
             if (User.Identity?.IsAuthenticated == true)
             {

@@ -3,13 +3,20 @@
 O registro de testes de usabilidade é um documento ou planilha onde são coletadas e organizadas as informações sobre a experiência dos usuários ao interagir com um sistema. Ele inclui dados como tempo de execução de tarefas, taxa de sucesso, dificuldades encontradas, erros cometidos e _feedback_ dos usuários. Esse registro permite identificar padrões de uso, obstáculos/dificuldades encontrados na interface e oportunidades de melhoria, fornecendo _insights_ quantitativos e qualitativos para otimizar a experiência do usuário. Além disso, serve como base para análises, correções e futuras iterações do sistema, garantindo que ele atenda às necessidades do público-alvo de forma eficiente.
 
 ## Perfil dos usuários que participaram do teste
-- Usuário 1: 45 anos, nível básico incompleto, conhecimento básico tecnologia
-- Usuário 2: 18 anos, nível superior incompleto, conhecimento avançado tecnologia
-- Usuário 1: 70 anos, nível básico incompleto, conhecimento básico tecnologia
-- Usuário 2: 25 anos, nível superior completo, conhecimento avançado tecnologia
-- Usuário 2: 28 anos, nível superior completo, conhecimento avançado tecnologia
+- Julia Medina (idade: 21 anos; perfil: média familiaridade);
+- Lucineia Souza (idade: 57 anos; perfil: básica familiaridade);
+- Alexandre Lara (idade: 51 anos; perfil: média familiaridade);
+- Luis Frederico Modica (idade: 26 anos; perfil: alta familiaridade);
+- Alfredo Paulo (idade: 71 anos; perfil: baixa familiaridade);
+- Rodrigo Gurgel (idade: 28 anos; perfil: alta familiaridade);
+- Ana Carolina Prates (idade: 16 anos; perfil: média familiaridade);
+- Miriam Pacheco (idade: 46 anos; perfil: alta familiaridade);
+- Genilda Feliciano (idade: 40 anos; perfil: básica familiaridade);
+- Luiz Carlos Sobral Neto (idade: 35 anos; perfil: alta familiaridade);
+- Luiz Carlos Sobral Junior (idade: 62 anos; perfil: média familiaridade);
+- Juliana Pacheco (Idade: 36 anos; perfil: baixa familiaridade);
 
-## Exemplo de tabela de registro dos testes de usabilidade  
+## Tabela de registro dos testes de usabilidade  
 
 Para registrar os indicadores de cada cenário, é preciso manter a coerência com os critérios quantitativos e qualitativos que foram definidos no plano de testes de usabilidade.
 
