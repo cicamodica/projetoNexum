@@ -6,7 +6,9 @@ No projeto de interface do sistema, estamos dando prioridade a aspectos como vel
 ## Diagrama de Fluxo
 
 O diagrama apresenta o estudo do fluxo de interação do usuário com o sistema interativo e  muitas vezes sem a necessidade do desenho do design das telas da interface. Isso permite que o design das interações seja bem planejado e gere impacto na qualidade no design do wireframe interativo que será desenvolvido logo em seguida.
-<img width="1302" height="807" alt="Image" src="https://github.com/user-attachments/assets/bbcd0b4b-70d6-42b7-a9e3-f5f22c0a1fc3" />
+
+<img width="1920" height="1080" alt="Fluxograma" src="https://github.com/user-attachments/assets/cbdc54a4-f2d2-4bd1-afc5-3817781ea353" />
+
 
 ## Wireframes
 
