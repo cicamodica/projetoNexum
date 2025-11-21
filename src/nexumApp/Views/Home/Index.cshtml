@@ -5,6 +5,7 @@
     ViewData["Title"] = "Marketplace";
     var pendingValues = ViewBag.PendingValues as Dictionary<int, int> ?? new Dictionary<int, int>();
     var tagsModel = new nexumApp.Models.Tags();
+    var selectedTags = ViewBag.SelectedTags as List<int> ?? new List<int>();
 }
 
 
@@ -859,8 +860,8 @@
                     <div class="filter-tags d-flex flex-wrap gap-2">
                         @foreach (var tag in tagsModel.TagsList)
                         {
-                            
-                            <button type="button" class="btn-tag" data-id="@tag.Value" onclick="toggleTag(this)">
+                            var isActive = selectedTags.Contains(int.Parse(tag.Value));
+                            <button type="button" class="btn-tag @(isActive ? "active" : "")" data-id="@tag.Value" onclick="toggleTag(this)">
                                 @tag.Text
                             </button>
                         }
@@ -1216,6 +1217,24 @@
    document.addEventListener('DOMContentLoaded', function () {
       console.log("Script Marketplace carregado.");
 
+           const selectedTagIds = new Set();
+
+           
+           window.toggleTag = function (button) {
+               const id = button.dataset.id;
+
+               if (button.classList.contains('active')) {
+                   // se já estava ativa, desmarca
+                   button.classList.remove('active');
+                   selectedTagIds.delete(id);
+               } else {
+                   // se não estava ativa, marca
+                   button.classList.add('active');
+                   selectedTagIds.add(id);
+               }
+
+               console.log('Tags selecionadas:', Array.from(selectedTagIds));
+           };
   
       window.conectarFormularioInscricao = function () {
          const formInscricao = document.getElementById('formInscricaoVaga');
@@ -1474,11 +1493,18 @@
             vagasContainer.innerHTML = `<div class="col-12 text-center"><p class="lead">Buscando vagas filtradas...</p></div>`;
             titulo.textContent = 'Resultados para Voluntariado (0)';
             fetchVagas(cep, cidade, datasSelecionadas);
+
          } else if (btnDoacoes.classList.contains('active')) {
+
             let query = new URLSearchParams();
             if (cep) query.append('cep', cep);
+
             if (cidade && !cidade.includes("...")) query.append('cidade', cidade);
             window.location.search = query.toString();
+
+            if(selectedTagIds.size > 0){
+                query.append('tags', Array.from(selectedTagIds).join(','));
+            }
          }
       });
 
