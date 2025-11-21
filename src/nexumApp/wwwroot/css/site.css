@@ -434,56 +434,388 @@ html {
     vertical-align: middle;
 }
 
-/* --- ESTILOS DAS ABAS E TABELAS (Seus Resumos) --- */
+/* ====================================================================
+   ESTILOS GERAIS E TIPOGRAFIA (Baseado no Exemplo Fornecido)
+   ==================================================================== */
 
-/* Aba de Navegação (Menu Resumos, Sobre, Relatórios) */
+h1 {
+    color: #16435D;
+    font-weight: 600;
+    font-size: clamp(25px, 7vw, 44px);
+    margin: 25px 0 20px 0;
+}
+
+h2 {
+    /* Nome da ONG */
+    color: #16435D;
+    font-weight: 600;
+    font-size: clamp(25px, 5vw, 40px);
+    margin: 0px 0 20px 0;
+}
+
+h3 {
+    /* Títulos dentro da aba de Relatórios */
+    font-size: 30px;
+    margin: 0px 0 20px 0;
+}
+
+h4 {
+    /* Títulos dentro das abas (Metas, Vagas) */
+    color: #16435D;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+h5 {
+    /* Títulos de Modal */
+    color: #16435D;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+/* Estilos de Botões e Formulários */
+.form-control {
+    border-radius: 24px;
+    margin-top: 10px;
+    /* Manter a largura de 350px para modais ou campos específicos se necessário */
+}
+
+.btn-outline-secondary, .btn-danger, .btn-success, .btn-primary {
+    border-radius: 24px;
+    cursor: pointer;
+    padding: 5px 20px;
+}
+
+/* --- DIVIDER --- */
+.section-divider {
+    border: none;
+    color: #16435D;
+    border-top: 1px solid #d0d0d0;
+    margin: 30px 0;
+    opacity: 1;
+}
+
+/* ====================================================================
+   ESTILOS ESPECÍFICOS DO PERFIL (HEADER E LOGO)
+   ==================================================================== */
+
+.perfil-container {
+    background-color: #ffffff; /* Fundo branco para a página */
+}
+
+.profile-header-strip {
+    height: 200px; /* Altura fixa para o cabeçalho */
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    background-color: #f0f0f0; /* Cor de fundo para fallback */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.header-image-item {
+    width: 20%; /* 5 imagens ocupam 100% */
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Botão flutuante de edição no header (apenas para o dono) */
+.edit-button-float {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 10;
+    background-color: rgba(255, 255, 255, 0.85);
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #16435D;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+    .edit-button-float:hover {
+        background-color: #ffffff;
+    }
+
+/* Logo da ONG */
+.profile-logo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 5px solid #ffffff; /* Borda branca para destacar da imagem de fundo */
+    object-fit: cover;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Tags de Área de Atuação */
+.tag-badge {
+    display: inline-block;
+    padding: 0.3em 0.8em;
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25rem;
+}
+
+.tag-badge-primary {
+    color: #ffffff;
+    background-color: #16435D; /* Cor principal */
+}
+
+
+/* ====================================================================
+   ESTILOS DAS ABAS (NAV-TABS)
+   ==================================================================== */
+
 .nav-tabs {
-    border-bottom: none;
+    border-bottom: 2px solid #16435D;
+    margin-top: 20px;
 }
 
     .nav-tabs .nav-link {
-        font-weight: 600;
-        color: #495057;
+        color: #16435D;
         border: none;
+        border-radius: 0;
+        font-weight: 600;
+        transition: background-color 0.2s, color 0.2s;
     }
 
-        .nav-tabs .nav-link.active {
-            color: var(--color-primary-blue);
-            border-bottom: 2px solid var(--color-primary-blue);
-            background-color: transparent;
+        .nav-tabs .nav-link:hover {
+            background-color: #f0f0f0;
         }
 
-/* Contêiner de Conteúdo */
+        .nav-tabs .nav-link.active {
+            color: #ffffff;
+            background-color: #16435D;
+            border-color: #16435D;
+            border-top-left-radius: 6px;
+            border-top-right-radius: 6px;
+        }
+
+/* Conteúdo das Abas */
 .tab-content {
-    border: none !important; /* Remove a borda padrão do Bootstrap */
-    padding: 1rem 0 !important;
+    border-color: #e9ecef !important; /* Cor mais clara para o border */
+    border-radius: 0 0 6px 6px;
 }
 
-/* Tabela de Resumos */
-.table-responsive .table {
-    border: 1px solid #ddd;
+.tab-pane-content-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100px;
+}
+
+/* ====================================================================
+   ESTILOS DA TABELA DE METAS/VAGAS
+   ==================================================================== */
+
+.table-responsive {
+    margin-top: 15px;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) > * {
+    background-color: #f5f5f5; /* Fundo listrado mais suave */
+}
+
+.table-light {
+    background-color: #e9ecef !important;
+    border-bottom: 2px solid #16435D;
+    color: #16435D;
+}
+
+/* Barra de Progresso */
+.progress {
+    background-color: #e9ecef;
+}
+
+.progress-bar.bg-success {
+    background-color: #28a745 !important; /* Cor padrão do Bootstrap success */
+}
+
+
+/* ====================================================================
+   ESTILOS DA ABA RELATÓRIOS (CHIPS E BOTÃO)
+   ==================================================================== */
+
+.ong-section {
+    padding: 10px 0;
+}
+
+.ong-h3 {
+    /* Título da seção dentro da aba */
+    color: #16435D;
+    font-weight: 700;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.ong-card {
+    background-color: #f8f8f8;
     border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-    .table-responsive .table thead th {
-        background-color: #f8f9fa; /* Fundo claro para o cabeçalho */
-        border-bottom: 2px solid #ddd;
-        font-weight: 600;
-        font-size: 0.85rem;
+.ong-card-title {
+    color: #16435D;
+    border-bottom: 1px solid #d0d0d0;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+/* Chips de Seleção */
+.ong-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.ong-chip {
+    background-color: #e0e0e0;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    padding: 8px 15px;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s, transform 0.1s;
+    font-size: 14px;
+}
+
+    .ong-chip:hover {
+        background-color: #d0d0d0;
     }
 
-/* Badges dentro da tabela */
-.badge-meta {
-    background-color: #d1d8ff; /* Exemplo de azul clarinho */
-    color: #212529;
-    font-weight: 600;
+    /* Chip Selecionado */
+    .ong-chip.selected {
+        background-color: #2987bf; /* Cor clara do seu admin-pill */
+        color: #ffffff;
+        border-color: #16435D;
+        box-shadow: 0 2px 4px rgba(41, 135, 191, 0.4);
+    }
+
+        .ong-chip.selected:hover {
+            background-color: #16435D; /* Cor principal no hover */
+        }
+
+/* Botão Gerar Relatório */
+.ong-pill {
+    /* Reutiliza o estilo do .btn-success fornecido */
+    color: #ffffff;
+    background-color: #198754;
+    border: none;
+    border-radius: 24px;
+    padding: 10px 30px;
+    font-size: 17px;
+    transition: background-color 0.3s;
 }
 
-.badge-vaga {
-    background-color: #b0f5b0; /* Exemplo de verde clarinho */
-    color: #212529;
-    font-weight: 600;
+    .ong-pill:hover {
+        background-color: #106637;
+    }
+
+/* --------------------------- */
+/* BANNER PADRÃO DE SITE      */
+/* --------------------------- */
+
+.profile-header-strip {
+    width: 100%;
+    height: 220px;
+    position: relative;
+    overflow: hidden;
+    background: #f2f2f2;
+    padding-top: 0 !important;
+    z-index: 10;
+    
 }
+
+.header-image-single {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+/* --------------------------- */
+/* LOGO DA ONG (CENTRALIZADA) */
+/* --------------------------- */
+
+.logo-circle-container {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    position: absolute;
+    bottom: -75px;
+    top:120px;
+    left:500px;
+    transform: translateX(-50%);
+    overflow:visible;
+    border: 5px solid white;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+    z-index: 20;
+}
+
+.ong-logo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* --------------------------- */
+/* CONTEÚDO CENTRAL DO PERFIL */
+/* --------------------------- */
+
+.conteudo-centralizado {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    margin-top: 90px;
+}
+
+.ong-title-with-edit {
+    margin-top: 20px !important; /* Margem positiva de respiro */
+    margin-left: 170px; /* Deslocamento horizontal para a direita do logo */
+    margin-bottom: 15px !important;
+    left: 30% /* título alinhado ao centro */
+}
+
+.nav-tabs {
+    margin-top: 20px;
+    border-bottom-width: 2px;
+}
+
+.nav-tabs .nav-link {
+    font-size: 1rem;
+    padding: 10px 18px;
+    font-weight: 600;
+    color: #16435D !important;
+}
+
+.nav-tabs .nav-link.active {
+    background-color: #16435D !important;
+    color: #fff !important;
+    border-color: #16435D #16435D transparent !important;
+}
+
+.perfil-container {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+}
+
+
+
 

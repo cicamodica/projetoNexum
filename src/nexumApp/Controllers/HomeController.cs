@@ -1,17 +1,19 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using nexumApp.Models;
-using System.Diagnostics;
 using Microsoft.EntityFrameworkCore; 
 using nexumApp.Data;
-using System.Linq; 
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using System;
-using System.IO;
-using System.Security.Claims;         
-using Microsoft.AspNetCore.Hosting;
+using nexumApp.Models;
 using nexumApp.Services;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq; 
+using System.Security.Claims;         
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 
 namespace nexumApp.Controllers
 {
@@ -22,19 +24,21 @@ namespace nexumApp.Controllers
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly Tags _tagsService = new Tags();
         private readonly IEmailService _emailService;
+        private readonly UserManager<User> _userManager;
 
 
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context, IWebHostEnvironment webHostEnvironment, IEmailService emailService)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context, IWebHostEnvironment webHostEnvironment, IEmailService emailService, UserManager<User> userManager)
         {
             _logger = logger;
             _context = context;
             _webHostEnvironment = webHostEnvironment;
             _emailService = emailService;
+            _userManager = userManager;
         }
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> Index(string? cep, string? cidade, int? tagId, [FromQuery] bool publicView = false)
+        public async Task<IActionResult> Index(string? cep, string? cidade, string? tags, [FromQuery] bool publicView = false)
         {
             // O tagId é o índice da tag que vem do formulário de filtro
 
@@ -49,6 +53,21 @@ namespace nexumApp.Controllers
                 .Include(m => m.Filial)
                 .Include(m => m.Doacoes)
                 .Where(m => m.Status == "Ativa");
+
+            if (!string.IsNullOrWhiteSpace(tags))
+            {
+                var tagIds = tags
+                    .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                    .Select(int.Parse)
+                    .ToList();
+
+                query = query.Where(m =>
+                 m.Ong.Tag.HasValue &&
+                  tagIds.Contains(m.Ong.Tag.Value)
+   );
+
+                ViewBag.SelectedTags = tagIds;
+            }
 
             if (User.Identity?.IsAuthenticated == true)
             {
@@ -407,7 +426,29 @@ namespace nexumApp.Controllers
             return Ok();
         }
 
-      
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> SmartRedirect()
+        {
+            //  Verifica se está logado
+            if (User.Identity?.IsAuthenticated == true)
+            {
+                // Pega o objeto User logado
+                var user = await _userManager.GetUserAsync(User);
+
+                // Verifica se é uma ONG
+                if (user != null && await _userManager.IsInRoleAsync(user, "Ong"))
+                {
+                    // LOGADO E É ONG -> Vai para o Dashboard
+                    return RedirectToAction("Dashboard", "Ongs");
+                }
+            }
+
+            // NÃO LOGADO (ou logado como outra Role) -> Vai para Home/Index pública
+            return RedirectToAction("Index", "Home");
+        }
+
+
 
     }
 }

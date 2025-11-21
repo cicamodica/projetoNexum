@@ -34,6 +34,8 @@ namespace nexumApp.Models
 
         public ICollection<Vaga> Vagas { get; set; }
 
+        public string? ConteudoSobre { get; set; }
+
         // ====== Campos do PDF ======
 
         [Display(Name = "Nome do arquivo PDF")]
