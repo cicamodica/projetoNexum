@@ -48,9 +48,15 @@ As tabelas que se seguem apresentam os requisitos funcionais e não funcionais q
 |RF-06| Permitir a gestão de recursos e inventário para ONGs. | ALTA |
 |RF-07| Gerar relatórios de recursos, inventário, vagas disponibilizadas/preenchidas e candidaturas (ONGs).  | ALTA |
 |RF-08| Implementar um sistema de verificação/aprovação para perfis (ONGs).   | ALTA |
-|RF-09| Permitir que ONGs solicitem empréstimo de recursos e equipamentos.  | MÉDIA |
-|RF-10| Disponibilizar um sistema de notificação por e-mail (voluntários) ou push (ONGs).  | MÉDIA |
-|RF-11| Permitir avaliação e feedback de usuários sobre o sistema.   | BAIXA |
+|RF-09| O sistema deve permitir que o administrador faça login utilizando e-mail e senha válidos. | ALTA |
+|RF-10| O sistema deve permitir que somente usuários com perfil/role de administrador acessem a página de administração. | ALTA |
+|RF-11| O sistema deve apresentar ao administrador uma lista de cadastros pendentes de aprovação. | ALTA |
+|RF-12| O sistema deve permitir ao administrador aprovar ou reprovar cadastros pendentes. | ALTA |
+|RF-13| O sistema deve permitir ao administrador gerar relatórios com base em filtros (data, status, tipo de usuário etc.). | ALTA |
+|RF-14| O sistema deve permitir ao administrador editar conteúdos já cadastrados. | MÉDIA |
+|RF-15| Permitir que ONGs solicitem empréstimo de recursos e equipamentos.  | MÉDIA |
+|RF-16| Disponibilizar um sistema de notificação por e-mail (voluntários) ou push (ONGs).  | MÉDIA |
+|RF-17| Permitir avaliação e feedback de usuários sobre o sistema.   | BAIXA |
 
 ### Requisitos não Funcionais
 
