@@ -119,7 +119,7 @@ Requisitos associados: RF-01, RF-04, RF-06, RF-10
 
 Figura 16 - Tela de perfil (ONG - Resumos)
 
-### Perfil ONG - Visão da ONG (reatórios)
+### Perfil ONG - Visão da ONG (relatórios)
 
 Requisitos associados: RF-01, RF-04, RF-06, RF-10
 
