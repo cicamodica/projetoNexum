@@ -6,26 +6,29 @@
 <ul class="navbar-nav ms-3 align-items-center">
     @if (SignInManager.IsSignedIn(User))
     {
-        <li class="nav-item me-2">
-            @if (User.IsInRole("Ong"))
-            {
-                <a class="nav-link profile-icon"
-                   asp-controller="Ongs"
-                   asp-action="MeuPerfil"
-                   title="Meu Perfil da ONG">
-                    <i class="bi bi-person-circle"></i>
-                </a>
-            }
-            else
-            {
-                <a class="nav-link profile-icon"
-                   asp-area="Identity"
-                   asp-page="/Account/Manage/Index"
-                   title="Minha Conta">
-                    <i class="bi bi-person-circle"></i>
-                </a>
-            }
-        </li>
+        @if (!User.IsInRole("Admin"))
+        {
+            <li class="nav-item me-2">
+                @if (User.IsInRole("Ong"))
+                {
+                    <a class="nav-link profile-icon"
+                       asp-controller="Ongs"
+                       asp-action="MeuPerfil"
+                       title="Meu Perfil da ONG">
+                        <i class="bi bi-person-circle"></i>
+                    </a>
+                }
+                else
+                {
+                    <a class="nav-link profile-icon"
+                       asp-area="Identity"
+                       asp-page="/Account/Manage/Index"
+                       title="Minha Conta">
+                        <i class="bi bi-person-circle"></i>
+                    </a>
+                }
+            </li>
+        }
 
         <li class="nav-item">
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout"
