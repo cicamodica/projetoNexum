@@ -110,32 +110,11 @@
                     <label class="form-check-label" for="radioEndereco">
                         Endereço
                     </label>
-
-                    <button type="button" id="geolocation-btn" class="geolocation-btn" title="Usar minha localização atual">
-
-
-                        <svg id="geolocation-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" style="margin-top: -2px;">
-                            <path class="icon-base" d="M12 21c-4.42 0-8-1.79-8-4s3.58-4 8-4 8 1.79 8 4-3.58 4-8 4z" />
-                            <path class="icon-pin" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
-                            <path class="icon-dot" d="M12 11.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
-                        </svg>
-
-
-                        <svg id="geolocation-loading" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-repeat spinning-icon" viewBox="0 0 16 16" style="display: none;">
-                            <path d="M11.534 7a4.5 4.5 0 1 1-1.334-3.562l.243-.243a.5.5 0 0 1 .707.707l-.243.243A4.5 4.5 0 1 1 11.534 7z" />
-                            <path d="M8 3a.5.5 0 0 1 .5.5V5.5H10a.5.5 0 0 1 0 1H8.5V8a.5.5 0 0 1-1 0V6.5H6a.5.5 0 0 1 0-1h1.5V3.5A.5.5 0 0 1 8 3z" />
-                        </svg>
-
-
-                    </button>
-
-                    <span id="geolocation-status" class="calendar-summary-text" style="font-size: 0.8rem; display: block; margin-left: 20px;"></span>
                 </div>
 
                 <div id="location-inputs" class="filter-location-inputs" style="display:none;">
                     <input type="text" id="cep-input" class="form-control" placeholder="CEP" maxlength="9">
-                   
-                    <input type="text" id="cidade-input" class="form-control" placeholder="Cidade">
+                           
                 </div>
 
                 <button id="btn-filtrar" class="btn btn-filtrar">Filtrar</button>
@@ -469,21 +448,14 @@
            const filtroDiasContainer = document.getElementById('filtro-dias-atuacao');
            const locationInputs = document.getElementById('location-inputs');
            const cepInput = document.getElementById('cep-input');
-           const cidadeInput = document.getElementById('cidade-input');
            const btnFiltrar = document.getElementById('btn-filtrar');
-           const geoBtn = document.getElementById('geolocation-btn');
-           const geoIcon = document.getElementById('geolocation-icon');
-           const geoLoading = document.getElementById('geolocation-loading');
-           const geoStatus = document.getElementById('geolocation-status');
 
 
            let query = new URL(window.location.href);
            let params = query.searchParams
            let existingParams = params.get("tags")
-           let existingCep = params.get("cep")
-           let existingCidade = params.get("cidade")
+           let existingCep = params.get("cep")    
            let tab = params.get("tab")
-           console.log(tab)
            let selectedTagIds = [];
            let vagasCarregadas = false;
 
@@ -493,7 +465,6 @@
            btnVoluntariado.classList.remove('active');
            metasContainer.style.display = 'block';
            vagasContainer.style.display = 'none';
-           filtroDiasContainer.style.display = 'none';
            titulo.textContent = `Resultados para Doações (${totalMetas})`;
 
            }
@@ -511,18 +482,13 @@
          // return window.location.href = updatedUrl
          if (!vagasCarregadas) {
             document.getElementById('vagas-container').innerHTML = `<div class="col-12 text-center"><p class="lead">Buscando vagas...</p></div>`;
-            fetchVagas();
+            fetchVagas(cepInput.value, selectedTagIds);
          } else {
              document.getElementById('resultados-titulo').textContent = `Resultados para Voluntariado (${totalVagas})`;
          }
       }
 
-
-           if(tab) {
-               changeTab()
-           }
-
-           if (existingCep || existingCidade) {
+           if (existingCep) {
                document.getElementById('radioEndereco').checked = true;
                document.getElementById('location-inputs').style.display = 'block';
            }
@@ -532,17 +498,16 @@
                cepInput.value = existingCep
            }
 
-           if(existingCidade) {
-               const cidadeInput = document.getElementById("cidade-input")
-               cidadeInput.value = existingCidade
-           }
-
            if(existingParams) {
             const paramsArr = existingParams.split(",")
             selectedTagIds = paramsArr
             paramsArr.map(id =>
                 document.getElementById(id).classList.add("active")
             )
+
+            if(tab) {
+               changeTab()
+           }
         }
 
            
@@ -667,9 +632,17 @@
 
       // Filtros
       btnFiltrar.addEventListener('click', function () {
-         
-         const cep = cepInput.value;
-         const cidade = cidadeInput.value;
+         const cep = cepInput.value; 
+
+         if (cep) {
+                params.set("cep", cep)
+            }
+            else params.delete("cep")
+
+            if(selectedTagIds.length > 0){
+                params.set("tags", selectedTagIds)
+            } 
+            else params.delete("tags")
 
          if(btnDoacoes.classList.contains('active')) {
              params.delete("tab")
@@ -677,24 +650,10 @@
              return window.location.href = updatedUrl
          }
 
-         if (cep) {
-                params.set("cep", cep)
-            }
-            else params.delete("cep")
-            if (cidade.length) {
-                params.set("cidade", cidade)
-            }
-            else params.delete("cidade");
-
-            if(selectedTagIds.length > 0){
-                params.set("tags", selectedTagIds)
-            } 
-            else params.delete("tags")
-
          if (btnVoluntariado.classList.contains('active')) {
             vagasContainer.innerHTML = `<div class="col-12 text-center"><p class="lead">Buscando vagas filtradas...</p></div>`;
             titulo.textContent = 'Resultados para Voluntariado (0)';
-            fetchVagas(cep, cidade);
+            fetchVagas(cep, selectedTagIds);
 
          } 
             let updatedUrl = query.toString();
@@ -702,12 +661,12 @@
          
       });
 
-      function fetchVagas(cep = '', cidade = '') {
-         console.log('teste fetch vagas')
+      function fetchVagas(cep = '', tags = []) {
+           
          vagasCarregadas = false;
          let url = new URL('@Url.Action("GetVagasPartial", "Home")', window.location.origin);
+         if(tags.length) url.searchParams.append('tags', tags)
          if (cep) url.searchParams.append('cep', cep);
-         if (cidade && !cidade.includes("...")) url.searchParams.append('cidade', cidade);
          fetch(url.toString())
             .then(response => {
                if (!response.ok) throw new Error('Falha ao buscar vagas.');
@@ -725,52 +684,6 @@
             });
       }
 
-      // Geolocation
-      geoBtn.addEventListener('click', function () {
-         geoIcon.style.display = 'none';
-         geoLoading.style.display = 'inline-block';
-         geoStatus.textContent = 'Buscando...';
-         geoBtn.disabled = true;
-
-         if (!navigator.geolocation) {
-            geoStatus.textContent = 'Geolocalização não suportada.';
-            resetGeoIcon();
-            return;
-         }
-         navigator.geolocation.getCurrentPosition(async (position) => {
-            const lat = position.coords.latitude;
-            const lon = position.coords.longitude;
-            geoStatus.textContent = 'Localização obtida. Buscando cidade...';
-            try {
-               const response = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=pt`);
-               if (!response.ok) throw new Error('Falha ao buscar dados da cidade.');
-               const data = await response.json();
-               toggleLocationInputs(true);
-               cidadeInput.value = `${data.city} - ${data.principalSubdivisionCode}`;
-               cepInput.value = data.postcode || '';
-               geoStatus.textContent = 'Localização preenchida!';
-               resetGeoIcon();
-            } catch (error) {
-               console.error(error);
-               geoStatus.textContent = 'Erro ao buscar cidade.';
-               resetGeoIcon();
-            }
-         }, (error) => {
-            console.warn(`Erro de Geolocalização (${error.code}): ${error.message}`);
-            geoStatus.textContent = 'Não foi possível obter a localização.';
-            resetGeoIcon();
-         });
-      });
-
-      function resetGeoIcon() {
-         geoIcon.style.display = 'inline-block';
-         geoLoading.style.display = 'none';
-         geoBtn.disabled = false;
-         setTimeout(() => {
-            geoStatus.textContent = '';
-         }, 3000);
-      }
-
       // CEP Input Mask
       cepInput.addEventListener('input', function (e) {
          let v = e.target.value.replace(/\D/g, '');
@@ -778,23 +691,8 @@
          e.target.value = v.slice(0, 9);
       });
       cepInput.addEventListener('blur', async function () {
-         const cep = this.value.replace(/\D/g, '');
-         if (cep.length === 8) {
-            cidadeInput.value = "Buscando...";
-            try {
-               const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
-               if (!response.ok) throw new Error('CEP não encontrado');
-               const data = await response.json();
-               if (data.erro) cidadeInput.value = "CEP não localizado";
-               else cidadeInput.value = `${data.localidade} - ${data.uf}`;
-            } catch (error) {
-               cidadeInput.value = "Erro ao buscar";
-            }
-         } else {
-            cidadeInput.value = '';
-         }
+         const cep = this.value.replace(/\D/g, ''); 
       });
-
 
       // 1. Abrir o modal e carregar o formulário
       if (vagasContainer) {
