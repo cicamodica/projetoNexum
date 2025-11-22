@@ -103,6 +103,44 @@ namespace nexumApp.Areas.Identity.Pages.Account
                     var UserOng = _context.Ongs.FirstOrDefault(ong => ong.UserId == userId);
                     if (UserOng == null) {
                         return LocalRedirect("~/Ongs/Create");
+
+                    // Pega o usuário que acabou de logar
+                    var user = await _userManager.FindByEmailAsync(Input.Email);
+
+                    if (user != null && await _userManager.IsInRoleAsync(user, "Admin"))
+                    {
+                        return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+                    }
+
+                        // Verifica se o usuário existe e se tem a Role "Ong"
+                        if (user != null && await _userManager.IsInRoleAsync(user, "Ong"))
+                    {
+                        // ---- Início da Lógica de Aprovação ----
+
+                        // Encontra a entidade ONG associada a este usuário
+                        var ong = await _context.Ongs.FirstOrDefaultAsync(o => o.UserId == user.Id);
+
+                        // Verifica se a ONG foi encontrada
+                        if (ong != null)
+                        {
+                            if (ong.Aprovaçao == true)
+                            {
+                                // Adiciona new { area = "" }
+                                return RedirectToAction("Dashboard", "Ongs", new { area = "" });
+                            }
+                            else
+                            {
+                                //  Adiciona new { area = "" }
+                                return RedirectToAction("Details", "Ongs", new { id = ong.Id });
+                            }
+                        }
+                        else
+                        {
+                            _logger.LogWarning($"Usuário {user.Email} tem a role 'Ong' mas não possui registro na tabela 'Ongs'.");
+                            //  Adiciona new { area = "" }
+                            return RedirectToAction("Wait", "Ongs", new { area = "" });
+                        }
+                        // ---- Fim da Lógica de Aprovação ----
                     }
                     return LocalRedirect(returnUrl);
                 }
