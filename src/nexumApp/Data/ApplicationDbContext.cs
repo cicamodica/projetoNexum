@@ -40,7 +40,6 @@ namespace nexumApp.Data
         public DbSet<Ong> Ongs {  get; set; }
         public DbSet<Filial> Filials { get; set; }
         public DbSet<Candidato> Candidatos { get; set; }
-        public DbSet<VoluntarioModel> Voluntarios { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
         public DbSet<AdministradorModel> Administradores { get; set; }
         public DbSet<Doacao> Doacoes { get; set; }

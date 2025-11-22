@@ -15,6 +15,8 @@ namespace nexumApp.Models
         [ForeignKey("IdONG")]
         public virtual Ong Ong { get; set; }
 
+        
+
         [Required]
         [StringLength(90)]
         public string Titulo { get; set; }
@@ -35,5 +37,7 @@ namespace nexumApp.Models
         public string Status { get; set; }
 
         public string ImagemUrl { get; set; }
+
+        public ICollection<Inscricoes> Inscricoes { get; set; }
     }
 }

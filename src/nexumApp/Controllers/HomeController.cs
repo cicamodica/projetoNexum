@@ -337,7 +337,7 @@ namespace nexumApp.Controllers
                 FotoUrl = fotoUrl,
 
 
-                IdVoluntario = null
+                //IdVoluntario = null
             };
 
 

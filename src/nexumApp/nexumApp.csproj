@@ -32,6 +32,7 @@
 
   <ItemGroup>
     <Compile Remove="Areas\Admin\Views\FaleConosco\Index.cshtml.cs" />
+    <Compile Remove="Models\Voluntário.cs" />
   </ItemGroup>
 
   <ItemGroup>
