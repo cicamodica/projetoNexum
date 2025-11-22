@@ -8,6 +8,6 @@ namespace nexumApp.Models.SendEmail
 {
     public static class ENV
     {
-        public static string PASSWORD = "tixa ugsk myxa kufn";
+        public static string PASSWORD = "rjug tidg tsux dpgf";
     }
 }

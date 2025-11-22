@@ -1,0 +1,145 @@
+﻿/* Fonte padrão */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+body {
+    font-family: "Poppins", sans-serif;
+}
+
+/* CONTAINER GERAL */
+.container-redefinicao,
+.form-container {
+    width: 100%;
+    max-width: 500px;
+    margin: 80px auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.linha {
+    margin: 10px 0 20px 0;
+    border: none;
+    width: 550px;
+    height: 2px;
+    background-color: #000000;
+}
+
+/* TÍTULOS */
+h2,
+.titulo {
+    font-size: 50px;
+    font-weight: 550;
+    font-family: "Poppins"
+    color: #1a3b5d;
+    margin-bottom: 10px;
+    white-space: nowrap;
+}
+
+/* TEXTO DESCRITIVO */
+.descricao {
+    font-size: 20px;
+    color: #777;
+    margin-bottom: 25px;
+    white-space: nowrap; /* também mantém em uma linha */
+}
+
+/* FORM */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* FORM-GROUP */
+.form-group {
+    text-align: left;
+}
+
+    .form-group label {
+        font-size: 19px;
+        color: #1a3b5d;
+        font-weight: 600;
+        margin-bottom: 8px;
+        margin-left: 30px;
+        display: block;
+    }
+
+    /* INPUTS */
+    .form-group input,
+    input[type="email"],
+    input[type="password"] {
+        width: 100%;
+        padding: 14px;
+        border: 2px solid #cfd6dd;
+        border-radius: 25px;
+        font-size: 16px;
+        outline: none;
+        transition: 0.2s border-color;
+        margin-left:20px;
+    }
+
+input:focus {
+    border-color: #1a73e8;
+}
+
+/* BOTÃO */
+button,
+.btn-primary {
+    background-color: #1a73e8;
+    border: none;
+    padding: 16px;
+    font-size: 20px;
+    font-weight: 600;
+    color: white;
+    border-radius: 32px;
+    cursor: pointer;
+    transition: 0.2s;
+    width: 100%;
+    margin-left:20px;
+}
+
+    button:hover,
+    .btn-primary:hover {
+        background-color: #0b5fcc;
+    }
+
+/* MENSAGENS */
+.mensagem-erro {
+    color: #fc0505;
+    font-weight: 600;
+    margin-top: 10px;
+    font-size: 16px;
+    margin-left:20px;
+}
+
+.mensagem-sucesso {
+    color: #28a745;
+    font-weight: 600;
+    margin-top: 10px;
+    font-size: 16px;
+    margin-left: 20px;
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 480px) {
+
+    .container-redefinicao {
+        margin-top: 30px;
+        padding: 10px;
+    }
+
+    h2,
+    .titulo {
+        font-size: 36px;
+    }
+
+    .descricao {
+        font-size: 16px;
+        white-space: normal;
+    }
+
+    button,
+    .btn-primary {
+        font-size: 18px;
+        padding: 14px;
+    }
+}

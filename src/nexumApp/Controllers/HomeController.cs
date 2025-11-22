@@ -47,6 +47,7 @@ namespace nexumApp.Controllers
                 return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
             }
 
+
             // Inicia a consulta base (todas as metas ativas)
             var query = _context.Metas
                 .Include(m => m.Ong)
