@@ -1,12 +1,10 @@
 ﻿using CloudinaryDotNet;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore; 
 using nexumApp.Data;
-using nexumApp.Data.Migrations;
 using nexumApp.Models;
 using nexumApp.Services;
 using System;
@@ -16,7 +14,7 @@ using System.IO;
 using System.Linq; 
 using System.Security.Claims;         
 using System.Threading.Tasks;
-using static QuestPDF.Helpers.Colors;
+using Microsoft.AspNetCore.Hosting;
 
 namespace nexumApp.Controllers
 {
@@ -219,31 +217,77 @@ namespace nexumApp.Controllers
         [AllowAnonymous]
         [HttpGet]
 
-        public IActionResult GetVagasPartial(string cep, string tags, string tab)
+        public async Task<IActionResult> GetVagasPartial(string cep, string cidade, string datas, string search)
         {
-            if(tab == "voluntariado")
-            {
-                ViewBag.Voluntariado = true;
-            }
-            var vagasFromDb = _context.Vagas.ToList();
 
-            if (tags != null)
+            search = search?.Trim();
+
+            var vagasQuery = _context.Vagas
+                .Include(v => v.Ong)
+                
+                .AsNoTracking();
+
+            if (User.Identity?.IsAuthenticated == true)
             {
-                int?[] idsArray = [.. tags.Split(',').Select(int.Parse)];
-                var ongs = _context.Ongs.Where(ong => idsArray.Contains(ong.Tag)).ToList();
-                var ongsIds = ongs.Select(ong => ong.Id).ToArray();
-                vagasFromDb = [.. vagasFromDb.Where(vaga => ongsIds.Contains(vaga.IdONG))];
+                vagasQuery = vagasQuery.Where(v => v.Ong.Aprovaçao == true);
             }
+
+
+            if (!string.IsNullOrEmpty(cidade) && !cidade.Contains("..."))
+            {
+                var cidadeQuery = cidade.Split('-')[0].Trim();
+                vagasQuery = vagasQuery.Where(v => v.Ong.Endereço.Contains(cidadeQuery));
+            }
+
 
             if (!string.IsNullOrEmpty(cep))
             {
-                var formattedCep = cep.Replace("-", "");
-                var ongs = _context.Ongs.Where(ong => ong.CEP == formattedCep).ToList();
-                var ongsIds = ongs.Select(ong => ong.Id).ToArray();
-                vagasFromDb = [.. vagasFromDb.Where(vaga => ongsIds.Contains(vaga.IdONG))];
+                var cepQuery = cep.Replace("-", "");
+                vagasQuery = vagasQuery.Where(v => v.Ong.Endereço.Contains(cepQuery));
             }
 
-            return PartialView("_VagasPartial", vagasFromDb);
+
+            if (!string.IsNullOrEmpty(datas))
+            {
+                var dateList = new List<DateTime>();
+                var dateStrings = datas.Split(',');
+
+                foreach (var dateStr in dateStrings)
+                {
+
+                    if (DateTime.TryParse(dateStr, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.AssumeUniversal, out DateTime parsedDate))
+                    {
+                        dateList.Add(parsedDate.Date);
+                    }
+                }
+
+                if (dateList.Any())
+                {
+                    var minDate = dateList.Min();
+                    var maxDate = dateList.Max();
+
+
+
+                    vagasQuery = vagasQuery.Where(v => v.DataInicio <= maxDate && v.DataFim >= minDate);
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                vagasQuery = vagasQuery.Where(v =>
+                    v.Titulo.Contains(search) ||
+                    v.Descricao.Contains(search) ||
+                    v.Ong.Nome.Contains(search) ||
+                    v.Ong.Endereço.Contains(search)
+                );
+            }
+
+
+            var vagasPublicas = await vagasQuery
+                .OrderBy(v => v.Titulo)
+                .ToListAsync();
+
+            return PartialView("_VagasPartial", vagasPublicas);
         }
 
 
@@ -343,7 +387,7 @@ namespace nexumApp.Controllers
 
 
 
-            var novoCandidato = new Models.Candidato
+            var novoCandidato = new Candidato
             {
                 Nome = nomeCompleto,
                 Email = email,
