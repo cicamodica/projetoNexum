@@ -2,6 +2,314 @@
 @using nexumApp.Models
 @model nexumApp.Models.Ong
 
+<style>
+    /* ====================================================================
+       ESTILOS GERAIS
+       ==================================================================== */
+    h1 {
+        color: #16435D;
+        font-weight: 600;
+        font-size: clamp(25px, 7vw, 44px);
+        margin: 25px 0 20px 0;
+    }
+
+    h2 {
+        color: #16435D;
+        font-weight: 600;
+        font-size: clamp(25px, 5vw, 40px);
+        margin-bottom: 20px;
+    }
+
+    h3 {
+        font-size: 30px;
+        margin-bottom: 20px;
+    }
+
+    h4 {
+        color: #16435D;
+        font-size: 22px;
+        font-weight: 700;
+    }
+
+    h5 {
+        color: #16435D;
+        font-size: 20px;
+        font-weight: 600;
+    }
+
+    .form-control {
+        border-radius: 24px;
+        margin-top: 10px;
+    }
+
+    .btn-outline-secondary, .btn-danger, .btn-success, .btn-primary {
+        border-radius: 24px;
+        cursor: pointer;
+        padding: 5px 20px;
+    }
+
+    .section-divider {
+        border: none;
+        border-top: 1px solid #d0d0d0;
+        margin: 30px 0;
+    }
+
+    /* ====================================================================
+       HEADER DO PERFIL E LOGO (CORREÇÃO DA LOGO CORTADA)
+       ==================================================================== */
+    .perfil-container {
+        background-color: #ffffff;
+        padding-top: 0;
+        margin-top: 0;
+    }
+
+    .profile-header-strip {
+        width: 100vw !important;
+        margin-left: calc(50% - 50vw);
+        margin-right: calc(50% - 50vw);
+        height: 240px;
+        position: relative;
+        /* IMPORTANTE: overflow visible permite que a logo saia da caixa sem cortar */
+        overflow: visible !important;
+        background: #f2f2f2;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 10;
+    }
+
+    .header-image-single {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        object-position: center;
+        display: block;
+    }
+
+    .edit-button-float {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        z-index: 20;
+        background-color: rgba(255, 255, 255, 0.85);
+        border: 1px solid #ccc;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #16435D;
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+        .edit-button-float:hover {
+            background-color: #ffffff;
+        }
+
+    /* LOGO: Alinhada à esquerda e sobreposta */
+    .logo-circle-container {
+        position: absolute;
+        bottom: -55px; /* Mantém a logo "pendurada" */
+        left: 40px !important;
+        transform: none !important;
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 4px solid #fff;
+        z-index: 20;
+        left: 50% !important;
+        margin-left: -600px !important;
+    }
+
+    .ong-logo-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* ====================================================================
+       CONTEÚDO E TEXTOS (ALINHAMENTO À ESQUERDA)
+       ==================================================================== */
+
+    /* Container principal dos textos */
+    .conteudo-centralizado {
+        width: 100%;
+        max-width: 1280px;
+        margin: 0 auto !important;
+        padding-left: 40px !important; /* Alinhado com a logo (left: 40px) */
+        padding-right: 40px !important;
+        text-align: left !important; /* Força texto para a esquerda */
+        /* Empurra o texto para baixo para não ficar atrás da logo */
+        margin-top: 120px !important;
+    }
+
+    /* Título e Ícone de edição */
+    .ong-title-with-edit {
+        margin: 0 0 10px 0 !important;
+        display: flex;
+        justify-content: flex-start !important; /* Alinha à esquerda */
+        align-items: center;
+        gap: 10px;
+        padding-top: 10px;
+    }
+
+    /* Descrição, Área de Atuação e Contatos */
+    h6.fw-bold,
+    .d-flex.align-items-center.gap-2.mb-4,
+    .d-flex.flex-wrap.gap-4.small.mb-4 {
+        justify-content: flex-start !important; /* Alinha flexbox à esquerda */
+        text-align: left !important;
+        padding-left: 0 !important; /* Remove paddings extras antigos */
+    }
+
+    /* Tags (Chips) */
+    .tag-badge {
+        display: inline-block;
+        padding: 0.3em 0.8em;
+        font-size: 0.9rem;
+        font-weight: 600;
+        border-radius: 0.25rem;
+        white-space: nowrap;
+    }
+
+    .tag-badge-primary {
+        margin-left: 0 !important;
+    }
+
+    /* ====================================================================
+       ABAS, TABELAS E COMPONENTES EXTRAS
+       ==================================================================== */
+    .nav-tabs {
+        margin-top: 20px;
+        border-bottom: 2px solid #16435D;
+    }
+
+        .nav-tabs .nav-link {
+            font-size: 1rem;
+            padding: 10px 18px;
+            font-weight: 600;
+            color: #16435D !important;
+            border: none;
+            border-radius: 0;
+        }
+
+            .nav-tabs .nav-link:hover {
+                background-color: #f0f0f0;
+            }
+
+            .nav-tabs .nav-link.active {
+                background-color: #16435D !important;
+                color: #fff !important;
+                border-color: #16435D #16435D transparent !important;
+                border-top-left-radius: 6px;
+                border-top-right-radius: 6px;
+            }
+
+    .tab-content {
+        border-radius: 0 0 6px 6px;
+        border-color: #e9ecef !important;
+    }
+
+    .table-responsive {
+        margin-top: 15px;
+    }
+
+    .table-striped > tbody > tr:nth-of-type(odd) > * {
+        background-color: #f5f5f5;
+    }
+
+    .table-light {
+        background-color: #e9ecef !important;
+        border-bottom: 2px solid #16435D;
+        color: #16435D;
+    }
+
+    .progress {
+        background-color: #e9ecef;
+    }
+
+    .progress-bar.bg-success {
+        background-color: #28a745 !important;
+    }
+
+    .ong-section {
+        padding: 10px 0;
+    }
+
+    .ong-h3 {
+        color: #16435D;
+        font-weight: 700;
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+
+    .ong-card {
+        background-color: #f8f8f8;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .ong-card-title {
+        color: #16435D;
+        border-bottom: 1px solid #d0d0d0;
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+        font-weight: 600;
+        font-size: 18px;
+    }
+
+    .ong-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 15px;
+    }
+
+    .ong-chip {
+        background-color: #e0e0e0;
+        color: #333;
+        border: 1px solid #ccc;
+        border-radius: 20px;
+        padding: 8px 15px;
+        cursor: pointer;
+        transition: 0.2s;
+        font-size: 14px;
+    }
+
+        .ong-chip:hover {
+            background-color: #d0d0d0;
+        }
+
+        .ong-chip.selected {
+            background-color: #2987bf;
+            color: #ffffff;
+            border-color: #16435D;
+            box-shadow: 0 2px 4px rgba(41, 135, 191, 0.4);
+        }
+
+            .ong-chip.selected:hover {
+                background-color: #16435D;
+            }
+
+    .ong-pill {
+        color: #ffffff;
+        background-color: #198754;
+        border: none;
+        border-radius: 24px;
+        padding: 10px 30px;
+        font-size: 17px;
+        transition: background-color 0.3s;
+    }
+
+        .ong-pill:hover {
+            background-color: #106637;
+        }
+</style>
+
+
 @{
     ViewData["Title"] = "Perfil da ONG";
     
@@ -12,8 +320,14 @@
     string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
     var isOwner = User.Identity.IsAuthenticated && (Model.UserId == userId);
 
+    var headerUrl = !string.IsNullOrEmpty(Model.HeaderImageURL)
+                    ? Model.HeaderImageURL
+                    : "/img/default_header.jpg";
+
     // Placeholder para a URL da imagem/logo )
-    var logoUrl = "/img/ong_logo_default.png";
+    var logoUrl = !string.IsNullOrEmpty(Model.ImageURL)
+                  ? Model.ImageURL
+                  : "/img/ong_logo_default.png";
 }
 
 <div class="perfil-container">
@@ -21,7 +335,7 @@
     <div class="profile-header-strip">
 
         
-        <img src="" class="header-image-single" alt="Imagem de Fundo da ONG">
+        <img src="@headerUrl" class="header-image-single" alt="Imagem de Fundo da ONG">
 
         
         @if (userId == Model.UserId)
@@ -50,18 +364,19 @@
             </a>
         </div>
     </div>
-   
 
 
-    
+
+
     <div class="conteudo-centralizado pb-5">
         <div class="row">
 
             <div class="col-12">
-                
+
+                @* --- TÍTULO E EDIÇÃO (Já estava correto, mantivemos) --- *@
                 <h2 class="fw-bold mb-0 mt-2 ong-title-with-edit">
                     @Model.Nome
-                    
+
                     @if (userId == Model.UserId)
                     {
                         <a href="#" class="text-secondary small ms-2"
@@ -72,6 +387,8 @@
                         </a>
                     }
                 </h2>
+
+                @* --- DESCRIÇÃO (Já estava correto, mantivemos) --- *@
                 <h6 class="fw-bold">
                     Descrição
                     @if (userId == Model.UserId)
@@ -86,9 +403,9 @@
                 </h6>
                 <p>@Model.Descriçao</p>
 
+                @* --- ÁREA DE ATUAÇÃO (Já estava correto, mantivemos) --- *@
                 <h6 class="fw-bold mt-3">Área de Atuação</h6>
                 <div class="d-flex align-items-center gap-2 mb-4">
-
                     <span class="tag-badge tag-badge-primary">
                         @tagName
                     </span>
@@ -104,37 +421,99 @@
                     }
                 </div>
 
-                <h6 class="fw-bold">Contatos</h6>
-                <div class="d-flex flex-wrap gap-4 small mb-4">
-                    <p class="mb-0">
-                        **E-mail:** <a href="mailto:@usuarioEmail">@usuarioEmail</a>
-                    </p>
-                    <p class="mb-0">
-                        **Website:** <a href="#">https://forcaanimal.com.br</a>
-                    </p>
+                @* --- CONTATOS --- *@
+                <h5 class="fw-bold mt-4 mb-3" style="color: #16435D; font-size: 1.3rem;">Contatos & Doações</h5>
+
+                <div class="d-flex flex-wrap gap-4 mb-4 align-items-center" style="font-size: 1.1rem;">
+
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-envelope-fill me-2 text-primary"></i>
+                        <a href="mailto:@usuarioEmail" class="text-decoration-none text-dark fw-bold">@usuarioEmail</a>
+                    </div>
+
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-globe me-2 text-primary"></i>
+                        @if (!string.IsNullOrEmpty(Model.Website))
+                        {
+                            <a href="@Model.Website" target="_blank" class="text-decoration-none text-dark fw-bold">@Model.Website</a>
+                        }
+                        else
+                        {
+                            <span class="text-muted fst-italic">Sem site</span>
+                        }
+
+                        @* Botão Editar Website (Só para o Dono) *@
+                        @if (isOwner)
+                        {
+                            <a href="#" class="text-secondary ms-2" style="font-size: 1rem;"
+                               data-bs-toggle="modal"
+                               data-bs-target="#modalEditarWebsite"
+                               title="Editar Website">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                        }
+                    </div>
+
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-qr-code me-2 text-primary"></i>
+                        <span class="fw-bold me-2">PIX:</span>
+
+                        @if (!string.IsNullOrEmpty(Model.ChavePix))
+                        {
+                            <span class="badge bg-light text-dark border px-3 py-2" style="font-size: 1rem;">@Model.ChavePix</span>
+                        }
+                        else
+                        {
+                            <span class="text-danger fw-bold">Não cadastrado</span>
+                        }
+
+                        @* Botão Editar PIX (Só para o Dono) *@
+                        @if (isOwner)
+                        {
+                            <a href="#" class="text-secondary ms-2" style="font-size: 1rem;"
+                               data-bs-toggle="modal"
+                               data-bs-target="#modalEditarPix"
+                               title="Editar Chave PIX">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                        }
+                    </div>
                 </div>
 
+                @* ================================================================= *@
+                @* 1. MENU DE ABAS (NAV-TABS) COM LÓGICA DE EXIBIÇÃO *@
+                @* ================================================================= *@
                 <ul class="nav nav-tabs" id="perfilTabs" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="metas-tab" data-bs-toggle="tab" data-bs-target="#metas-pane" type="button" role="tab" aria-controls="metas-pane" aria-selected="true">Metas</button>
+                    <li class="nav-item">
+                        <button class="nav-link active" id="metas-tab" data-bs-toggle="tab" data-bs-target="#metas-pane" type="button">Metas</button>
                     </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="vagas-tab" data-bs-toggle="tab" data-bs-target="#vagas-pane" type="button" role="tab" aria-controls="vagas-pane" aria-selected="false">Vagas</button>
+                    <li class="nav-item">
+                        <button class="nav-link" id="vagas-tab" data-bs-toggle="tab" data-bs-target="#vagas-pane" type="button">Vagas</button>
                     </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="sobre-tab" data-bs-toggle="tab" data-bs-target="#sobre-pane" type="button" role="tab" aria-controls="sobre-pane" aria-selected="false">Sobre</button>
+                    <li class="nav-item">
+                        <button class="nav-link" id="sobre-tab" data-bs-toggle="tab" data-bs-target="#sobre-pane" type="button">Sobre</button>
                     </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="relatorios-tab" data-bs-toggle="tab" data-bs-target="#relatorios-pane" type="button" role="tab" aria-controls="relatorios-pane" aria-selected="false">Relatórios</button>
+
+                    @* Lógica: Dono vê Relatórios *@
+                    @if (userId == Model.UserId)
+                    {
+                        <li class="nav-item">
+                            <button class="nav-link" id="relatorios-tab" data-bs-toggle="tab" data-bs-target="#relatorios-pane" type="button">Relatórios</button>
+                        </li>
+                    }
+
+                    @* Lógica: TODOS veem Filiais (Removemos o 'else') *@
+                    <li class="nav-item">
+                        <button class="nav-link" id="filiais-tab" data-bs-toggle="tab" data-bs-target="#filiais-pane" type="button">Filiais</button>
                     </li>
                 </ul>
 
 
                 <div class="tab-content border border-top-0 p-3" id="perfilTabsContent">
 
+                    @* --- ABA METAS (Mantida igual) --- *@
                     <div class="tab-pane fade show active" id="metas-pane" role="tabpanel" aria-labelledby="metas-tab" tabindex="0">
                         <h4 class="mt-4 fw-bold">Metas Ativas</h4>
-
                         @if (metasAtivas != null && metasAtivas.Any())
                         {
                             <div class="table-responsive">
@@ -153,21 +532,33 @@
                                         @foreach (dynamic meta in metasAtivas)
                                         {
                                             <tr>
-                                                <td>@meta.Titulo</td>
+                                                @* --- TÍTULO COMO LINK --- *@
+                                                <td>
+                                                    @if (!isOwner)
+                                                    {
+                                                        <a href="#" class="fw-bold text-primary text-decoration-none"
+                                                           data-bs-toggle="modal"
+                                                           data-bs-target="#modalDoarMeta"
+                                                           data-id="@meta.Id"
+                                                           data-nome="@meta.Titulo"
+                                                           title="Clique para doar">
+                                                            @meta.Titulo
+                                                        </a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="fw-bold">@meta.Titulo</span>
+                                                    }
+                                                </td>
+
                                                 <td>@meta.DataFinal</td>
                                                 <td>@meta.Objetivo</td>
                                                 <td>
-                                                    @* Progresso (Barra) *@
                                                     @{
-                                                        var perc = (double.Parse(meta.Progresso));
+                                                        var perc = (double.Parse(meta.Progresso.ToString()));
                                                     }
-
                                                     <div class="progress" style="height: 15px;">
-                                                        <div class="progress-bar bg-success" role="progressbar"
-                                                             style="width: @(perc)%; font-size: 10px;"
-                                                             aria-valuenow="@perc">
-                                                            @meta.Progresso%
-                                                        </div>
+                                                        <div class="progress-bar bg-success" style="width: @(perc)%; font-size: 10px;">@meta.Progresso%</div>
                                                     </div>
                                                 </td>
                                                 <td>@meta.Colaboradores</td>
@@ -186,9 +577,9 @@
                         }
                     </div>
 
+                    @* --- ABA VAGAS (Mantida igual) --- *@
                     <div class="tab-pane fade" id="vagas-pane" role="tabpanel" aria-labelledby="vagas-tab" tabindex="0">
                         <h4 class="mt-4 fw-bold">Vagas Abertas</h4>
-
                         @if (vagasAbertas != null && vagasAbertas.Any())
                         {
                             <div class="table-responsive">
@@ -206,7 +597,25 @@
                                         @foreach (dynamic vaga in vagasAbertas)
                                         {
                                             <tr>
-                                                <td>@vaga.Titulo</td>
+                                                @* --- TÍTULO COMO LINK --- *@
+                                                <td>
+                                                    @if (!isOwner)
+                                                    {
+                                                        <a href="#" class="fw-bold text-primary text-decoration-none"
+                                                           data-bs-toggle="modal"
+                                                           data-bs-target="#modalInscreverVaga"
+                                                           data-id="@vaga.Id"
+                                                           data-nome="@vaga.Titulo"
+                                                           title="Clique para se inscrever">
+                                                            @vaga.Titulo
+                                                        </a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="fw-bold">@vaga.Titulo</span>
+                                                    }
+                                                </td>
+
                                                 <td>@vaga.Objetivo</td>
                                                 <td><span class="badge bg-info text-dark">@vaga.Progresso</span></td>
                                                 <td>@vaga.Endereco</td>
@@ -225,114 +634,161 @@
                         }
                     </div>
 
+                    @* ================================================================= *@
+                    @* 2. ABA SOBRE NÓS - COM PROTEÇÃO NO BOTÃO EDITAR *@
+                    @* ================================================================= *@
                     <div class="tab-pane fade" id="sobre-pane" role="tabpanel" aria-labelledby="sobre-tab" tabindex="0">
                         <h4 class="mt-4 fw-bold d-flex justify-content-between align-items-center">
                             Conteúdo Sobre Nós
 
-                            <button type="button" class="btn btn-sm btn-outline-secondary"
-                                    data-bs-toggle="modal" data-bs-target="#modalEditarSobre">
-                                <i class="bi bi-pencil-square me-1"></i> Editar Conteúdo
-                            </button>
+                            @* SÓ MOSTRA O BOTÃO SE FOR O DONO *@
+                            @if (userId == Model.UserId)
+                            {
+                                <button type="button" class="btn btn-sm btn-outline-secondary"
+                                        data-bs-toggle="modal" data-bs-target="#modalEditarSobre">
+                                    <i class="bi bi-pencil-square me-1"></i> Editar Conteúdo
+                                </button>
+                            }
                         </h4>
 
                         <div class="card p-4">
-
-                            @* SE EXISTE CONTEÚDO *@
                             @if (!string.IsNullOrWhiteSpace(Model.ConteudoSobre))
                             {
                                 <p style="white-space: pre-wrap;">@Model.ConteudoSobre</p>
                             }
                             else
                             {
-                                @* SE NÃO EXISTE CONTEÚDO *@
                                 <div class="alert alert-info text-center">
-                                    Nenhum conteúdo foi adicionado ainda.<br />
-                                    Clique em <strong>“Editar Conteúdo”</strong> para escrever a história e missão da ONG.
+                                    @if (userId == Model.UserId)
+                                    {
+                                        <span>Nenhum conteúdo foi adicionado ainda.<br />Clique em <strong>“Editar Conteúdo”</strong> para escrever a história e missão da ONG.</span>
+                                    }
+                                    else
+                                    {
+                                        <span>Esta ONG ainda não adicionou informações detalhadas sobre sua história.</span>
+                                    }
                                 </div>
                             }
                         </div>
                     </div>
 
 
-                    <div class="tab-pane fade" id="relatorios-pane" role="tabpanel" aria-labelledby="relatorios-tab" tabindex="0">
-                        <section class="ong-section">
-                            <h3 class="ong-h3">Relatório de Transparência e Gestão</h3>
-                            <p class="mt-3">Selecione abaixo as informações que deseja incluir no relatório PDF da sua organização (RF-07).</p>
+                    @* ================================================================= *@
+                    @* 3. CONTEÚDO CONDICIONAL: RELATÓRIOS (DONO) ou FILIAIS (VISITANTE) *@
+                    @* ================================================================= *@
 
-                            <div class="ong-card">
-                                <div class="ong-card-title">Selecione os dados para gerar o relatório em PDF</div>
+                    @if (userId == Model.UserId)
+                    {
+                        <div class="tab-pane fade" id="relatorios-pane" role="tabpanel" tabindex="0">
+                            <section class="ong-section">
+                                <h3 class="ong-h3">Relatório de Transparência</h3>
+                                <div class="ong-card">
+                                    <form id="frm-ong-report" method="post" asp-controller="Ongs" asp-action="OngPdf">
+                                        @Html.AntiForgeryToken()
+                                        <div class="ong-chips selectable" id="cols-ong">
+                                            <button type="button" class="ong-chip selected" data-col="nome">Nome</button>
+                                            <button type="button" class="ong-chip" data-col="descricao">Descrição</button>
+                                            <button type="button" class="ong-chip" data-col="cnpj">CNPJ</button>
+                                            <button type="button" class="ong-chip" data-col="email">E-mail</button>
+                                            <button type="button" class="ong-chip" data-col="filiais">Filiais</button>
+                                            <button type="button" class="ong-chip" data-col="endereco">Endereço</button>
+                                        </div>
+                                        <div class="text-center mt-3">
+                                            <button class="btn btn-success ong-pill" type="submit">
+                                                <i class="fas fa-download"></i> Gerar Relatório
+                                            </button>
+                                        </div>
+                                        <div id="hidden-inputs-container">
+                                            <input type="hidden" name="columns" value="nome" />
+                                        </div>
+                                    </form>
+                                </div>
+                            </section>
+                        </div>
+                    }
 
-                                <form id="frm-ong-report" method="post"
-                                      asp-controller="Ongs" asp-action="OngPdf">
-                                    @* Ação correta no OngsController *@
-                                    @Html.AntiForgeryToken()
+                    @* ABA FILIAIS (VISÍVEL PARA TODOS) *@
+                    <div class="tab-pane fade" id="filiais-pane" role="tabpanel" tabindex="0">
+                        <h4 class="mt-4 fw-bold">Nossas Filiais</h4>
 
-                                    <div class="ong-chips selectable" id="cols-ong">
-                                        @* Opções para a ONG logada: Apenas colunas aplicáveis ao relatório da própria ONG *@
+                        @* Lógica opcional: Se quiser um botão de "Adicionar Filial" para o dono, insira aqui *@
 
-                                        <button type="button" class="ong-chip selected" data-col="nome">Nome Razão</button>
-                                        <button type="button" class="ong-chip" data-col="descricao">Descrição Completa</button>
-                                        <button type="button" class="ong-chip" data-col="cnpj">CNPJ Matriz</button>
-                                        <button type="button" class="ong-chip" data-col="email">E-mail</button>
-
-                                        <button type="button" class="ong-chip" data-col="filiais">Filiais</button>
-                                        <button type="button" class="ong-chip" data-col="endereco">Endereço Matriz</button>
-
-                                        <button type="button" class="ong-chip" data-col="metas">Metas de Doação</button>
-                                        <button type="button" class="ong-chip" data-col="vagas">Vagas de Voluntariado</button>
-                                        <button type="button" class="ong-chip" data-col="aprovacao">Status de Aprovação</button>
-                                        @* "doc" (Documento de comprovação) e "metas" (Administrador) removidas/adaptadas, conforme o escopo da ONG *@
-                                    </div>
-
-                                    <div class="text-center mt-3">
-                                        <button class="btn btn-success ong-pill" type="submit" id="btn-gerar-ong">
-                                            <i class="fas fa-download"></i> Gerar Relatório
-                                        </button>
-                                    </div>
-
-                                    @* Hidden fields para armazenar as colunas selecionadas via JavaScript *@
-                                    <div id="hidden-inputs-container">
-                                        <input type="hidden" name="columns" value="nome" />
-                                    </div>
-                                </form>
+                        @if (Model.Filials != null && Model.Filials.Any())
+                        {
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Nome</th>
+                                            <th>CNPJ</th>
+                                            <th>Endereço</th>
+                                            <th>CEP</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var filial in Model.Filials)
+                                        {
+                                            <tr>
+                                                <td>@filial.Nome</td>
+                                                <td>@filial.CNPJ</td>
+                                                <td>@filial.Endereço</td>
+                                                <td>@filial.CEP</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
                             </div>
-                        </section>
+                        }
+                        else
+                        {
+                            <div class="alert alert-info text-center mt-3">
+                                @if (userId == Model.UserId)
+                                {
+                                    <span>Você ainda não cadastrou filiais.</span>
+                                }
+                                else
+                                {
+                                    <span>Sem filiais cadastradas.</span>
+                                }
+                            </div>
+                        }
                     </div>
 
                 </div>
         </div>
-
-        
-
-        </div>
     </div>
-</div>
-
 @* ==================================================================== *@
 @* MODAIS DE EDIÇÃO INTEGRADOS DIRETAMENTE NA VIEW *@
 @* ==================================================================== *@
 
 
-<div class="modal fade" id="modalEditarHeader" tabindex="-1" aria-labelledby="modalEditarHeaderLabel" aria-hidden="true">
+<div class="modal fade" id="modalEditarHeader" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalEditarHeaderLabel">Editar Imagens de Fundo</h5>
+                <h5 class="modal-title">Editar Imagem de Fundo</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+
+            @* FORMULÁRIO APONTANDO PARA A ACTION CRIADA *@
             <form asp-action="UploadHeaderImages" asp-controller="Ongs" method="post" enctype="multipart/form-data">
                 <div class="modal-body">
+
+                    @* ID DA ONG *@
                     <input type="hidden" name="ongId" value="@Model.Id" />
-                    <p>Faça upload de até 5 imagens para o cabeçalho do seu perfil. As imagens existentes serão substituídas.</p>
+
+                    <p>Selecione uma nova imagem de capa para o seu perfil.</p>
                     <div class="mb-3">
-                        <label for="headerImages" class="form-label">Selecionar Imagens</label>
-                        <input class="form-control" type="file" id="headerImages" name="headerImages" multiple accept="image/*">
-                        <div class="form-text">Envie arquivos JPG, PNG ou GIF.</div>
+                        <label for="headerImages" class="form-label">Selecionar Imagem</label>
+
+                        @* O name="headerImages" deve ser igual ao parâmetro do Controller *@
+                        <input class="form-control" type="file" id="headerImages" name="headerImages" accept="image/*">
+                        <div class="form-text">Recomendado: Imagem horizontal de alta resolução (ex: 1920x400).</div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Salvar Imagens</button>
+                    <button type="submit" class="btn btn-primary">Salvar Imagem</button>
                 </div>
             </form>
         </div>
@@ -491,46 +947,111 @@
         </div>
     </div>
 </div>
+        <div class="modal fade" id="modalEditarPix" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title fw-bold">Configurar Chave PIX</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
 
+                    <form asp-controller="Ongs" asp-action="UpdatePix" method="post">
+                        <div class="modal-body">
 
+                            <input type="hidden" name="ongId" value="@Model.Id" />
+
+                            <div class="alert alert-info small">
+                                <i class="bi bi-info-circle-fill me-1"></i>
+                                Esta chave será exibida no Marketplace para facilitar as doações.
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="chavePixInput" class="form-label fw-bold">Sua Chave PIX</label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="chavePixInput"
+                                       name="chavePix"
+                                       value="@Model.ChavePix"
+                                       placeholder="CPF, CNPJ, Email, Celular ou Aleatória"
+                                       required>
+
+                                <div class="form-text">
+                                    Ex: 12.345.678/0001-90 ou financeiro@ong.org
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-success">Salvar Alteração</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modalEditarWebsite" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title fw-bold">Configurar Website</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form asp-controller="Ongs" asp-action="UpdateWebsite" method="post">
+                        <div class="modal-body">
+                            <input type="hidden" name="ongId" value="@Model.Id" />
+
+                            <div class="mb-3">
+                                <label for="websiteInput" class="form-label fw-bold">Endereço do Site ou Rede Social</label>
+                                <input type="text" class="form-control" id="websiteInput" name="website"
+                                       value="@Model.Website"
+                                       placeholder="www.minhaong.com.br ou instagram.com/minhaong">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Salvar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 
 @section Scripts {
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            
+            // =========================================================
+            // 1. LÓGICA DOS RELATÓRIOS (SEU CÓDIGO EXISTENTE)
+            // =========================================================
             const chipContainer = document.getElementById('cols-ong');
             const form = document.getElementById('frm-ong-report');
             const hiddenInputsContainer = document.getElementById('hidden-inputs-container');
 
-            // Função para atualizar os campos hidden do formulário
             function updateHiddenInputs() {
-                hiddenInputsContainer.innerHTML = ''; // Limpa campos anteriores
-                
-                // Mapeia os chips que têm a classe 'selected'
+                hiddenInputsContainer.innerHTML = ''; 
                 document.querySelectorAll('#cols-ong .ong-chip.selected').forEach(chip => {
                     const input = document.createElement('input');
                     input.type = 'hidden';
-                    input.name = 'columns'; // O nome que o Controller espera (string[])
+                    input.name = 'columns';
                     input.value = chip.getAttribute('data-col');
                     hiddenInputsContainer.appendChild(input);
                 });
             }
 
-            // 1. Inicializa os inputs com os chips pré-selecionados (ex: 'nome' que está checked por padrão)
+            // Inicializa
             updateHiddenInputs();
 
-            // 2. Adiciona evento de clique a todos os chips
             if (chipContainer) {
                 chipContainer.addEventListener('click', function(e) {
-                    // Verifica se o clique foi em um chip com a classe 'ong-chip'
                     if (e.target && e.target.classList.contains('ong-chip')) {
-                        e.preventDefault(); // Evita que o botão recarregue a página
-                        e.target.classList.toggle('selected'); // Adiciona/Remove a classe 'selected'
-                        updateHiddenInputs(); // Atualiza os campos hidden após a mudança
+                        e.preventDefault();
+                        e.target.classList.toggle('selected');
+                        updateHiddenInputs();
                     }
                 });
             }
 
-            // 3. (Opcional) Impedir que o formulário seja enviado se nenhuma coluna for selecionada
             if (form) {
                 form.addEventListener('submit', function(e) {
                     if (document.querySelectorAll('#cols-ong .ong-chip.selected').length === 0) {
@@ -539,6 +1060,51 @@
                     }
                 });
             }
+
+            // =========================================================
+            // 2. NOVO CÓDIGO: LÓGICA DOS LINKS "DOAR" E "INSCREVER"
+            // =========================================================
+
+            // --- A. MODAL DE DOAÇÃO (METAS) ---
+            var modalDoar = document.getElementById('modalDoarMeta');
+            if (modalDoar) {
+                modalDoar.addEventListener('show.bs.modal', function (event) {
+                    // Pega o elemento que foi clicado (o link <a> ou botão)
+                    var triggerElement = event.relatedTarget;
+                    
+                    // Extrai as informações dos atributos data-*
+                    var id = triggerElement.getAttribute('data-id');
+                    var nome = triggerElement.getAttribute('data-nome');
+
+                    // Preenche os campos dentro do modal
+                    // Procura pelo input name="MetaId"
+                    var inputId = modalDoar.querySelector('input[name="MetaId"]'); 
+                    // Procura pelo ID do texto onde vai o nome
+                    var labelNome = modalDoar.querySelector('#labelDoacaoMetaNome'); 
+
+                    // Se encontrou os campos, preenche
+                    if(inputId) inputId.value = id;
+                    if(labelNome) labelNome.textContent = nome;
+                });
+            }
+
+            // --- B. MODAL DE INSCRIÇÃO (VAGAS) ---
+            var modalVaga = document.getElementById('modalInscreverVaga');
+            if (modalVaga) {
+                modalVaga.addEventListener('show.bs.modal', function (event) {
+                    var triggerElement = event.relatedTarget;
+
+                    var id = triggerElement.getAttribute('data-id');
+                    var nome = triggerElement.getAttribute('data-nome');
+
+                    var inputId = modalVaga.querySelector('input[name="VagaId"]');
+                    var labelNome = modalVaga.querySelector('#labelInscricaoVagaNome');
+
+                    if(inputId) inputId.value = id;
+                    if(labelNome) labelNome.textContent = nome;
+                });
+            }
+
         });
     </script>
 }

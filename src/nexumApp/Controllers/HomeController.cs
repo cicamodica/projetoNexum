@@ -36,65 +36,67 @@ namespace nexumApp.Controllers
             _userManager = userManager;
         }
 
-        [AllowAnonymous]
-        [HttpGet]
         public async Task<IActionResult> Index(string? cep, string? cidade, string? tags, [FromQuery] bool publicView = false)
         {
-            // O tagId é o índice da tag que vem do formulário de filtro
-
+            
             if (!publicView && User.Identity?.IsAuthenticated == true && User.IsInRole("Admin"))
             {
                 return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
             }
 
-            // Inicia a consulta base (todas as metas ativas)
+           
+            if (User.Identity?.IsAuthenticated == true && User.IsInRole("Ong"))
+            {
+                var userId = _userManager.GetUserId(User);
+                // Otimização: Select apenas no ID, sem carregar a entidade toda
+                var ongId = await _context.Ongs
+                                          .Where(o => o.UserId == userId)
+                                          .Select(o => o.Id)
+                                          .FirstOrDefaultAsync();
+
+                if (ongId > 0)
+                {
+                    ViewBag.OngId = ongId;
+                }
+            }
+
+            // =================================================================
+            // 3. CARREGAMENTO DO MARKETPLACE
+            // =================================================================
+
             var query = _context.Metas
                 .Include(m => m.Ong)
                 .Include(m => m.Filial)
                 .Include(m => m.Doacoes)
                 .Where(m => m.Status == "Ativa");
 
+            // --- Filtros ---
+
             if (!string.IsNullOrWhiteSpace(tags))
             {
-                var tagIds = tags
-                    .Split(',', StringSplitOptions.RemoveEmptyEntries)
-                    .Select(int.Parse)
-                    .ToList();
+                var tagIds = tags.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                                 .Select(int.Parse).ToList();
 
-                query = query.Where(m =>
-                 m.Ong.Tag.HasValue &&
-                  tagIds.Contains(m.Ong.Tag.Value)
-   );
-
+                query = query.Where(m => m.Ong.Tag.HasValue && tagIds.Contains(m.Ong.Tag.Value));
                 ViewBag.SelectedTags = tagIds;
             }
 
-            if (User.Identity?.IsAuthenticated == true)
+            if (!string.IsNullOrWhiteSpace(cidade))
             {
-                // Verifica se o usuário logado é uma ONG
-                if (User.IsInRole("Ong"))
-                {
-                    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-                    // Busca o ID da ONG correspondente ao usuário
-                    var ong = await _context.Ongs
-                                            .FirstOrDefaultAsync(o => o.UserId == userId);
-
-                    // Define o ViewBag.OngId para o _LoginPartial usar
-                    if (ong != null)
-                    {
-                        ViewBag.OngId = ong.Id;
-                    }
-                }
+                query = query.Where(m =>
+                    (m.Filial != null && m.Filial.Endereço.Contains(cidade)) ||
+                    (m.Filial == null && m.Ong.Endereço.Contains(cidade)));
             }
 
-                // 4. Executa a consulta
-                var metasPublicas = await query
+            // --- Execução ---
+
+            var metasPublicas = await query
                 .OrderBy(m => m.DataFim)
                 .ToListAsync();
 
-            var pendingValues = new Dictionary<int, int>();
+            // --- Cálculo de Pendências ---
 
+            var pendingValues = new Dictionary<int, int>();
             foreach (var meta in metasPublicas)
             {
                 int valorPendente = meta.Doacoes
@@ -105,13 +107,8 @@ namespace nexumApp.Controllers
             }
 
             ViewBag.PendingValues = pendingValues;
+            ViewBag.TagsList = new Tags().TagsList;
 
-            // NOVO: 2. Resolve e Injeta a lista de Tags para o filtro no Razor (se necessário)
-            // Se você tem um dropdown de tags na View, ele precisa dessa lista.
-            ViewBag.TagsList = new Tags().TagsList; // Assumindo que você instanciou a classe Tags para pegar a lista.
-
-
-            // 6. Envia o resultado para a View
             return View(metasPublicas);
         }
 
@@ -161,7 +158,7 @@ namespace nexumApp.Controllers
             }
 
             ViewBag.PendingValues = pendingValues;
-            ViewBag.Search = search; // passamos pra View se você quiser usar no título
+            ViewBag.Search = search; 
 
             return View(metasPublicas); // Marketplace.cshtml
         }
@@ -426,27 +423,14 @@ namespace nexumApp.Controllers
             return Ok();
         }
 
-        [AllowAnonymous]
-        [HttpGet]
-        public async Task<IActionResult> SmartRedirect()
+       
+
+        public IActionResult SmartRedirect()
         {
-            //  Verifica se está logado
-            if (User.Identity?.IsAuthenticated == true)
-            {
-                // Pega o objeto User logado
-                var user = await _userManager.GetUserAsync(User);
-
-                // Verifica se é uma ONG
-                if (user != null && await _userManager.IsInRoleAsync(user, "Ong"))
-                {
-                    // LOGADO E É ONG -> Vai para o Dashboard
-                    return RedirectToAction("Dashboard", "Ongs");
-                }
-            }
-
-            // NÃO LOGADO (ou logado como outra Role) -> Vai para Home/Index pública
-            return RedirectToAction("Index", "Home");
+            if (User.IsInRole("Ong")) return RedirectToAction("Dashboard", "Ongs");
+            return RedirectToAction("Index");
         }
+
 
 
 

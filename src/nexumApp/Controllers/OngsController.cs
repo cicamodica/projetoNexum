@@ -1,18 +1,24 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using CloudinaryDotNet.Actions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting; 
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using nexumApp.Data;
 using nexumApp.Models;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
+using System;
 using System.Diagnostics;
-using System.Security.Claims;
-using X.PagedList.Extensions;
-using Microsoft.AspNetCore.Hosting; 
 using System.IO;
+using System.Security.Claims;
+using X.PagedList;
+using X.PagedList.Extensions;
+using static QuestPDF.Helpers.Colors;
 
 
 
@@ -22,83 +28,85 @@ namespace nexumApp.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IWebHostEnvironment _hostEnvironment;
+        private readonly UserManager<User> _userManager;
         public OngsController(
-            ApplicationDbContext context, IWebHostEnvironment webHostEnvironment)
+            ApplicationDbContext context, IWebHostEnvironment webHostEnvironment, IWebHostEnvironment hostEnvironment, UserManager<User> userManager)
         {
             _context = context;
-            _webHostEnvironment = webHostEnvironment;
+            _webHostEnvironment = webHostEnvironment;            _hostEnvironment = hostEnvironment;
+            _userManager = userManager;
+
         }
 
-        // GET: Ongs
+        // ============================================================
+        // GET: Ongs (Lista Pública de ONGs)
+        // ============================================================
         public async Task<IActionResult> Index(int? page, string ONGTags)
         {
             int pageSize = 40;
             int pageNumber = (page ?? 1);
-            var ongs = await _context.Ongs.Where(ong => ong.Aprovaçao == true).ToListAsync();
-            var tags = new Tags().TagsNames;
-            ViewBag.Tags = tags;
-            if (ONGTags != null)
+
+            // Filtra apenas ONGs aprovadas para o público ver
+            var query = _context.Ongs.Where(ong => ong.Aprovaçao == true).AsQueryable();
+
+            // Lógica de Filtro por Tags
+            if (!string.IsNullOrWhiteSpace(ONGTags))
             {
-                int?[] idsArray = [.. ONGTags.Split(',').Select(int.Parse)];
-                ongs = ongs.Where(ong => idsArray.Contains(ong.Tag)).ToList();
+                // Converte a string "1,2,3" em lista de inteiros
+                var idsArray = ONGTags.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                                      .Select(int.Parse)
+                                      .ToList();
+
+                // Filtra onde a Tag da ONG está na lista selecionada
+                query = query.Where(ong => ong.Tag.HasValue && idsArray.Contains(ong.Tag.Value));
             }
+
+            var ongs = await query.ToListAsync();
+
+            // ViewBags para os filtros na View
+            ViewBag.Tags = new Tags().TagsNames;
             ViewBag.Total = ongs.Count;
+
             return View(ongs.ToPagedList(pageNumber, pageSize));
         }
 
-
-
-        // OngsController.cs
-
-        [Authorize(Roles = "Ong")] // Só ONGs logadas podem ver
+        // ============================================================
+        // GET: Ongs/Dashboard
+        // ============================================================
+        [Authorize(Roles = "Ong")]
         public async Task<IActionResult> Dashboard()
         {
-            // Pega o UserId (string) do usuário logado
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (userId == null)
-            {
-                return Challenge(); // Não está logado, força login
-            }
+            // 1. Identifica a ONG Logada
+            var userId = _userManager.GetUserId(User);
 
-            // Encontra a entidade ONG, INCLUINDO as Filiais
+            // Nota: Não precisa verificar "Aprovação" ou "Pendências" aqui.
+            // O Filtro Global (VerificarPendenciasOngFilter) já fez isso antes de deixar entrar.
+
             var ong = await _context.Ongs
-                                    .Include(o => o.Filials)
-                                    .FirstOrDefaultAsync(o => o.UserId == userId);
+                .Include(o => o.Filials)
+                .FirstOrDefaultAsync(o => o.UserId == userId);
 
-            if (ong == null)
-            {
-                return NotFound("Nenhuma ONG associada a este usuário.");
-            }
+            if (ong == null) return NotFound();
 
-            // Verifica a aprovação (do seu modelo Ong.cs)
-            if (ong.Aprovaçao == false)
-            {
-                return RedirectToAction(nameof(Wait)); // Redireciona se não aprovada
-            }
-
-            // Busca as metas SOMENTE desta ONG, INCLUINDO a Filial
+            // 2. Busca dados relacionados para o Painel
             var metas = await _context.Metas
-                                        .Include(m => m.Ong)
-                                        .Include(m => m.Filial)
-                                        .Where(m => m.OngId == ong.Id)
-                                        .ToListAsync();
+                .Include(m => m.Ong)
+                .Include(m => m.Filial)
+                .Where(m => m.OngId == ong.Id)
+                .ToListAsync();
 
             var vagas = await _context.Vagas
                 .Where(v => v.IdONG == ong.Id)
                 .ToListAsync();
 
-            // Passa os dados extras para a View usando o ViewBag
+            // 3. Preenche as ViewBags necessárias para a View e Layout
             ViewBag.Metas = metas;
             ViewBag.Vagas = vagas;
-
-            // NOVO: Passa a lista de filiais e o nome da ONG para a ViewBag
             ViewBag.Filiais = ong.Filials;
             ViewBag.OngNome = ong.Nome;
+            ViewBag.OngId = ong.Id; // Importante para o menu _LoginPartial
 
-            // INJEÇÃO CRUCIAL PARA O ÍCONE DE PERFIL NO _LAYOUT.CSHTML
-            ViewBag.OngId = ong.Id;
-
-            // Passa a própria ONG como o Modelo principal da View
             return View(ong);
         }
 
@@ -110,7 +118,7 @@ namespace nexumApp.Controllers
                 return NotFound();
             }
 
-            // Instância do serviço de Tags para resolver o nome (assumindo que a classe Tags está acessível)
+            // Instância do serviço de Tags para resolver o nome 
             var tagsService = new nexumApp.Models.Tags();
 
             // 1. Carregar a ONG, Usuário (para Email), Metas e Vagas, incluindo todas as coleções aninhadas.
@@ -363,6 +371,24 @@ namespace nexumApp.Controllers
 
             TempData["SuccessMessage"] = "Área de atuação atualizada com sucesso!";
 
+            return RedirectToAction("Details", new { id = ongId });
+        }
+        [Authorize(Roles = "Ong")]
+        public async Task<IActionResult> MeuPerfil()
+        {
+            // Busca o ID do usuário logado
+            var userId = _userManager.GetUserId(User);
+
+            // Busca apenas o ID da ONG no banco (rápido)
+            var ongId = await _context.Ongs
+                                      .Where(o => o.UserId == userId)
+                                      .Select(o => o.Id)
+                                      .FirstOrDefaultAsync();
+
+            // Se não achou ONG vinculada, joga para a Home
+            if (ongId == 0) return RedirectToAction("Index", "Home");
+
+            // Redireciona para a tela de Detalhes com o ID correto
             return RedirectToAction("Details", new { id = ongId });
         }
 
@@ -639,6 +665,146 @@ namespace nexumApp.Controllers
             }
 
             return RedirectToAction("Details", new { id = ongId });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UploadHeaderImages(int ongId, List<IFormFile> headerImages)
+        {
+            // 1. Busca a ONG
+            var ong = await _context.Ongs.FindAsync(ongId);
+            if (ong == null)
+            {
+                return NotFound();
+            }
+
+            // 2. Verifica se enviou algum arquivo
+            if (headerImages != null && headerImages.Count > 0)
+            {
+                // Vamos pegar apenas a primeira imagem da lista, já que o layout é "Single Header"
+                var file = headerImages[0];
+
+                if (file.Length > 0)
+                {
+                    // 3. Define o caminho: wwwroot/img/headers/
+                    string wwwRootPath = _hostEnvironment.WebRootPath;
+                    string fileName = Path.GetFileNameWithoutExtension(file.FileName);
+                    string extension = Path.GetExtension(file.FileName);
+
+                    // Gera nome único para não sobrescrever outros arquivos
+                    fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+
+                    string path = Path.Combine(wwwRootPath + "/img/headers/");
+
+                    // Cria a pasta se não existir
+                    if (!Directory.Exists(path))
+                    {
+                        Directory.CreateDirectory(path);
+                    }
+
+                    // 4. Salva o arquivo no servidor
+                    string finalPath = Path.Combine(path, fileName);
+                    using (var fileStream = new FileStream(finalPath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(fileStream);
+                    }
+
+                    // 5. Deleta imagem antiga se existir (opcional, para limpar espaço)
+                    if (!string.IsNullOrEmpty(ong.HeaderImageURL))
+                    {
+                        var oldPath = Path.Combine(wwwRootPath, ong.HeaderImageURL.TrimStart('/'));
+                        if (System.IO.File.Exists(oldPath))
+                        {
+                            System.IO.File.Delete(oldPath);
+                        }
+                    }
+
+                    // 6. Atualiza o caminho no Banco de Dados
+                    // O caminho salvo deve começar com / para ser lido pelo HTML
+                    ong.HeaderImageURL = "/img/headers/" + fileName;
+
+                    _context.Update(ong);
+                    await _context.SaveChangesAsync();
+                }
+            }
+
+            // Retorna para a página de detalhes
+            return RedirectToAction(nameof(Details), new { id = ongId });
+        }
+
+
+
+        // ============================================================
+        // POST: Ongs/UpdatePix
+        // Ação para atualizar ou cadastrar a Chave PIX
+        // ============================================================
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Ong")] // Garante que só ONGs logadas acessem
+        public async Task<IActionResult> UpdatePix(int ongId, string chavePix)
+        {
+            // 1. Identifica o usuário logado para segurança
+            var userId = _userManager.GetUserId(User);
+
+            // 2. Busca a ONG no banco
+            // A condição (o.UserId == userId) impede que uma ONG altere o PIX de outra
+            var ong = await _context.Ongs.FirstOrDefaultAsync(o => o.Id == ongId && o.UserId == userId);
+
+            if (ong == null)
+            {
+                return NotFound();
+            }
+
+            // 3. Atualiza o valor
+            // O ?.Trim() remove espaços em branco acidentais no início ou fim
+            ong.ChavePix = chavePix?.Trim();
+
+            try
+            {
+                _context.Update(ong);
+                await _context.SaveChangesAsync();
+
+                TempData["SuccessMessage"] = "Chave PIX atualizada com sucesso!";
+            }
+            catch (Exception)
+            {
+                TempData["ErrorMessage"] = "Ocorreu um erro ao salvar a chave PIX.";
+            }
+
+            // 4. Redireciona de volta para a tela de detalhes (Perfil)
+            return RedirectToAction(nameof(Details), new { id = ongId });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Ong")]
+        public async Task<IActionResult> UpdateWebsite(int ongId, string website)
+        {
+            var userId = _userManager.GetUserId(User);
+            var ong = await _context.Ongs.FirstOrDefaultAsync(o => o.Id == ongId && o.UserId == userId);
+
+            if (ong == null) return NotFound();
+
+            // Adiciona https:// se o usuário esqueceu
+            if (!string.IsNullOrEmpty(website) && !website.StartsWith("http"))
+            {
+                website = "https://" + website;
+            }
+
+            ong.Website = website?.Trim();
+
+            try
+            {
+                _context.Update(ong);
+                await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Website atualizado com sucesso!";
+            }
+            catch (Exception)
+            {
+                TempData["ErrorMessage"] = "Erro ao salvar o website.";
+            }
+
+            return RedirectToAction(nameof(Details), new { id = ongId });
         }
     }
 }

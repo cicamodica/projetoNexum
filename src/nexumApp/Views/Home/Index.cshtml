@@ -1036,25 +1036,25 @@
                                         <div class="mb-2 mt-3">
                                             <small class="text-muted">Progresso: @meta.ValorAtual de @meta.ValorAlvo</small>
 
-                                            @if (valorPendente > 0)
-                                            {
-                                                <small class="text-muted d-block">(@valorPendente pendentes de aprovação)</small>
-                                            }
+                                           
 
-                                            <div class="progress" style="height: 20px;">
+                                            @* ADICIONADO: position-relative para permitir o texto sobreposto *@
+                                            <div class="progress position-relative" style="height: 20px; background-color: #e9ecef; border-radius: 10px;">
+
+                                                @* BARRA VERDE (CONFIRMADA) - Sem texto dentro *@
                                                 <div class="progress-bar" role="progressbar"
-                                                     style="width: @(progressoConfirmadoF)%;"
+                                                     style="width: @(progressoConfirmadoF)%; border-radius: 10px 0 0 10px;"
                                                      aria-valuenow="@progressoConfirmadoF"
                                                      aria-valuemin="0"
                                                      aria-valuemax="100">
+                                                </div>
+
+                                                @* --- NOVO: TEXTO CENTRALIZADO POR CIMA DE TUDO --- *@
+                                                <small class="position-absolute w-100 h-100 d-flex justify-content-center align-items-center fw-bold"
+                                                       style="color: #333; left: 0; top: 0; font-size: 11px;">
                                                     @(progressoConfirmadoF)%
-                                                </div>
-                                                <div class="progress-bar progress-bar-striped bg-info" role="progressbar"
-                                                     style="width: @(progressoPendenteF)%;"
-                                                     aria-valuenow="@progressoPendenteF"
-                                                     aria-valuemin="0"
-                                                     aria-valuemax="100">
-                                                </div>
+                                                </small>
+
                                             </div>
                                         </div>
 
@@ -1078,7 +1078,7 @@
                                data-atual="@meta.ValorAtual"
                                data-alvo="@meta.ValorAlvo"
                                data-imagem="@meta.ImagemUrl"
-                               data-ong-cnpj="@meta.Ong.CNPJ"
+                                           data-chave-pix="@(meta.Ong.ChavePix ?? "Chave PIX não cadastrada")"
                                data-bs-toggle="modal"
                                data-bs-target="#modalDoacao">
                                             
@@ -1734,7 +1734,7 @@
             const imagem = btn.dataset.imagem;
             const atual = parseFloat(btn.dataset.atual);
             const alvo = parseFloat(btn.dataset.alvo);
-            const ongCnpj = btn.dataset.ongCnpj;
+                 const chavePix = btn.dataset.chavePix;
 
             const valorConfirmado = atual;
             const valorAlvo = alvo;
@@ -1765,7 +1765,7 @@
             else pendenteTextElement.textContent = '';
 
             doacaoModalElement.querySelector('#modalDoacaoMetaId').value = metaId;
-            if (campoPix) campoPix.textContent = ongCnpj || "Chave PIX não informada";
+            if (campoPix) campoPix.textContent = chavePix || "Chave PIX não cadastrada";
 
             if (radioMaterial) radioMaterial.checked = true;
             if (formMaterial) formMaterial.style.display = 'block';
@@ -1775,42 +1775,55 @@
          });
       });
 
-      const formDoacao = document.getElementById('form-doacao-material');
-      if (formDoacao) {
-         formDoacao.addEventListener('submit', async function (e) {
-            e.preventDefault();
-            const form = e.target;
-            const submitButton = form.querySelector('button[type="submit"]');
-            const originalButtonText = submitButton.textContent;
-            submitButton.disabled = true;
-            submitButton.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Enviando...`;
+           const formDoacao = document.getElementById('form-doacao-material');
+           if (formDoacao) {
+              formDoacao.addEventListener('submit', async function (e) {
+                 e.preventDefault();
+                 const form = e.target;
+                 const submitButton = form.querySelector('button[type="submit"]');
+                 const originalButtonText = submitButton.textContent;
 
-            try {
-               const formData = new FormData(form);
-               const token = formData.get('__RequestVerificationToken');
-               const response = await fetch(form.action, {
-                  method: 'POST',
-                  body: formData,
-                  headers: {
-                     'RequestVerificationToken': token
-                  }
-               });
-               const result = await response.json();
-               if (result.success) {
-                  if (doacaoModal) doacaoModal.hide();
-                  alert(result.message);
-               } else {
-                  alert('Erro: ' + result.message);
-               }
-            } catch (error) {
-               console.error('Erro no fetch:', error);
-               alert('Ocorreu um erro de rede. Tente novamente.');
-            } finally {
-               submitButton.disabled = false;
-               submitButton.textContent = originalButtonText;
-            }
-         });
-      }
-   }); 
+                 // Bloqueia o botão para evitar cliques duplos
+                 submitButton.disabled = true;
+                 submitButton.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Enviando...`;
+
+                 try {
+                    const formData = new FormData(form);
+                    // Garante o token de segurança
+                    const token = formData.get('__RequestVerificationToken');
+
+                    const response = await fetch(form.action, {
+                       method: 'POST',
+                       body: formData,
+                       headers: {
+                          'RequestVerificationToken': token
+                       }
+                    });
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                       // 1. Fecha o modal
+                       if (doacaoModal) doacaoModal.hide();
+
+                       // 2. Exibe a mensagem de sucesso
+                       alert(result.message);
+
+                       
+                       window.location.reload();
+                    } else {
+                       alert('Erro: ' + result.message);
+                    }
+                 } catch (error) {
+                    console.error('Erro no fetch:', error);
+                    alert('Ocorreu um erro de rede. Tente novamente.');
+                 } finally {
+                    // Restaura o botão caso tenha dado erro (se der sucesso, a página vai recarregar antes disso)
+                    submitButton.disabled = false;
+                    submitButton.textContent = originalButtonText;
+                 }
+              });
+           }
+        });
    </script>
 }
