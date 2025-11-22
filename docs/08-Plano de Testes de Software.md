@@ -86,16 +86,6 @@ Os testes funcionais a serem realizados na aplicação são descritos a seguir:
 | **Caso de Teste** 	| **CT09 – Teste do Menu Sobre Nós** 	|
 |:---:	|:---:	|
 |	**Requisitos Associados** 	| -- |
-| **Objetivo do Teste** 	| Verificar se ao passar o mouse no Menu “Sobre nós” abre as opções “Quem somos” e “Fale conosco”. |
-| **Passos** 	| 01.	Passar o mouse no menu “Sobre nós”; <br> 02.	Observar se aparecem as opções: "Quem somos" e "Fale conosco". |
-|**Critérios de Êxito** | O usuário deve conseguir ver as opções abaixo do Menu “Quem somos” e, em seguida, deve visualizar e conseguir clicar em todas as 3 opções disponíveis.|
-|  **Responsável pela elaboração do caso de teste**	|  Márcia Maria dos Reis Marques |
-
-<br>
-
-| **Caso de Teste** 	| **CT10 – Teste do Menu Sobre Nós** 	|
-|:---:	|:---:	|
-|	**Requisitos Associados** 	| -- |
 | **Objetivo do Teste** 	| Verificar se ao passar o mouse no Menu “Sobre nós” e clicar em uma das opções disponíveis será redirecionado respectivamente para a página correta.|
 | **Passos** 	| 01.	Passar o mouse no menu “Quem somos”; <br> 02.	Clique em uma das opções disponíveis; <br> 03. Observar se a aplicação o levou para a página correta. |
 |**Critérios de Êxito** | O usuário deve conseguir clicar em uma das 2 opções disponíveis. Ao clicar, a aplicação deve redirecioná-lo à página correta.|
@@ -103,7 +93,7 @@ Os testes funcionais a serem realizados na aplicação são descritos a seguir:
 
 <br>
 
-| **Caso de Teste** 	| **CT11 – Teste da Página Fale Conosco** 	|
+| **Caso de Teste** 	| **CT10 – Teste da Página Fale Conosco** 	|
 |:---:	|:---:	|
 |	**Requisitos Associados** 	| -- |
 | **Objetivo do Teste** 	| Verificar se ao clicar em "Fale conosco" localizado no menu "Sobre nós" a página abre corretamente e e está funcional|
@@ -113,7 +103,7 @@ Os testes funcionais a serem realizados na aplicação são descritos a seguir:
 
 <br>
 
-| **Caso de Teste** 	| **CT12 – Teste da página de redefinição de senha** 	|
+| **Caso de Teste** 	| **CT11 – Teste da página de redefinição de senha** 	|
 |:---:	|:---:	|
 |	**Requisitos Associados** 	| RF-03 |
 | **Objetivo do Teste** 	| Verificar se o usuário consegue realizar a redefinição de senha sem dificuldades |
@@ -123,7 +113,7 @@ Os testes funcionais a serem realizados na aplicação são descritos a seguir:
 
 <br>
 
-| **Caso de Teste** 	| **CT13 – Teste da página Homepage logado e não logado - Pesquisar** 	|
+| **Caso de Teste** 	| **CT12 – Teste da página Homepage logado e não logado - Pesquisar** 	|
 |:---:	|:---:	|
 |	**Requisitos Associados** 	| -- |
 | **Objetivo do Teste** 	| No homepage logado e não logado, verificar se ao digitar na barra de Pesquisa a página levará o usuário às opções disponíveis com o conteúdo digitado. |
@@ -133,7 +123,7 @@ Os testes funcionais a serem realizados na aplicação são descritos a seguir:
 
 <br>
 
-| **Caso de Teste** | **CT14 - Teste da Página de Resultado de pesquisa** |
+| **Caso de Teste** | **CT13 - Teste da Página de Resultado de pesquisa** |
 |:---:	|:---:	|
 |	**Requisitos Associados**  | RF-05 |
 | **Objetivo do Teste** 	| Verificar se o Usuário (externo ou cadastrado) consegue acessar a página de resultado, aparece todas as opções de acordo com a busca, se ele escolher o conteúdo e clicar irá ser encaminhado para a página que escolheu. |
