@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using CloudinaryDotNet;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -38,16 +39,63 @@ namespace nexumApp.Controllers
             _userManager = userManager;
         }
 
+        public async Task<IActionResult> Index(string? cep, string? cidade, string? tags, [FromQuery] bool publicView = false)
+        {
+            
+            if (!publicView && User.Identity?.IsAuthenticated == true && User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+            }
+
+           
+            if (User.Identity?.IsAuthenticated == true && User.IsInRole("Ong"))
+            {
+                var userId = _userManager.GetUserId(User);
+                // Otimiza��o: Select apenas no ID, sem carregar a entidade toda
+                var ongId = await _context.Ongs
+                                          .Where(o => o.UserId == userId)
+                                          .Select(o => o.Id)
+                                          .FirstOrDefaultAsync();
+
+                if (ongId > 0)
+                {
+                    ViewBag.OngId = ongId;
+                }
+            }
+
+            // =================================================================
+            // 3. CARREGAMENTO DO MARKETPLACE
+            // =================================================================
+
+            var query = _context.Metas
+                .Include(m => m.Ong)
+                .Include(m => m.Filial)
+                .Include(m => m.Doacoes)
+                .Where(m => m.Status == "Ativa");
+
+            // --- Filtros ---
+
+            if (!string.IsNullOrWhiteSpace(tags))
+            {
+                var tagIds = tags.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                                 .Select(int.Parse).ToList();
+
+                query = query.Where(m => m.Ong.Tag.HasValue && tagIds.Contains(m.Ong.Tag.Value));
+                ViewBag.SelectedTags = tagIds;
+            }
+
+            if (!string.IsNullOrWhiteSpace(cidade))
+            {
+                query = query.Where(m =>
+                    (m.Filial != null && m.Filial.Endere�o.Contains(cidade)) ||
+                    (m.Filial == null && m.Ong.Endere�o.Contains(cidade)));
+            }
+
         [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> Index(string? cep, string? cidade, string? tags, [FromQuery] bool publicView = false)
         {
             // O tagId é o índice da tag que vem do formulário de filtro
-
-            if (!publicView && User.Identity?.IsAuthenticated == true && User.IsInRole("Admin"))
-            {
-                return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
-            }
 
             // Inicia a consulta base (todas as metas ativas)
             var query = _context.Metas
@@ -70,7 +118,7 @@ namespace nexumApp.Controllers
 
                 ViewBag.SelectedTags = tagIds;
             }
-
+                  tagIds.Contains(m.Ong.Tag.Value)
             if (User.Identity?.IsAuthenticated == true)
             {
                 // Verifica se o usuário logado é uma ONG
@@ -121,19 +169,18 @@ namespace nexumApp.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> Marketplace(string? search, string? cep, string? cidade, int? tagId)
+        public async Task<IActionResult> Marketplace(string search, string cep, string cidade, int tagId)
         {
-            // normaliza termo
+   
             search = search?.Trim();
 
-            // base da consulta de metas
+          
             var query = _context.Metas
                 .Include(m => m.Ong)
                 .Include(m => m.Filial)
                 .Include(m => m.Doacoes)
                 .Where(m => m.Status == "Ativa");
 
-            // 🔍 filtro de texto (metas + ONG)
             if (!string.IsNullOrWhiteSpace(search))
             {
                 query = query.Where(m =>
@@ -145,13 +192,13 @@ namespace nexumApp.Controllers
                 );
             }
 
-            // (se você tiver filtros de CEP / cidade / tagId, mantém aqui embaixo, como já usa hoje)
+     
 
             var metasPublicas = await query
                 .OrderBy(m => m.DataFim)
                 .ToListAsync();
 
-            // pendências (igual você já faz)
+
             var pendingValues = new Dictionary<int, int>();
             foreach (var meta in metasPublicas)
             {
@@ -163,9 +210,10 @@ namespace nexumApp.Controllers
             }
 
             ViewBag.PendingValues = pendingValues;
-            ViewBag.Search = search; // passamos pra View se você quiser usar no título
+            ViewBag.Search = search;
+            ViewBag.TagsList = new Tags().TagsList; 
 
-            return View(metasPublicas); // Marketplace.cshtml
+            return View("Index", metasPublicas);
         }
 
         [AllowAnonymous]
@@ -306,7 +354,7 @@ namespace nexumApp.Controllers
                 FotoUrl = fotoUrl,
 
 
-                //IdVoluntario = null
+                IdVoluntario = null
             };
 
 
@@ -384,12 +432,12 @@ namespace nexumApp.Controllers
                         <p>Atenciosamente,<br><strong>Equipe Nexum</strong></p>
                     </div>";
 
-                await _emailService.SendEmailAsync(email, "Confirmação de Inscrição - Nexum", corpoEmail);
+                await _emailService.SendEmailAsync(email, "Confirma��o de Inscri��o - Nexum", corpoEmail);
             }
             catch (Exception ex)
             {
                 
-                _logger.LogError(ex, "A inscrição foi salva, mas falhou ao enviar o e-mail de confirmação.");
+                _logger.LogError(ex, "A inscri��o foi salva, mas falhou ao enviar o e-mail de confirma��o.");
             }
 
             return Ok();
@@ -414,6 +462,11 @@ namespace nexumApp.Controllers
             }
 
             // NÃO LOGADO (ou logado como outra Role) -> Vai para Home/Index pública
+            return RedirectToAction("Index", "Home");
+        }
+
+
+
             return RedirectToAction("Index", "Home");
         }
 

@@ -104,12 +104,21 @@ namespace nexumApp.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+                    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    var UserOng = _context.Ongs.FirstOrDefault(ong => ong.UserId == userId);
+                    if (UserOng == null) {
+                        return LocalRedirect("~/Ongs/Create");
 
                     // Pega o usuário que acabou de logar
                     var user = await _userManager.FindByEmailAsync(Input.Email);
 
-                    // Verifica se o usuário existe e se tem a Role "Ong"
-                    if (user != null && await _userManager.IsInRoleAsync(user, "Ong"))
+                    if (user != null && await _userManager.IsInRoleAsync(user, "Admin"))
+                    {
+                        return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+                    }
+
+                        // Verifica se o usuário existe e se tem a Role "Ong"
+                        if (user != null && await _userManager.IsInRoleAsync(user, "Ong"))
                     {
                         // ---- Início da Lógica de Aprovação ----
 

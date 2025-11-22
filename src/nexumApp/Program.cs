@@ -16,6 +16,12 @@ QuestPDF.Settings.License = LicenseType.Community;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddControllersWithViews(options =>
+{
+    // Adiciona o filtro globalmente
+    options.Filters.Add<nexumApp.Filters.VerificarPendenciasOngFilter>();
+});
+
 // 1. Configuração do Banco de Dados
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>

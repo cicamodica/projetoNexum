@@ -36,6 +36,14 @@ namespace nexumApp.Models
 
         public string? ConteudoSobre { get; set; }
 
+        [Display(Name = "Chave PIX")]
+        [StringLength(100)]
+        public string? ChavePix { get; set; }
+        [Display(Name = "Website")]
+        [StringLength(200)]
+        [Url(ErrorMessage = "Insira uma URL válida")]
+        public string? Website { get; set; }
+
         // ====== Campos do PDF ======
 
         [Display(Name = "Nome do arquivo PDF")]
@@ -53,6 +61,8 @@ namespace nexumApp.Models
         public IFormFile DocumentoPdf { get; set; }
 
         public string ImageURL { get; set; }
+
+        public string? HeaderImageURL { get; set; }
     }
     public class OngEditViewModel
     {
