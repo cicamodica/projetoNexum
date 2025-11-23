@@ -1,7 +1,318 @@
-﻿
-@{
-    ViewData["Title"] = "QuemSomos";
+﻿@{
+    ViewData["Title"] = "Nexum - Sobre Nós";
 }
 
-<h1>QuemSomos</h1>
 
+<style>
+
+    /* Hero Section */
+    .hero {
+        background: linear-gradient(135deg, #2987BF 0%, #196896 100%);
+        color: white;
+        padding: 100px 40px;
+        text-align: center;
+        width: 100vw;
+        position: relative;
+        left: 50%;
+        right: 50%;
+        margin-left: -50vw;
+        margin-right: -50vw;
+    }
+
+        .hero h1 {
+            font-size: 4em;
+            margin-bottom: 20px;
+            font-weight: 800;
+            letter-spacing: 3px;
+        }
+
+        .hero p {
+            font-size: 1.5em;
+            font-weight: 400;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+
+
+    .section {
+        margin-bottom: 80px;
+    }
+
+    .section-title {
+        font-size: 2.8em;
+        color: #16435D;
+        margin-bottom: 30px;
+        text-align: center;
+        font-weight: 700;
+    }
+
+    .intro-text {
+        text-align: center;
+        font-size: 1.15em;
+        color: #16435D;
+        max-width: 900px;
+        margin: 0 auto 60px;
+        line-height: 1.8;
+        font-weight: 400;
+    }
+
+    /* Cards Grid */
+    .cards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 40px;
+        margin-top: 50px;
+    }
+
+    .card {
+        background: white;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(41, 135, 191, 0.1);
+        transition: all 0.3s ease;
+        border: 2px solid #3EA6E4;
+    }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 30px rgba(41, 135, 191, 0.2);
+        }
+
+    .card-icon {
+        font-size: 3.5em;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .card h3 {
+        font-size: 1.5em;
+        color: #16435D;
+        margin-bottom: 15px;
+        font-weight: 700;
+        text-align: center;
+    }
+
+    .card p {
+        color: #16435D;
+        line-height: 1.8;
+        font-weight: 400;
+        text-align: center;
+    }
+
+    /* Values Section */
+    .values {
+        background: #F5F9FC;
+        padding: 80px 40px;
+        margin: 80px 0;
+        width: 100vw;
+        position: relative;
+        left: 50%;
+        right: 50%;
+        margin-left: -50vw;
+        margin-right: -50vw;
+    }
+
+    .values-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+        max-width: 1200px;
+        margin: 50px auto 0;
+    }
+
+    .value-item {
+        text-align: center;
+        padding: 35px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 3px 15px rgba(41, 135, 191, 0.08);
+        transition: transform 0.3s ease;
+    }
+
+        .value-item:hover {
+            transform: scale(1.05);
+        }
+
+    .value-icon {
+        font-size: 3em;
+        margin-bottom: 15px;
+    }
+
+    .value-item h4 {
+        font-size: 1.3em;
+        color: #2987BF;
+        margin-bottom: 10px;
+        font-weight: 700;
+    }
+
+    .value-item p {
+        color: #16435D;
+        font-weight: 400;
+    }
+
+    /* Benefits */
+    .benefits-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 40px;
+        margin-top: 50px;
+    }
+
+    .benefit-card {
+        background: linear-gradient(135deg, #2987BF 0%, #196896 100%);
+        color: white;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+
+        .benefit-card h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .benefit-card p {
+            line-height: 1.8;
+            font-weight: 400;
+        }
+
+    /* CTA Section */
+    .cta-section {
+        background: #2987BF;
+        color: white;
+        padding: 80px 40px;
+        text-align: center;
+        width: 100vw;
+        position: relative;
+        left: 50%;
+        right: 50%;
+        margin-left: -50vw;
+        margin-right: -50vw;
+    }
+
+        .cta-section h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .cta-section p {
+            font-size: 1.2em;
+            margin-bottom: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 400;
+        }
+
+    .btn {
+        display: inline-block;
+        padding: 16px 45px;
+        background: white;
+        color: #2987BF;
+        text-decoration: none;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 1.1em;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+</style>
+
+<!-- Hero Section -->
+<section class="hero">
+    <h1 class="text-white">NEXUM</h1>
+    <p>Conectando pessoas, fortalecendo causas</p>
+</section>
+
+<!-- Main Content -->
+<div class="container mt-5">
+    <section class="section" id="sobre">
+        <h2 class="section-title">Sobre Nós</h2>
+        <p class="intro-text">
+            O <strong>Nexum</strong> é uma plataforma que conecta pessoas com o objetivo comum de ajudar ao próximo. Somos uma rede comunitária que une ONGs, voluntários e doadores, criando um espaço onde cada ação gera impacto real. Compartilhamos iniciativas que promovem o desenvolvimento local, alinhadas aos <strong>Objetivos de Desenvolvimento Sustentável (ODS)</strong>.
+        </p>
+    </section>
+
+    <section class="section">
+        <h2 class="section-title">Nossa Missão</h2>
+        <div class="cards-grid">
+            <div class="card">
+                <div class="card-icon">🤝</div>
+                <h3>Conexão</h3>
+                <p>Unir pessoas e organizações para criar uma rede de colaboração forte e eficiente.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">💡</div>
+                <h3>Inovação</h3>
+                <p>Usar tecnologia para otimizar processos e amplificar o impacto social.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🌱</div>
+                <h3>Sustentabilidade</h3>
+                <p>Promover ações que transformam comunidades de forma duradoura.</p>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- Values Section -->
+<section class="values">
+    <h2 class="section-title">Nossos Valores</h2>
+    <div class="values-grid">
+        <div class="value-item">
+            <div class="value-icon">🎯</div>
+            <h4>Transparência</h4>
+            <p>Clareza em todas as ações</p>
+        </div>
+        <div class="value-item">
+            <div class="value-icon">❤️</div>
+            <h4>Solidariedade</h4>
+            <p>Compromisso com o bem comum</p>
+        </div>
+        <div class="value-item">
+            <div class="value-icon">🔗</div>
+            <h4>Colaboração</h4>
+            <p>Fortalecimento em conjunto</p>
+        </div>
+        <div class="value-item">
+            <div class="value-icon">⚡</div>
+            <h4>Eficiência</h4>
+            <p>Maximização do impacto social</p>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <section class="section">
+        <h2 class="section-title">Benefícios</h2>
+        <div class="benefits-grid">
+            <div class="benefit-card">
+                <h3>🏢 Para ONGs</h3>
+                <p>Encontre voluntários qualificados, compartilhe recursos e estabeleça parcerias estratégicas.</p>
+            </div>
+            <div class="benefit-card">
+                <h3>👥 Para Voluntários</h3>
+                <p>Descubra oportunidades alinhadas às suas habilidades e acompanhe seu impacto.</p>
+            </div>
+            <div class="benefit-card">
+                <h3>🤲 Para Doadores</h3>
+                <p>Tenha acesso a transparência total e relatórios de impacto das suas contribuições.</p>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- CTA Section -->
+<div class="cta-section">
+    <h2 class="text-white">Faça Parte da Mudança</h2>
+    <p>Junte-se ao Nexum e ajude a construir uma rede que transforma vidas e comunidades.</p>
+    <a asp-area="Identity" asp-page="/Account/Register" class="btn">Comece Agora</a>
+</div>

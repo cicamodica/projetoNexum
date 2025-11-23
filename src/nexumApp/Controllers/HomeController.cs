@@ -392,16 +392,15 @@ namespace nexumApp.Controllers
             return Ok();
         }
 
-
-
         public IActionResult SmartRedirect()
         {
             if (User.IsInRole("Ong")) return RedirectToAction("Dashboard", "Ongs");
             return RedirectToAction("Index");
         }
 
-
-
-
+        public async Task<IActionResult> QuemSomos()
+        {
+            return View();
+        }
     }
 }
