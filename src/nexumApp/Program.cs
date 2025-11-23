@@ -61,6 +61,18 @@ builder.Services.AddAuthorization(options =>
 builder.Services.AddSingleton<IAuthorizationHandler, HasCreatedOrApprovedONGRequirementHandler>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
+// Configuração do Cloudinary
+
+DotEnv.Load(options: new DotEnvOptions(probeForEnv: true));
+string cloudinaryUrl = Environment.GetEnvironmentVariable("CLOUDINARY_URL");
+if (!string.IsNullOrEmpty(cloudinaryUrl))
+{
+    Cloudinary cloudinary = new Cloudinary(cloudinaryUrl);
+    cloudinary.Api.Secure = true;
+
+    builder.Services.AddSingleton(cloudinary);
+}
+
 // 5. Método Seeder (Função Local)
 static async Task SeedAdminAsync(IServiceProvider services, IConfiguration config)
 {
@@ -115,14 +127,9 @@ else
     app.UseHsts();
 }
 
-// Configuração do Cloudinary
-DotEnv.Load(options: new DotEnvOptions(probeForEnv: true));
-string cloudinaryUrl = Environment.GetEnvironmentVariable("CLOUDINARY_URL");
-if (!string.IsNullOrEmpty(cloudinaryUrl))
-{
-    Cloudinary cloudinary = new Cloudinary(cloudinaryUrl);
-    cloudinary.Api.Secure = true;
-}
+
+
+
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

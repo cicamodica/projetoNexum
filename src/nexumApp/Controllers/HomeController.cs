@@ -38,29 +38,9 @@ namespace nexumApp.Controllers
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> Index(string? cep, string? cidade, string? tags, [FromQuery] bool publicView = false)
+        public async Task<IActionResult> Index(string cep, string tags, string search)
         {
-
-            if (!publicView && User.Identity?.IsAuthenticated == true && User.IsInRole("Admin"))
-            {
-                return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
-            }
-
-
-            if (User.Identity?.IsAuthenticated == true && User.IsInRole("Ong"))
-            {
-                var userId = _userManager.GetUserId(User);
-                // Otimização: Select apenas no ID, sem carregar a entidade toda
-                var ongId = await _context.Ongs
-                                          .Where(o => o.UserId == userId)
-                                          .Select(o => o.Id)
-                                          .FirstOrDefaultAsync();
-
-                if (ongId > 0)
-                {
-                    ViewBag.OngId = ongId;
-                }
-            }
+            search = search?.Trim();
 
             // =================================================================
             // 3. CARREGAMENTO DO MARKETPLACE
@@ -70,32 +50,36 @@ namespace nexumApp.Controllers
                 .Include(m => m.Ong)
                 .Include(m => m.Filial)
                 .Include(m => m.Doacoes)
-                .Where(m => m.Status == "Ativa");
+                .Where(m => m.Status == "Ativa").ToList();
 
             // --- Filtros ---
 
-            if (!string.IsNullOrWhiteSpace(tags))
+            if (search != null)
             {
-                var tagIds = tags.Split(',', StringSplitOptions.RemoveEmptyEntries)
-                                 .Select(int.Parse).ToList();
-
-                query = query.Where(m => m.Ong.Tag.HasValue && tagIds.Contains(m.Ong.Tag.Value));
-                ViewBag.SelectedTags = tagIds;
+                query = [.. query.Where(m =>
+                    m.Recurso.ToLower().Contains(search.ToLower()) ||
+                    m.Descricao.ToLower().Contains(search.ToLower()) ||
+                    m.Ong.Nome.ToLower().Contains(search.ToLower())
+                )];
             }
 
-            if (!string.IsNullOrWhiteSpace(cidade))
+            if (tags != null)
             {
-                query = query.Where(m =>
-                    (m.Filial != null && m.Filial.Endereço.Contains(cidade)) ||
-                    (m.Filial == null && m.Ong.Endereço.Contains(cidade)));
+                int?[] idsArray = [.. tags.Split(',').Select(int.Parse)];
+                query = [.. query.Where(meta => idsArray.Contains(meta.Ong.Tag))];
+            }
+
+            if (!string.IsNullOrEmpty(cep))
+            {
+                var formattedCep = cep.Replace("-", "");
+                query = [.. query.Where(meta => meta.Ong.CEP == formattedCep || meta.Filial?.CEP == formattedCep) ];
             }
 
             // --- Execução ---
 
-            var metasPublicas = await query
-                .OrderBy(m => m.DataFim)
-                .ToListAsync();
-
+            var metasPublicas = query
+                .OrderBy(m => m.DataFim);
+              
             // --- Cálculo de Pendências ---
 
             var pendingValues = new Dictionary<int, int>();
@@ -109,72 +93,26 @@ namespace nexumApp.Controllers
             }
 
             ViewBag.PendingValues = pendingValues;
-            ViewBag.TagsList = new Tags().TagsList;
-
             return View(metasPublicas);
         }
 
-        //PESQUISA REDIRECIONADA PARA PÁGINA MARKETPLACE FILTRADA:
-
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> Marketplace(string? search, string? cep, string? cidade, int? tagId)
-        {
-            // normaliza termo
+        public IActionResult GetVagasPartial(string cep, string tags, string search)
+        { 
+            var vagasFromDb = _context.Vagas.Include(vaga => vaga.Ong).ToList();
+
             search = search?.Trim();
 
-            // base da consulta de metas
-            var query = _context.Metas
-                .Include(m => m.Ong)
-                .Include(m => m.Filial)
-                .Include(m => m.Doacoes)
-                .Where(m => m.Status == "Ativa");
-
-            // 🔍 filtro de texto (metas + ONG)
-            if (!string.IsNullOrWhiteSpace(search))
+            if(search != null)
             {
-                query = query.Where(m =>
-                    m.Recurso.Contains(search) ||
-                    m.Descricao.Contains(search) ||
-                    m.Ong.Nome.Contains(search) ||
-                    m.Ong.Endereço.Contains(search) ||
-                    (m.Filial != null && m.Filial.Endereço.Contains(search))
-                );
+                vagasFromDb = vagasFromDb.Where(vaga =>
+                vaga.Titulo.ToLower().Contains(search.ToLower()) ||
+                vaga.Descricao.ToLower().Contains(search.ToLower()) ||
+                vaga.Ong.Nome.ToLower().Contains(search.ToLower())
+                ).ToList();
             }
 
-            // (se você tiver filtros de CEP / cidade / tagId, mantém aqui embaixo, como já usa hoje)
-
-            var metasPublicas = await query
-                .OrderBy(m => m.DataFim)
-                .ToListAsync();
-
-            // pendências (igual você já faz)
-            var pendingValues = new Dictionary<int, int>();
-            foreach (var meta in metasPublicas)
-            {
-                int valorPendente = meta.Doacoes
-                    .Where(d => d.Status == "Pendente")
-                    .Sum(d => d.Quantidade);
-
-                pendingValues[meta.Id] = valorPendente;
-            }
-
-            ViewBag.PendingValues = pendingValues;
-            ViewBag.Search = search;
-
-            return View(metasPublicas); // Marketplace.cshtml
-        }
-
-        [AllowAnonymous]
-        [HttpGet]
-
-        public IActionResult GetVagasPartial(string cep, string tags, string tab)
-        {
-            if (tab == "voluntariado")
-            {
-                ViewBag.Voluntariado = true;
-            }
-            var vagasFromDb = _context.Vagas.ToList();
 
             if (tags != null)
             {
@@ -392,16 +330,15 @@ namespace nexumApp.Controllers
             return Ok();
         }
 
-
-
         public IActionResult SmartRedirect()
         {
             if (User.IsInRole("Ong")) return RedirectToAction("Dashboard", "Ongs");
             return RedirectToAction("Index");
         }
 
-
-
-
+        public async Task<IActionResult> QuemSomos()
+        {
+            return View();
+        }
     }
 }

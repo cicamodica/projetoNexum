@@ -34,14 +34,13 @@
                           method="get"
                           asp-area=""
                           asp-controller="Home"
-                          asp-action="Marketplace">
+                          asp-action="Index">
 
                         <input type="text"
                                class="search-input"
                                name="search"
                                placeholder="Buscar ONGs, vagas, metas..."
                                value="@Context.Request.Query["search"]" />
-
                         <button type="submit" class="search-btn">
                             <i class="bi bi-search"></i>
                         </button>
@@ -50,8 +49,28 @@
                     <!--MENU À DIREITA-->
                     <ul class="navbar-nav ms-sm-auto me-0">
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="SmartRedirect">Home</a>
+                        
+                            @if (User.Identity?.IsAuthenticated == true && User.IsInRole("Admin"))
+                            {
+                                <a class="nav-link"
+                                   asp-area="Admin"
+                                   asp-controller="Dashboard"
+                                   asp-action="Index">
+                                    Home
+                                </a>
+                            }
+                            else
+                            {
+                                <a class="nav-link"
+                                   asp-area=""
+                                   asp-controller="Home"
+                                   asp-action="SmartRedirect">
+                                    Home
+                                </a>
+                            }
+
                         </li>
+              
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="sobreNosMenu"
                                role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -69,7 +88,6 @@
                                 <a class="nav-link fw-bold text-primary"
                                    asp-controller="Home"
                                    asp-action="Index"
-                                   asp-route-publicView="true"
                                    asp-area="">
                                     <i class="bi bi-shop"></i> Marketplace
                                 </a>
@@ -87,7 +105,7 @@
         </nav>
     </header>
     <div class="container">
-        <main role="main" class="pb-3">
+        <main role="main">
             @RenderBody()
         </main>
     </div>

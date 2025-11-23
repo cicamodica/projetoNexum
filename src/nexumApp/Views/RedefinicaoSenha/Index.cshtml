@@ -1,0 +1,33 @@
+﻿@{
+    ViewData["Title"] = "Redefinição de Senha";
+}
+
+<link rel="stylesheet" href="~/css/redefinicao.css" />
+
+
+<div class="container-redefinicao">
+
+    <h2 class="titulo">Esqueceu sua senha?</h2>
+    <p class="descricao">Para redefinir a senha, informe o e-mail do cadastro</p>
+
+    <hr class="linha" />
+
+    @if (TempData["Mensagem"] != null)
+    {
+        var msg = TempData["Mensagem"].ToString();
+        var isErro = msg.Contains("não possui") || msg.Contains("Informe");
+
+        <p class="@(isErro ? "mensagem-erro" : "mensagem-sucesso")">@msg</p>
+    }
+
+    <form method="post" asp-controller="RedefinicaoSenha" asp-action="EnviarEmail">
+
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" name="email" placeholder="seuemail@gmail.com" required />
+        </div>
+
+        <button type="submit" class="btn-primary">Enviar</button>
+    </form>
+
+</div>

@@ -1,6 +1,4 @@
-﻿﻿
-
-@model IEnumerable<nexumApp.Models.Meta>
+﻿@model IEnumerable<nexumApp.Models.Meta>
 @{
     ViewData["Title"] = "Marketplace";
     var pendingValues = ViewBag.PendingValues as Dictionary<int, int> ?? new Dictionary<int, int>();
@@ -63,10 +61,7 @@
             }
         </div>
     }
-
-    <h4 class="mt-4">Metas encontradas (@Model.Count())</h4>
 }
-
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -80,7 +75,7 @@
         transform: translateX(-50%);
         height: 250px;
         overflow: hidden;
-        background: url('/images/banner.jpeg') no-repeat center top;
+        background: url('/images/Banner.png') no-repeat center top;
         background-size: cover;
         background-position: center 25%;
         margin-bottom: 2rem;
@@ -1222,6 +1217,7 @@
                 let params = query.searchParams
                 let existingParams = params.get("tags")
                 let existingCep = params.get("cep")
+                let search = params.get("search")
                 let tab = params.get("tab")
                 let selectedTagIds = [];
                 let vagasCarregadas = false;
@@ -1249,7 +1245,7 @@
               // return window.location.href = updatedUrl
               if (!vagasCarregadas) {
                  document.getElementById('vagas-container').innerHTML = `<div class="col-12 text-center"><p class="lead">Buscando vagas...</p></div>`;
-                 fetchVagas(cepInput.value, selectedTagIds);
+                 fetchVagas(cepInput.value, selectedTagIds, search);
               } else {
                   document.getElementById('resultados-titulo').textContent = `Resultados para Voluntariado (${totalVagas})`;
               }
@@ -1420,7 +1416,7 @@
               if (btnVoluntariado.classList.contains('active')) {
                  vagasContainer.innerHTML = `<div class="col-12 text-center"><p class="lead">Buscando vagas filtradas...</p></div>`;
                  titulo.textContent = 'Resultados para Voluntariado (0)';
-                 fetchVagas(cep, selectedTagIds);
+                 fetchVagas(cep, selectedTagIds, search);
 
               }
                  let updatedUrl = query.toString();
@@ -1428,12 +1424,13 @@
 
            });
 
-           function fetchVagas(cep = '', tags = []) {
+           function fetchVagas(cep = '', tags = [], search = '') {
 
               vagasCarregadas = false;
               let url = new URL('@Url.Action("GetVagasPartial", "Home")', window.location.origin);
               if(tags.length) url.searchParams.append('tags', tags)
               if (cep) url.searchParams.append('cep', cep);
+              if(search) url.searchParams.append('search', search)
               fetch(url.toString())
                  .then(response => {
                     if (!response.ok) throw new Error('Falha ao buscar vagas.');

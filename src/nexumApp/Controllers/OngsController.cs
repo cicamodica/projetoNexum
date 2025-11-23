@@ -19,6 +19,7 @@ using System.Security.Claims;
 using X.PagedList;
 using X.PagedList.Extensions;
 using static QuestPDF.Helpers.Colors;
+using CloudinaryDotNet;
 
 
 
@@ -30,12 +31,15 @@ namespace nexumApp.Controllers
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IWebHostEnvironment _hostEnvironment;
         private readonly UserManager<User> _userManager;
+        private readonly Cloudinary _cloudinary;
         public OngsController(
-            ApplicationDbContext context, IWebHostEnvironment webHostEnvironment, IWebHostEnvironment hostEnvironment, UserManager<User> userManager)
+            ApplicationDbContext context, IWebHostEnvironment webHostEnvironment, IWebHostEnvironment hostEnvironment, UserManager<User> userManager, Cloudinary cloudinary)
         {
             _context = context;
-            _webHostEnvironment = webHostEnvironment;            _hostEnvironment = hostEnvironment;
+            _webHostEnvironment = webHostEnvironment;
+            _hostEnvironment = hostEnvironment;
             _userManager = userManager;
+            _cloudinary = cloudinary;
 
         }
 
@@ -48,7 +52,13 @@ namespace nexumApp.Controllers
             int pageNumber = (page ?? 1);
 
             // Filtra apenas ONGs aprovadas para o público ver
-            var query = _context.Ongs.Where(ong => ong.Aprovaçao == true).AsQueryable();
+            var query = _context.Ongs.AsQueryable();
+
+            // Para Admin mostra todas (ONGs ativas (aprovadas) e pausadas)
+            if (!User.IsInRole("Admin"))
+            {
+                query = query.Where(ong => ong.Aprovaçao == true);
+            }
 
             // Lógica de Filtro por Tags
             if (!string.IsNullOrWhiteSpace(ONGTags))
@@ -69,6 +79,24 @@ namespace nexumApp.Controllers
             ViewBag.Total = ongs.Count;
 
             return View(ongs.ToPagedList(pageNumber, pageSize));
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ToggleStatus(int id) //ação para admin pausar/reativar ONG
+        {
+            var ong = await _context.Ongs.FindAsync(id);
+            if (ong == null)
+                return NotFound();
+
+            // Inverte o status: se estava true (ativa), vira false (pausada)
+            ong.Aprovaçao = !ong.Aprovaçao;
+
+            await _context.SaveChangesAsync();
+
+            // Volta para a lista de ONGs
+            return RedirectToAction(nameof(Index));
         }
 
         // ============================================================
@@ -606,129 +634,70 @@ namespace nexumApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UploadLogo(int ongId, IFormFile logoFile)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var ong = await _context.Ongs.FindAsync(ongId);
+            var userId = _userManager.GetUserId(User);
+            var ong = await _context.Ongs.FirstOrDefaultAsync(o => o.Id == ongId && o.UserId == userId);
 
-            // 1. Validação de Segurança e Existência
-            if (ong == null || ong.UserId != userId)
+            if (ong == null) return NotFound();
+
+            if (logoFile != null)
             {
-                // Se a ONG não existe ou o usuário não é o dono
-                return Forbid();
-            }
-
-            if (logoFile != null && logoFile.Length > 0)
-            {
-                // 2. Definir o caminho de upload
-                // Cria um caminho único e usa a extensão original do arquivo
-                string wwwRootPath = _webHostEnvironment.WebRootPath;
-                string uploadPath = Path.Combine(wwwRootPath, "images", "logos"); // Exemplo: wwwroot/images/logos
-
-                // Garante que o diretório exista
-                if (!Directory.Exists(uploadPath))
+                try
                 {
-                    Directory.CreateDirectory(uploadPath);
-                }
+                    // Chama o método auxiliar do Cloudinary
+                    string urlCloudinary = await UploadToCloudinary(logoFile);
 
-                // Gera um nome de arquivo único (ex: ONG-ID_timestamp.ext)
-                string fileName = $"{ong.Id}_{DateTime.Now.Ticks}_{Path.GetExtension(logoFile.FileName)}";
-                string filePath = Path.Combine(uploadPath, fileName);
-
-                // 3. Salvar o novo arquivo no servidor
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    await logoFile.CopyToAsync(fileStream);
-                }
-
-                // 4. Se a ONG já tinha uma imagem, exclua a antiga
-                if (!string.IsNullOrEmpty(ong.ImageURL))
-                {
-                    // Remove o prefixo do path para obter o caminho do arquivo
-                    string oldImagePath = Path.Combine(wwwRootPath, ong.ImageURL.TrimStart('/'));
-                    if (System.IO.File.Exists(oldImagePath))
+                    if (!string.IsNullOrEmpty(urlCloudinary))
                     {
-                        System.IO.File.Delete(oldImagePath);
+                        ong.ImageURL = urlCloudinary; // Salva a URL do Cloudinary no banco
+
+                        _context.Update(ong);
+                        await _context.SaveChangesAsync();
+                        TempData["SuccessMessage"] = "Logo atualizada com sucesso!";
                     }
                 }
-
-                // 5. Atualizar o ImageURL no banco de dados (Caminho relativo para acesso web)
-                ong.ImageURL = Path.Combine("/images", "logos", fileName).Replace('\\', '/');
-
-                // 6. Persistir as mudanças
-                _context.Update(ong);
-                await _context.SaveChangesAsync();
-
-                TempData["SuccessMessage"] = "Logotipo atualizado com sucesso!";
-            }
-            else
-            {
-                TempData["ErrorMessage"] = "Nenhum arquivo enviado.";
+                catch (Exception ex)
+                {
+                    TempData["ErrorMessage"] = "Erro ao enviar imagem: " + ex.Message;
+                }
             }
 
-            return RedirectToAction("Details", new { id = ongId });
+            return RedirectToAction(nameof(Details), new { id = ongId });
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UploadHeaderImages(int ongId, List<IFormFile> headerImages)
         {
-            // 1. Busca a ONG
-            var ong = await _context.Ongs.FindAsync(ongId);
-            if (ong == null)
-            {
-                return NotFound();
-            }
+            var userId = _userManager.GetUserId(User);
+            var ong = await _context.Ongs.FirstOrDefaultAsync(o => o.Id == ongId && o.UserId == userId);
 
-            // 2. Verifica se enviou algum arquivo
-            if (headerImages != null && headerImages.Count > 0)
-            {
-                // Vamos pegar apenas a primeira imagem da lista, já que o layout é "Single Header"
-                var file = headerImages[0];
+            if (ong == null) return NotFound();
 
-                if (file.Length > 0)
+            // Pega o primeiro arquivo da lista (já que é single header)
+            var file = headerImages.FirstOrDefault();
+
+            if (file != null && file.Length > 0)
+            {
+                try
                 {
-                    // 3. Define o caminho: wwwroot/img/headers/
-                    string wwwRootPath = _hostEnvironment.WebRootPath;
-                    string fileName = Path.GetFileNameWithoutExtension(file.FileName);
-                    string extension = Path.GetExtension(file.FileName);
+                    // Chama o método auxiliar do Cloudinary
+                    string urlCloudinary = await UploadToCloudinary(file);
 
-                    // Gera nome único para não sobrescrever outros arquivos
-                    fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
-
-                    string path = Path.Combine(wwwRootPath + "/img/headers/");
-
-                    // Cria a pasta se não existir
-                    if (!Directory.Exists(path))
+                    if (!string.IsNullOrEmpty(urlCloudinary))
                     {
-                        Directory.CreateDirectory(path);
+                        ong.HeaderImageURL = urlCloudinary; // Salva a URL do Cloudinary no banco
+
+                        _context.Update(ong);
+                        await _context.SaveChangesAsync();
+                        TempData["SuccessMessage"] = "Imagem de capa atualizada com sucesso!";
                     }
-
-                    // 4. Salva o arquivo no servidor
-                    string finalPath = Path.Combine(path, fileName);
-                    using (var fileStream = new FileStream(finalPath, FileMode.Create))
-                    {
-                        await file.CopyToAsync(fileStream);
-                    }
-
-                    // 5. Deleta imagem antiga se existir (opcional, para limpar espaço)
-                    if (!string.IsNullOrEmpty(ong.HeaderImageURL))
-                    {
-                        var oldPath = Path.Combine(wwwRootPath, ong.HeaderImageURL.TrimStart('/'));
-                        if (System.IO.File.Exists(oldPath))
-                        {
-                            System.IO.File.Delete(oldPath);
-                        }
-                    }
-
-                    // 6. Atualiza o caminho no Banco de Dados
-                    // O caminho salvo deve começar com / para ser lido pelo HTML
-                    ong.HeaderImageURL = "/img/headers/" + fileName;
-
-                    _context.Update(ong);
-                    await _context.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    TempData["ErrorMessage"] = "Erro ao enviar imagem: " + ex.Message;
                 }
             }
 
-            // Retorna para a página de detalhes
             return RedirectToAction(nameof(Details), new { id = ongId });
         }
 
@@ -805,6 +774,32 @@ namespace nexumApp.Controllers
             }
 
             return RedirectToAction(nameof(Details), new { id = ongId });
+        }
+
+        private async Task<string> UploadToCloudinary(IFormFile file)
+        {
+            if (file == null || file.Length == 0) return null;
+
+            using (var ms = new MemoryStream())
+            {
+                await file.CopyToAsync(ms);
+                ms.Position = 0;
+
+                var uploadParams = new ImageUploadParams()
+                {
+                    File = new FileDescription(file.FileName, ms),
+                    UseFilename = true,
+                    UniqueFilename = true, // Mudei para true para evitar cache de imagem antiga
+                    Overwrite = true,
+                    // Format = "jpg" // Opcional: Se quiser forçar JPG. Se remover, mantém o original (png, etc)
+                };
+
+                // Faz o upload
+                var uploadResult = _cloudinary.Upload(uploadParams);
+
+                // Retorna a URL segura (HTTPS)
+                return uploadResult.SecureUrl.ToString();
+            }
         }
     }
 }

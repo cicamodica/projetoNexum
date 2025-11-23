@@ -5,6 +5,13 @@
     margin: 25px 0 20px 0;
 }
 
+h5 {
+    color: #16435D;
+    font-weight: 600;
+    font-size: 28px;
+    margin: 25px 0 20px 0;
+}
+
 .btn-sm {
     color: #ffffff;
     background: #2987bf;
@@ -86,6 +93,13 @@
         border-color: #2987bf;
     }
 
+.btn-fechar{
+    border-radius: 24px;
+}
+
+.btn-enviar {
+    border-radius: 24px;
+}
 
 @media (max-width: 992px) {
     .fale-table th, .fale-table td {

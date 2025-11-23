@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+Ôªø// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
@@ -52,7 +52,7 @@ namespace nexumApp.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required(ErrorMessage = "O Email È obrigatÛrio.")]
+            [Required(ErrorMessage = "O Email √© obrigat√≥rio.")]
             [EmailAddress]
             public string Email { get; set; }
 
@@ -60,7 +60,7 @@ namespace nexumApp.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required(ErrorMessage = "A senha È obrigatÛria.")]
+            [Required(ErrorMessage = "A senha √© obrigat√≥ria.")]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
@@ -105,21 +105,27 @@ namespace nexumApp.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User logged in.");
 
-                    // Pega o usu·rio que acabou de logar
+                    // Pega o usu√°rio que acabou de logar
                     var user = await _userManager.FindByEmailAsync(Input.Email);
 
-                    // Verifica se o usu·rio existe e se tem a Role "Ong"
+                    // 2) Se for ADMIN ‚Üí vai pro Dashboard do Admin
+                    if (user != null && await _userManager.IsInRoleAsync(user, "Admin"))
+                    {
+                        return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+                    }
+
+                    // Verifica se o usu√°rio existe e se tem a Role "Ong"
                     if (user != null && await _userManager.IsInRoleAsync(user, "Ong"))
                     {
-                        // ---- InÌcio da LÛgica de AprovaÁ„o ----
+                        // ---- In√≠cio da L√≥gica de Aprova√ß√£o ----
 
-                        // Encontra a entidade ONG associada a este usu·rio
+                        // Encontra a entidade ONG associada a este usu√°rio
                         var ong = await _context.Ongs.FirstOrDefaultAsync(o => o.UserId == user.Id);
 
                         // Verifica se a ONG foi encontrada
                         if (ong != null)
                         {
-                            if (ong.AprovaÁao == true)
+                            if (ong.Aprova√ßao == true)
                             {
                                 // Adiciona new { area = "" }
                                 return RedirectToAction("Dashboard", "Ongs", new { area = "" });
@@ -127,20 +133,20 @@ namespace nexumApp.Areas.Identity.Pages.Account
                             else
                             {
                                 //  Adiciona new { area = "" }
-                                return RedirectToAction("Details", "Ongs", new { id = ong.Id });
+                                return RedirectToAction("Details", "Ongs", new { id = ong.Id, area = "" });
                             }
                         }
                         else
                         {
-                            _logger.LogWarning($"Usu·rio {user.Email} tem a role 'Ong' mas n„o possui registro na tabela 'Ongs'.");
+                            _logger.LogWarning($"Usu√°rio {user.Email} tem a role 'Ong' mas n√£o possui registro na tabela 'Ongs'.");
                             //  Adiciona new { area = "" }
                             return RedirectToAction("Wait", "Ongs", new { area = "" });
                         }
-                        // ---- Fim da LÛgica de AprovaÁ„o ----
+                        // ---- Fim da L√≥gica de Aprova√ß√£o ----
                     }
 
-                    //  Se for qualquer outro tipo de usu·rio (Doador, Admin, etc.)
-                    //  manda para a p·gina inicial padr„o.
+                    //  Se for qualquer outro tipo de usu√°rio (Doador, Admin, etc.)
+                    //  manda para a p√°gina inicial padr√£o.
                     return LocalRedirect(returnUrl);
                 }
 
@@ -160,12 +166,12 @@ namespace nexumApp.Areas.Identity.Pages.Account
                 // --- CAMINHO 4: Login FALHOU (Senha errada, etc.) ---
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Email ou senha inv·lidos.");
+                    ModelState.AddModelError(string.Empty, "Email ou senha inv√°lidos.");
                     return Page();
                 }
             }
 
-            // --- CAMINHO 5: Modelo Inv·lido (Ex: email n„o preenchido) ---
+            // --- CAMINHO 5: Modelo Inv√°lido (Ex: email n√£o preenchido) ---
             return Page();
         }
     }
