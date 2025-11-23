@@ -96,60 +96,8 @@ namespace nexumApp.Controllers
             return View(metasPublicas);
         }
 
-        //PESQUISA REDIRECIONADA PARA PÁGINA MARKETPLACE FILTRADA:
-
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> Marketplace(string? search, string? cep, string? cidade, int? tagId)
-        {
-            // normaliza termo
-            search = search?.Trim();
-
-            // base da consulta de metas
-            var query = _context.Metas
-                .Include(m => m.Ong)
-                .Include(m => m.Filial)
-                .Include(m => m.Doacoes)
-                .Where(m => m.Status == "Ativa");
-
-            // 🔍 filtro de texto (metas + ONG)
-            if (!string.IsNullOrWhiteSpace(search))
-            {
-                query = query.Where(m =>
-                    m.Recurso.Contains(search) ||
-                    m.Descricao.Contains(search) ||
-                    m.Ong.Nome.Contains(search) ||
-                    m.Ong.Endereço.Contains(search) ||
-                    (m.Filial != null && m.Filial.Endereço.Contains(search))
-                );
-            }
-
-            // (se você tiver filtros de CEP / cidade / tagId, mantém aqui embaixo, como já usa hoje)
-
-            var metasPublicas = await query
-                .OrderBy(m => m.DataFim)
-                .ToListAsync();
-
-            // pendências (igual você já faz)
-            var pendingValues = new Dictionary<int, int>();
-            foreach (var meta in metasPublicas)
-            {
-                int valorPendente = meta.Doacoes
-                    .Where(d => d.Status == "Pendente")
-                    .Sum(d => d.Quantidade);
-
-                pendingValues[meta.Id] = valorPendente;
-            }
-
-            ViewBag.PendingValues = pendingValues;
-            ViewBag.Search = search;
-
-            return View(metasPublicas); // Marketplace.cshtml
-        }
-
-        [AllowAnonymous]
-        [HttpGet]
-
         public IActionResult GetVagasPartial(string cep, string tags, string search)
         { 
             var vagasFromDb = _context.Vagas.Include(vaga => vaga.Ong).ToList();
