@@ -1,4 +1,7 @@
-﻿@{
+﻿﻿
+
+@model IEnumerable<nexumApp.Models.Meta>
+@{
     ViewData["Title"] = "Marketplace";
     var pendingValues = ViewBag.PendingValues as Dictionary<int, int> ?? new Dictionary<int, int>();
     string search = ViewBag.Search as string;
@@ -6,6 +9,62 @@
     var ongs = ViewBag.Ongs as List<nexumApp.Models.Ong>;
     var selectedTags = ViewBag.SelectedTags as List<int> ?? new List<int>();
     var tagsModel = new nexumApp.Models.Tags();
+    var tab = Context.Request.Query["tab"].ToString();
+}
+
+
+@if (!string.IsNullOrWhiteSpace(search))
+{
+    <h3 class="mt-4">Resultados para "@search"</h3>
+
+    //ONGs
+    if (ongs != null && ongs.Any())
+    {
+        <h4 class="mt-3">ONGs encontradas (@ongs.Count)</h4>
+        <div class="row">
+            @foreach (var o in ongs)
+            {
+                <div class="col-md-4 mb-3">
+                    <div class="card p-3 shadow-sm">
+                        <h5>@o.Nome</h5>
+                        <p>@o.Endereço</p>
+                        <p><small>CNPJ: @o.CNPJ</small></p>
+                        <a asp-controller="Ongs"
+                           asp-action="Details"
+                           asp-route-id="@o.Id"
+                           class="btn btn-primary">
+                            Ver ONG
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+    //VAGAS
+    if (vagas != null && vagas.Any())
+    {
+        <h4 class="mt-4">Vagas encontradas (@vagas.Count)</h4>
+        <div class="row">
+            @foreach (var v in vagas)
+            {
+                <div class="col-md-4 mb-3">
+                    <div class="card p-3 shadow-sm">
+                        <h5>@v.Titulo</h5>
+                        <p>@v.Descricao</p>
+                        <a asp-controller="Vagas"
+                           asp-action="Details"
+                           asp-route-id="@v.IdVaga"
+                           class="btn btn-outline-primary">
+                            Ver vaga
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+    <h4 class="mt-4">Metas encontradas (@Model.Count())</h4>
 }
 
 
@@ -13,7 +72,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <style>
-    
+
     .header-banner {
         position: relative;
         width: 100vw;
@@ -227,7 +286,7 @@
             color: white;
             border-color: #16435D;
         }
-        color: #16435D;
+
     .filter-tag {
         background-color: #e0e0e0;
         border-radius: 15px;
@@ -287,13 +346,12 @@
         border-bottom: 1px solid #f0f0f0;
     }
 
-    .vaga-card-logo img {
+        .vaga-card-logo img {
             width: 240px;
             height: 180px;
             object-fit: cover;
             border-radius: 10%;
             border: 3px solid #f0f0f0;
-
         }
 
     .vaga-card-body {
@@ -334,15 +392,15 @@
         font-size: 0.85rem;
         color: #6c757d;
         margin-bottom: 0.5rem;
-        justify-content:center;
+        justify-content: center;
     }
 
-     .vaga-info i {
+        .vaga-info i {
             color: #16435D;
             font-size: 1rem;
-      }
+        }
 
-     
+
 
     .vaga-card-footer {
         padding: 0 1.5rem 1.5rem;
@@ -537,10 +595,10 @@
     }
 
 
-     .geolocation-btn:focus, .geolocation-btn:active {
+        .geolocation-btn:focus, .geolocation-btn:active {
             outline: none;
             box-shadow: none;
-    }
+        }
 
 
     .modal-vaga-content {
@@ -587,7 +645,7 @@
         justify-content: center;
     }
 
-    .vaga-info-logo img {
+        .vaga-info-logo img {
             max-width: 100%;
             max-height: 100%;
             object-fit: contain;
@@ -652,11 +710,11 @@
         cursor: pointer;
     }
 
-    .form-vaga-profile-pic img {
+        .form-vaga-profile-pic img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-    }
+        }
 
     .form-vaga-profile-pic-icon {
         font-size: 3rem;
@@ -674,63 +732,60 @@
 
         .form-vaga-profile .btn-upload:hover {
             background-color: #16435D;
-            
         }
 
     .form-vaga-fields {
         flex: 1;
     }
 
-    .form-vaga-fields .form-group {
+        .form-vaga-fields .form-group {
             margin-bottom: 1rem;
-            
-    }
+        }
 
-    .form-vaga-fields .form-label {
+        .form-vaga-fields .form-label {
             font-size: 0.9rem;
             font-weight: 500;
             color: #555;
             margin-bottom: 0.25rem;
-    }
+        }
 
-    .form-vaga-fields .form-control {
+        .form-vaga-fields .form-control {
             border-radius: 30px;
             border: 1.5px solid #16435D;
             padding: 10px 15px;
             font-size: 0.95rem;
-    }
+        }
 
-     .form-vaga-fields .form-control:focus {
+            .form-vaga-fields .form-control:focus {
                 border-color: #16435D;
                 box-shadow: 0 0 0 0.2rem rgba(22, 67, 93, 0.25);
-     }
+            }
 
-     .form-vaga-fields textarea.form-control {
+        .form-vaga-fields textarea.form-control {
             min-height: 100px;
-     }
+        }
 
     .form-vaga-split {
         display: flex;
         gap: 15px;
     }
 
-    .form-vaga-split .form-group {
+        .form-vaga-split .form-group {
             flex: 1;
-    }
+        }
 
     .form-vaga-footer {
         text-align: center;
         margin-top: 2rem;
     }
 
-    .form-vaga-footer .form-text {
+        .form-vaga-footer .form-text {
             font-size: 0.85rem;
             margin-bottom: 1rem;
             border-radius: 60px;
+        }
 
-     }
-
-    .form-vaga-footer .btn-submit-vaga {
+        .form-vaga-footer .btn-submit-vaga {
             background-color: #16435D;
             border-color: #16435D;
             color: white;
@@ -739,28 +794,28 @@
             font-size: 1.1rem;
             padding: 12px 40px;
             transition: all 0.2s ease;
-    }
+        }
 
-    .form-vaga-footer .btn-submit-vaga:hover {
+            .form-vaga-footer .btn-submit-vaga:hover {
                 background-color: #103347;
-    }
+            }
 
     .modal-body .progress-bar {
-        color: #fff; 
-        font-size: 0.75rem; 
+        color: #fff;
+        font-size: 0.75rem;
         font-weight: 500;
-        line-height: 20px; 
+        line-height: 20px;
     }
 
     .modal-body .progress {
-        height: 20px; 
+        height: 20px;
     }
-   
+
     .btn-tag {
         background-color: #fff;
         border: 1px solid #16435D;
         color: #16435D;
-        border-radius: 20px; 
+        border-radius: 20px;
         padding: 5px 12px;
         font-size: 0.85rem;
         font-weight: 500;
@@ -768,24 +823,24 @@
         transition: all 0.2s ease;
     }
 
-       
-    .btn-tag:hover {
+
+        .btn-tag:hover {
             background-color: #f0f8ff;
         }
 
-       
-    .btn-tag.active {
+
+        .btn-tag.active {
             background-color: #16435D;
             color: white;
             border-color: #16435D;
         }
 
-            
-    .btn-tag.active::after {
-                content: " \00d7"; 
+
+            .btn-tag.active::after {
+                content: " \00d7";
                 font-weight: bold;
                 margin-left: 5px;
-     }
+            }
 
 </style>
 
@@ -812,94 +867,28 @@
             </div>
 
             <div class="filter-section">
-                <h6>Filtrar por:</h6>
-
-                <div id="filtro-dias-atuacao" class="filter-section" style="display:none;">
-                    <h6>Datas de atuação</h6>
-
-
-                    <div class="calendar-header">
-                        <button type="button" id="prev-month" class="calendar-nav-btn">
-                            <svg xmlns="http://www.w3.org/2000/svg" style="height: 20px; width: 20px; color: #6c757d;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-                            </svg>
-                        </button>
-                        <h4 id="month-year" class="calendar-month-year"></h4>
-                        <button type="button" id="next-month" class="calendar-nav-btn">
-                            <svg xmlns="http://www.w3.org/2000/svg" style="height: 20px; width: 20px; color: #6c757d;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-                            </svg>
-                        </button>
-                    </div>
-
-
-                    <div class="calendar-weekdays">
-                        <div>Do</div>
-                        <div>Se</div>
-                        <div>Te</div>
-                        <div>Qu</div>
-                        <div>Qu</div>
-                        <div>Se</div>
-                        <div>Sá</div>
-                    </div>
-                    <div id="calendar-grid" class="calendar-grid">
-                    </div>
-
-
-                    <div class="calendar-summary">
-                        <span id="selected-summary" class="calendar-summary-text">Nenhuma data selecionada</span>
-                        <button type="button" id="clear-selection" class="calendar-clear-btn">
-                            Limpar
-                        </button>
-                    </div>
-
-                </div>
-
                 <div class="filter-section mt-4">
                     <h6>Causas</h6>
                     <div class="filter-tags d-flex flex-wrap gap-2">
-                        @foreach (var tag in tagsModel.TagsList)
+                        @for (int index = 0; index < tagsModel.TagsNames.Count; index++)
                         {
-                            var isActive = selectedTags.Contains(int.Parse(tag.Value));
-                            <button type="button" class="btn-tag @(isActive ? "active" : "")" data-id="@tag.Value" onclick="toggleTag(this)">
-                                @tag.Text
+                            @* var isActive = selectedTags.Contains(int.Parse(tag.Value)); *@
+                            <button type="button" class="btn-tag" id="@index" onclick="toggleTag(this)">
+                                @tagsModel.TagsNames[index]
                             </button>
                         }
                     </div>
                 </div>
-
-
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="filtroEndereco" id="radioEndereco" onclick="toggleLocationInputs(true)">
                     <label class="form-check-label" for="radioEndereco">
                         Endereço
                     </label>
-
-                    <button type="button" id="geolocation-btn" class="geolocation-btn" title="Usar minha localização atual">
-
-
-                        <svg id="geolocation-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" style="margin-top: -2px;">
-                            <path class="icon-base" d="M12 21c-4.42 0-8-1.79-8-4s3.58-4 8-4 8 1.79 8 4-3.58 4-8 4z" />
-                            <path class="icon-pin" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
-                            <path class="icon-dot" d="M12 11.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
-                        </svg>
-
-
-                        <svg id="geolocation-loading" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-repeat spinning-icon" viewBox="0 0 16 16" style="display: none;">
-                            <path d="M11.534 7a4.5 4.5 0 1 1-1.334-3.562l.243-.243a.5.5 0 0 1 .707.707l-.243.243A4.5 4.5 0 1 1 11.534 7z" />
-                            <path d="M8 3a.5.5 0 0 1 .5.5V5.5H10a.5.5 0 0 1 0 1H8.5V8a.5.5 0 0 1-1 0V6.5H6a.5.5 0 0 1 0-1h1.5V3.5A.5.5 0 0 1 8 3z" />
-                        </svg>
-
-
-                    </button>
-
-                    <span id="geolocation-status" class="calendar-summary-text" style="font-size: 0.8rem; display: block; margin-left: 20px;"></span>
                 </div>
 
                 <div id="location-inputs" class="filter-location-inputs" style="display:none;">
                     <input type="text" id="cep-input" class="form-control" placeholder="CEP" maxlength="9">
-                   
-                    <input type="text" id="cidade-input" class="form-control" placeholder="Cidade">
+
                 </div>
 
                 <button id="btn-filtrar" class="btn btn-filtrar">Filtrar</button>
@@ -912,35 +901,31 @@
 
         <main class="main-content">
 
-            <h4 id="resultados-titulo">
-                @(string.IsNullOrWhiteSpace(search)
-                  ? $"Resultados para Doações ({Model.Count()})"
-                  : $"Metas encontradas ({Model.Count()}) para \"{search}\"")
-            </h4>
+            <h4 id="resultados-titulo">Resultados para Doações (@Model.Count())</h4>
 
 
             <div id="metas-container">
-    <div class="row">
-        @if (Model.Any())
-        {
-            foreach (var meta in Model)
-            {
+                <div class="row">
+                    @if (Model.Any())
+                    {
+                        foreach (var meta in Model)
+                        {
 
-                <div class="col-md-6 col-lg-4 mb-4 card-item-meta">
-                    <div class="meta-card-design">
-                        <div>
+                            <div class="col-md-6 col-lg-4 mb-4 card-item-meta">
+                                <div class="meta-card-design">
+                                    <div>
 
-                            @if (!string.IsNullOrEmpty(meta.ImagemUrl))
-                            {
-                                <img src="@meta.ImagemUrl" asp-append-version="true" 
-                                     class="card-img-top mb-3"
-                                     style="border-radius: 15px; height: 180px; object-fit: cover;" 
-                                     alt="@meta.Recurso">
-                            }
+                                        @if (!string.IsNullOrEmpty(meta.ImagemUrl))
+                                        {
+                                            <img src="@meta.ImagemUrl" asp-append-version="true"
+                                                 class="card-img-top mb-3"
+                                                 style="border-radius: 15px; height: 180px; object-fit: cover;"
+                                                 alt="@meta.Recurso">
+                                        }
 
-                            <h5 class="card-title-public">@meta.Recurso</h5>
-                            <p class="card-ong-name">@meta.Ong.Nome</p>
-                            <p class="card-text-public">@meta.Descricao</p>
+                                        <h5 class="card-title-public">@meta.Recurso</h5>
+                                        <p class="card-ong-name">@meta.Ong.Nome</p>
+                                        <p class="card-text-public">@meta.Descricao</p>
 
                                         <div class="location-info mt-2">
                                             <i class="bi bi-geo-alt-fill"></i>
@@ -982,216 +967,7 @@
                                         <div class="mb-2 mt-3">
                                             <small class="text-muted">Progresso: @meta.ValorAtual de @meta.ValorAlvo</small>
 
-                                            @if (valorPendente > 0)
-                                            {
-                                                <small class="text-muted d-block">(@valorPendente pendentes de aprovação)</small>
-                                            }
 
-                                            <div class="progress" style="height: 20px;">
-                                                <div class="progress-bar" role="progressbar"
-                                                     style="width: @(progressoConfirmadoF)%;"
-                                                     aria-valuenow="@progressoConfirmadoF"
-                                                     aria-valuemin="0"
-                                                     aria-valuemax="100">
-                                                    @(progressoConfirmadoF)%
-                                                </div>
-                                                <div class="progress-bar progress-bar-striped bg-info" role="progressbar"
-                                                     style="width: @(progressoPendenteF)%;"
-                                                     aria-valuenow="@progressoPendenteF"
-                                                     aria-valuemin="0"
-                                                     aria-valuemax="100">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                            @if (meta.DataFim.HasValue)
-                            {
-                                <p class="small text-muted mt-2 mb-2 text-center">
-                                    Encerra em: @meta.DataFim.Value.ToString("dd/MM/yyyy")
-                                </p>
-                            }
-                        </div>
-
-                        <div class="mt-3">
-
-                            <!-- BOTÃO DOAR COM OS DADOS NECESSÁRIOS -->
-                            <a href="#" class="btn btn-doar abrirModalDoacaoBtn"
-                               data-meta-id="@meta.Id"
-                               data-titulo="@meta.Recurso"
-                               data-ong="@meta.Ong.Nome"
-                               data-descricao="@meta.Descricao"
-                               data-endereco="@(meta.Filial != null ? meta.Filial.Endereço : meta.Ong.Endereço)"
-                               data-atual="@meta.ValorAtual"
-                               data-alvo="@meta.ValorAlvo"
-                               data-imagem="@meta.ImagemUrl"
-                               data-ong-cnpj="@meta.Ong.CNPJ"
-                               data-bs-toggle="modal"
-                               data-bs-target="#modalDoacao">
-                                            
-                                Doar
-                            </a>
-
-                        </div>
-                    </div>
-                </div>
-
-            }
-        }
-        else
-        {
-            <div class="col-12 text-center">
-                <p class="lead">Nenhuma meta ativa encontrada no momento.</p>
-            </div>
-        }
-    </div>
-</div>
-
-
-            <div id="vagas-container" style="display:none;">
-                <div class="row">
-
-                    <div class="col-12 text-center">
-                        <p class="lead">Buscando vagas...</p>
-                    </div>
-                </div>
-            </div>
-
-        </main>
-
-    </div>
-</div>
-
-<div class="modal fade" id="vagaModal" tabindex="-1" aria-labelledby="vagaModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content modal-vaga-content">
-            <div class="modal-header modal-vaga-header">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="position: absolute; top: 1.5rem; right: 1.5rem;"></button>
-            </div>
-            <div class="modal-body modal-vaga-body" id="vagaModalBody">
-                
-                <div class="text-center p-4">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Carregando...</span>
-                    </div>
-                    <p class="mt-2">Carregando...</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="modalDoacao" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content" style="border-radius: 15px;">
-            <div class="modal-header">
-                <h5 class="modal-title">INFORMAÇÕES SOBRE A META</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-
-            <div class="modal-body">
-
-                <div class="d-flex align-items-start">
-
-                    <!-- IMAGEM -->
-                    <img id="modalDoacaoLogo"
-                         src=""
-                         class="me-3"
-                         style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover;">
-
-                    <div class="w-100">
-
-                        <!-- TÍTULO -->
-                        <h5 id="modalDoacaoTitulo" class="mb-1 fw-bold"></h5>
-
-                        <!-- NOME DA ONG -->
-                        <div id="modalDoacaoOng" class="text-muted small"></div>
-
-                        <!-- DESCRIÇÃO DA META -->
-                        <div id="modalDoacaoDescricaoMeta" class="mt-1 small"></div>
-
-                        <!-- ENDEREÇO -->
-                        <div id="modalDoacaoEndereco" class="mt-1 small"></div>
-
-                        <!-- VALORES DO PROGRESSO -->
-                        <div id="modalDoacaoProgressoValores" class="mt-2 fw-bold"></div>
-
-                        <!-- BARRA DE PROGRESSO -->
-                        <div class="mt-3">
-                            <div id="modalDoacaoProgressoTextos">
-                                <small class="text-muted d-block" id="modalDoacaoProgressoValores"></small>
-                                <small class="text-muted d-block" id="modalDoacaoProgressoPendente"></small>
-                            </div>
-
-                            <div class="progress modal-progresso-bar mt-2" style="height: 20px;">
-                                <div id="modalDoacaoProgressoConfirmado" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                <div id="modalDoacaoProgressoPendenteBar" class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <hr class="my-4">
-                <h5 class="text-center mb-3">Como deseja ajudar?</h5>
-
-                <div class="text-center mb-4 d-flex justify-content-center">
-                    <input type="radio" class="btn-check" name="tipoDoacao" id="radio-material" value="material" checked>
-                    <label class="btn btn-outline-primary me-3 btn-radio-custom" for="radio-material">
-                        <i class="bi bi-box-seam"></i> Quero doar material
-                    </label>
-
-                    <input type="radio" class="btn-check" name="tipoDoacao" id="radio-valor" value="valor">
-                    <label class="btn btn-outline-primary btn-radio-custom" for="radio-valor">
-                        <i class="bi bi-cash-coin"></i> Quero doar um valor
-                    </label>
-                </div>
-
-
-                <div id="form-material">
-                    <h5 class="text-center mb-3 fw-bold">FORMULÁRIO DE DOAÇÃO</h5>
-                    <form asp-controller="Doacoes" asp-action="Create" method="post" id="form-doacao-material">
-
-                        @Html.AntiForgeryToken()
-                        <input type="hidden" id="modalDoacaoMetaId" name="MetaId" />
-
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="NomeCompleto" class="form-label">Nome Completo</label>
-                                <input type="text" class="form-control" name="NomeCompleto" required>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="Email" class="form-label">E-mail</label>
-                                <input type="email" class="form-control" name="Email" required>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="CPF" class="form-label">CPF</label>
-                                <input type="text" class="form-control" name="CPF" required>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="Telefone" class="form-label">Número para contato</label>
-                                <input type="tel" class="form-control" name="Telefone" required>
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="Descricao" class="form-label">Descrição do que será doado</label>
-                            <input type="text" class="form-control" name="Descricao" placeholder="Ex: 2 sacos de ração de 10kg" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="Quantidade" class="form-label">Quantidade</label>
-                            <input type="number" class="form-control" name="Quantidade" value="1" min="1" required>
-                        </div>
-
-                        <p class="text-center text-muted small mt-4">Após enviar o formulário você será notificado via e-mail</p>
-
-                                            var progressoConfirmadoF = percConfirmado.ToString("F0");
-                                            var progressoPendenteF = percPendente.ToString("F0");
-                                        }
-
-                                        <div class="mb-2 mt-3">
-                                            <small class="text-muted">Progresso: @meta.ValorAtual de @meta.ValorAlvo</small>
-
-                                           
 
                                             @* ADICIONADO: position-relative para permitir o texto sobreposto *@
                                             <div class="progress position-relative" style="height: 20px; background-color: #e9ecef; border-radius: 10px;">
@@ -1213,47 +989,47 @@
                                             </div>
                                         </div>
 
-                            @if (meta.DataFim.HasValue)
-                            {
-                                <p class="small text-muted mt-2 mb-2 text-center">
-                                    Encerra em: @meta.DataFim.Value.ToString("dd/MM/yyyy")
-                                </p>
-                            }
-                        </div>
+                                        @if (meta.DataFim.HasValue)
+                                        {
+                                            <p class="small text-muted mt-2 mb-2 text-center">
+                                                Encerra em: @meta.DataFim.Value.ToString("dd/MM/yyyy")
+                                            </p>
+                                        }
+                                    </div>
 
-                        <div class="mt-3">
+                                    <div class="mt-3">
 
-                            <!-- BOTÃO DOAR COM OS DADOS NECESSÁRIOS -->
-                            <a href="#" class="btn btn-doar abrirModalDoacaoBtn"
-                               data-meta-id="@meta.Id"
-                               data-titulo="@meta.Recurso"
-                               data-ong="@meta.Ong.Nome"
-                               data-descricao="@meta.Descricao"
-                               data-endereco="@(meta.Filial != null ? meta.Filial.Endereço : meta.Ong.Endereço)"
-                               data-atual="@meta.ValorAtual"
-                               data-alvo="@meta.ValorAlvo"
-                               data-imagem="@meta.ImagemUrl"
+                                        <!-- BOTÃO DOAR COM OS DADOS NECESSÁRIOS -->
+                                        <a href="#" class="btn btn-doar abrirModalDoacaoBtn"
+                                           data-meta-id="@meta.Id"
+                                           data-titulo="@meta.Recurso"
+                                           data-ong="@meta.Ong.Nome"
+                                           data-descricao="@meta.Descricao"
+                                           data-endereco="@(meta.Filial != null ? meta.Filial.Endereço : meta.Ong.Endereço)"
+                                           data-atual="@meta.ValorAtual"
+                                           data-alvo="@meta.ValorAlvo"
+                                           data-imagem="@meta.ImagemUrl"
                                            data-chave-pix="@(meta.Ong.ChavePix ?? "Chave PIX não cadastrada")"
-                               data-bs-toggle="modal"
-                               data-bs-target="#modalDoacao">
-                                            
-                                Doar
-                            </a>
+                                           data-bs-toggle="modal"
+                                           data-bs-target="#modalDoacao">
 
+                                            Doar
+                                        </a>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        }
+                    }
+                    else
+                    {
+                        <div class="col-12 text-center">
+                            <p class="lead">Nenhuma meta ativa encontrada no momento.</p>
                         </div>
-                    </div>
+                    }
                 </div>
-
-            }
-        }
-        else
-        {
-            <div class="col-12 text-center">
-                <p class="lead">Nenhuma meta ativa encontrada no momento.</p>
             </div>
-        }
-    </div>
-</div>
 
 
             <div id="vagas-container" style="display:none;">
@@ -1277,7 +1053,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="position: absolute; top: 1.5rem; right: 1.5rem;"></button>
             </div>
             <div class="modal-body modal-vaga-body" id="vagaModalBody">
-                
+
                 <div class="text-center p-4">
                     <div class="spinner-border text-primary" role="status">
                         <span class="visually-hidden">Carregando...</span>
@@ -1415,570 +1191,439 @@
 
 
 @section Scripts {
-   
-   <script>
-      function previewImagemUnica(input, imgId) {
-         if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-               document.getElementById(imgId).src = e.target.result;
-            }
-            reader.readAsDataURL(input.files[0]);
-         }
-      }
 
-   document.addEventListener('DOMContentLoaded', function () {
-      console.log("Script Marketplace carregado.");
-
-           const selectedTagIds = new Set();
-
-           
-           window.toggleTag = function (button) {
-               const id = button.dataset.id;
-
-               if (button.classList.contains('active')) {
-                   // se já estava ativa, desmarca
-                   button.classList.remove('active');
-                   selectedTagIds.delete(id);
-               } else {
-                   // se não estava ativa, marca
-                   button.classList.add('active');
-                   selectedTagIds.add(id);
-               }
-
-               console.log('Tags selecionadas:', Array.from(selectedTagIds));
-           };
-  
-      window.conectarFormularioInscricao = function () {
-         const formInscricao = document.getElementById('formInscricaoVaga');
-
-         if (formInscricao) {
-            console.log("Formulário de inscrição encontrado! Conectando listener de submit...");
-
-            
-            const novoForm = formInscricao.cloneNode(true);
-            formInscricao.parentNode.replaceChild(novoForm, formInscricao);
-
-            novoForm.addEventListener('submit', async function (event) {
-               
-               event.preventDefault();
-               console.log("Envio interceptado pelo JavaScript!");
-
-               const form = event.target;
-               const submitButton = form.querySelector('.btn-submit-vaga');
-
-               if (submitButton) {
-                  submitButton.disabled = true;
-                  submitButton.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Enviando...';
-               }
-
-               try {
-                  const formData = new FormData(form);
-
-                  const response = await fetch(form.action, {
-                     method: 'POST',
-                     body: formData
-                  });
-
-                  if (response.ok) {
-                     console.log("Sucesso! Atualizando modal para mensagem de confirmação.");
-                     const vagaModalBody = document.getElementById('vagaModalBody');
-                     if (vagaModalBody) {
-                        vagaModalBody.innerHTML = `
-                                        <div class="text-center py-5 fade-in">
-                                            <div class="mb-4">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="90" height="90" fill="#198754" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
-                                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
-                                                </svg>
-                                            </div>
-                                            <h3 class="text-success fw-bold mb-3">Inscrição Realizada!</h3>
-                                            <p class="text-muted fs-5">Seus dados foram enviados para a ONG.</p>
-                                            <p class="text-muted small mb-4">Verifique seu e-mail para a confirmação.</p>
-                                            <button type="button" class="btn btn-secondary px-5 py-2 rounded-pill" data-bs-dismiss="modal">Fechar</button>
-                                        </div>
-                                    `;
-                     }
-                  } else {
-                     console.log("Erro de validação. Recarregando formulário com erros.");
-                     const html = await response.text();
-                     const vagaModalBody = document.getElementById('vagaModalBody');
-                     if (vagaModalBody) {
-                        vagaModalBody.innerHTML = html;
-                        
-                        window.conectarFormularioInscricao();
-                     }
-                  }
-
-               } catch (error) {
-                  console.error('Erro de conexão:', error);
-                  const vagaModalBody = document.getElementById('vagaModalBody');
-                  if (vagaModalBody) {
-                     vagaModalBody.innerHTML = '<div class="alert alert-danger">Ocorreu um erro de conexão. Tente novamente.</div><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>';
-                  }
-               }
-            });
-         } else {
-            console.warn("Formulário 'formInscricaoVaga' não encontrado dentro do modal.");
-         }
-      };
-
-      // --- LÓGICA DO MODAL DE VAGA ---
-      const vagaModalElement = document.getElementById('vagaModal');
-      let vagaModal;
-      if (vagaModalElement && typeof bootstrap !== 'undefined') {
-         vagaModal = new bootstrap.Modal(vagaModalElement);
-      }
-
-      const vagaModalBody = document.getElementById('vagaModalBody');
-      const vagasContainer = document.getElementById('vagas-container');
-      const btnDoacoes = document.getElementById('btn-toggle-doacoes');
-      const btnVoluntariado = document.getElementById('btn-toggle-voluntariado');
-      const metasContainer = document.getElementById('metas-container');
-      const titulo = document.getElementById('resultados-titulo');
-      const filtroDiasContainer = document.getElementById('filtro-dias-atuacao');
-      const locationInputs = document.getElementById('location-inputs');
-      const cepInput = document.getElementById('cep-input');
-      const cidadeInput = document.getElementById('cidade-input');
-      const btnFiltrar = document.getElementById('btn-filtrar');
-      const geoBtn = document.getElementById('geolocation-btn');
-      const geoIcon = document.getElementById('geolocation-icon');
-      const geoLoading = document.getElementById('geolocation-loading');
-      const geoStatus = document.getElementById('geolocation-status');
-
-      
-      const monthYearEl = document.getElementById('month-year');
-      const calendarGridEl = document.getElementById('calendar-grid');
-      const prevMonthBtn = document.getElementById('prev-month');
-      const nextMonthBtn = document.getElementById('next-month');
-      const clearSelectionBtn = document.getElementById('clear-selection');
-      const selectedSummaryEl = document.getElementById('selected-summary');
-
-      let currentDate = new Date();
-      let selectedDates = new Set();
-      const today = new Date();
-      let rangeStartDate = null;
-      today.setHours(0, 0, 0, 0);
-
-      const monthNames = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
-         "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
-      ];
-
-      function renderCalendar() {
-         const year = currentDate.getFullYear();
-         const month = currentDate.getMonth();
-
-         if (monthYearEl) {
-            monthYearEl.textContent = `${monthNames[month]} de ${year}`;
-         }
-         if (!calendarGridEl) return;
-
-         calendarGridEl.innerHTML = '';
-
-         const firstDayOfMonth = new Date(year, month, 1).getDay();
-         const daysInMonth = new Date(year, month + 1, 0).getDate();
-         const daysInPrevMonth = new Date(year, month, 0).getDate();
-
-         for (let i = firstDayOfMonth - 1; i >= 0; i--) {
-            const day = daysInPrevMonth - i;
-            const date = new Date(year, month - 1, day);
-            calendarGridEl.appendChild(createDayElement(day, date, false));
-         }
-
-         for (let i = 1; i <= daysInMonth; i++) {
-            const date = new Date(year, month, i);
-            calendarGridEl.appendChild(createDayElement(i, date, true));
-         }
-
-         const lastDayOfMonth = new Date(year, month, daysInMonth).getDay();
-         const daysToAdd = (6 - lastDayOfMonth + 7) % 7;
-         for (let i = 1; i <= daysToAdd; i++) {
-            const date = new Date(year, month + 1, i);
-            calendarGridEl.appendChild(createDayElement(i, date, false));
-         }
-         updateSummary();
-      }
-
-      function createDayElement(day, date, isCurrentMonth) {
-         const dayEl = document.createElement('button');
-         dayEl.type = "button";
-         dayEl.textContent = day;
-         dayEl.className = `calendar-day`;
-         const dateString = date.toISOString().split('T')[0];
-
-         if (isCurrentMonth) {
-            dayEl.dataset.date = dateString;
-            date.setHours(0, 0, 0, 0);
-            if (date.getTime() === today.getTime()) dayEl.classList.add('today');
-            if (selectedDates.has(dateString)) dayEl.classList.add('selected');
-            if (rangeStartDate && dateString === rangeStartDate.toISOString().split('T')[0]) {
-               dayEl.classList.add('range-start');
-               dayEl.classList.remove('selected');
-            }
-            dayEl.addEventListener('click', () => handleDayClick(date));
-         } else {
-            dayEl.classList.add('calendar-day-other-month');
-         }
-         return dayEl;
-      }
-
-      function handleDayClick(date) {
-         if (!rangeStartDate) {
-            rangeStartDate = date;
-            selectedDates.clear();
-            selectedDates.add(date.toISOString().split('T')[0]);
-         } else {
-            const endDate = date;
-            const [startDate, finalDate] = rangeStartDate < endDate ? [rangeStartDate, endDate] : [endDate, rangeStartDate];
-            selectedDates.clear();
-            let curr = new Date(startDate);
-            while (curr <= finalDate) {
-               selectedDates.add(curr.toISOString().split('T')[0]);
-               curr.setDate(curr.getDate() + 1);
-            }
-            rangeStartDate = null;
-         }
-         renderCalendar();
-      }
-
-      function updateSummary() {
-         if (!selectedSummaryEl) return;
-         const count = selectedDates.size;
-         selectedSummaryEl.textContent = count === 0 ? 'Nenhuma data selecionada' : (count === 1 ? '1 data selecionada' : `${count} datas selecionadas`);
-      }
-
-      if (prevMonthBtn) prevMonthBtn.addEventListener('click', () => {
-         currentDate.setMonth(currentDate.getMonth() - 1);
-         renderCalendar();
-      });
-      if (nextMonthBtn) nextMonthBtn.addEventListener('click', () => {
-         currentDate.setMonth(currentDate.getMonth() + 1);
-         renderCalendar();
-      });
-      if (clearSelectionBtn) clearSelectionBtn.addEventListener('click', () => {
-         selectedDates.clear();
-         rangeStartDate = null;
-         renderCalendar();
-      });
-
-      renderCalendar();
-     
-
-      // Toggle Doações/Vagas
-      let vagasCarregadas = false;
-      let totalMetas = @Model.Count();
-      let totalVagas = 0;
-
-      btnDoacoes.addEventListener('click', function () {
-         btnDoacoes.classList.add('active');
-         btnVoluntariado.classList.remove('active');
-         metasContainer.style.display = 'block';
-         vagasContainer.style.display = 'none';
-         filtroDiasContainer.style.display = 'none';
-         titulo.textContent = `Resultados para Doações (${totalMetas})`;
-      });
-
-      btnVoluntariado.addEventListener('click', function () {
-         btnDoacoes.classList.remove('active');
-         btnVoluntariado.classList.add('active');
-         metasContainer.style.display = 'none';
-         vagasContainer.style.display = 'block';
-         filtroDiasContainer.style.display = 'block';
-
-         if (!vagasCarregadas) {
-            vagasContainer.innerHTML = `<div class="col-12 text-center"><p class="lead">Buscando vagas...</p></div>`;
-            fetchVagas();
-         } else {
-            titulo.textContent = `Resultados para Voluntariado (${totalVagas})`;
-         }
-      });
-
-      window.toggleLocationInputs = function (show) {
-         locationInputs.style.display = show ? 'block' : 'none';
-         if (show) document.getElementById('radioEndereco').checked = true;
-      }
-
-      // Filtros
-      btnFiltrar.addEventListener('click', function () {
-         const cep = cepInput.value;
-         const cidade = cidadeInput.value;
-         if (btnVoluntariado.classList.contains('active')) {
-            const datasSelecionadas = Array.from(selectedDates).join(',');
-            vagasContainer.innerHTML = `<div class="col-12 text-center"><p class="lead">Buscando vagas filtradas...</p></div>`;
-            titulo.textContent = 'Resultados para Voluntariado (0)';
-            fetchVagas(cep, cidade, datasSelecionadas);
-
-         } else if (btnDoacoes.classList.contains('active')) {
-
-            let query = new URLSearchParams();
-            if (cep) query.append('cep', cep);
-
-            if (cidade && !cidade.includes("...")) query.append('cidade', cidade);
-            window.location.search = query.toString();
-
-            if(selectedTagIds.size > 0){
-                query.append('tags', Array.from(selectedTagIds).join(','));
-            }
-         }
-      });
-
-      function fetchVagas(cep = '', cidade = '', datas = '') {
-         vagasCarregadas = false;
-         let url = new URL('@Url.Action("GetVagasPartial", "Home")', window.location.origin);
-         if (cep) url.searchParams.append('cep', cep);
-         if (cidade && !cidade.includes("...")) url.searchParams.append('cidade', cidade);
-         if (datas) url.searchParams.append('datas', datas);
-
-         fetch(url.toString())
-            .then(response => {
-               if (!response.ok) throw new Error('Falha ao buscar vagas.');
-               return response.text();
-            })
-            .then(html => {
-               vagasContainer.innerHTML = `<div class="row">${html}</div>`;
-               vagasCarregadas = true;
-               totalVagas = vagasContainer.querySelectorAll('.card-item-vaga').length;
-               titulo.textContent = `Resultados para Voluntariado (${totalVagas})`;
-            })
-            .catch(error => {
-               console.error('Erro no AJAX:', error);
-               vagasContainer.innerHTML = `<div class="col-12 text-center"><p class="lead text-danger">Erro ao carregar vagas.</p></div>`;
-            });
-      }
-
-      // Geolocation
-      geoBtn.addEventListener('click', function () {
-         geoIcon.style.display = 'none';
-         geoLoading.style.display = 'inline-block';
-         geoStatus.textContent = 'Buscando...';
-         geoBtn.disabled = true;
-
-         if (!navigator.geolocation) {
-            geoStatus.textContent = 'Geolocalização não suportada.';
-            resetGeoIcon();
-            return;
-         }
-         navigator.geolocation.getCurrentPosition(async (position) => {
-            const lat = position.coords.latitude;
-            const lon = position.coords.longitude;
-            geoStatus.textContent = 'Localização obtida. Buscando cidade...';
-            try {
-               const response = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=pt`);
-               if (!response.ok) throw new Error('Falha ao buscar dados da cidade.');
-               const data = await response.json();
-               toggleLocationInputs(true);
-               cidadeInput.value = `${data.city} - ${data.principalSubdivisionCode}`;
-               cepInput.value = data.postcode || '';
-               geoStatus.textContent = 'Localização preenchida!';
-               resetGeoIcon();
-            } catch (error) {
-               console.error(error);
-               geoStatus.textContent = 'Erro ao buscar cidade.';
-               resetGeoIcon();
-            }
-         }, (error) => {
-            console.warn(`Erro de Geolocalização (${error.code}): ${error.message}`);
-            geoStatus.textContent = 'Não foi possível obter a localização.';
-            resetGeoIcon();
-         });
-      });
-
-      function resetGeoIcon() {
-         geoIcon.style.display = 'inline-block';
-         geoLoading.style.display = 'none';
-         geoBtn.disabled = false;
-         setTimeout(() => {
-            geoStatus.textContent = '';
-         }, 3000);
-      }
-
-      // CEP Input Mask
-      cepInput.addEventListener('input', function (e) {
-         let v = e.target.value.replace(/\D/g, '');
-         v = v.replace(/^(\d{5})(\d)/, '$1-$2');
-         e.target.value = v.slice(0, 9);
-      });
-      cepInput.addEventListener('blur', async function () {
-         const cep = this.value.replace(/\D/g, '');
-         if (cep.length === 8) {
-            cidadeInput.value = "Buscando...";
-            try {
-               const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
-               if (!response.ok) throw new Error('CEP não encontrado');
-               const data = await response.json();
-               if (data.erro) cidadeInput.value = "CEP não localizado";
-               else cidadeInput.value = `${data.localidade} - ${data.uf}`;
-            } catch (error) {
-               cidadeInput.value = "Erro ao buscar";
-            }
-         } else {
-            cidadeInput.value = '';
-         }
-      });
-
-
-      // 1. Abrir o modal e carregar o formulário
-      if (vagasContainer) {
-         vagasContainer.addEventListener('click', function (event) {
-            const target = event.target.closest('.btn-visualizar');
-            if (target) {
-               event.preventDefault();
-               const vagaId = target.dataset.vagaId;
-
-               if (vagaModal) vagaModal.show();
-
-               vagaModalBody.innerHTML = `
-                            <div class="text-center p-5">
-                                <div class="spinner-border text-primary" role="status"></div>
-                                <p class="mt-2 text-muted">Carregando informações...</p>
-                            </div>`;
-
-               fetch(`@Url.Action("GetVagaDetalheFormPartial", "Home")?vagaId=${vagaId}`)
-                  .then(response => response.text())
-                  .then(html => {
-                     vagaModalBody.innerHTML = html;
-                     // --- AQUI A MÁGICA ACONTECE ---
-                     // Chamamos a função para conectar o listener assim que o HTML novo é inserido
-                     window.conectarFormularioInscricao();
-                  })
-                  .catch(error => {
-                     vagaModalBody.innerHTML = `<div class="alert alert-danger">Erro ao carregar vaga.</div>`;
-                  });
-            }
-         });
-      }
-
-
-      // Modal Doação
-      const doacaoModalElement = document.getElementById('modalDoacao');
-      let doacaoModal;
-      const radioMaterial = document.getElementById('radio-material');
-      const radioValor = document.getElementById('radio-valor');
-      const formMaterial = document.getElementById('form-material');
-      const formValor = document.getElementById('form-valor');
-      const campoPix = document.getElementById('modalDoacaoPix');
-
-      if (doacaoModalElement && typeof bootstrap !== 'undefined') {
-         doacaoModal = new bootstrap.Modal(doacaoModalElement);
-      }
-
-      if (radioMaterial && radioValor && formMaterial && formValor) {
-         radioMaterial.addEventListener('change', function () {
-            if (this.checked) {
-               formMaterial.style.display = 'block';
-               formValor.style.display = 'none';
-            }
-         });
-         radioValor.addEventListener('change', function () {
-            if (this.checked) {
-               formMaterial.style.display = 'none';
-               formValor.style.display = 'block';
-            }
-         });
-      }
-
-      const BotoesDoar = document.querySelectorAll('.abrirModalDoacaoBtn');
-      BotoesDoar.forEach(button => {
-         button.addEventListener('click', function (e) {
-            e.preventDefault();
-            const btn = this;
-            const metaId = btn.dataset.metaId;
-            const titulo = btn.dataset.titulo;
-            const ong = btn.dataset.ong;
-            const descricao = btn.dataset.descricao;
-            const endereco = btn.dataset.endereco;
-            const imagem = btn.dataset.imagem;
-            const atual = parseFloat(btn.dataset.atual);
-            const alvo = parseFloat(btn.dataset.alvo);
-                 const chavePix = btn.dataset.chavePix;
-
-            const valorConfirmado = atual;
-            const valorAlvo = alvo;
-            const valorPendente = 0;
-            let percConfirmado = (valorAlvo > 0) ? (valorConfirmado / valorAlvo) * 100 : 0;
-            let percPendente = (valorAlvo > 0) ? (valorPendente / valorAlvo) * 100 : 0;
-            if (percConfirmado + percPendente > 100) percPendente = 100 - percConfirmado;
-
-            const progressoConfirmadoF = percConfirmado.toFixed(0) + '%';
-            const progressoPendenteF = percPendente.toFixed(0) + '%';
-            const progressoValoresTexto = `${valorConfirmado} de ${valorAlvo}`;
-
-            doacaoModalElement.querySelector('#modalDoacaoLogo').src = imagem || '';
-            doacaoModalElement.querySelector('#modalDoacaoTitulo').textContent = titulo;
-            doacaoModalElement.querySelector('#modalDoacaoOng').textContent = ong;
-            doacaoModalElement.querySelector('#modalDoacaoDescricaoMeta').textContent = descricao;
-            doacaoModalElement.querySelector('#modalDoacaoEndereco').textContent = endereco;
-            doacaoModalElement.querySelector('#modalDoacaoProgressoValores').textContent = progressoValoresTexto;
-
-            const progressoBarConfirmada = doacaoModalElement.querySelector('#modalDoacaoProgressoConfirmado');
-            progressoBarConfirmada.style.width = progressoConfirmadoF;
-            progressoBarConfirmada.textContent = progressoConfirmadoF;
-
-            const progressoBarPendente = doacaoModalElement.querySelector('#modalDoacaoProgressoPendenteBar');
-            const pendenteTextElement = doacaoModalElement.querySelector('#modalDoacaoProgressoPendente');
-            progressoBarPendente.style.width = progressoPendenteF;
-            if (valorPendente > 0) pendenteTextElement.textContent = `(${valorPendente} pendentes de aprovação)`;
-            else pendenteTextElement.textContent = '';
-
-            doacaoModalElement.querySelector('#modalDoacaoMetaId').value = metaId;
-            if (campoPix) campoPix.textContent = chavePix || "Chave PIX não cadastrada";
-
-            if (radioMaterial) radioMaterial.checked = true;
-            if (formMaterial) formMaterial.style.display = 'block';
-            if (formValor) formValor.style.display = 'none';
-
-            if (doacaoModal) doacaoModal.show();
-         });
-      });
-
-           const formDoacao = document.getElementById('form-doacao-material');
-           if (formDoacao) {
-              formDoacao.addEventListener('submit', async function (e) {
-                 e.preventDefault();
-                 const form = e.target;
-                 const submitButton = form.querySelector('button[type="submit"]');
-                 const originalButtonText = submitButton.textContent;
-
-                 // Bloqueia o botão para evitar cliques duplos
-                 submitButton.disabled = true;
-                 submitButton.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Enviando...`;
-
-                 try {
-                    const formData = new FormData(form);
-                    // Garante o token de segurança
-                    const token = formData.get('__RequestVerificationToken');
-
-                    const response = await fetch(form.action, {
-                       method: 'POST',
-                       body: formData,
-                       headers: {
-                          'RequestVerificationToken': token
-                       }
-                    });
-
-                    const result = await response.json();
-
-                    if (result.success) {
-                       // 1. Fecha o modal
-                       if (doacaoModal) doacaoModal.hide();
-
-                       // 2. Exibe a mensagem de sucesso
-                       alert(result.message);
-
-                       
-                       window.location.reload();
+    <script>
+           function previewImagemUnica(input, imgId) {
+              if (input.files && input.files[0]) {
+                 var reader = new FileReader();
+                 reader.onload = function (e) {
+                    document.getElementById(imgId).src = e.target.result;
+                 }
+                 reader.readAsDataURL(input.files[0]);
+              }
+           }
+
+        document.addEventListener('DOMContentLoaded', function () {
+                console.log("Script Marketplace carregado.");
+
+                const vagaModalBody = document.getElementById('vagaModalBody');
+                const vagasContainer = document.getElementById('vagas-container');
+                const btnDoacoes = document.getElementById('btn-toggle-doacoes');
+                const btnVoluntariado = document.getElementById('btn-toggle-voluntariado');
+                const metasContainer = document.getElementById('metas-container');
+                const titulo = document.getElementById('resultados-titulo');
+                const filtroDiasContainer = document.getElementById('filtro-dias-atuacao');
+                const locationInputs = document.getElementById('location-inputs');
+                const cepInput = document.getElementById('cep-input');
+                const btnFiltrar = document.getElementById('btn-filtrar');
+
+
+                let query = new URL(window.location.href);
+                let params = query.searchParams
+                let existingParams = params.get("tags")
+                let existingCep = params.get("cep")
+                let tab = params.get("tab")
+                let selectedTagIds = [];
+                let vagasCarregadas = false;
+
+
+                const resetTab = () => {
+                btnDoacoes.classList.add('active');
+                btnVoluntariado.classList.remove('active');
+                metasContainer.style.display = 'block';
+                vagasContainer.style.display = 'none';
+                titulo.textContent = `Resultados para Doações (${totalMetas})`;
+
+                }
+
+
+              const changeTab = () => {
+
+              document.getElementById('btn-toggle-doacoes').classList.remove('active');
+              document.getElementById('btn-toggle-voluntariado').classList.add('active');
+              document.getElementById('metas-container').style.display = 'none';
+              document.getElementById('vagas-container').style.display = 'block';
+              // document.getElementById('filtro-dias-atuacao').style.display = 'block';
+              params.set("tab", "voluntariado")
+              let updatedUrl = query.toString();
+              // return window.location.href = updatedUrl
+              if (!vagasCarregadas) {
+                 document.getElementById('vagas-container').innerHTML = `<div class="col-12 text-center"><p class="lead">Buscando vagas...</p></div>`;
+                 fetchVagas(cepInput.value, selectedTagIds);
+              } else {
+                  document.getElementById('resultados-titulo').textContent = `Resultados para Voluntariado (${totalVagas})`;
+              }
+           }
+
+                if (existingCep) {
+                    document.getElementById('radioEndereco').checked = true;
+                    document.getElementById('location-inputs').style.display = 'block';
+                }
+
+                if(existingCep) {
+                    const cepInput = document.getElementById("cep-input")
+                    cepInput.value = existingCep
+                }
+
+                if(existingParams) {
+                 const paramsArr = existingParams.split(",")
+                 selectedTagIds = paramsArr
+                 paramsArr.map(id =>
+                     document.getElementById(id).classList.add("active")
+                 )
+
+                 if(tab) {
+                    changeTab()
+                }
+             }
+
+
+                window.toggleTag = function (button) {
+                    const id = button.id;
+
+                    if (button.classList.contains('active')) {
+                        // se já estava ativa, desmarca
+                        button.classList.remove('active');
+                        selectedTagIds = selectedTagIds.filter(id => id !== button.id)
+                        console.log(selectedTagIds)
                     } else {
-                       alert('Erro: ' + result.message);
+                        // se não estava ativa, marca
+                        button.classList.add('active');
+                        console.log(selectedTagIds)
+                        selectedTagIds.push(id);
                     }
-                 } catch (error) {
-                    console.error('Erro no fetch:', error);
-                    alert('Ocorreu um erro de rede. Tente novamente.');
-                 } finally {
-                    // Restaura o botão caso tenha dado erro (se der sucesso, a página vai recarregar antes disso)
-                    submitButton.disabled = false;
-                    submitButton.textContent = originalButtonText;
+
+                    console.log('Tags selecionadas:', Array.from(selectedTagIds));
+                };
+
+           window.conectarFormularioInscricao = function () {
+              const formInscricao = document.getElementById('formInscricaoVaga');
+
+              if (formInscricao) {
+                 console.log("Formulário de inscrição encontrado! Conectando listener de submit...");
+
+
+                 const novoForm = formInscricao.cloneNode(true);
+                 formInscricao.parentNode.replaceChild(novoForm, formInscricao);
+
+                 novoForm.addEventListener('submit', async function (event) {
+
+                    event.preventDefault();
+                    console.log("Envio interceptado pelo JavaScript!");
+
+                    const form = event.target;
+                    const submitButton = form.querySelector('.btn-submit-vaga');
+
+                    if (submitButton) {
+                       submitButton.disabled = true;
+                       submitButton.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Enviando...';
+                    }
+
+                    try {
+                       const formData = new FormData(form);
+
+                       const response = await fetch(form.action, {
+                          method: 'POST',
+                          body: formData
+                       });
+
+                       if (response.ok) {
+                          console.log("Sucesso! Atualizando modal para mensagem de confirmação.");
+                          const vagaModalBody = document.getElementById('vagaModalBody');
+                          if (vagaModalBody) {
+                             vagaModalBody.innerHTML = `
+                                             <div class="text-center py-5 fade-in">
+                                                 <div class="mb-4">
+                                                     <svg xmlns="http://www.w3.org/2000/svg" width="90" height="90" fill="#198754" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                                                         <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                                                     </svg>
+                                                 </div>
+                                                 <h3 class="text-success fw-bold mb-3">Inscrição Realizada!</h3>
+                                                 <p class="text-muted fs-5">Seus dados foram enviados para a ONG.</p>
+                                                 <p class="text-muted small mb-4">Verifique seu e-mail para a confirmação.</p>
+                                                 <button type="button" class="btn btn-secondary px-5 py-2 rounded-pill" data-bs-dismiss="modal">Fechar</button>
+                                             </div>
+                                         `;
+                          }
+                       } else {
+                          console.log("Erro de validação. Recarregando formulário com erros.");
+                          const html = await response.text();
+                          const vagaModalBody = document.getElementById('vagaModalBody');
+                          if (vagaModalBody) {
+                             vagaModalBody.innerHTML = html;
+
+                             window.conectarFormularioInscricao();
+                          }
+                       }
+
+                    } catch (error) {
+                       console.error('Erro de conexão:', error);
+                       const vagaModalBody = document.getElementById('vagaModalBody');
+                       if (vagaModalBody) {
+                          vagaModalBody.innerHTML = '<div class="alert alert-danger">Ocorreu um erro de conexão. Tente novamente.</div><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>';
+                       }
+                    }
+                 });
+              } else {
+                 console.warn("Formulário 'formInscricaoVaga' não encontrado dentro do modal.");
+              }
+           };
+
+           // --- LÓGICA DO MODAL DE VAGA ---
+           const vagaModalElement = document.getElementById('vagaModal');
+           let vagaModal;
+           if (vagaModalElement && typeof bootstrap !== 'undefined') {
+              vagaModal = new bootstrap.Modal(vagaModalElement);
+           }
+
+           // Toggle Doações/Vagas
+
+           let totalMetas = @Model.Count();
+           let totalVagas = 0;
+
+           btnDoacoes.addEventListener('click', function () {
+              resetTab()
+              params.delete("tab")
+              let updatedUrl = query.toString();
+              // return window.location.href = updatedUrl
+           });
+
+           btnVoluntariado.addEventListener('click', function () {
+              changeTab()
+           });
+
+           window.toggleLocationInputs = function (show) {
+              locationInputs.style.display = show ? 'block' : 'none';
+              if (show) document.getElementById('radioEndereco').checked = true;
+           }
+
+           // Filtros
+           btnFiltrar.addEventListener('click', function () {
+              const cep = cepInput.value;
+
+              if (cep) {
+                     params.set("cep", cep)
+                 }
+                 else params.delete("cep")
+
+                 if(selectedTagIds.length > 0){
+                     params.set("tags", selectedTagIds)
+                 }
+                 else params.delete("tags")
+
+              if(btnDoacoes.classList.contains('active')) {
+                  params.delete("tab")
+                  let updatedUrl = query.toString();
+                  return window.location.href = updatedUrl
+              }
+
+              if (btnVoluntariado.classList.contains('active')) {
+                 vagasContainer.innerHTML = `<div class="col-12 text-center"><p class="lead">Buscando vagas filtradas...</p></div>`;
+                 titulo.textContent = 'Resultados para Voluntariado (0)';
+                 fetchVagas(cep, selectedTagIds);
+
+              }
+                 let updatedUrl = query.toString();
+                 return window.location.href = updatedUrl
+
+           });
+
+           function fetchVagas(cep = '', tags = []) {
+
+              vagasCarregadas = false;
+              let url = new URL('@Url.Action("GetVagasPartial", "Home")', window.location.origin);
+              if(tags.length) url.searchParams.append('tags', tags)
+              if (cep) url.searchParams.append('cep', cep);
+              fetch(url.toString())
+                 .then(response => {
+                    if (!response.ok) throw new Error('Falha ao buscar vagas.');
+                    return response.text();
+                 })
+                 .then(html => {
+                    vagasContainer.innerHTML = `<div class="row">${html}</div>`;
+                    vagasCarregadas = true;
+                    totalVagas = vagasContainer.querySelectorAll('.card-item-vaga').length;
+                    titulo.textContent = `Resultados para Voluntariado (${totalVagas})`;
+                 })
+                 .catch(error => {
+                    console.error('Erro no AJAX:', error);
+                    vagasContainer.innerHTML = `<div class="col-12 text-center"><p class="lead text-danger">Erro ao carregar vagas.</p></div>`;
+                 });
+           }
+
+           // CEP Input Mask
+           cepInput.addEventListener('input', function (e) {
+              let v = e.target.value.replace(/\D/g, '');
+              v = v.replace(/^(\d{5})(\d)/, '$1-$2');
+              e.target.value = v.slice(0, 9);
+           });
+           cepInput.addEventListener('blur', async function () {
+              const cep = this.value.replace(/\D/g, '');
+           });
+
+           // 1. Abrir o modal e carregar o formulário
+           if (vagasContainer) {
+              vagasContainer.addEventListener('click', function (event) {
+                 const target = event.target.closest('.btn-visualizar');
+                 if (target) {
+                    event.preventDefault();
+                    const vagaId = target.dataset.vagaId;
+
+                    if (vagaModal) vagaModal.show();
+
+                    vagaModalBody.innerHTML = `
+                                 <div class="text-center p-5">
+                                     <div class="spinner-border text-primary" role="status"></div>
+                                     <p class="mt-2 text-muted">Carregando informações...</p>
+                                 </div>`;
+
+                    fetch(`@Url.Action("GetVagaDetalheFormPartial", "Home")?vagaId=${vagaId}`)
+                       .then(response => response.text())
+                       .then(html => {
+                          vagaModalBody.innerHTML = html;
+                          // --- AQUI A MÁGICA ACONTECE ---
+                          // Chamamos a função para conectar o listener assim que o HTML novo é inserido
+                          window.conectarFormularioInscricao();
+                       })
+                       .catch(error => {
+                          vagaModalBody.innerHTML = `<div class="alert alert-danger">Erro ao carregar vaga.</div>`;
+                       });
                  }
               });
            }
-        });
-   </script>
+
+
+           // Modal Doação
+           const doacaoModalElement = document.getElementById('modalDoacao');
+           let doacaoModal;
+           const radioMaterial = document.getElementById('radio-material');
+           const radioValor = document.getElementById('radio-valor');
+           const formMaterial = document.getElementById('form-material');
+           const formValor = document.getElementById('form-valor');
+           const campoPix = document.getElementById('modalDoacaoPix');
+
+           if (doacaoModalElement && typeof bootstrap !== 'undefined') {
+              doacaoModal = new bootstrap.Modal(doacaoModalElement);
+           }
+
+           if (radioMaterial && radioValor && formMaterial && formValor) {
+              radioMaterial.addEventListener('change', function () {
+                 if (this.checked) {
+                    formMaterial.style.display = 'block';
+                    formValor.style.display = 'none';
+                 }
+              });
+              radioValor.addEventListener('change', function () {
+                 if (this.checked) {
+                    formMaterial.style.display = 'none';
+                    formValor.style.display = 'block';
+                 }
+              });
+           }
+
+           const BotoesDoar = document.querySelectorAll('.abrirModalDoacaoBtn');
+           BotoesDoar.forEach(button => {
+              button.addEventListener('click', function (e) {
+                 e.preventDefault();
+                 const btn = this;
+                 const metaId = btn.dataset.metaId;
+                 const titulo = btn.dataset.titulo;
+                 const ong = btn.dataset.ong;
+                 const descricao = btn.dataset.descricao;
+                 const endereco = btn.dataset.endereco;
+                 const imagem = btn.dataset.imagem;
+                 const atual = parseFloat(btn.dataset.atual);
+                 const alvo = parseFloat(btn.dataset.alvo);
+                      const chavePix = btn.dataset.chavePix;
+
+                 const valorConfirmado = atual;
+                 const valorAlvo = alvo;
+                 const valorPendente = 0;
+                 let percConfirmado = (valorAlvo > 0) ? (valorConfirmado / valorAlvo) * 100 : 0;
+                 let percPendente = (valorAlvo > 0) ? (valorPendente / valorAlvo) * 100 : 0;
+                 if (percConfirmado + percPendente > 100) percPendente = 100 - percConfirmado;
+
+                 const progressoConfirmadoF = percConfirmado.toFixed(0) + '%';
+                 const progressoPendenteF = percPendente.toFixed(0) + '%';
+                 const progressoValoresTexto = `${valorConfirmado} de ${valorAlvo}`;
+
+                 doacaoModalElement.querySelector('#modalDoacaoLogo').src = imagem || '';
+                 doacaoModalElement.querySelector('#modalDoacaoTitulo').textContent = titulo;
+                 doacaoModalElement.querySelector('#modalDoacaoOng').textContent = ong;
+                 doacaoModalElement.querySelector('#modalDoacaoDescricaoMeta').textContent = descricao;
+                 doacaoModalElement.querySelector('#modalDoacaoEndereco').textContent = endereco;
+                 doacaoModalElement.querySelector('#modalDoacaoProgressoValores').textContent = progressoValoresTexto;
+
+                 const progressoBarConfirmada = doacaoModalElement.querySelector('#modalDoacaoProgressoConfirmado');
+                 progressoBarConfirmada.style.width = progressoConfirmadoF;
+                 progressoBarConfirmada.textContent = progressoConfirmadoF;
+
+                 const progressoBarPendente = doacaoModalElement.querySelector('#modalDoacaoProgressoPendenteBar');
+                 const pendenteTextElement = doacaoModalElement.querySelector('#modalDoacaoProgressoPendente');
+                 progressoBarPendente.style.width = progressoPendenteF;
+                 if (valorPendente > 0) pendenteTextElement.textContent = `(${valorPendente} pendentes de aprovação)`;
+                 else pendenteTextElement.textContent = '';
+
+                 doacaoModalElement.querySelector('#modalDoacaoMetaId').value = metaId;
+                 if (campoPix) campoPix.textContent = chavePix || "Chave PIX não cadastrada";
+
+                 if (radioMaterial) radioMaterial.checked = true;
+                 if (formMaterial) formMaterial.style.display = 'block';
+                 if (formValor) formValor.style.display = 'none';
+
+                 if (doacaoModal) doacaoModal.show();
+              });
+           });
+
+                const formDoacao = document.getElementById('form-doacao-material');
+                if (formDoacao) {
+                   formDoacao.addEventListener('submit', async function (e) {
+                      e.preventDefault();
+                      const form = e.target;
+                      const submitButton = form.querySelector('button[type="submit"]');
+                      const originalButtonText = submitButton.textContent;
+
+                      // Bloqueia o botão para evitar cliques duplos
+                      submitButton.disabled = true;
+                      submitButton.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Enviando...`;
+
+                      try {
+                         const formData = new FormData(form);
+                         // Garante o token de segurança
+                         const token = formData.get('__RequestVerificationToken');
+
+                         const response = await fetch(form.action, {
+                            method: 'POST',
+                            body: formData,
+                            headers: {
+                               'RequestVerificationToken': token
+                            }
+                         });
+
+                         const result = await response.json();
+
+                         if (result.success) {
+                            // 1. Fecha o modal
+                            if (doacaoModal) doacaoModal.hide();
+
+                            // 2. Exibe a mensagem de sucesso
+                            alert(result.message);
+
+
+                            window.location.reload();
+                         } else {
+                            alert('Erro: ' + result.message);
+                         }
+                      } catch (error) {
+                         console.error('Erro no fetch:', error);
+                         alert('Ocorreu um erro de rede. Tente novamente.');
+                      } finally {
+                         // Restaura o botão caso tenha dado erro (se der sucesso, a página vai recarregar antes disso)
+                         submitButton.disabled = false;
+                         submitButton.textContent = originalButtonText;
+                      }
+                   });
+                }
+             });
+    </script>
 }

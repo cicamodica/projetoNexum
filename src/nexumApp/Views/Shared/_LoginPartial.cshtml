@@ -1,32 +1,22 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@using nexumApp.Models
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 
 <ul class="navbar-nav ms-3 align-items-center">
     @if (SignInManager.IsSignedIn(User))
     {
+        var ongId = ViewBag.OngId ?? 0;
+
         @if (!User.IsInRole("Admin"))
         {
             <li class="nav-item me-2">
-                @if (User.IsInRole("Ong"))
-                {
-                    <a class="nav-link profile-icon"
-                       asp-controller="Ongs"
-                       asp-action="MeuPerfil"
-                       title="Meu Perfil da ONG">
-                        <i class="bi bi-person-circle"></i>
-                    </a>
-                }
-                else
-                {
-                    <a class="nav-link profile-icon"
-                       asp-area="Identity"
-                       asp-page="/Account/Manage/Index"
-                       title="Minha Conta">
-                        <i class="bi bi-person-circle"></i>
-                    </a>
-                }
+                <a class="nav-link profile-icon"
+                    asp-controller="Ongs"
+                    asp-action="Details"
+                    asp-route-id="@ongId"
+                    title="Meu Perfil">
+                    <i class="bi bi-person-circle"></i>
+                </a>
             </li>
         }
 
