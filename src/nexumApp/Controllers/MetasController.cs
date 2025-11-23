@@ -11,6 +11,8 @@ using nexumApp.Data;
 using nexumApp.Models;
 using System.IO; // Para upload de imagem
 using Microsoft.AspNetCore.Hosting; // Para upload de imagem
+using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
 
 namespace nexumApp.Controllers
 {
@@ -19,13 +21,15 @@ namespace nexumApp.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<User> _userManager;
-        private readonly IWebHostEnvironment _webHostEnvironment; //Injetar o WebHost
+        private readonly IWebHostEnvironment _webHostEnvironment; 
+        private readonly Cloudinary _cloudinary;
 
-        public MetasController(ApplicationDbContext context, UserManager<User> userManager, IWebHostEnvironment webHostEnvironment)
+        public MetasController(ApplicationDbContext context, UserManager<User> userManager, IWebHostEnvironment webHostEnvironment, Cloudinary cloudinary)
         {
             _context = context;
             _userManager = userManager;
             _webHostEnvironment = webHostEnvironment;
+            _cloudinary = cloudinary;
         }
 
         // Pega o Id (int) da ONG com base no UserId (string) do usuário logado E BUSCA FILIAIS
@@ -145,19 +149,31 @@ namespace nexumApp.Controllers
             }
         }
 
-        //função helper para salvar a imagem (Não modificado)
-        private async Task<string> SalvarImagemAsync(IFormFile imagemFile)
+        
+        private async Task<string> SalvarImagemAsync(IFormFile file)
         {
-            // ... código da função (mantido o original) ...
-            string nomeUnicoArquivo = Guid.NewGuid().ToString() + "_" + imagemFile.FileName;
-            string pastaUploads = Path.Combine(_webHostEnvironment.WebRootPath, "uploads", "metas");
-            string caminhoArquivo = Path.Combine(pastaUploads, nomeUnicoArquivo);
-            Directory.CreateDirectory(pastaUploads);
-            using (var fileStream = new FileStream(caminhoArquivo, FileMode.Create))
+            if (file == null || file.Length == 0) return null;
+
+            using (var ms = new MemoryStream())
             {
-                await imagemFile.CopyToAsync(fileStream);
+                await file.CopyToAsync(ms);
+                ms.Position = 0;
+
+                var uploadParams = new ImageUploadParams()
+                {
+                    File = new FileDescription(file.FileName, ms),
+                    UseFilename = true,
+                    UniqueFilename = true, // Garante nomes únicos na nuvem
+                    Overwrite = false,
+                    
+                };
+
+                // Faz o upload para a nuvem
+                var uploadResult = _cloudinary.Upload(uploadParams);
+
+                // Retorna a URL pública da imagem hospedada
+                return uploadResult.SecureUrl.ToString();
             }
-            return "/uploads/metas/" + nomeUnicoArquivo;
         }
 
         // GET: Metas/Edit/5 (Não modificado)
@@ -216,10 +232,8 @@ namespace nexumApp.Controllers
                     // 5. Imagem: Só atualiza se o usuário enviou uma nova
                     if (imagemFile != null && imagemFile.Length > 0)
                     {
-                        // (Opcional) Deletar imagem antiga se quiser economizar espaço
                         metaOriginal.ImagemUrl = await SalvarImagemAsync(imagemFile);
                     }
-                    // Se imagemFile for null, mantemos a metaOriginal.ImagemUrl como estava
 
                     _context.Update(metaOriginal);
                     await _context.SaveChangesAsync();
