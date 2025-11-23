@@ -8,11 +8,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Linq;
 using nexumApp.Data;
 using nexumApp.Models;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace nexumApp.Areas.Identity.Pages.Account
 {
@@ -118,13 +120,13 @@ namespace nexumApp.Areas.Identity.Pages.Account
             {
                 if (Input.DocumentoPdf == null || Input.DocumentoPdf.Length == 0)
                 {
-                    ModelState.AddModelError(nameof(Input.DocumentoPdf), "É obrigatório anexar um arquivo PDF.");
+                    ModelState.AddModelError("Input.DocumentoPdf", "É obrigatório anexar um arquivo PDF.");
                     return Page();
                 }
                 const long maxSize = 25 * 1024 * 1024;
                 if (Input.DocumentoPdf.Length > maxSize)
                 {
-                    ModelState.AddModelError(nameof(Input.DocumentoPdf), "Arquivo muito grande (máx 25 MB).");
+                    ModelState.AddModelError("Input.DocumentoPdf", "Arquivo muito grande (máx 25 MB).");
                     return Page();
                 }
                 var isPdf = Input.DocumentoPdf.ContentType == "application/pdf" ||
@@ -132,13 +134,20 @@ namespace nexumApp.Areas.Identity.Pages.Account
                                 .Equals(".pdf", StringComparison.OrdinalIgnoreCase);
                 if (!isPdf)
                 {
-                    ModelState.AddModelError(nameof(Input.DocumentoPdf), "Apenas arquivos PDF são permitidos.");
+                    ModelState.AddModelError("Input.DocumentoPdf", "Apenas arquivos PDF são permitidos.");
                     return Page();
                 }
 
                 if (!Input.Image.ContentType.StartsWith("image/"))
                 {
-                    ModelState.AddModelError(nameof(Input.Image), "Apenas arquivos de imagem são permitidos.");                   
+                    ModelState.AddModelError("Input.Image", "Apenas arquivos de imagem são permitidos.");                   
+                    return Page();
+                }
+
+                var cnpjEmUso = _dbContext.Ongs.Any(o => o.CNPJ == Input.CNPJ);
+                if (cnpjEmUso)
+                {
+                    ModelState.AddModelError("Input.CNPJ", "O CNPJ informado já está em uso.");
                     return Page();
                 }
 

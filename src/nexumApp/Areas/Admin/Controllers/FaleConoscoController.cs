@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using nexumApp.Data;
 using nexumApp.Models;
-using Microsoft.AspNetCore.Identity.UI.Services;
+using nexumApp.Services;
 
 namespace nexumApp.Areas.Admin.Controllers;
 
@@ -13,10 +15,13 @@ public class FaleConoscoController : Controller
 {
     private readonly ApplicationDbContext _db;
     private readonly IEmailSender _email;
+    private readonly IEmailService _emailService;
+    private readonly ILogger<DashboardController> _logger;
 
-    public FaleConoscoController(ApplicationDbContext db, IEmailSender email)
+    public FaleConoscoController(ApplicationDbContext db, IEmailSender email, IEmailService emailService, ILogger<DashboardController> logger)
     {
         _db = db;
+        _emailService = emailService;
         _email = email;
     }
 
@@ -58,9 +63,66 @@ public class FaleConoscoController : Controller
             item.Visualizada = true;
             await _db.SaveChangesAsync();
         }
-
+        // Passa o próprio model para o partial
         return PartialView("_ReplyFaleConosco", item);
     }
+
+    // POST: envia o e-mail de resposta (sem ViewModel)
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Reply(int id, string resposta)
+    {
+        var item = await _db.FaleConoscoModels.FindAsync(id);
+        if (item == null) return NotFound();
+
+        if (string.IsNullOrWhiteSpace(resposta))
+        {
+            ModelState.AddModelError("Resposta", "Você precisa informar uma resposta.");
+            // Recarrega o partial com o próprio item
+            return PartialView("_ReplyFaleConosco", item);
+        }
+
+        string corpoEmail = $@"
+        <div style='font-family: Arial, sans-serif; color: #333;'>
+            <h2 style='color: #16435D;'>Olá, {item.Nome}!</h2>
+
+            <p>Você nos enviou a seguinte mensagem pela página <strong>Fale Conosco</strong>:</p>
+            <blockquote style='border-left: 4px solid #16435D; padding-left: 8px; color: #555;'>
+                {item.Mensagem}
+            </blockquote>
+
+            <p><strong>Resposta da nossa equipe:</strong></p>
+            <p>{resposta}</p>
+
+            <br />
+            <p>Atenciosamente,<br /><strong>Equipe Nexum</strong></p>
+        </div>";
+
+        try
+        {
+            await _emailService.SendEmailAsync(
+                item.Email,                      // e-mail do usuário do Fale Conosco
+                "Resposta - Nexum",
+                corpoEmail
+            );
+
+            item.Respondida = true;
+            item.DataResposta = DateTime.UtcNow;
+            item.Resposta = resposta;
+
+            await _db.SaveChangesAsync();
+
+            TempData["Success"] = "Resposta enviada com sucesso!";
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao enviar resposta de Fale Conosco {Id}", item.Id);
+            TempData["Error"] = "Ocorreu um erro ao enviar o e-mail de resposta.";
+        }
+
+        return RedirectToAction(nameof(Index));
+    }
+
 
     // GET
     [HttpGet]
@@ -87,29 +149,6 @@ public class FaleConoscoController : Controller
         }
 
         return PartialView("_FaleConoscoDetails", item);
-    }
-
-    // POST
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Reply(int id, string responseText)
-    {
-        if (string.IsNullOrWhiteSpace(responseText))
-            return BadRequest("Resposta vazia.");
-
-        var item = await _db.FaleConoscoModels.FindAsync(id);
-        if (item == null) return NotFound();
-
-        await _email.SendEmailAsync(item.Email, $"Re: {item.Assunto} - Nexum", responseText);
-
-        item.Respondida = true;
-        item.Visualizada = true;
-        item.Arquivada = false;
-        item.Status = "Respondido";
-
-        await _db.SaveChangesAsync();
-
-        return Ok(new { ok = true });
     }
 
     // POST

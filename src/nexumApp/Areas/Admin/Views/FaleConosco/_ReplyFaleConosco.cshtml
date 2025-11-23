@@ -1,9 +1,21 @@
-﻿@model nexumApp.Models.FaleConoscoModel
-<div>
-    <div class="mb-2"><strong>De:</strong> @Model.Nome &lt;@Model.Email&gt;</div>
-    <div class="mb-2"><strong>Assunto:</strong> @Model.Assunto</div>
-    <div class="mb-3"><strong>Mensagem:</strong><br /> @Model.Mensagem</div>
+﻿@model FaleConoscoModel
 
-    <label class="form-label"><strong>Sua resposta (e-mail):<strong></label>
-    <textarea name="responseText" class="form-control" rows="6" placeholder="Digite sua resposta..."></textarea>
-</div>
+<form id="replyForm"
+      asp-area="Admin"
+      asp-controller="FaleConosco"
+      asp-action="Reply"
+      method="post">
+    @Html.AntiForgeryToken()
+
+    <input type="hidden" name="id" value="@Model.Id" />
+
+    <p><strong>De:</strong> @Model.Nome &lt;@Model.Email&gt;</p>
+    <p><strong>Assunto:</strong> @Model.Assunto</p>
+    <p><strong>Mensagem:</strong> @Model.Mensagem</p>
+
+    <div class="mb-3">
+        <label class="form-label">Sua resposta (e-mail):</label>
+        <textarea name="resposta" class="form-control" rows="6"></textarea>
+        @Html.ValidationMessage("Resposta", new { @class = "text-danger" })
+    </div>
+</form>
