@@ -113,23 +113,13 @@ Os testes funcionais a serem realizados na aplicação são descritos a seguir:
 
 <br>
 
-| **Caso de Teste** 	| **CT12 – Teste da página Homepage logado e não logado - Pesquisar** 	|
+| **Caso de Teste** 	| **CT12 – Teste Barra de pesquisa e resultado de pesquisa** 	|
 |:---:	|:---:	|
 |	**Requisitos Associados** 	| -- |
-| **Objetivo do Teste** 	| No homepage logado e não logado, verificar se ao digitar na barra de Pesquisa a página levará o usuário às opções disponíveis com o conteúdo digitado. |
-| **Passos** 	| 01.	Clique no campo "Pesquisar"; <br> 02.	Digite o conteúdo desejado; <br> 03. Clique em "Enter" no seu teclado ou no ícone da lupa. |
+| **Objetivo do Teste** 	| No homepage logado e não logado, verificar se ao digitar na barra de Pesquisa a página levará o usuário às opções disponíveis com o conteúdo digitado. Verificar se o Usuário (externo ou cadastrado) consegue acessar a página de resultado, aparece todas as opções de acordo com a busca, se ele escolher o conteúdo e clicar irá ser encaminhado para a página que escolheu.|
+| **Passos** 	| 01.	Clique no campo "Pesquisar"; <br> 02.	Digite o conteúdo desejado; <br> 03. Clique em "Enter" no seu teclado ou no ícone da lupa. <br> 04. Verificar os conteúdos da página de resultado de pesuisa. <br> 05. Verifique se os conteúdos e suas imagens estão aparecendo; <br> 06.Selecione os ícones dos conteúdos que aparece na tela; <br> 07. Verifique se estão encaminhando para as páginas devidas; |
 |**Critérios de Êxito** | O usuário deve conseguir escrever o conteúdo que deseja pesquisar e, em seguida, a aplicação deve redicioná-lo a esse conteúdo disponível. |
 |  **Responsável pela elaboração do caso de teste**	|  Márcia Maria dos Reis Marques |
-
-<br>
-
-| **Caso de Teste** | **CT13 - Teste da Página de Resultado de pesquisa** |
-|:---:	|:---:	|
-|	**Requisitos Associados**  | RF-05 |
-| **Objetivo do Teste** 	| Verificar se o Usuário (externo ou cadastrado) consegue acessar a página de resultado, aparece todas as opções de acordo com a busca, se ele escolher o conteúdo e clicar irá ser encaminhado para a página que escolheu. |
-| **Passos** 	| 1.Após realizar a pesquisa e der Enter , deve aparecer os conteúdos respectivos de acordo com a pesquisa; <br> 2. Veja se aparece os conteúdos e suas imagens estão aparecendo; <br> 3.Selecione os ícones dos conteúdos que aparece na tela; <br> 4. Verifique se estão encaminhando para as páginas devidas; |
-|**Critérios de Êxito** | O conteúdo e exibido com êxito de acordo com a pesquisa realizada, as imagens são carregadas, mostra todos os conteúdos de acordo com o contexto pesquisado, todos os ícones levam para as páginas respectivas. |
-|  **Responsável pela elaboração do caso de teste**	| Matheus Feliciano Andrade bernardes |
 
 
 
