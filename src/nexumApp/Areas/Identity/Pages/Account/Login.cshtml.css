@@ -69,3 +69,12 @@ button:hover {
     .btn-link-password:hover {
         background-color: #2987bf;
     }
+
+
+@media screen and (max-width: 384px) {
+    .btn-link-password, .btn-link-register {
+        height: 40px;
+        white-space: nowrap;
+        padding: 0
+    }
+}

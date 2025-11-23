@@ -34,5 +34,11 @@ namespace nexumApp.Models
             error.Description = "A Senha deve conter pelo menos um número.";
             return error;
         }
+        public override IdentityError PasswordMismatch()
+        {
+            var error = base.PasswordMismatch();
+            error.Description = "Senha incorreta";
+            return error;
+        }
     }
 }
