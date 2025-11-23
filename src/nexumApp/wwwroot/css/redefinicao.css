@@ -3,6 +3,8 @@
 
 body {
     font-family: "Poppins", sans-serif;
+    background-color: #f9f9f9; /* Fundo leve para contraste */
+    color: #333;
 }
 
 /* CONTAINER GERAL */
@@ -11,35 +13,48 @@ body {
     width: 100%;
     max-width: 500px;
     margin: 80px auto;
-    padding: 20px;
+    padding: 40px;
     text-align: center;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); /* Sombra suave */
+    border: 1px solid #e0e0e0;
 }
 
 .linha {
-    margin: 10px 0 20px 0;
+    margin: 20px auto 30px auto;
     border: none;
-    width: 550px;
+    width: 100%;
     height: 2px;
-    background-color: #000000;
+    background-color: #e0e0e0;
 }
 
 /* TÍTULOS */
 h2,
 .titulo {
-    font-size: 50px;
-    font-weight: 550;
-    font-family: "Poppins"
-    color: #1a3b5d;
-    margin-bottom: 10px;
-    white-space: nowrap;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #16435D;
+    margin-bottom: 15px;
+    text-align: center;
+    width: 100%;
+    display: block;
 }
 
 /* TEXTO DESCRITIVO */
 .descricao {
-    font-size: 20px;
-    color: #777;
-    margin-bottom: 25px;
-    white-space: nowrap; /* também mantém em uma linha */
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+/* LINHA DIVISÓRIA */
+.linha {
+    margin: 10px auto 25px auto;
+    border: none;
+    width: 100%;
+    height: 1px; /* Linha mais fina fica mais elegante */
+    background-color: #e0e0e0;
 }
 
 /* FORM */
@@ -47,20 +62,23 @@ form {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    margin-top: 0;
 }
 
 /* FORM-GROUP */
 .form-group {
     text-align: left;
+    margin-left: 0; /* Reset */
 }
 
     .form-group label {
-        font-size: 19px;
-        color: #1a3b5d;
+        font-size: 1rem;
+        color: #16435D; /* Azul Escuro */
         font-weight: 600;
         margin-bottom: 8px;
-        margin-left: 30px;
+        margin-left: 5px;
         display: block;
+        margin-top: 0;
     }
 
     /* INPUTS */
@@ -68,78 +86,115 @@ form {
     input[type="email"],
     input[type="password"] {
         width: 100%;
-        padding: 14px;
-        border: 2px solid #cfd6dd;
-        border-radius: 25px;
-        font-size: 16px;
+        padding: 14px 20px;
+        border: 1.5px solid #ccc; /* Borda mais suave */
+        border-radius: 30px; /* Mais arredondado */
+        font-size: 1rem;
         outline: none;
-        transition: 0.2s border-color;
-        margin-left:20px;
+        transition: 0.3s border-color, 0.3s box-shadow;
+        margin-left: 0;
+        box-sizing: border-box; /* Garante que padding não estoure a largura */
     }
 
 input:focus {
-    border-color: #1a73e8;
+    border-color: #2987BF; /* Azul Médio Nexum */
+    box-shadow: 0 0 0 4px rgba(41, 135, 191, 0.1); /* Brilho ao focar */
 }
 
 /* BOTÃO */
 button,
 .btn-primary {
-    background-color: #1a73e8;
+    background-color: #2987BF; /* Azul Médio Nexum */
     border: none;
     padding: 16px;
-    font-size: 20px;
+    font-size: 1.1rem;
     font-weight: 600;
     color: white;
-    border-radius: 32px;
+    border-radius: 30px;
     cursor: pointer;
-    transition: 0.2s;
+    transition: background-color 0.3s ease, transform 0.1s ease;
     width: 100%;
-    margin-left:20px;
+    margin-left: 0;
+    margin-top: 10px;
 }
 
     button:hover,
     .btn-primary:hover {
-        background-color: #0b5fcc;
+        background-color: #16435D; /* Azul Escuro no Hover */
+        transform: translateY(-1px);
+    }
+
+    button:active {
+        transform: translateY(0);
     }
 
 /* MENSAGENS */
 .mensagem-erro {
-    color: #fc0505;
-    font-weight: 600;
-    margin-top: 10px;
-    font-size: 16px;
-    margin-left:20px;
+    color: #dc3545;
+    font-weight: 500;
+    margin-top: 15px;
+    font-size: 0.95rem;
+    background-color: #ffeef0;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #f5c6cb;
 }
 
 .mensagem-sucesso {
-    color: #28a745;
-    font-weight: 600;
-    margin-top: 10px;
-    font-size: 16px;
-    margin-left: 20px;
+    color: #155724;
+    font-weight: 500;
+    margin-top: 15px;
+    font-size: 0.95rem;
+    background-color: #d4edda;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #c3e6cb;
 }
+
+/* CONTAINER DE SENHA (OLHO) */
+.password-container {
+    position: relative;
+}
+
+.show-btn {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #2987BF;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    user-select: none;
+}
+
+    .show-btn:hover {
+        color: #16435D;
+    }
 
 /* RESPONSIVIDADE */
 @media (max-width: 480px) {
 
-    .container-redefinicao {
-        margin-top: 30px;
-        padding: 10px;
+    .container-redefinicao, .form-container {
+        margin-top: 40px;
+        padding: 25px;
+        border: none;
+        box-shadow: none;
+        background: transparent;
     }
 
     h2,
     .titulo {
-        font-size: 36px;
+        font-size: 1.8rem;
     }
 
     .descricao {
-        font-size: 16px;
-        white-space: normal;
+        font-size: 1rem;
     }
 
     button,
     .btn-primary {
-        font-size: 18px;
+        font-size: 1rem;
         padding: 14px;
     }
 }
