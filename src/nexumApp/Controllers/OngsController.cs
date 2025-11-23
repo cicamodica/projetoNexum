@@ -34,7 +34,8 @@ namespace nexumApp.Controllers
             ApplicationDbContext context, IWebHostEnvironment webHostEnvironment, IWebHostEnvironment hostEnvironment, UserManager<User> userManager)
         {
             _context = context;
-            _webHostEnvironment = webHostEnvironment;            _hostEnvironment = hostEnvironment;
+            _webHostEnvironment = webHostEnvironment;
+            _hostEnvironment = hostEnvironment;
             _userManager = userManager;
 
         }
@@ -48,7 +49,13 @@ namespace nexumApp.Controllers
             int pageNumber = (page ?? 1);
 
             // Filtra apenas ONGs aprovadas para o público ver
-            var query = _context.Ongs.Where(ong => ong.Aprovaçao == true).AsQueryable();
+            var query = _context.Ongs.AsQueryable();
+
+            // Para Admin mostra todas (ONGs ativas (aprovadas) e pausadas)
+            if (!User.IsInRole("Admin"))
+            {
+                query = query.Where(ong => ong.Aprovaçao == true);
+            }
 
             // Lógica de Filtro por Tags
             if (!string.IsNullOrWhiteSpace(ONGTags))
@@ -69,6 +76,24 @@ namespace nexumApp.Controllers
             ViewBag.Total = ongs.Count;
 
             return View(ongs.ToPagedList(pageNumber, pageSize));
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ToggleStatus(int id) //ação para admin pausar/reativar ONG
+        {
+            var ong = await _context.Ongs.FindAsync(id);
+            if (ong == null)
+                return NotFound();
+
+            // Inverte o status: se estava true (ativa), vira false (pausada)
+            ong.Aprovaçao = !ong.Aprovaçao;
+
+            await _context.SaveChangesAsync();
+
+            // Volta para a lista de ONGs
+            return RedirectToAction(nameof(Index));
         }
 
         // ============================================================

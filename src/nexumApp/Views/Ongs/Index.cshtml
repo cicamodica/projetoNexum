@@ -14,7 +14,7 @@
 <div class="ONGS-filter">
     <h2 class="ONGS-filter-title">Filtrar ONGS</h2>
     <div class="ONGS-filter-chips-container">
-        <h5>Causas</h5>
+        <h5>Causas:</h5>
         @for(int index = 0; index < tags.Count; index++) {
             <span class="ONGS-filter-chip" id="@index">@tags[index]</span>
         }
@@ -29,7 +29,54 @@
 else {
 <h1 class="ONGS-title">ONGs cadastradas</h1>
 <h4 class="ONGS-subtitle">@ViewBag.Total ONGs</h4>
+
+
 <div class="ONGS-flex-container">
+@foreach (var item in Model)
+{
+    var tagId = item.Tag.GetValueOrDefault();
+
+    <div class="ONGS-flex-container-item">
+
+        <!-- PARTE CLICÁVEL (somente infos) -->
+        <a class="ONGS-flex-container-item-link"
+           asp-action="Details"
+           asp-route-id="@item.Id">
+            <div class="ONGS-flex-container-item-img">
+                <img class="ONGS-flex-container-item-img-src" src="@item.ImageURL" alt="@item.Nome" />
+            </div>
+
+            <h5>@item.Nome</h5>
+            <span class="ONGS-flex-container-tag">@ViewBag.Tags[tagId]</span>
+            <p class="ONGS-flex-container-item-endereço">@item.Endereço</p>
+            <p class="ONGS-flex-container-item-descriçao">@item.Descriçao</p>
+        </a>
+
+        @* BOTÕES APENAS PARA ADMIN *@
+        @if (User.IsInRole("Admin"))
+        {
+            <div class="ONGS-flex-container-item-actions">
+                <form asp-action="ToggleStatus" asp-route-id="@item.Id" method="post">
+                    <button type="submit" class="@(item.Aprovaçao ? "btn-ong-pausar" : "btn-ong-reativar")">
+                        @(item.Aprovaçao ? "Pausar ONG" : "Reativar ONG")
+                    </button>
+                </form>
+
+                <span class="status-badge @(item.Aprovaçao ? "status-ativa" : "status-inativa")">
+                    @(item.Aprovaçao ? "Ativa" : "Inativa")
+                </span>
+            </div>
+        }
+    </div>
+}
+</div>
+
+/*<div class="ONGS-flex-container">
+@foreach (var item in Model)
+{
+    var tagId = item.Tag.GetValueOrDefault();
+
+  <div class="ONGS-flex-container">
 @foreach (var item in Model) {
     var tagId = item.Tag.GetValueOrDefault();
     <a class="ONGS-flex-container-item" asp-action="Details" asp-route-id="@item.Id">
@@ -42,7 +89,8 @@ else {
         <p class="ONGS-flex-container-item-descriçao">@Html.DisplayFor(modelItem => item.Descriçao)</p>
     </a>
 }
-</div>
+</div>*/
+
 <span>Página @currentPage de @Model.PageCount</span>
 <span>
     @Html.PagedListPager( Model, page => Url.Action("Index", new { page }), new PagedListRenderOptions()
