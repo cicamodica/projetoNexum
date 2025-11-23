@@ -1,0 +1,51 @@
+﻿@{
+    ViewData["Title"] = "Redefinir Senha";
+}
+
+<link rel="stylesheet" href="~/css/redefinicao.css" />
+
+<h2 class="titulo">Redefinir Senha</h2>
+
+<div class="form-container">
+
+    @if (ViewBag.Mensagem != null)
+    {
+        var msg = ViewBag.Mensagem.ToString();
+        var isErro = msg.Contains("Erro") || msg.Contains("expirado") || msg.Contains("senha precisa");
+
+        <p class="@(isErro ? "mensagem-erro" : "mensagem-sucesso")">
+            @Html.Raw(msg)
+        </p>
+    }
+
+    <form method="post" asp-action="RedefinirSenha">
+        <input type="hidden" name="email" value="@ViewBag.Email" />
+        <input type="hidden" name="token" value="@ViewBag.Token" />
+
+        <div class="form-group">
+            <label>Nova Senha:</label>
+
+            <div class="password-container">
+                <input type="password" id="novaSenha" name="novaSenha" required />
+                <span class="show-btn" onclick="toggleSenha()">Mostrar</span>
+            </div>
+        </div>
+
+        <button type="submit" class="btn-primary">Redefinir Senha</button>
+    </form>
+</div>
+
+<script>
+    function toggleSenha() {
+        const senha = document.getElementById("novaSenha");
+        const btn = document.querySelector(".show-btn");
+
+        if (senha.type === "password") {
+            senha.type = "text";
+            btn.textContent = "Ocultar";
+        } else {
+            senha.type = "password";
+            btn.textContent = "Mostrar";
+        }
+    }
+</script>
