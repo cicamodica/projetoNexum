@@ -201,10 +201,14 @@ namespace nexumApp.Controllers
                 DeletarImagem(vaga.ImagemUrl);
             }
 
-            _context.Vagas.Remove(vaga); 
-            await _context.SaveChangesAsync();
-            TempData["Success"] = "Vaga excluída com sucesso!";
+            var inscricoes = _context.Inscricoes.Where(i => i.IdVaga == vaga.IdVaga);
+            _context.Inscricoes.RemoveRange(inscricoes);
 
+            
+            _context.Vagas.Remove(vaga);
+            await _context.SaveChangesAsync();
+
+            TempData["Success"] = "Vaga excluída com sucesso!";
             return RedirectToAction("Dashboard", "Ongs");
         }
         private async Task<Ong> GetOngDoUsuarioLogado()
