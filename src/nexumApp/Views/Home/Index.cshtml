@@ -1222,6 +1222,7 @@
                 let params = query.searchParams
                 let existingParams = params.get("tags")
                 let existingCep = params.get("cep")
+                let search = params.get("search")
                 let tab = params.get("tab")
                 let selectedTagIds = [];
                 let vagasCarregadas = false;
@@ -1249,7 +1250,7 @@
               // return window.location.href = updatedUrl
               if (!vagasCarregadas) {
                  document.getElementById('vagas-container').innerHTML = `<div class="col-12 text-center"><p class="lead">Buscando vagas...</p></div>`;
-                 fetchVagas(cepInput.value, selectedTagIds);
+                 fetchVagas(cepInput.value, selectedTagIds, search);
               } else {
                   document.getElementById('resultados-titulo').textContent = `Resultados para Voluntariado (${totalVagas})`;
               }
@@ -1420,7 +1421,7 @@
               if (btnVoluntariado.classList.contains('active')) {
                  vagasContainer.innerHTML = `<div class="col-12 text-center"><p class="lead">Buscando vagas filtradas...</p></div>`;
                  titulo.textContent = 'Resultados para Voluntariado (0)';
-                 fetchVagas(cep, selectedTagIds);
+                 fetchVagas(cep, selectedTagIds, search);
 
               }
                  let updatedUrl = query.toString();
@@ -1428,12 +1429,13 @@
 
            });
 
-           function fetchVagas(cep = '', tags = []) {
+           function fetchVagas(cep = '', tags = [], search = '') {
 
               vagasCarregadas = false;
               let url = new URL('@Url.Action("GetVagasPartial", "Home")', window.location.origin);
               if(tags.length) url.searchParams.append('tags', tags)
               if (cep) url.searchParams.append('cep', cep);
+              if(search) url.searchParams.append('search', search)
               fetch(url.toString())
                  .then(response => {
                     if (!response.ok) throw new Error('Falha ao buscar vagas.');

@@ -38,29 +38,9 @@ namespace nexumApp.Controllers
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> Index(string? cep, string? cidade, string? tags, [FromQuery] bool publicView = false)
+        public async Task<IActionResult> Index(string cep, string tags, string search)
         {
-
-            if (!publicView && User.Identity?.IsAuthenticated == true && User.IsInRole("Admin"))
-            {
-                return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
-            }
-
-
-            if (User.Identity?.IsAuthenticated == true && User.IsInRole("Ong"))
-            {
-                var userId = _userManager.GetUserId(User);
-                // Otimização: Select apenas no ID, sem carregar a entidade toda
-                var ongId = await _context.Ongs
-                                          .Where(o => o.UserId == userId)
-                                          .Select(o => o.Id)
-                                          .FirstOrDefaultAsync();
-
-                if (ongId > 0)
-                {
-                    ViewBag.OngId = ongId;
-                }
-            }
+            search = search?.Trim();
 
             // =================================================================
             // 3. CARREGAMENTO DO MARKETPLACE
@@ -70,32 +50,36 @@ namespace nexumApp.Controllers
                 .Include(m => m.Ong)
                 .Include(m => m.Filial)
                 .Include(m => m.Doacoes)
-                .Where(m => m.Status == "Ativa");
+                .Where(m => m.Status == "Ativa").ToList();
 
             // --- Filtros ---
 
-            if (!string.IsNullOrWhiteSpace(tags))
+            if (search != null)
             {
-                var tagIds = tags.Split(',', StringSplitOptions.RemoveEmptyEntries)
-                                 .Select(int.Parse).ToList();
-
-                query = query.Where(m => m.Ong.Tag.HasValue && tagIds.Contains(m.Ong.Tag.Value));
-                ViewBag.SelectedTags = tagIds;
+                query = [.. query.Where(m =>
+                    m.Recurso.ToLower().Contains(search.ToLower()) ||
+                    m.Descricao.ToLower().Contains(search.ToLower()) ||
+                    m.Ong.Nome.ToLower().Contains(search.ToLower())
+                )];
             }
 
-            if (!string.IsNullOrWhiteSpace(cidade))
+            if (tags != null)
             {
-                query = query.Where(m =>
-                    (m.Filial != null && m.Filial.Endereço.Contains(cidade)) ||
-                    (m.Filial == null && m.Ong.Endereço.Contains(cidade)));
+                int?[] idsArray = [.. tags.Split(',').Select(int.Parse)];
+                query = [.. query.Where(meta => idsArray.Contains(meta.Ong.Tag))];
+            }
+
+            if (!string.IsNullOrEmpty(cep))
+            {
+                var formattedCep = cep.Replace("-", "");
+                query = [.. query.Where(meta => meta.Ong.CEP == formattedCep || meta.Filial?.CEP == formattedCep) ];
             }
 
             // --- Execução ---
 
-            var metasPublicas = await query
-                .OrderBy(m => m.DataFim)
-                .ToListAsync();
-
+            var metasPublicas = query
+                .OrderBy(m => m.DataFim);
+              
             // --- Cálculo de Pendências ---
 
             var pendingValues = new Dictionary<int, int>();
@@ -109,8 +93,6 @@ namespace nexumApp.Controllers
             }
 
             ViewBag.PendingValues = pendingValues;
-            ViewBag.TagsList = new Tags().TagsList;
-
             return View(metasPublicas);
         }
 
@@ -168,13 +150,21 @@ namespace nexumApp.Controllers
         [AllowAnonymous]
         [HttpGet]
 
-        public IActionResult GetVagasPartial(string cep, string tags, string tab)
-        {
-            if (tab == "voluntariado")
+        public IActionResult GetVagasPartial(string cep, string tags, string search)
+        { 
+            var vagasFromDb = _context.Vagas.Include(vaga => vaga.Ong).ToList();
+
+            search = search?.Trim();
+
+            if(search != null)
             {
-                ViewBag.Voluntariado = true;
+                vagasFromDb = vagasFromDb.Where(vaga =>
+                vaga.Titulo.ToLower().Contains(search.ToLower()) ||
+                vaga.Descricao.ToLower().Contains(search.ToLower()) ||
+                vaga.Ong.Nome.ToLower().Contains(search.ToLower())
+                ).ToList();
             }
-            var vagasFromDb = _context.Vagas.ToList();
+
 
             if (tags != null)
             {

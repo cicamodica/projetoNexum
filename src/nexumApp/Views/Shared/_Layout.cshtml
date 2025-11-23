@@ -34,14 +34,13 @@
                           method="get"
                           asp-area=""
                           asp-controller="Home"
-                          asp-action="Marketplace">
+                          asp-action="Index">
 
                         <input type="text"
                                class="search-input"
                                name="search"
                                placeholder="Buscar ONGs, vagas, metas..."
                                value="@Context.Request.Query["search"]" />
-
                         <button type="submit" class="search-btn">
                             <i class="bi bi-search"></i>
                         </button>
@@ -69,7 +68,6 @@
                                 <a class="nav-link fw-bold text-primary"
                                    asp-controller="Home"
                                    asp-action="Index"
-                                   asp-route-publicView="true"
                                    asp-area="">
                                     <i class="bi bi-shop"></i> Marketplace
                                 </a>
