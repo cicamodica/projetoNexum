@@ -28,6 +28,12 @@ Para cada caso de teste definido no Plano de Testes de Software, realize o regis
 |Registro de evidência | ![Teste ONG&#39;s cadastradas](https://github.com/user-attachments/assets/03c28d8d-b48a-4430-aba5-9c4388d64f27)|
 |Responsavel pelo Teste | Mariana Turibio Gressi                                                                                    |
 
+| **Caso de Teste** 	| **CT12 – Teste da página de ONGs cadastradas**|
+|:---:	|:---:	|
+|	Requisito Associado 	|RF-05 - Permitir que voluntários e doadores pesquisem causas filtrando por necessidades, localização, área de interesse e disponibilidade.                                                          |
+|Objetivo do Teste | Verificar se a barra de pesquisa funciona corretamente.                                                      |
+|Registro de evidência | ![Image](https://github.com/user-attachments/assets/8fbb1951-b549-41cb-8337-b22b1d7b404c)|
+|Responsavel pelo Teste | Breno Marques de Moura     
 
 
 ## Relatório de testes de software
