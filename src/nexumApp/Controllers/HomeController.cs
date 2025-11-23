@@ -50,7 +50,7 @@ namespace nexumApp.Controllers
                 .Include(m => m.Ong)
                 .Include(m => m.Filial)
                 .Include(m => m.Doacoes)
-                .Where(m => m.Status == "Ativa").ToList();
+                .Where(m => m.Status == "Ativa" && m.Ong.Aprovaçao).ToList();
 
             // --- Filtros ---
 
@@ -100,7 +100,7 @@ namespace nexumApp.Controllers
         [HttpGet]
         public IActionResult GetVagasPartial(string cep, string tags, string search)
         { 
-            var vagasFromDb = _context.Vagas.Include(vaga => vaga.Ong).ToList();
+            var vagasFromDb = _context.Vagas.Include(vaga => vaga.Ong).Where(vaga => vaga.Ong.Aprovaçao).ToList();
 
             search = search?.Trim();
 
@@ -143,7 +143,7 @@ namespace nexumApp.Controllers
             var vaga = await _context.Vagas
                                      .Include(v => v.Ong)
                                      .AsNoTracking()
-                                     .FirstOrDefaultAsync(v => v.IdVaga == vagaId);
+                                     .FirstOrDefaultAsync(v => v.IdVaga == vagaId && v.Ong.Aprovaçao);
 
             if (vaga == null)
             {
