@@ -90,8 +90,29 @@ namespace nexumApp.Controllers
             if (ong == null)
                 return NotFound();
 
-            // Inverte o status: se estava true (ativa), vira false (pausada)
+            // Inverte o status da ONG
             ong.Aprovaçao = !ong.Aprovaçao;
+            var novaSituacao = ong.Aprovaçao; // true = ativa, false = pausada
+
+            // Atualiza TODAS as metas dessa ONG
+            var metas = await _context.Metas
+                .Where(m => m.OngId == id)
+                .ToListAsync();
+
+            foreach (var meta in metas)
+            {
+                meta.Ativa = novaSituacao;
+            }
+
+            // Atualiza TODAS as vagas dessa ONG
+            var vagas = await _context.Vagas
+                .Where(v => v.IdONG == id)
+                .ToListAsync();
+
+            foreach (var vaga in vagas)
+            {
+                vaga.Ativa = novaSituacao;
+            }
 
             await _context.SaveChangesAsync();
 
