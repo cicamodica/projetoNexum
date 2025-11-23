@@ -45,7 +45,7 @@ Os testes funcionais a serem realizados na aplicação são descritos a seguir:
 
 | **Caso de Teste** 	| **CT05 – Página Homepage da ONG**	|
 |:---:	|:---:	|
-|	**Requisitos Associados** 	| XX |
+|	**Requisitos Associados** 	| RF-04, RF-15 |
 | **Objetivo do Teste** 	| Verificar se a página inicial da ONG funciona corretamente |
 | **Passos** 	| 01.	Acessar a aplicação por link público; <br> 02.	Na homepage clicar em “Login”; <br> 03.	Aguardar carregamento da página; <br> 04.	Preencher o dados de acordo com a conta e clicar em "Fazer login"; <br> 05.	Verificar redirecionamento correto para página da ONG; <br> 06. Verificar se todos os campos Adicionar nova vaga/meta, editar ou excluir vagas/metas existentes, estão funcionais.|
 |**Critérios de Êxito** | Ao logar como ONG o usuário tem acesso aos dados da ONG, consegue criar, editar ou excluir uma meta/vaga. |
