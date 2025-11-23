@@ -258,3 +258,19 @@ h5 {
     color: white;
     text-decoration: none;
 }
+
+@media screen and (max-width: 768px) {
+    .ONGS-container {
+        flex-direction: column;
+        width: 300px;
+        position: relative;
+        left: 50%;
+        transform:translateX(-50%)
+    }
+    .ONGS-filter {
+        margin: 0;
+        
+        margin-bottom: 50px;
+        padding-bottom: 20px;
+    }
+}
