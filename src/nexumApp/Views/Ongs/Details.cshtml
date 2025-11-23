@@ -307,6 +307,116 @@
         .ong-pill:hover {
             background-color: #106637;
         }
+
+    
+    .btn-outline-secondary, .btn-secondary, .btn-danger, .btn-success, .btn-primary {
+        border-radius: 24px;
+        cursor: pointer;
+        padding: 5px 20px;
+    }
+
+    /* ====================================================================
+           RESPONSIVIDADE (MEDIA QUERIES)
+           ==================================================================== */
+
+    /* Tablets e Celulares (Abaixo de 992px) */
+    @@media (max-width: 992px) { 
+        .logo-circle-container {
+            left: 40px !important;
+            margin-left: 0 !important;
+            bottom: -45px;
+            width: 100px;
+            height: 100px;
+        }
+
+        .conteudo-centralizado {
+            margin-top: 70px !important;
+        }
+    }
+
+    /* Celulares (Abaixo de 576px - Inclui 375px) */
+    @@media (max-width: 576px) { 
+
+        .profile-header-strip {
+            height: 180px;
+        }
+
+    /* 2. Logo no Celular */
+    .logo-circle-container {
+        left: 20px !important; /* Menos espaço na esquerda */
+        width: 90px;
+        height: 90px;
+        bottom: -45px;
+        border-width: 3px;
+    }
+
+    /* 3. Corpo do Texto */
+    .conteudo-centralizado {
+        padding-left: 20px !important; /* Aproveita mais espaço lateral */
+        padding-right: 20px !important;
+        margin-top: 60px !important;
+    }
+
+    /* 4. Títulos */
+    h1 {
+        font-size: 26px;
+        margin-top: 10px;
+    }
+
+    h2 {
+        font-size: 22px;
+    }
+
+    .ong-title-with-edit {
+        font-size: 24px;
+        flex-wrap: wrap;
+    }
+
+    /* 5. Empilhar os Contatos (Email, Site, Pix) */
+    .d-flex.flex-wrap.gap-4.mb-4.align-items-center {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 15px !important; /* Espaço entre os itens empilhados */
+    }
+
+        /* Ajuste de fonte dos contatos para não quebrar linha */
+        .d-flex.flex-wrap.gap-4.mb-4.align-items-center a,
+        .d-flex.flex-wrap.gap-4.mb-4.align-items-center span {
+            font-size: 0.95rem;
+            word-break: break-all; /* Quebra emails longos se necessário */
+        }
+
+    /* 6. Abas (Tabs) */
+    .nav-tabs {
+        flex-wrap: nowrap; /* Não deixa as abas quebrarem linha */
+        overflow-x: auto; /* Permite rolar para o lado se não couber */
+        overflow-y: hidden;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch; /* Rolagem suave no iOS */
+        border-bottom: 1px solid #16435D;
+    }
+
+        .nav-tabs .nav-link {
+            padding: 10px 12px; /* Botões de aba um pouco menores */
+            font-size: 0.9rem;
+        }
+
+    /* 7. Chips do Relatório */
+    .ong-chips {
+        justify-content: center; /* Centraliza os botões de filtro no celular */
+    }
+
+    .ong-chip {
+        flex-grow: 1; /* Faz os botões ocuparem a largura disponível */
+        text-align: center;
+    }
+
+    /* 8. Modais */
+    .modal-dialog {
+        margin: 10px; /* Margem pequena nas bordas */
+    }
+
+    
 </style>
 
 
@@ -403,7 +513,7 @@
                 </h6>
                 <p>@Model.Descriçao</p>
 
-                @* --- ÁREA DE ATUAÇÃO (Já estava correto, mantivemos) --- *@
+                @* --- ÁREA DE ATUAÇÃO --- *@
                 <h6 class="fw-bold mt-3">Área de Atuação</h6>
                 <div class="d-flex align-items-center gap-2 mb-4">
                     <span class="tag-badge tag-badge-primary">
@@ -412,7 +522,8 @@
 
                     @if (userId == Model.UserId)
                     {
-                        <a href="#" class="btn btn-sm btn-outline-secondary py-1 px-3"
+                        
+                        <a href="#" class="text-secondary small ms-2"
                            data-bs-toggle="modal"
                            data-bs-target="#modalEditarTag"
                            title="Editar Área de Atuação">
@@ -694,6 +805,8 @@
                                             <button type="button" class="ong-chip" data-col="email">E-mail</button>
                                             <button type="button" class="ong-chip" data-col="filiais">Filiais</button>
                                             <button type="button" class="ong-chip" data-col="endereco">Endereço</button>
+                                            <button type="button" class="ong-chip" data-col="metas">Metas</button>
+                                            <button type="button" class="ong-chip" data-col="vagas">Vagas</button>
                                         </div>
                                         <div class="text-center mt-3">
                                             <button class="btn btn-success ong-pill" type="submit">
@@ -709,11 +822,20 @@
                         </div>
                     }
 
-                    @* ABA FILIAIS (VISÍVEL PARA TODOS) *@
+                    @* ABA FILIAIS *@
                     <div class="tab-pane fade" id="filiais-pane" role="tabpanel" tabindex="0">
-                        <h4 class="mt-4 fw-bold">Nossas Filiais</h4>
 
-                        @* Lógica opcional: Se quiser um botão de "Adicionar Filial" para o dono, insira aqui *@
+                        <div class="d-flex justify-content-between align-items-center mt-4 mb-3">
+                            <h4 class="fw-bold mb-0">Nossas Filiais</h4>
+
+                            @* BOTÃO CADASTRAR FILIAL (SÓ PARA O DONO) *@
+                            @if (userId == Model.UserId)
+                            {
+                                <a asp-controller="Filials" asp-action="Create" asp-area="" class="btn btn-primary btn-sm">
+                                    <i class="bi bi-plus-lg"></i> Cadastrar Nova Filial
+                                </a>
+                            }
+                        </div>
 
                         @if (Model.Filials != null && Model.Filials.Any())
                         {
@@ -746,7 +868,7 @@
                             <div class="alert alert-info text-center mt-3">
                                 @if (userId == Model.UserId)
                                 {
-                                    <span>Você ainda não cadastrou filiais.</span>
+                                    <span>Você ainda não cadastrou filiais. Clique no botão acima para começar.</span>
                                 }
                                 else
                                 {
@@ -763,6 +885,33 @@
 @* MODAIS DE EDIÇÃO INTEGRADOS DIRETAMENTE NA VIEW *@
 @* ==================================================================== *@
 
+        <div class="modal fade" id="modalEditarNome" tabindex="-1" aria-labelledby="modalEditarNomeLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalEditarNomeLabel">Editar Nome da ONG</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form asp-controller="Ongs" asp-action="UpdateName" method="post">
+                        <div class="modal-body">
+
+                            @* ID da ONG *@
+                            <input type="hidden" name="ongId" value="@Model.Id" />
+
+                            <div class="mb-3">
+                                <label for="nomeInput" class="form-label fw-bold">Nome / Razão Social</label>
+                                <input type="text" class="form-control" id="nomeInput" name="nome"
+                                       value="@Model.Nome" required maxlength="50">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Salvar Nome</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 
 <div class="modal fade" id="modalEditarHeader" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg">

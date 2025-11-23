@@ -42,5 +42,7 @@ public class FaleConoscoModel
 
     [StringLength(20)]
     public string Status { get; set; } = "Novo";
+    public DateTime? DataResposta { get; set; }
+    public string Resposta { get; set; }
 }
 

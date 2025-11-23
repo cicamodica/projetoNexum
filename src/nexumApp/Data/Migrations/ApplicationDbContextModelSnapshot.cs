@@ -308,6 +308,9 @@ namespace nexumApp.Data.Migrations
                     b.Property<DateTime>("CriadoEm")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime?>("DataResposta")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(254)
@@ -325,6 +328,9 @@ namespace nexumApp.Data.Migrations
 
                     b.Property<bool>("Respondida")
                         .HasColumnType("bit");
+
+                    b.Property<string>("Resposta")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Status")
                         .HasMaxLength(20)

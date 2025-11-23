@@ -80,13 +80,13 @@
 
             <div class="form-vaga-fields">
                 <div class="form-group">
-                    <label for="nomeVoluntario" class="form-label">Nome Completo</label>
+                    <label for="nomeVoluntario" class="form-label">Nome Completo*</label>
                     <input type="text" id="nomeVoluntario" name="NomeCompleto" class="form-control" required
                            value="@(ViewBag.NomeCompleto ?? "")">
                 </div>
 
                 <div class="form-group">
-                    <label for="emailVoluntario" class="form-label">E-mail</label>
+                    <label for="emailVoluntario" class="form-label">E-mail*</label>
                     <input type="email" id="emailVoluntario" name="Email" class="form-control" required
                            value="@(ViewBag.Email ?? "")">
                 </div>
@@ -94,20 +94,26 @@
         </div>
 
         <div class="form-group mt-3">
-            <label for="contatoVoluntario" class="form-label">Número de contato</label>
+            <label for="contatoVoluntario" class="form-label">Número de contato*</label>
             <input type="tel" id="contatoVoluntario" name="Telefone" class="form-control"
                    value="@(ViewBag.Telefone ?? "")">
         </div>
 
         <div class="form-vaga-split row mt-3">
             <div class="form-group col-12 col-md-4">
-                <label for="cpfVoluntario" class="form-label">CPF</label>
-                <input type="text" id="cpfVoluntario" name="CPF" class="form-control"
+                <label for="cpfVoluntario" class="form-label">CPF*</label>
+                <input type="text" id="cpfVoluntario" name="CPF" class="form-control" placeholder="000.000.000-00"
+                 maxlength="14" required oninput="formatarCPF(this)"
                        value="@(ViewBag.CPF ?? "")">
+
+                       <span class="text-danger">
+                           @Html.ValidationMessage("CPF")
+                       </span>
             </div>
             <div class="form-group col-12 col-md-4">
-                <label for="nascimentoVoluntario" class="form-label">Data de nascimento</label>
+                <label for="nascimentoVoluntario" class="form-label">Data de nascimento*</label>
                 <input type="date" id="nascimentoVoluntario" name="DataNascimento" class="form-control"
+                       max="@DateTime.Now.AddYears(-18).ToString("dd-MM-yyyy")"
                        value="@(ViewBag.DataNascimento != null ? ((DateTime)ViewBag.DataNascimento).ToString("yyyy-MM-dd") : "")">
             </div>
             <div class="form-group col-12 col-md-4">
@@ -128,4 +134,23 @@
         </div>
     </form>
 </div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("input", function(e) {
+            if (e.target && e.target.id === "cpfVoluntario") {
+                let valor = e.target.value.replace(/\D/g, "");
+
+                if (valor.length > 11)
+                    valor = valor.substring(0, 11);
+
+                valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
+                valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
+                valor = valor.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+
+                e.target.value = valor;
+            }
+        });
+    </script>
+}
 

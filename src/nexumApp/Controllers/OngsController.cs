@@ -463,7 +463,9 @@ namespace nexumApp.Controllers
             // Filtro essencial para garantir que a ONG seja a do usuário logado.
             var ong = await _context.Ongs
                 .Include(o => o.User)
-                .Include(o => o.Filials) // Inclui as filiais
+                .Include(o => o.Filials)
+                .Include(o => o.Metas) 
+                .Include(o => o.Vagas)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(o => o.UserId == userId); // Filtro de Acesso
 
@@ -800,6 +802,40 @@ namespace nexumApp.Controllers
                 // Retorna a URL segura (HTTPS)
                 return uploadResult.SecureUrl.ToString();
             }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateName(int ongId, string nome)
+        {
+            // Verifica se o usuário logado é dono da ONG
+            var userId = _userManager.GetUserId(User);
+            var ong = await _context.Ongs.FirstOrDefaultAsync(o => o.Id == ongId && o.UserId == userId);
+
+            if (ong == null)
+            {
+                return NotFound();
+            }
+
+            if (string.IsNullOrWhiteSpace(nome))
+            {
+                TempData["ErrorMessage"] = "O nome não pode estar vazio.";
+                return RedirectToAction("Details", new { id = ongId });
+            }
+
+            try
+            {
+                ong.Nome = nome;
+                _context.Update(ong);
+                await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Nome atualizado com sucesso!";
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Erro ao atualizar nome.";
+            }
+
+            return RedirectToAction("Details", new { id = ongId });
         }
     }
 }

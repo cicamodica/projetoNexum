@@ -1,3 +1,4 @@
+
 # Registro de Testes de Software
 
 <span style="color:red">Pré-requisitos: <a href="3-Projeto de Interface.md"> Projeto de Interface</a></span>, <a href="8-Plano de Testes de Software.md"> Plano de Testes de Software</a>
@@ -26,6 +27,26 @@ Para cada caso de teste definido no Plano de Testes de Software, realize o regis
 |Objetivo do Teste | Verificar se o usuário consegue acessar Fale conosco dentro de Sobre nós, preencher o formulário e enviá-lo.  |
 |Registro de evidência |![fale-conosco](https://github.com/user-attachments/assets/905964f2-0522-43d9-9ece-9c97f341386f)
 
+| **Caso de Teste** 	| **CT07 – Página do perfil da ONG (visão da ONG)**|
+|:---:	|:---:	|
+|	Requisito Associado 	|RF-01 - A aplicação deve permitir que o usuário (ONG) crie e gerencie seu perfil na plataforma.                  |
+|Objetivo do Teste | Verificar se a página de perfil de ONGS funciona corretamente                                               |
+|Registro de evidência | ![Image](https://github.com/user-attachments/assets/af51ec6a-3d68-4bbc-ba55-8f4f36da62ac)  |
+|Responsavel pelo Teste | Erison
+
+| **Caso de Teste** 	| **CT08 – Teste da página de ONGs cadastradas**|
+|:---:	|:---:	|
+|	Requisito Associado 	|                                                           |
+|Objetivo do Teste | Verificar se a página de perfil de ONGS funciona corretamente                                                      |
+|Registro de evidência | ![Teste ONG&#39;s cadastradas](https://github.com/user-attachments/assets/03c28d8d-b48a-4430-aba5-9c4388d64f27)|
+|Responsavel pelo Teste | Mariana Turibio Gressi                                                                                    |
+
+| **Caso de Teste** 	| **CT12 – Teste da página de ONGs cadastradas**|
+|:---:	|:---:	|
+|	Requisito Associado 	|RF-05 - Permitir que voluntários e doadores pesquisem causas filtrando por necessidades, localização, área de interesse e disponibilidade.                                                          |
+|Objetivo do Teste | Verificar se a barra de pesquisa funciona corretamente.                                                      |
+|Registro de evidência | ![Image](https://github.com/user-attachments/assets/8fbb1951-b549-41cb-8337-b22b1d7b404c)|
+|Responsavel pelo Teste | Breno Marques de Moura     
 
 
 ## Relatório de testes de software
