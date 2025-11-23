@@ -75,7 +75,7 @@ Os testes funcionais a serem realizados na aplicação são descritos a seguir:
 
 | **Caso de Teste** 	| **CT08 – Teste da página de ONGs cadastradas** 	|
 |:---:	|:---:	|
-|	**Requisitos Associados** 	| -- |
+|	**Requisitos Associados** 	| RF-19 |
 | **Objetivo do Teste** 	| Verificar se o usuário (externo ou cadastrado) consegue acessar a página com as ONGs cadastradas na aplicação corretamente |
 | **Passos** 	| 01.	Acessar a aplicação por link público; <br> 02.	Clicar na aba "ONGs" no cabeçalho da aplicação; <br> 03. Aguardar carregamento da página de ONGs cadastradas na aplicação; <br> 04. Selecionar uma ONG; <br> 05. Aguardar redirecionamento para a página de perfil da ONG selecionada;|
 |**Critérios de Êxito** | O usuário consegue acessar a aba ONGs sem dificuldades; Ao selecionar uma ONG o usuário é redirecionado para a página de perfil da ONG|
