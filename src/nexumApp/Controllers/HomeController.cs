@@ -1,19 +1,21 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore; 
+using Microsoft.EntityFrameworkCore;
 using nexumApp.Data;
+using nexumApp.Data.Migrations;
 using nexumApp.Models;
 using nexumApp.Services;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq; 
-using System.Security.Claims;         
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
+using static QuestPDF.Helpers.Colors;
 
 namespace nexumApp.Controllers
 {
@@ -36,66 +38,51 @@ namespace nexumApp.Controllers
             _userManager = userManager;
         }
 
-        [AllowAnonymous]
-        [HttpGet]
-        public async Task<IActionResult> Index(string? cep, string? cidade, string? tags, [FromQuery] bool publicView = false)
+        public async Task<IActionResult> Index(string cep, string tags, string search)
         {
-            // O tagId é o índice da tag que vem do formulário de filtro
+            search = search?.Trim();
 
-            if (!publicView && User.Identity?.IsAuthenticated == true && User.IsInRole("Admin"))
-            {
-                return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
-            }
+            // =================================================================
+            // 3. CARREGAMENTO DO MARKETPLACE
+            // =================================================================
 
-
-            // Inicia a consulta base (todas as metas ativas)
             var query = _context.Metas
                 .Include(m => m.Ong)
                 .Include(m => m.Filial)
                 .Include(m => m.Doacoes)
-                .Where(m => m.Status == "Ativa");
+                .Where(m => m.Status == "Ativa").ToList();
 
-            if (!string.IsNullOrWhiteSpace(tags))
+            // --- Filtros ---
+
+            if (search != null)
             {
-                var tagIds = tags
-                    .Split(',', StringSplitOptions.RemoveEmptyEntries)
-                    .Select(int.Parse)
-                    .ToList();
-
-                query = query.Where(m =>
-                 m.Ong.Tag.HasValue &&
-                  tagIds.Contains(m.Ong.Tag.Value)
-   );
-
-                ViewBag.SelectedTags = tagIds;
+                query = [.. query.Where(m =>
+                    m.Recurso.ToLower().Contains(search.ToLower()) ||
+                    m.Descricao.ToLower().Contains(search.ToLower()) ||
+                    m.Ong.Nome.ToLower().Contains(search.ToLower())
+                )];
             }
 
-            if (User.Identity?.IsAuthenticated == true)
+            if (tags != null)
             {
-                // Verifica se o usuário logado é uma ONG
-                if (User.IsInRole("Ong"))
-                {
-                    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-                    // Busca o ID da ONG correspondente ao usuário
-                    var ong = await _context.Ongs
-                                            .FirstOrDefaultAsync(o => o.UserId == userId);
-
-                    // Define o ViewBag.OngId para o _LoginPartial usar
-                    if (ong != null)
-                    {
-                        ViewBag.OngId = ong.Id;
-                    }
-                }
+                int?[] idsArray = [.. tags.Split(',').Select(int.Parse)];
+                query = [.. query.Where(meta => idsArray.Contains(meta.Ong.Tag))];
             }
 
-                // 4. Executa a consulta
-                var metasPublicas = await query
-                .OrderBy(m => m.DataFim)
-                .ToListAsync();
+            if (!string.IsNullOrEmpty(cep))
+            {
+                var formattedCep = cep.Replace("-", "");
+                query = [.. query.Where(meta => meta.Ong.CEP == formattedCep || meta.Filial?.CEP == formattedCep) ];
+            }
+
+            // --- Execução ---
+
+            var metasPublicas = query
+                .OrderBy(m => m.DataFim);
+              
+            // --- Cálculo de Pendências ---
 
             var pendingValues = new Dictionary<int, int>();
-
             foreach (var meta in metasPublicas)
             {
                 int valorPendente = meta.Doacoes
@@ -106,128 +93,44 @@ namespace nexumApp.Controllers
             }
 
             ViewBag.PendingValues = pendingValues;
-
-            // NOVO: 2. Resolve e Injeta a lista de Tags para o filtro no Razor (se necessário)
-            // Se você tem um dropdown de tags na View, ele precisa dessa lista.
-            ViewBag.TagsList = new Tags().TagsList; // Assumindo que você instanciou a classe Tags para pegar a lista.
-
-
-            // 6. Envia o resultado para a View
             return View(metasPublicas);
         }
 
-        //PESQUISA REDIRECIONADA PARA PÁGINA MARKETPLACE FILTRADA:
-
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> Marketplace(string? search, string? cep, string? cidade, int? tagId)
-        {
-            // normaliza termo
+        public IActionResult GetVagasPartial(string cep, string tags, string search)
+        { 
+            var vagasFromDb = _context.Vagas.Include(vaga => vaga.Ong).ToList();
+
             search = search?.Trim();
 
-            // base da consulta de metas
-            var query = _context.Metas
-                .Include(m => m.Ong)
-                .Include(m => m.Filial)
-                .Include(m => m.Doacoes)
-                .Where(m => m.Status == "Ativa");
-
-            // 🔍 filtro de texto (metas + ONG)
-            if (!string.IsNullOrWhiteSpace(search))
+            if(search != null)
             {
-                query = query.Where(m =>
-                    m.Recurso.Contains(search) ||
-                    m.Descricao.Contains(search) ||
-                    m.Ong.Nome.Contains(search) ||
-                    m.Ong.Endereço.Contains(search) ||
-                    (m.Filial != null && m.Filial.Endereço.Contains(search))
-                );
-            }
-
-            // (se você tiver filtros de CEP / cidade / tagId, mantém aqui embaixo, como já usa hoje)
-
-            var metasPublicas = await query
-                .OrderBy(m => m.DataFim)
-                .ToListAsync();
-
-            // pendências (igual você já faz)
-            var pendingValues = new Dictionary<int, int>();
-            foreach (var meta in metasPublicas)
-            {
-                int valorPendente = meta.Doacoes
-                    .Where(d => d.Status == "Pendente")
-                    .Sum(d => d.Quantidade);
-
-                pendingValues[meta.Id] = valorPendente;
-            }
-
-            ViewBag.PendingValues = pendingValues;
-            ViewBag.Search = search; // passamos pra View se você quiser usar no título
-
-            return View(metasPublicas); // Marketplace.cshtml
-        }
-
-        [AllowAnonymous]
-        [HttpGet]
-
-        public async Task<IActionResult> GetVagasPartial(string cep, string cidade, string datas)
-        {
-            var vagasQuery = _context.Vagas
-                .Include(v => v.Ong)
-                
-                .AsNoTracking();
-
-            if (User.Identity?.IsAuthenticated == true)
-            {
-                vagasQuery = vagasQuery.Where(v => v.Ong.Aprovaçao == true);
+                vagasFromDb = vagasFromDb.Where(vaga =>
+                vaga.Titulo.ToLower().Contains(search.ToLower()) ||
+                vaga.Descricao.ToLower().Contains(search.ToLower()) ||
+                vaga.Ong.Nome.ToLower().Contains(search.ToLower())
+                ).ToList();
             }
 
 
-            if (!string.IsNullOrEmpty(cidade) && !cidade.Contains("..."))
+            if (tags != null)
             {
-                var cidadeQuery = cidade.Split('-')[0].Trim();
-                vagasQuery = vagasQuery.Where(v => v.Ong.Endereço.Contains(cidadeQuery));
+                int?[] idsArray = [.. tags.Split(',').Select(int.Parse)];
+                var ongs = _context.Ongs.Where(ong => idsArray.Contains(ong.Tag)).ToList();
+                var ongsIds = ongs.Select(ong => ong.Id).ToArray();
+                vagasFromDb = [.. vagasFromDb.Where(vaga => ongsIds.Contains(vaga.IdONG))];
             }
-
 
             if (!string.IsNullOrEmpty(cep))
             {
-                var cepQuery = cep.Replace("-", "");
-                vagasQuery = vagasQuery.Where(v => v.Ong.Endereço.Contains(cepQuery));
+                var formattedCep = cep.Replace("-", "");
+                var ongs = _context.Ongs.Where(ong => ong.CEP == formattedCep).ToList();
+                var ongsIds = ongs.Select(ong => ong.Id).ToArray();
+                vagasFromDb = [.. vagasFromDb.Where(vaga => ongsIds.Contains(vaga.IdONG))];
             }
 
-
-            if (!string.IsNullOrEmpty(datas))
-            {
-                var dateList = new List<DateTime>();
-                var dateStrings = datas.Split(',');
-
-                foreach (var dateStr in dateStrings)
-                {
-
-                    if (DateTime.TryParse(dateStr, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.AssumeUniversal, out DateTime parsedDate))
-                    {
-                        dateList.Add(parsedDate.Date);
-                    }
-                }
-
-                if (dateList.Any())
-                {
-                    var minDate = dateList.Min();
-                    var maxDate = dateList.Max();
-
-
-
-                    vagasQuery = vagasQuery.Where(v => v.DataInicio <= maxDate && v.DataFim >= minDate);
-                }
-            }
-
-
-            var vagasPublicas = await vagasQuery
-                .OrderBy(v => v.Titulo)
-                .ToListAsync();
-
-            return PartialView("_VagasPartial", vagasPublicas);
+            return PartialView("_VagasPartial", vagasFromDb);
         }
 
 
@@ -297,10 +200,10 @@ namespace nexumApp.Controllers
                 // 5. Armazena o URL relativo para o banco de dados
                 fotoUrl = $"/uploads/candidatos/{uniqueFileName}";
             }
-          
+
             if (!ModelState.IsValid)
             {
-                
+
                 ViewBag.NomeCompleto = nomeCompleto;
                 ViewBag.Email = email;
                 ViewBag.Telefone = telefone;
@@ -309,7 +212,7 @@ namespace nexumApp.Controllers
                 ViewBag.Genero = genero;
                 ViewBag.Habilidades = habilidades;
 
-                
+
                 if (!string.IsNullOrEmpty(fotoUrl))
                 {
                     ViewBag.FotoBase64 = fotoUrl;
@@ -327,7 +230,7 @@ namespace nexumApp.Controllers
 
 
 
-            var novoCandidato = new Candidato
+            var novoCandidato = new Models.Candidato
             {
                 Nome = nomeCompleto,
                 Email = email,
@@ -420,36 +323,22 @@ namespace nexumApp.Controllers
             }
             catch (Exception ex)
             {
-                
+
                 _logger.LogError(ex, "A inscrição foi salva, mas falhou ao enviar o e-mail de confirmação.");
             }
 
             return Ok();
         }
 
-        [AllowAnonymous]
-        [HttpGet]
-        public async Task<IActionResult> SmartRedirect()
+        public IActionResult SmartRedirect()
         {
-            //  Verifica se está logado
-            if (User.Identity?.IsAuthenticated == true)
-            {
-                // Pega o objeto User logado
-                var user = await _userManager.GetUserAsync(User);
-
-                // Verifica se é uma ONG
-                if (user != null && await _userManager.IsInRoleAsync(user, "Ong"))
-                {
-                    // LOGADO E É ONG -> Vai para o Dashboard
-                    return RedirectToAction("Dashboard", "Ongs");
-                }
-            }
-
-            // NÃO LOGADO (ou logado como outra Role) -> Vai para Home/Index pública
-            return RedirectToAction("Index", "Home");
+            if (User.IsInRole("Ong")) return RedirectToAction("Dashboard", "Ongs");
+            return RedirectToAction("Index");
         }
 
-
-
+        public async Task<IActionResult> QuemSomos()
+        {
+            return View();
+        }
     }
 }

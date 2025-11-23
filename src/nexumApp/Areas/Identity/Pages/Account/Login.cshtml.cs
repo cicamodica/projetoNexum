@@ -169,7 +169,5 @@ namespace nexumApp.Areas.Identity.Pages.Account
             return Page();
         }
     }
-  }
-
-    
+}
 

@@ -445,20 +445,22 @@
                                             data-meta-titulo="@meta.Recurso">
                                         Ver Doações
                                     </button>
-                                    <a asp-controller="Metas" asp-action="Edit" asp-route-id="@meta.Id"
-                                       class="btn btn-outline-primary"
-                                       data-bs-toggle="modal"
-                                       data-bs-target="#modalEditarMeta"
-                                       data-meta-id="@meta.Id">
+                                    <button type="button"
+                                            class="btn btn-outline-primary"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#modalEditarMeta"
+                                            data-meta-id="@meta.Id">
                                         Editar
-                                    </a>
-                                    <a asp-controller="Metas" asp-action="Delete" asp-route-id="@meta.Id"
-                                       class="btn btn-outline-danger"
-                                       data-bs-toggle="modal"
-                                       data-bs-target="#modalExcluirMeta"
-                                       data-meta-id="@meta.Id" data-meta-recurso="@meta.Recurso">
+                                    </button>
+
+                                    <button type="button"
+                                            class="btn btn-outline-danger"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#modalExcluirMeta"
+                                            data-meta-id="@meta.Id"
+                                            data-meta-recurso="@meta.Recurso">
                                         Excluir
-                                    </a>
+                                    </button>
                                  
                                 </div>
                             </div>
@@ -562,7 +564,7 @@
 
                         <div class="mb-3">
                         <label for="FilialId" class="form-label">Filial (Local da Meta)</label>
-                        <select class="form-select form-control-custom rounded-pill" id="FilialId" name="FilialId" required>
+                        <select class="form-select form-control-custom rounded-pill" id="FilialId" name="FilialId">
 
                             <option value="">Sede Principal (@ViewBag.OngNome)</option>
 
@@ -624,33 +626,39 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modalExcluirMeta" tabindex="-1" aria-labelledby="modalExcluirMetaLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content" style="border-radius: 15px;">
+    <div class="modal fade" id="modalExcluirMeta" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="border-radius: 15px;">
 
-                                <form asp-controller="Metas" asp-action="Delete" method="post">
-                                    @Html.AntiForgeryToken()
-                                    <input type="hidden" id="deleteMetaId" name="id" />
+                <form asp-controller="Metas" asp-action="Delete" method="post">
+                    @Html.AntiForgeryToken()
 
-                                    <div class="modal-header border-0 pb-0 bg-danger text-white" style="border-top-left-radius: 15px; border-top-right-radius: 15px;">
-                                        <h5 class="modal-title w-100 text-center" id="modalExcluirMetaLabel" style="font-weight: 700; font-size: 1.5rem;">
-                                            CONFIRMAR EXCLUSÃO
-                                        </h5>
-                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body p-4 text-center">
-                                        <p class="lead mt-3 fw-bold">Tem certeza que deseja excluir esta meta?</p>
-                                        <h3 id="deleteMetaRecurso" class="text-danger"></h3>
-                                        <p class="text-muted small mt-3">Esta ação não pode ser desfeita.</p>
-                                    </div>
-                                    <div class="modal-footer border-0 d-flex justify-content-center p-4 pt-0 gap-2">
-                                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" style="border-radius: 20px; padding: 10px 40px;">Cancelar</button>
-                                        <button type="submit" class="btn btn-danger" style="border-radius: 20px; padding: 10px 40px;">Excluir</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
+                    @* O JAVASCRIPT VAI PROCURAR ESTE ID AQUI: *@
+                    <input type="hidden" id="deleteMetaId" name="id" />
+
+                    <div class="modal-header border-0 pb-0 bg-danger text-white">
+                        <h5 class="modal-title w-100 text-center">CONFIRMAR EXCLUSÃO</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                     </div>
+
+                    <div class="modal-body p-4 text-center">
+                        <p class="lead fw-bold">Tem certeza?</p>
+                        <p>Você vai excluir a meta:</p>
+
+                        @* E VAI ESCREVER O NOME AQUI: *@
+                        <h3 id="deleteMetaRecurso" class="text-danger fw-bold">...</h3>
+
+                        <p class="text-muted small mt-3">Esta ação é irreversível.</p>
+                    </div>
+
+                    <div class="modal-footer border-0 d-flex justify-content-center">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-danger">Excluir Agora</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
                     <div class="modal fade" id="modalEditarMeta" tabindex="-1" aria-labelledby="modalEditarMetaLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
@@ -883,110 +891,158 @@
                     window.addEventListener('resize', checkVagasScrollButtons);
                 }
 
-                // --- INÍCIO: NOVO BLOCO PARA SCROLLER DE METAS ---
                 
+    </script>
+}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log("Script de Exclusão de Segurança Carregado!");
 
-                const metasContainer = document.getElementById('metas-container');
-                const metasPrevBtn = document.getElementById('meta-scroll-prev');
-                const metasNextBtn = document.getElementById('meta-scroll-next');
+            var modalExcluir = document.getElementById('modalExcluirMeta');
 
-                if (metasContainer && metasPrevBtn && metasNextBtn) {
+            if (modalExcluir) {
+                modalExcluir.addEventListener('show.bs.modal', function (event) {
+                    // 1. O botão que foi clicado
+                    var button = event.relatedTarget;
 
-                    // Função duplicada, mas para as variáveis de 'metas'
-                    function checkMetasScrollButtons() {
-                        setTimeout(() => {
-                            const scrollLeft = metasContainer.scrollLeft;
-                            const scrollWidth = metasContainer.scrollWidth;
-                            const clientWidth = metasContainer.clientWidth;
+                    // 2. Extrai a informação dos atributos data-*
+                    var id = button.getAttribute('data-meta-id');
+                    var nome = button.getAttribute('data-meta-recurso');
 
-                            if (scrollWidth <= clientWidth) {
-                                metasPrevBtn.style.display = 'none';
-                                metasNextBtn.style.display = 'none';
-                                return;
-                            }
-                            metasPrevBtn.style.display = (scrollLeft > 0) ? 'flex' : 'none';
-                            metasNextBtn.style.display = (scrollLeft < (scrollWidth - clientWidth - 1)) ? 'flex' : 'none';
-                        }, 1000);
-                    }
+                    console.log("Tentando excluir meta:", id, nome);
 
-                    metasNextBtn.addEventListener('click', () => {
-                        const cardWidth = 320 + 24; // (320px de 'width' + 1.5rem de 'margin-right')
-                        metasContainer.scrollLeft += cardWidth;
-                    });
+                    // 3. Atualiza o título do modal
+                    var modalTitle = modalExcluir.querySelector('#deleteMetaRecurso');
+                    if(modalTitle) modalTitle.textContent = nome;
 
-                    metasPrevBtn.addEventListener('click', () => {
-                        const cardWidth = 320 + 24;
-                        metasContainer.scrollLeft -= cardWidth;
-                    });
-
-                    metasContainer.addEventListener('scroll', checkMetasScrollButtons);
-                    checkMetasScrollButtons();
-                    window.addEventListener('resize', checkMetasScrollButtons);
-                }
-                // --- FIM: NOVO BLOCO PARA SCROLLER DE METAS ---
-                                    // INÍCIO: CÓDIGO PARA MODAL EXCLUIR META (NOVO)
-                                // ===================================================
-                                var deleteMetaModal = document.getElementById('modalExcluirMeta');
-                                if (deleteMetaModal) {
-                                    deleteMetaModal.addEventListener('show.bs.modal', function (event) {
-                                        var button = event.relatedTarget;
-                                        if (button) {
-                                            var metaId = button.getAttribute('data-meta-id');
-                                            var metaRecurso = button.getAttribute('data-meta-recurso');
-
-                                            var modalRecursoElement = deleteMetaModal.querySelector('#deleteMetaRecurso');
-                                            var modalInputElement = deleteMetaModal.querySelector('#deleteMetaId');
-
-                                            if (modalRecursoElement) {
-                                                modalRecursoElement.textContent = '"' + metaRecurso + '"';
-                                            }
-                                            if (modalInputElement) {
-                                                modalInputElement.value = metaId;
-                                            }
-                                        }
-                                    });
-                                }
-
-                                // ===================================================
-                                // INÍCIO: CÓDIGO PARA MODAL EDITAR META (NOVO)
-                                // ===================================================
-                                           function popularFiliaisParaEdicao(selectElement, selectedFilialId) {
-
-                // --- ASSUME VARIÁVEIS GLOBAIS OU INJETADAS (EX: ONG_FILIALS, ONG_NOME) ---
-                // Você deve garantir que essas variáveis estejam definidas na sua View principal
-                const ongNome = typeof ONG_NOME !== 'undefined' ? ONG_NOME : 'Sede Principal';
-                const filiais = typeof ONG_FILIALS !== 'undefined' ? ONG_FILIALS : [];
-                // --------------------------------------------------------------------------
-
-                selectElement.innerHTML = ''; // Limpa as opções
-
-                // 1. Adiciona a opção da Sede Principal (valor vazio/nulo)
-                const sedeOption = document.createElement('option');
-                // Para a Sede, o valor deve ser vazio (''), 0, ou nulo. Usaremos '' para o <select>.
-                sedeOption.value = '';
-                sedeOption.textContent = `Sede Principal (${ongNome})`;
-                selectElement.appendChild(sedeOption);
-
-                // 2. Adiciona as opções das Filiais
-                filiais.forEach(filial => {
-                    const option = document.createElement('option');
-                    // Usamos filial.id como valor (chave estrangeira)
-                    option.value = filial.id;
-                    option.textContent = `${filial.nome || filial.descriçao} (${filial.endereço})`; // Usando Nome ou Descrição para o texto da Filial
-                    selectElement.appendChild(option);
+                    // 4. Atualiza o input hidden (ESSENCIAL para funcionar)
+                    var modalInput = modalExcluir.querySelector('#deleteMetaId');
+                    if(modalInput) modalInput.value = id;
                 });
+            }
+        });
+    </script>
+    <script>
+        // =================================================================
+        // 1. PREPARAÇÃO DE DADOS GLOBAIS (C# -> JavaScript)
+        // =================================================================
+        // Capturamos os dados do Razor aqui para usar no JavaScript sem erros.
 
-                // 3. Seleciona o valor correto da meta
-                if (selectedFilialId) {
-                    // Se FilialId for um número, seleciona a filial.
-                    selectElement.value = selectedFilialId;
-                } else {
-                    // Caso contrário, seleciona a Sede Principal.
-                    selectElement.value = '';
-                }
+        var ONG_NOME = '@Html.Raw(Model.Nome ?? "Minha ONG")';
+        var ONG_ENDERECO = '@Html.Raw(Model.Endereço ?? "Endereço não informado")';
+
+        var ONG_FILIALS = [
+            @if (Model.Filials != null)
+            {
+                    foreach (var filial in Model.Filials)
+                    {
+                            // Cria objeto simples: ID, Nome e Endereço
+                            @:{ id: @filial.Id, nome: "@Html.Raw(filial.Nome ?? "")", endereco: "@Html.Raw(filial.Endereço ?? "")" },
+                    }
+            }
+        ];
+
+        // =================================================================
+        // 2. FUNÇÕES AUXILIARES
+        // =================================================================
+
+        /**
+         * Preenche o <select> de filiais no modal de edição de meta.
+         */
+        function popularFiliaisParaEdicao(selectElement, selectedFilialId) {
+            // Garante o uso das variáveis globais
+            const ongNome = (typeof ONG_NOME !== 'undefined') ? ONG_NOME : 'Sede Principal';
+            const ongEndereco = (typeof ONG_ENDERECO !== 'undefined') ? ONG_ENDERECO : '';
+            const filiais = (typeof ONG_FILIALS !== 'undefined') ? ONG_FILIALS : [];
+
+            selectElement.innerHTML = ''; // Limpa opções anteriores
+
+            // 1. Adiciona opção da Sede (Matriz) COM O ENDEREÇO
+            const sedeOption = document.createElement('option');
+            sedeOption.value = '';
+            sedeOption.textContent = `Sede Principal - ${ongEndereco}`;
+            selectElement.appendChild(sedeOption);
+
+            // 2. Adiciona opções das Filiais (se houver)
+            filiais.forEach(filial => {
+                const option = document.createElement('option');
+                option.value = filial.id;
+                // Exibe: "Nome da Filial - Endereço" ou apenas "Endereço"
+                const textoFilial = filial.nome ? `${filial.nome} - ${filial.endereco}` : filial.endereco;
+                option.textContent = textoFilial;
+                selectElement.appendChild(option);
+            });
+
+            // 3. Seleciona o valor correto (Sede ou Filial específica)
+            if (selectedFilialId) {
+                selectElement.value = selectedFilialId;
+            } else {
+                selectElement.value = ''; // Padrão: Sede
+            }
+        }
+
+        /**
+         * Configura o Scroll Horizontal (Carrossel)
+         */
+        function setupHorizontalScroll(containerId, prevBtnId, nextBtnId) {
+            const container = document.getElementById(containerId);
+            const prevBtn = document.getElementById(prevBtnId);
+            const nextBtn = document.getElementById(nextBtnId);
+
+            if (!container || !prevBtn || !nextBtn) return;
+
+            function checkButtons() {
+                setTimeout(() => {
+                    if (container.scrollWidth <= container.clientWidth) {
+                        prevBtn.style.display = 'none';
+                        nextBtn.style.display = 'none';
+                        return;
+                    }
+                    const maxScroll = container.scrollWidth - container.clientWidth;
+                    prevBtn.style.display = (container.scrollLeft > 0) ? 'flex' : 'none';
+                    nextBtn.style.display = (container.scrollLeft < maxScroll - 5) ? 'flex' : 'none';
+                }, 200);
             }
 
+            nextBtn.addEventListener('click', () => container.scrollBy({ left: 340, behavior: 'smooth' }));
+            prevBtn.addEventListener('click', () => container.scrollBy({ left: -340, behavior: 'smooth' }));
+            container.addEventListener('scroll', checkButtons);
+            window.addEventListener('resize', checkButtons);
+            checkButtons();
+        }
 
+        // =================================================================
+        // 3. EXECUÇÃO AO CARREGAR A PÁGINA
+        // =================================================================
+        window.addEventListener('load', function() {
+
+            console.log("Scripts do Dashboard carregados.");
+
+            // -------------------------------------------------------------
+            // A. MODAL EXCLUIR META
+            // -------------------------------------------------------------
+            var deleteMetaModal = document.getElementById('modalExcluirMeta');
+            if (deleteMetaModal) {
+                deleteMetaModal.addEventListener('show.bs.modal', function (event) {
+                    var button = event.relatedTarget;
+                    if (button) {
+                        var metaId = button.getAttribute('data-meta-id');
+                        var metaRecurso = button.getAttribute('data-meta-recurso');
+
+                        console.log("Excluir Meta:", metaId, metaRecurso);
+
+                        var modalRecursoElement = deleteMetaModal.querySelector('#deleteMetaRecurso');
+                        var modalInputElement = deleteMetaModal.querySelector('#deleteMetaId');
+
+                        if (modalRecursoElement) modalRecursoElement.textContent = '"' + metaRecurso + '"';
+                        if (modalInputElement) modalInputElement.value = metaId;
+                    }
+                });
+            }
+
+            // -------------------------------------------------------------
+            // B. MODAL EDITAR META
+            // -------------------------------------------------------------
             var editMetaModal = document.getElementById('modalEditarMeta');
             if (editMetaModal) {
                 editMetaModal.addEventListener('show.bs.modal', function (event) {
@@ -995,7 +1051,7 @@
 
                     var metaId = button.getAttribute('data-meta-id');
 
-                    // Referencia todos os campos do formulário
+                    // Referências aos campos
                     var modalIdInput = document.getElementById('editMetaId');
                     var modalRecursoInput = document.getElementById('editMetaRecurso');
                     var modalDescricaoInput = document.getElementById('editMetaDescricao');
@@ -1005,94 +1061,166 @@
                     var modalFilialInput = document.getElementById('editMetaFilialId');
                     var modalFileInput = document.getElementById('editMetaImagemFile');
 
-                    // Limpa o formulário (Mantenha o modalFilialInput limpo antes do carregamento)
-                    modalRecursoInput.value = 'Carregando...';
-                    modalDescricaoInput.value = '';
-                    modalValorAlvoInput.value = '';
-                    modalStatusInput.value = 'Ativa';
-                    modalDataFimInput.value = '';
-                    modalFileInput.value = '';
+                    // Estado de Carregamento
+                    if(modalRecursoInput) modalRecursoInput.value = 'Carregando...';
 
-                    // NOVO: Popula o seletor de Filiais antes do fetch, assumindo que os dados base já foram injetados.
-                    // O valor selecionado será ajustado no '.then'
-                    popularFiliaisParaEdicao(modalFilialInput, null);
+                    // Popula o select IMEDIATAMENTE (Sede + Filiais)
+                    if(modalFilialInput) popularFiliaisParaEdicao(modalFilialInput, null);
 
-                    // Faz a chamada 'fetch' para o MetasController
+                    // Busca detalhes da Meta no servidor
                     fetch('/Metas/GetMetaDetails?id=' + metaId)
                         .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Falha ao buscar dados da meta.');
-                            }
+                            if (!response.ok) throw new Error('Falha ao buscar dados da meta.');
                             return response.json();
                         })
                         .then(data => {
-                            // Popula o formulário com os dados da meta
-                            modalIdInput.value = data.id;
-                            modalRecursoInput.value = data.recurso;
-                            modalDescricaoInput.value = data.descricao;
-                            modalValorAlvoInput.value = data.valorAlvo;
-                            modalStatusInput.value = data.status;
+                            if(modalIdInput) modalIdInput.value = data.id;
+                            if(modalRecursoInput) modalRecursoInput.value = data.recurso;
+                            if(modalDescricaoInput) modalDescricaoInput.value = data.descricao;
+                            if(modalValorAlvoInput) modalValorAlvoInput.value = data.valorAlvo;
+                            if(modalStatusInput) modalStatusInput.value = data.status;
+                            if(modalFileInput) modalFileInput.value = ''; // Limpa input de arquivo
 
-                            // --- NOVO: SELECIONA A FILIAL CORRETA ---
-                            // data.filialId deve ser o ID da filial associada à meta.
-                            popularFiliaisParaEdicao(modalFilialInput, data.filialId);
-                            // ----------------------------------------
+                            // Seleciona a filial correta retornada pelo banco
+                            if(modalFilialInput) popularFiliaisParaEdicao(modalFilialInput, data.filialId);
 
-                            // Formata a data para o input type="date" (AAAA-MM-DD)
-                            if (data.dataFim) {
-                                modalDataFimInput.value = data.dataFim.split('T')[0];
-                            } else {
-                                modalDataFimInput.value = '';
+                            // Formata data (AAAA-MM-DD)
+                            if (modalDataFimInput) {
+                                if (data.dataFim) {
+                                    modalDataFimInput.value = data.dataFim.split('T')[0];
+                                } else {
+                                    modalDataFimInput.value = '';
+                                }
                             }
                         })
                         .catch(error => {
                             console.error('Erro no fetch:', error);
-                            modalRecursoInput.value = 'Erro ao carregar dados.';
+                            if(modalRecursoInput) modalRecursoInput.value = 'Erro ao carregar dados.';
                         });
                 });
             }
-                                        // ===================================================
-            // INÍCIO: CÓDIGO PARA MODAL VER DOAÇÕES
-            // ===================================================
-                      var verDoacoesModalElement = document.getElementById('modalVerDoacoes');
-                if (verDoacoesModalElement) {
-                    var verDoacoesModal = new bootstrap.Modal(verDoacoesModalElement);
-                    var modalConteudo = document.getElementById('modalVerDoacoesConteudo');
-                    var modalTitulo = document.getElementById('modalVerDoacoesTitulo');
 
-                   
-                    verDoacoesModalElement.addEventListener('show.bs.modal', function (event) {
-                        var button = event.relatedTarget;
-                        if (!button) return;
+            // -------------------------------------------------------------
+            // C. MODAL EXCLUIR VAGA
+            // -------------------------------------------------------------
+            var deleteVagaModal = document.getElementById('modalExcluirVaga');
+            if (deleteVagaModal) {
+                deleteVagaModal.addEventListener('show.bs.modal', function (event) {
+                    var button = event.relatedTarget;
+                    if (button) {
+                        var vagaId = button.getAttribute('data-vaga-id');
+                        var vagaTitulo = button.getAttribute('data-vaga-titulo');
 
-                        var metaId = button.getAttribute('data-meta-id');
-                        var metaTitulo = button.getAttribute('data-meta-titulo');
+                        var modalTitulo = deleteVagaModal.querySelector('#deleteVagaTitulo');
+                        var modalInput = deleteVagaModal.querySelector('#deleteVagaId');
 
-                        modalTitulo.textContent = metaTitulo;
-                        modalConteudo.innerHTML = '<div class="text-center p-4"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Carregando...</span></div><p class="mt-2">Buscando doações...</p></div>';
+                        if(modalTitulo) modalTitulo.textContent = '"' + vagaTitulo + '"';
+                        if(modalInput) modalInput.value = vagaId;
+                    }
+                });
+            }
 
-                        // Busca a lista de doações no controller
-                        fetch(`/Doacoes/GetDoacoesParaMeta?metaId=${metaId}`)
-                            .then(response => {
-                                if (!response.ok) throw new Error('Falha ao buscar doações.');
-                                return response.text();
-                            })
-                            .then(html => {
-                                modalConteudo.innerHTML = html;
-                            })
-                            .catch(error => {
-                                console.error('Erro no fetch:', error);
-                                modalConteudo.innerHTML = '<div class="alert alert-danger">Erro ao carregar doações. Tente novamente.</div>';
-                            });
-                    });
+            // -------------------------------------------------------------
+            // D. MODAL EDITAR VAGA
+            // -------------------------------------------------------------
+            var editVagaModal = document.getElementById('modalEditarVaga');
+            if (editVagaModal) {
+                editVagaModal.addEventListener('show.bs.modal', function (event) {
+                    var button = event.relatedTarget;
+                    if (!button) return;
 
-                   
+                    var vagaId = button.getAttribute('data-vaga-id');
+                    var modalEnderecoSelect = document.getElementById('editEndereco');
+
+                    // Usa o fetch existente para pegar filiais (como estava original) ou poderiamos usar ONG_FILIALS
+                    fetch('/Vagas/GetFiliais')
+                        .then(r => r.json())
+                        .then(filiais => {
+                             if(modalEnderecoSelect) {
+                                 modalEnderecoSelect.innerHTML = '<option value="">Sede Principal</option>';
+                                 filiais.forEach(f => {
+                                     var opt = document.createElement('option');
+                                     opt.value = f.id;
+                                     opt.text = f.endereço || f.nome;
+                                     modalEnderecoSelect.appendChild(opt);
+                                 });
+                             }
+                             return fetch('/Vagas/GetVagaDetails?id=' + vagaId);
+                        })
+                        .then(r => r.json())
+                        .then(data => {
+                            var elTitulo = document.getElementById('editTitulo');
+                            var elDesc = document.getElementById('editDescricao');
+                            var elStatus = document.getElementById('editStatus');
+                            var elId = document.getElementById('editVagaId');
+                            var elOngId = document.getElementById('editVagaIdOng');
+                            var elImgUrl = document.getElementById('editImagemUrlAtual');
+                            var preview = document.getElementById('editImagePreview');
+
+                            if(elTitulo) elTitulo.value = data.titulo;
+                            if(elDesc) elDesc.value = data.descricao;
+                            if(elStatus) elStatus.value = data.status;
+                            if(elId) elId.value = data.id;
+                            if(elOngId) elOngId.value = data.idONG;
+                            if(elImgUrl) elImgUrl.value = data.imagemUrl;
+
+                            if(modalEnderecoSelect) {
+                                modalEnderecoSelect.value = data.idFilial ? data.idFilial : "";
+                            }
+
+                            if(preview) {
+                                if(data.imagemUrl) {
+                                    preview.src = data.imagemUrl;
+                                    preview.style.display = 'block';
+                                } else {
+                                    preview.style.display = 'none';
+                                }
+                            }
+                        });
+                });
+            }
+
+            // -------------------------------------------------------------
+            // E. MODAL VER E GERENCIAR DOAÇÕES
+            // -------------------------------------------------------------
+            var verDoacoesModalElement = document.getElementById('modalVerDoacoes');
+            if (verDoacoesModalElement) {
+                var modalConteudo = document.getElementById('modalVerDoacoesConteudo');
+                var modalTitulo = document.getElementById('modalVerDoacoesTitulo');
+
+                // 1. Ao abrir o modal: Busca lista de doações
+                verDoacoesModalElement.addEventListener('show.bs.modal', function (event) {
+                    var button = event.relatedTarget;
+                    if (!button) return;
+
+                    var metaId = button.getAttribute('data-meta-id');
+                    var metaTitulo = button.getAttribute('data-meta-titulo');
+
+                    if(modalTitulo) modalTitulo.textContent = metaTitulo;
+                    if(modalConteudo) modalConteudo.innerHTML = '<div class="text-center p-4"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Carregando...</span></div><p class="mt-2">Buscando doações...</p></div>';
+
+                    fetch(`/Doacoes/GetDoacoesParaMeta?metaId=${metaId}`)
+                        .then(response => {
+                            if (!response.ok) throw new Error('Falha ao buscar doações.');
+                            return response.text();
+                        })
+                        .then(html => {
+                            if(modalConteudo) modalConteudo.innerHTML = html;
+                        })
+                        .catch(error => {
+                            console.error('Erro no fetch:', error);
+                            if(modalConteudo) modalConteudo.innerHTML = '<div class="alert alert-danger">Erro ao carregar doações. Tente novamente.</div>';
+                        });
+                });
+
+                // 2. Cliques dentro do Modal (Botões de Ação: Confirmar, etc)
+                if(modalConteudo) {
                     modalConteudo.addEventListener('click', function(e) {
 
-                        var targetButton = e.target.closest('.btn-acao-doacao');
-                        var targetEditButton = e.target.closest('.btn-editar-status');
+                        var targetButton = e.target.closest('.btn-acao-doacao');     // Botão de Status
+                        var targetEditButton = e.target.closest('.btn-editar-status'); // Botão Lápis
 
-                       
+                        // CENÁRIO 1: Clicou em um botão de alterar status
                         if (targetButton) {
                             if (targetButton.disabled) return;
 
@@ -1105,6 +1233,7 @@
                             var allButtonsInGroup = actionButtonsGroup.querySelectorAll('.btn-acao-doacao');
                             var originalButtonHtml = targetButton.innerHTML;
 
+                            // UI de Carregamento
                             allButtonsInGroup.forEach(btn => {
                                 btn.disabled = true;
                                 if (btn === targetButton) {
@@ -1112,6 +1241,7 @@
                                 }
                             });
 
+                            // Chamada AJAX para atualizar status
                             fetch(`/Doacoes/AtualizarStatusDoacao`, {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -1120,9 +1250,7 @@
                             .then(response => response.json())
                             .then(result => {
                                 if (result.success) {
-                                  
-
-                                    //  Atualiza o Status Badge
+                                    // Atualiza visualmente
                                     if(statusBadge) {
                                         statusBadge.classList.remove('bg-success', 'bg-warning', 'bg-danger', 'bg-info', 'text-dark');
                                         statusBadge.textContent = novoStatus;
@@ -1132,18 +1260,16 @@
                                         else statusBadge.classList.add('bg-info');
                                     }
 
-                                    // ATUALIZA OS BOTÕES PARA O LÁPIS "EDITAR"
                                     if(actionButtonsGroup) {
                                         actionButtonsGroup.innerHTML = `
                                             <button type="button" class="btn btn-sm btn-outline-secondary btn-editar-status"
                                                     data-doacao-id="${doacaoId}"
                                                     data-meta-id="${metaId}">
                                                 <i class="bi bi-pencil"></i> Editar
-                                            </button>
-                                        `;
+                                            </button>`;
                                     }
 
-                                    // Atualiza a Barra de Progresso (fora do modal)
+                                    // Atualiza barra de progresso no fundo
                                     var textoProgresso = document.getElementById(`meta-progresso-texto-${metaId}`);
                                     var barraProgresso = document.getElementById(`meta-progresso-barra-${metaId}`);
 
@@ -1160,29 +1286,24 @@
                                     }
 
                                 } else {
-                                    // ERRO (vindo do controller)
                                     alert('Erro: ' + (result.message || 'Erro desconhecido.'));
                                     allButtonsInGroup.forEach(btn => {
                                         btn.disabled = false;
-                                        if (btn === targetButton) {
-                                            btn.innerHTML = originalButtonHtml;
-                                        }
+                                        if (btn === targetButton) btn.innerHTML = originalButtonHtml;
                                     });
                                 }
                             })
                             .catch(error => {
-                                // ERRO (de rede/fetch)
                                 console.error('Erro na atualização:', error);
                                 alert('Erro de rede. Tente novamente.');
                                 allButtonsInGroup.forEach(btn => {
                                     btn.disabled = false;
-                                    if (btn === targetButton) {
-                                        btn.innerHTML = originalButtonHtml;
-                                    }
+                                    if (btn === targetButton) btn.innerHTML = originalButtonHtml;
                                 });
-                             });
+                            });
                         }
-                        
+
+                        // CENÁRIO 2: Clicou no botão "Editar" (Lápis)
                         else if (targetEditButton) {
                             var doacaoId = targetEditButton.getAttribute('data-doacao-id');
                             var metaId = targetEditButton.getAttribute('data-meta-id');
@@ -1190,40 +1311,40 @@
                             var statusBadge = document.getElementById(`doacao-status-${doacaoId}`);
                             var currentStatus = statusBadge.textContent.trim();
 
-                            // Recria os botões de ação originais
                             var buttonsHtml = '';
 
                             if (currentStatus !== "Confirmada") {
-                                buttonsHtml += `
-                                    <button type="button" class="btn btn-sm btn-outline-success btn-acao-doacao"
-                                            data-doacao-id="${doacaoId}" data-novo-status="Confirmada" data-meta-id="${metaId}">
-                                        Confirmar
-                                    </button>`;
+                                buttonsHtml += `<button type="button" class="btn btn-sm btn-outline-success btn-acao-doacao"
+                                                    data-doacao-id="${doacaoId}" data-novo-status="Confirmada" data-meta-id="${metaId}">
+                                                    Confirmar
+                                                </button> `;
                             }
                             if (currentStatus !== "EmContato") {
-                                buttonsHtml += `
-                                    <button type="button" class="btn btn-sm btn-outline-primary btn-acao-doacao"
-                                            data-doacao-id="${doacaoId}" data-novo-status="EmContato" data-meta-id="${metaId}">
-                                        Em Contato
-                                    </button>`;
+                                buttonsHtml += `<button type="button" class="btn btn-sm btn-outline-primary btn-acao-doacao"
+                                                    data-doacao-id="${doacaoId}" data-novo-status="EmContato" data-meta-id="${metaId}">
+                                                    Em Contato
+                                                </button> `;
                             }
                             if (currentStatus !== "NaoRealizada") {
-                                buttonsHtml += `
-                                    <button type="button" class="btn btn-sm btn-outline-danger btn-acao-doacao"
-                                            data-doacao-id="${doacaoId}" data-novo-status="NaoRealizada" data-meta-id="${metaId}">
-                                        Não Realizada
-                                    </button>`;
+                                buttonsHtml += `<button type="button" class="btn btn-sm btn-outline-danger btn-acao-doacao"
+                                                    data-doacao-id="${doacaoId}" data-novo-status="NaoRealizada" data-meta-id="${metaId}">
+                                                    Não Realizada
+                                                </button>`;
                             }
 
                             actionButtonsGroup.innerHTML = buttonsHtml;
                         }
                     });
                 }
-                // ===================================================
-                // FIM: CÓDIGO CORRIGIDO PARA MODAL VER DOAÇÕES
-                // ===================================================
+            }
+
+            // -------------------------------------------------------------
+            // F. INICIALIZA SCROLLERS
+            // -------------------------------------------------------------
+            setupHorizontalScroll('vagas-container', 'vaga-scroll-prev', 'vaga-scroll-next');
+            setupHorizontalScroll('metas-container', 'meta-scroll-prev', 'meta-scroll-next');
+
+        }); // Fim do window.load
+    </script>
 
                           
-});
-    </script>
-}

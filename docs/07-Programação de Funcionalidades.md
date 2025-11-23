@@ -9,7 +9,7 @@ Nesta seção, a implementação do sistema descrita por meio dos requisitos fun
 - C# 
 - SQLServer
 - Bootstrap
-- Github
+- GitHub
 
 ## Artefatos produzidos
 
@@ -32,6 +32,7 @@ Nesta seção, a implementação do sistema descrita por meio dos requisitos fun
 |RF-15| Permitir que ONGs solicitem empréstimo de recursos e equipamentos | Página da ONG | Mariana Turibio Gressi e Matheus Feliciano Andrade Bernardes |
 |RF-16| Disponibilizar um sistema de notificação por e-mail (voluntários) ou push (ONGs)| Envio de respostas por e-mail | Breno Marques de Moura |
 |RF-17| Permitir avaliação e feedback de usuários sobre o sistema| Página Fale conosco | Maria Cecilia Caruzzo Modica |
+|RF-18| A aplicação deve permitir que o usuário seja redirecionado por meio do Comece agora para a página Cadastrar ONG| Página Sobre nós| Márcia Maria dos Reis Marques |
 
 # Instruções de acesso
 

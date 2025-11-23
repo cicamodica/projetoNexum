@@ -125,3 +125,8 @@ Figura 44 - Tela de Ongs Cadastradas
 Apresenta resultados da pesquisa, mostrando as opções dentro da palavra-chave buscada. 
 
 Figura 45 - Tela Resultados de pesquisa
+
+### Tela Quem somos
+Apresenta a descrição resumida do Nexum, do seu objetivo, sua missão, seus valores, benefícios e como ele compartilha iniciativas que estão alinhadas aos Objetivos de Desenvolvimento Sustentável (ODS).
+
+Figura 46 - Tela Quem somos 
