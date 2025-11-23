@@ -66,6 +66,9 @@ Descreva aqui qual(is) tecnologias você vai usar para resolver o seu problema, 
 
 Apresente também uma figura explicando como as tecnologias estão relacionadas ou como uma interação do usuário com o sistema vai ser conduzida, por onde ela passa até retornar uma resposta ao usuário.
 
+<img width="298" height="466" alt="Diagrama uso tecnologias" src="https://github.com/user-attachments/assets/10423198-08ac-431b-a678-966d2e69d57f" />
+
+
 
 
 ## Hospedagem
