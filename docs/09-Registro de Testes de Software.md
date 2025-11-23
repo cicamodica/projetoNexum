@@ -20,6 +20,12 @@ Para cada caso de teste definido no Plano de Testes de Software, realize o regis
 |Objetivo do Teste | Verificar se o usuário consegue realizar seu login na plataforma sem dificuldades |
 |Registro de evidência | ![Video-teste-login-2025-10-25-at-13 06 23](https://github.com/user-attachments/assets/754f1b41-3803-47c9-afa3-8a6b9533c2d0)|
 
+| **Caso de Teste** 	| **CT10 – Fale conosco / Enviar formulário** 	|
+|:---:	|:---:	|
+|	Requisito Associado 	| RF-17 Permitir avaliação e feedback de usuários sobre o sistema.|
+|Objetivo do Teste | Verificar se o usuário consegue acessar Fale conosco dentro de Sobre nós, preencher o formulário e enviá-lo.  |
+|Registro de evidência | ![]()|
+
 
 ## Relatório de testes de software
 
