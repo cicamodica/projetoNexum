@@ -1544,6 +1544,19 @@
                  const progressoPendenteF = percPendente.toFixed(0) + '%';
                  const progressoValoresTexto = `${valorConfirmado} de ${valorAlvo}`;
 
+                 const imgElement = doacaoModalElement.querySelector('#modalDoacaoLogo');
+
+        if (imagem && imagem.trim() !== "") {
+            // Se tem imagem, define o src e garante que está visível
+            imgElement.src = imagem;
+            imgElement.style.display = 'block';
+        } else {
+            // Se NÃO tem imagem, esconde o elemento <img>
+            imgElement.style.display = 'none';
+            // Opcional: Limpa o src para evitar erros no console
+            imgElement.src = '';
+        }
+
                  doacaoModalElement.querySelector('#modalDoacaoLogo').src = imagem || '';
                  doacaoModalElement.querySelector('#modalDoacaoTitulo').textContent = titulo;
                  doacaoModalElement.querySelector('#modalDoacaoOng').textContent = ong;
