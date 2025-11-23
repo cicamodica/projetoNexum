@@ -1,3 +1,5 @@
+
+https://github.com/user-attachments/assets/ed2ed517-3e1e-4055-a9ee-2bd7d72ea19d
 # Registro de Testes de Software
 
 <span style="color:red">Pré-requisitos: <a href="3-Projeto de Interface.md"> Projeto de Interface</a></span>, <a href="8-Plano de Testes de Software.md"> Plano de Testes de Software</a>
@@ -19,6 +21,14 @@ Para cada caso de teste definido no Plano de Testes de Software, realize o regis
 |	Requisito Associado 	| RF-01 Permitir que o usuário (ONG) crie e gerencie seu perfil na plataforma. RF-02 Permitir autenticação de usuários (ONGs) por Login e Logout.|
 |Objetivo do Teste | Verificar se o usuário consegue realizar seu login na plataforma sem dificuldades |
 |Registro de evidência | ![Video-teste-login-2025-10-25-at-13 06 23](https://github.com/user-attachments/assets/754f1b41-3803-47c9-afa3-8a6b9533c2d0)|
+
+| **Caso de Teste** 	| **CT08 – Teste da página de ONGs cadastradas**|
+|:---:	|:---:	|
+|	Requisito Associado 	|                                                           |
+|Objetivo do Teste | Verificar se a página de perfil de ONGS funciona corretamente                                                      |
+|Registro de evidência | ![Teste ONG&#39;s cadastradas](https://github.com/user-attachments/assets/03c28d8d-b48a-4430-aba5-9c4388d64f27)|
+|Responsavel pelo Teste | Mariana Turibio Gressi                                                                                    |
+
 
 
 ## Relatório de testes de software
