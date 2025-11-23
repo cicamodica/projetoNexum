@@ -32,7 +32,13 @@
                 }
             </li>
         }
-
+        <a class="nav-link profile-icon"
+          style="margin-right: 5px;"
+          asp-area="Identity"
+          asp-page="/Account/Manage/ChangePassword"
+          title="Minha Conta">
+            <i class="bi bi-gear"></i>
+        </a>
         
         <li class="nav-item">
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout"
@@ -40,6 +46,7 @@
                 <button type="submit" class="nav-link btn btn-link p-0 logout-btn">Logout</button>
             </form>
         </li>
+       
     }
     else
     {

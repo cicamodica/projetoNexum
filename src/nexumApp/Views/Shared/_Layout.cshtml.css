@@ -104,8 +104,9 @@ button.accept-policy {
 }
 
 /* CSS Ícone de perfil na NavBar */
+
 .profile-icon i {
-    font-size: 2.5rem;
+    font-size: 3.5rem;
     color: #fff;
     transition: color 0.2s ease;
 }
