@@ -4,7 +4,7 @@
 
 O diagrama de classes ilustra graficamente como será a estrutura do software, e como cada uma das classes da sua estrutura estarão interligadas. Essas classes servem de modelo para materializar os objetos que executarão na memória.
 
-<img width="1238" height="781" alt="Image" src="https://github.com/user-attachments/assets/b83a584b-abd9-433c-9eb4-243a578064fe" />
+<img width="1265" height="926" alt="Image" src="https://github.com/user-attachments/assets/28bf85ff-8cc1-4de2-87be-9b5a4ab6d5e8" />
 
 Figura 25 - Diagrama de classes
 
@@ -12,7 +12,7 @@ Figura 25 - Diagrama de classes
 
 O Modelo ER representa através de um diagrama como as entidades (coisas, objetos) se relacionam entre si na aplicação interativa.
 
-<img width="2585" height="2767" alt="Nexum - D E R" src="https://github.com/user-attachments/assets/734a3afc-8d86-4c54-82ed-1aaef7d4026a" />
+<img width="1127" height="879" alt="Image" src="https://github.com/user-attachments/assets/a967e019-21cd-4750-8554-24d890d9458b" />
 
 Figura 26 - Modelo ER
 
@@ -20,7 +20,7 @@ Figura 26 - Modelo ER
 
 O projeto da base de dados corresponde à representação das entidades e relacionamentos identificadas no Modelo ER, no formato de tabelas, com colunas e chaves primárias/estrangeiras necessárias para representar corretamente as restrições de integridade.
  
-<img width="2520" height="1824" alt="Nexum - Banco de dados" src="https://github.com/user-attachments/assets/2be2aabb-9154-44a5-9dd1-2171d83809ee" />
+<img width="1047" height="815" alt="Image" src="https://github.com/user-attachments/assets/17d35e1d-5be1-4b44-85c3-a7b5158f0f4d" />
 
 Figura 27 - Projeto da base de dados
 
