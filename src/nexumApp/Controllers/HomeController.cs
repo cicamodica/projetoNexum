@@ -159,7 +159,15 @@ namespace nexumApp.Controllers
         [RequestSizeLimit(50 * 1024 * 1024)] // Limite de 50 MB para upload de arquivos
         public async Task<IActionResult> InscreverVoluntario(int id, string nomeCompleto, string email, string telefone, string cpf, DateTime? dataNascimento, string genero, string habilidades, IFormFile foto)
         {
-            var vaga = await _context.Vagas.AsNoTracking().FirstOrDefaultAsync(v => v.IdVaga == id);
+            var vaga = await _context.Vagas
+                .Include(v => v.Ong)
+                .ThenInclude(o => o.User)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(v => v.IdVaga == id);
+
+            
+
+
             string fotoUrl = null;
             if (vaga == null)
             {
@@ -173,6 +181,38 @@ namespace nexumApp.Controllers
             if (string.IsNullOrEmpty(email))
             {
                 ModelState.AddModelError("Email", "O e-mail é obrigatório.");
+            }
+
+            if (string.IsNullOrWhiteSpace(cpf))
+            {
+                ModelState.AddModelError("CPF", "O CPF é obrigatório.");
+            }
+            else
+            {
+                var cpfLimpo = new string(cpf.Where(char.IsDigit).ToArray());
+
+                if (cpfLimpo.Length != 11)
+                {
+                    ModelState.AddModelError("CPF", "O CPF deve conter 11 dígitos.");
+                }
+            }
+
+            if (dataNascimento == null)
+            {
+                ModelState.AddModelError("DataNascimento", "A data de nascimento é obrigatória.");
+            }
+            else
+            {
+                var hoje = DateTime.Today;
+                var idade = hoje.Year - dataNascimento.Value.Year;
+
+                if (dataNascimento.Value.Date > hoje.AddYears(-idade))
+                    idade--;
+
+                if (idade < 18)
+                {
+                    ModelState.AddModelError("", "É necessário ter 18 anos ou mais para se inscrever como voluntário.");
+                }
             }
 
             if (foto != null && foto.Length > 0)
@@ -325,6 +365,49 @@ namespace nexumApp.Controllers
             {
 
                 _logger.LogError(ex, "A inscrição foi salva, mas falhou ao enviar o e-mail de confirmação.");
+            }
+
+            try
+            {
+                
+                if (vaga?.Ong?.User == null || string.IsNullOrEmpty(vaga.Ong.User.Email))
+                {
+                    _logger.LogWarning(
+                        "E-mail da ONG não encontrado. VagaId: {VagaId} | OngId: {OngId} | UserId: {UserId}",
+                        vaga?.IdVaga,
+                        vaga?.IdONG,
+                        vaga?.Ong?.UserId
+                    );
+                }
+                else
+                {
+                    string ongEmail = vaga.Ong.User.Email;
+
+                    string corpoEmailOng = $@"
+                           <div style='font-family: Arial, sans-serif; color: #333;'>
+                           <h2>Nova Inscrição para a Vaga: {vaga.Titulo}</h2>
+                           <p>Um novo voluntário se inscreveu para a vaga que você publicou.</p>
+                           <hr>
+                           <p><strong>Nome do Candidato:</strong> {nomeCompleto}</p>
+                           <p><strong>E-mail:</strong> {email}</p>
+                           <p><strong>Telefone:</strong> {telefone}</p>
+                           <p><strong>CPF:</strong> {cpf}</p>
+                           <p><strong>Data de Nascimento:</strong> {dataNascimento?.ToString("dd/MM/yyyy")}</p>
+                           <p><strong>Habilidades/Descrição:</strong> {habilidades}</p>
+                                <br>
+                               <p>Atenciosamente,<br><strong>Equipe Nexum</strong></p>
+                          </div>";
+
+                    await _emailService.SendEmailAsync(
+                        ongEmail,
+                        "Novo Voluntário Inscrito - Nexum",
+                        corpoEmailOng
+                    );
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Falhou ao enviar o e-mail para a ONG.");
             }
 
             return Ok();
