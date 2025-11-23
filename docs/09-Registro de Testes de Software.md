@@ -21,6 +21,13 @@ Para cada caso de teste definido no Plano de Testes de Software, realize o regis
 |Objetivo do Teste | Verificar se o usuário consegue realizar seu login na plataforma sem dificuldades |
 |Registro de evidência | ![Video-teste-login-2025-10-25-at-13 06 23](https://github.com/user-attachments/assets/754f1b41-3803-47c9-afa3-8a6b9533c2d0)|
 
+| **Caso de Teste** 	| **CT07 – Página do perfil da ONG (visão da ONG)**|
+|:---:	|:---:	|
+|	Requisito Associado 	|RF-01 - A aplicação deve permitir que o usuário (ONG) crie e gerencie seu perfil na plataforma.                  |
+|Objetivo do Teste | Verificar se a página de perfil de ONGS funciona corretamente                                               |
+|Registro de evidência | ![Image](https://github.com/user-attachments/assets/af51ec6a-3d68-4bbc-ba55-8f4f36da62ac)  |
+|Responsavel pelo Teste | Erison
+
 | **Caso de Teste** 	| **CT08 – Teste da página de ONGs cadastradas**|
 |:---:	|:---:	|
 |	Requisito Associado 	|                                                           |
