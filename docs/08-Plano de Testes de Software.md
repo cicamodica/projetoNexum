@@ -49,7 +49,7 @@ Os testes funcionais a serem realizados na aplicação são descritos a seguir:
 | **Objetivo do Teste** 	| Verificar se a página inicial da ONG funciona corretamente |
 | **Passos** 	| 01.	Acessar a aplicação por link público; <br> 02.	Na homepage clicar em “Login”; <br> 03.	Aguardar carregamento da página; <br> 04.	Preencher o dados de acordo com a conta e clicar em "Fazer login"; <br> 05.	Verificar redirecionamento correto para página da ONG; <br> 06. Verificar se todos os campos Adicionar nova vaga/meta, editar ou excluir vagas/metas existentes, estão funcionais.|
 |**Critérios de Êxito** | Ao logar como ONG o usuário tem acesso aos dados da ONG, consegue criar, editar ou excluir uma meta/vaga. |
-|  **Responsável pela elaboração do caso de teste**	|  Maria Cecilia Caruzzo Modica	|
+|  **Responsável pela elaboração do caso de teste**	|  Mariana Turibio Gressi	|
 
 <br>
 
@@ -59,7 +59,7 @@ Os testes funcionais a serem realizados na aplicação são descritos a seguir:
 | **Objetivo do Teste** 	| Verificar se a página de perfil de ONGS funciona corretamente |
 | **Passos** 	| - Acessar a página de uma ONG <br> - Verificar se as informações da ONG aparecem corretamente (localidade, nome, descrição, tags)  <br> - Verificar se as tabs funcionam corretamente (sobre, vagas de voluntariado, metas de doações) <br> - Verificar se ao clicar em "aplicar" em uma vaga, o modal de inscrição abre corretamente <br> - Verificar se ao clicar em "doar" em um recurso, o modal de doação abre corretamente |
 |**Critério de Êxito** | - As informações aparecem corretamente na página, e os modais funcionam corretamente |
-|  **Responsável pela elaboração do caso de teste**	|  Erison Guimarães dos Santos	|
+|  **Responsável pela elaboração do caso de teste**	|  Mariana Turibio Gressi	|
 
 <br>
 
@@ -69,7 +69,7 @@ Os testes funcionais a serem realizados na aplicação são descritos a seguir:
 | **Objetivo do Teste** 	| Verificar se a página de perfil de ONGS funciona corretamente |
 | **Passos** 	|01.	Acessar a aplicação por link público; <br> 02.	Fazer login na aplicação como ONG; <br> 03. Aguardar carregamento da Homepage; <br> 04. Clicar no ícone de perfil; <br> 05. Aguardar redirecionamento para a página de perfil da ONG; <br> 06. Verificar se é possível alterar os dados da ONG (Foto de perfil e de fundo, nome, endereço, contato, descrição, sobre etc.), verificar se consegue gerar relatórios com filtro, verificar se é possível visualizar, editar, adicionar ou excluir filiais;|
 |**Critério de Êxito** | - As informações aparecem corretamente na página e o usuário consegue acessar todos os campos funcionais de forma intuitiva |
-|  **Responsável pela elaboração do caso de teste**	| Maria Cecilia Caruzzo Modica	|
+|  **Responsável pela elaboração do caso de teste**	| Mariana Turibio Gressi	|
 
 <br>
 
