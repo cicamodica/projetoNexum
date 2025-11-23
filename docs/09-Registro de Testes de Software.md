@@ -30,7 +30,7 @@ Para cada caso de teste definido no Plano de Testes de Software, realize o regis
 
 | **Caso de Teste** 	| **CT08 – Teste da página de ONGs cadastradas**|
 |:---:	|:---:	|
-|	Requisito Associado 	|                                                           |
+|	Requisito Associado 	|  RF-19 A aplicação deve permitir que o usuário acesse uma pagina com todas as ONG's cadastradas|   
 |Objetivo do Teste | Verificar se a página de perfil de ONGS funciona corretamente                                                      |
 |Registro de evidência | ![Teste ONG&#39;s cadastradas](https://github.com/user-attachments/assets/03c28d8d-b48a-4430-aba5-9c4388d64f27)|
 |Responsavel pelo Teste | Mariana Turibio Gressi                                                                                    |
