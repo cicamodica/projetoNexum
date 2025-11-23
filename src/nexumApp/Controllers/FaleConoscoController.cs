@@ -25,3 +25,4 @@ public class FaleConoscoController(ApplicationDbContext db, ILogger<FaleConoscoC
 
     public IActionResult Sucesso() => View();
 }
+
