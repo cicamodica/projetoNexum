@@ -27,8 +27,46 @@ Figura 27 - Projeto da base de dados
 ## Tecnologias Utilizadas
 
 Descreva aqui qual(is) tecnologias você vai usar para resolver o seu problema, ou seja, implementar a sua solução. Liste todas as tecnologias envolvidas, linguagens a serem utilizadas, serviços web, frameworks, bibliotecas, IDEs de desenvolvimento, e ferramentas.
+## 1. Linguagem de Programação
+
+- **C#** – utilizada para desenvolver toda a lógica de negócio, controllers, models e serviços internos.  
+- **HTML5 / CSS3 / JavaScript** – usados para estruturar e estilizar as páginas e adicionar interatividade no front-end.
+
+---
+
+## 2. Frameworks e Plataformas
+
+- **ASP.NET MVC 5** – estrutura o padrão Model-View-Controller, separando regras de negócio, interface e controle.  
+- **Entity Framework** – ORM utilizado para mapear modelos C# para tabelas do banco de dados e fazer consultas de forma simplificada.  
+- **.NET Framework / .NET Core** – plataforma base para execução do projeto (8.0)
+
+---
+
+## 3. Banco de Dados
+
+- **SQL Server** – utilizado para armazenar dados da aplicação; acessado via Entity Framework (Code First ou Database First).
+
+---
+
+## 4. IDE e Ferramentas de Desenvolvimento
+
+- **Visual Studio 2022** – ambiente de desenvolvimento principal para codificação, depuração e execução do projeto.  
+- **Git / GitHub** – utilizado para controle de versão, criação de branches, merge e colaboração.  
+- **NuGet** – gerenciador de pacotes para instalar bibliotecas adicionais como Entity Framework, Bootstrap, etc.
+
+---
+
+## 5. Bibliotecas e Recursos Adicionais
+
+- **Bootstrap** – para responsividade e estilização do front-end.  
+- **jQuery** – para manipulação do DOM e requisições AJAX.  
+- **Font Awesome** – para ícones.  
+- **Razor** – engine de views utilizada para gerar HTML dinamicamente.
+
 
 Apresente também uma figura explicando como as tecnologias estão relacionadas ou como uma interação do usuário com o sistema vai ser conduzida, por onde ela passa até retornar uma resposta ao usuário.
+
+
 
 ## Hospedagem
 
