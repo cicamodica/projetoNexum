@@ -54,9 +54,8 @@ As tabelas que se seguem apresentam os requisitos funcionais e não funcionais q
 |RF-12| O sistema deve permitir ao administrador aprovar ou reprovar cadastros pendentes. | ALTA |
 |RF-13| O sistema deve permitir ao administrador gerar relatórios com base em filtros (data, status, tipo de usuário etc.). | ALTA |
 |RF-14| O sistema deve permitir ao administrador editar conteúdos já cadastrados. | MÉDIA |
-|RF-15| Permitir que ONGs solicitem empréstimo de recursos e equipamentos.  | MÉDIA |
-|RF-16| Disponibilizar um sistema de notificação por e-mail (voluntários) ou push (ONGs).  | MÉDIA |
-|RF-17| Permitir avaliação e feedback de usuários sobre o sistema.   | BAIXA |
+|RF-15| Disponibilizar um sistema de notificação por e-mail (voluntários) ou push (ONGs).  | MÉDIA |
+|RF-16| Permitir avaliação e feedback de usuários sobre o sistema.   | BAIXA |
 
 ### Requisitos não Funcionais
 
