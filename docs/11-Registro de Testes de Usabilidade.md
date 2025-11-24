@@ -22,17 +22,17 @@ Para registrar os indicadores de cada cenário, é preciso manter a coerência c
 | Alfredo Paulo          |                     |                           |                                     |                      |                                                                      |                      
 | Genilda Feliciano      |                     |                           |                                     |                      |                                                                      |                     
 | Luiz Carlos Sobral Neto|                     |                           |                                     |                      |                                                                      |                     
-| Juliana Pacheco        |                     |                           |                                     |                      |                                                                      |                     
+| Juliana Pacheco        |       60           |         12                |         Sim                         |           Nenhum     | Tarefa executada sem problemas                                       |                     
 
 **Cenário 2**: Verificar se uma nova ONG consegue se cadastrar e enviar dados para análise. Usuário cria conta (perfil ONG) e completa dados.  
 | **Usuário**            |**Tempo Total (seg)**| **Quantidade de cliques** | **Tarefa foi concluída?** (Sim/Não) | **Erros Cometidos** | **Feedback do Usuário**                                               |
 |-------------           |-------------------  |---------------------------|-----------------                    |----------------------|------------------------------                                        |
 | Julia Medina           |                     |                           |                                     |                      |                                                                      |                          
-| Alexandre Lara         |       182s          |         45                |       Sim                           |       4              | Tarefa executada sem problemas, clicou em alguns botoes errados      |                          
+| Alexandre Lara         |       182          |         45                |       Sim                           |       4              | Tarefa executada sem problemas, clicou em alguns botoes errados      |                          
 | Alfredo Paulo          |                     |                           |                                     |                      |                                                                      |                      
 | Genilda Feliciano      |                     |                           |                                     |                      |                                                                      |                     
 | Luiz Carlos Sobral Neto|                     |                           |                                     |                      |                                                                      |                     
-| Juliana Pacheco        |                     |                           |                                     |                      |                                                                      |
+| Juliana Pacheco        |         120s        |         45                |           Sim                       |          Nenhum           |             Tarefa executada sem problemas                           |
 
 **Cenário 3**: Verificar se o “gestor” da ONG entende e consegue criar Metas (ex.: “100 cestas”) e se doações podem ser vinculadas a uma meta específica. ONG deseja criar uma meta pública para mobilizar doações.      
 | **Usuário**            |**Tempo Total (seg)**| **Quantidade de cliques** | **Tarefa foi concluída?** (Sim/Não) | **Erros Cometidos** | **Feedback do Usuário**                                               |
@@ -42,7 +42,7 @@ Para registrar os indicadores de cada cenário, é preciso manter a coerência c
 | Alfredo Paulo          |                     |                           |                                     |                      |                                                                      |                      
 | Genilda Feliciano      |                     |                           |                                     |                      |                                                                      |                     
 | Luiz Carlos Sobral Neto|                     |                           |                                     |                      |                                                                      |                     
-| Juliana Pacheco        |                     |                           |                                     |                      |                                                                      |
+| Juliana Pacheco        |       144           |         27                |       Sim                           |       Nenhum         | Tarefa executada sem problemas                                       |
 
 **Cenário 4**: Validar se o fluxo de candidatura (formulário de inscrição) é intuitivo. Candidato visualiza uma vaga e se inscreve, depois a ONG recebe via email essa inscrição       
 | **Usuário**            |**Tempo Total (seg)**| **Quantidade de cliques** | **Tarefa foi concluída?** (Sim/Não) | **Erros Cometidos** | **Feedback do Usuário**                                               |
@@ -52,7 +52,7 @@ Para registrar os indicadores de cada cenário, é preciso manter a coerência c
 | Alfredo Paulo          |                     |                           |                                     |                      |                                                                      |                      
 | Genilda Feliciano      |                     |                           |                                     |                      |                                                                      |                     
 | Luiz Carlos Sobral Neto|                     |                           |                                     |                      |                                                                      |                     
-| Juliana Pacheco        |                     |                           |                                     |                      |                                                                      |
+| Juliana Pacheco        |       106           |         32                |       Sim                           |       Nenhum         | Tarefa executada sem problemas                                       |
 
 **Cenário 5**:  Validar se o fluxo de aprovação de doação é compreensível (para a ONG). Doador fornece o que deseja doar e ONG aprova/reprova essa doação  
 | **Usuário**            |**Tempo Total (seg)**| **Quantidade de cliques** | **Tarefa foi concluída?** (Sim/Não) | **Erros Cometidos** | **Feedback do Usuário**                                               |
@@ -62,7 +62,7 @@ Para registrar os indicadores de cada cenário, é preciso manter a coerência c
 | Alfredo Paulo          |                     |                           |                                     |                      |                                                                      |                      
 | Genilda Feliciano      |                     |                           |                                     |                      |                                                                      |                     
 | Luiz Carlos Sobral Neto|                     |                           |                                     |                      |                                                                      |                     
-| Juliana Pacheco        |                     |                           |                                     |                      |                                                                      |
+| Juliana Pacheco        |       50s           |         15                |       Sim                           |       Nenhum         | Tarefa executada sem problemas                                       |
 ## Relatório dos testes de usabilidade 
 
 O relatório de testes de usabilidade deve ser um documento claro e estruturado, contendo análises dos testes realizados, identificação de problemas, propostas de correção, melhorias e sugestões para a evolução do sistema. 
