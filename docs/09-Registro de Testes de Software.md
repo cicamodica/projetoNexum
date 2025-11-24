@@ -70,7 +70,7 @@
 |:---:	|:---:	|
 |	Requisito Associado 	| RF-17 Permitir avaliação e feedback de usuários sobre o sistema.|
 |Objetivo do Teste | Verificar se o usuário consegue acessar Fale conosco dentro de Sobre nós, preencher o formulário e enviá-lo.  |
-|Registro de evidência ||
+|Registro de evidência |![Image](https://github.com/user-attachments/assets/e7f67b05-b4d2-4f62-8a62-7618066777b7)|
 |Responsavel pelo Teste |  Márcia Maria dos Reis Marques |
 
 | **Caso de Teste** 	| **CT11 – Redefinição de senha** 	|
