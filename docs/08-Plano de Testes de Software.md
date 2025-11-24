@@ -109,7 +109,7 @@ Os testes funcionais a serem realizados na aplicação são descritos a seguir:
 | **Objetivo do Teste** 	| Verificar se o usuário consegue realizar a redefinição de senha sem dificuldades |
 | **Passos** 	| 01.	Acessar a aplicação por link público; <br> 02.	Na homepage clicar em “Entrar”; <br> 03.	Na página “Como deseja entrar?” selecionar “Login”; <br> 4.	Usuário é redirecionado para a página de login; <br> 05.	Na página de login selecionar "Esqueceu a senha?" <br> 06. Aguardar redirecionamento para página de redefinição de senha; <br> 07. Redefinir senha; <br> 08. Aguardar redirecionamento para a página de login; <br> 09.Preencher dados de acesso corretamente (com a nova senha); <br> 10. Clicar em próximo e aguardar redirecioonamento para a página de homepage logado;|
 |**Critérios de Êxito** | Usuário consegue realizar a redefinição de sua senha sem dificuldades|
-|  **Responsável pela elaboração do caso de teste**	|  Maria Cecilia Caruzzo Modica	|
+|  **Responsável pela elaboração do caso de teste**	|  Breno Marques de Moura	|
 
 <br>
 
