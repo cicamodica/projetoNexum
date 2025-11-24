@@ -56,6 +56,8 @@ As tabelas que se seguem apresentam os requisitos funcionais e não funcionais q
 |RF-14| O sistema deve permitir ao administrador editar conteúdos já cadastrados. | MÉDIA |
 |RF-15| Disponibilizar um sistema de notificação por e-mail (voluntários) ou push (ONGs).  | MÉDIA |
 |RF-16| Permitir avaliação e feedback de usuários sobre o sistema.   | BAIXA |
+|RF-17| A aplicação deve permitir que o usuário seja redirecionado por meio do Comece agora para a página Cadastrar ONG| BAIXA |
+|RF-18| A aplicação deve permitir que o usuário acesse uma pagina com todas as ONG's cadastradas| MÉDIA |
 
 ### Requisitos não Funcionais
 
