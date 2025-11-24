@@ -15,7 +15,7 @@ Para cada caso de teste definido no Plano de Testes de Software, realize o regis
 |	Requisito Associado 	| RF-01 - A aplicação deve permitir que o usuário (ONG) crie e gerencie seu perfil na plataforma. |
 |Registro de evidência |![TesteCadastro](https://github.com/user-attachments/assets/d6694a74-285c-4d42-b3b0-5bbd2ca146e6) |
 
-CT04 – Página Homepage do ADMIN
+
 | **Caso de Teste** 	| **CT04 – Página Homepage do ADMIN** 	|
 |:---:	|:---:	|
 |	Requisito Associado 	| O sistema deve permitir que somente usuários com perfil/role de administrador acessem a página de administração|
