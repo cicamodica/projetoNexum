@@ -29,11 +29,10 @@ Nesta seção, a implementação do sistema descrita por meio dos requisitos fun
 |RF-12| O sistema deve permitir ao administrador aprovar ou reprovar cadastros pendentes | Página do administrador | Maria Cecilia Caruzzo Modica |
 |RF-13| O sistema deve permitir ao administrador gerar relatórios com base em filtros (data, status, tipo de usuário etc.) | Página do administrador | Maria Cecilia Caruzzo Modica |
 |RF-14| O sistema deve permitir ao administrador editar conteúdos já cadastrados | Página do administrador | Maria Cecilia Caruzzo Modica |
-|RF-15| Permitir que ONGs solicitem empréstimo de recursos e equipamentos | Página da ONG | Mariana Turibio Gressi e Matheus Feliciano Andrade Bernardes |
-|RF-16| Disponibilizar um sistema de notificação por e-mail (voluntários) ou push (ONGs)| Envio de respostas por e-mail | Breno Marques de Moura |
-|RF-17| Permitir avaliação e feedback de usuários sobre o sistema| Página Fale conosco | Maria Cecilia Caruzzo Modica |
-|RF-18| A aplicação deve permitir que o usuário seja redirecionado por meio do Comece agora para a página Cadastrar ONG| Página Sobre nós| Márcia Maria dos Reis Marques |
-|RF-19| A aplicação deve permitir que o usuário acesse uma pagina com todas as ONG's cadastradas| Página Ongs Cadastradas| Erison Guimarães dos Santos |
+|RF-15| Disponibilizar um sistema de notificação por e-mail (voluntários) ou push (ONGs)| Envio de respostas por e-mail | Breno Marques de Moura |
+|RF-16| Permitir avaliação e feedback de usuários sobre o sistema| Página Fale conosco | Maria Cecilia Caruzzo Modica |
+|RF-17| A aplicação deve permitir que o usuário seja redirecionado por meio do Comece agora para a página Cadastrar ONG| Página Sobre nós| Márcia Maria dos Reis Marques |
+|RF-18| A aplicação deve permitir que o usuário acesse uma pagina com todas as ONG's cadastradas| Página Ongs Cadastradas| Erison Guimarães dos Santos |
 
 # Instruções de acesso
 
