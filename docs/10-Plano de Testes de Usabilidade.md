@@ -105,11 +105,11 @@ O propósito deste teste é verificar a performance alcançada pelos participant
 -	Fácil acesso ao formulário de preenchimento da vaga.
 -	Preenchimento de formulário realizado em ≤ 5 minutos.
 
-**Cenário 5: Atribuição de Vaga**
+**Cenário 5: Doação de Meta**
 
-**Objetivo:** Validar se o fluxo de aprovação de voluntário é compreensível (para a ONG).
+**Objetivo:** Validar se o fluxo de aprovação de doação é compreensível (para a ONG).
 
-**Contexto:** Voluntário se inscreve para a vaga e a ONG aprova/reprova a candidatura, atribuindo a vaga.
+**Contexto:** Doador se inscreve para a vaga e a ONG aprova/reprova a doação.
 
 **Tarefa(s):** 
 - Acessar a plataforma com link público
@@ -122,25 +122,6 @@ O propósito deste teste é verificar a performance alcançada pelos participant
 - O botão/ação aprovar candidato é compreensível (sem confusão entre “inscrito” e “voluntário”).
 - Transição de Candidato para Voluntário ocorre sem perda de dados originais.
 
-**Cenário 6: Doação entre ONGs**
-
-**Objetivo:** Validar o fluxo especial onde uma ONG doa para outra ONG.
-
-**Contexto:** ONG “A” quer doar itens para ONG “B”.
-
-**Tarefa(s):** 
-- Acessar a plataforma com link público
-- Realizar login (como ONG)
-- ONG “A” acessar a aba de Doações
-- Procurar ONG destinatária
-- Informar tipo/quantidade/observações
-- Concluir doação
-
-**Critério(s) de Sucesso(s):**
-- Fluxo realizado sem dead-ends.
-- Conclusão em ≤ 4 minutos.
-- Registro final mostra claramente quem doou e para quem.
-- Mensagens de validação claras.
 
 
 ## Métodos de coleta de dados

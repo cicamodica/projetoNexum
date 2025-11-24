@@ -22,7 +22,15 @@
 |Registro de evidência |![Image](https://github.com/user-attachments/assets/47a0f3ce-8887-493f-8175-687c564334eb) |
 |Responsavel pelo Teste | Márcia Maria dos Reis Marques
 
-| **Caso de Teste** 	| **CT05 – Dashboard ONG** 	|
+
+| **Caso de Teste** 	| **CT04 – Página Homepage do ADMIN** 	|
+|:---:	|:---:	|
+|	Requisito Associado 	| O sistema deve permitir que somente usuários com perfil/role de administrador acessem a página de administração|
+|Objetivo do Teste | Verificar se a página inicial de ADMIN funciona corretamente |
+|Registro de evidência | ![Teste Tela Admin](https://github.com/user-attachments/assets/33aec6e1-207d-4d65-9512-516cb0c748e4)|
+|Responsavel pelo Teste | Mariana Turibio Gressi |
+
+| **Caso de Teste** 	| **CT – Realizar login** 	|
 |:---:	|:---:	|
 |	Requisito Associado 	| RF-04 - Permitir que ONGs cadastrem oportunidades de voluntariado e recursos disponíveis. |
 |Objetivo do Teste | Verificar se a página inicial da ONG funciona corretamente. |
@@ -38,7 +46,7 @@
 
 | **Caso de Teste** 	| **CT08 – Teste da página de ONGs cadastradas**|
 |:---:	|:---:	|
-|	Requisito Associado 	|                                                           |
+|	Requisito Associado 	|  RF-19 A aplicação deve permitir que o usuário acesse uma pagina com todas as ONG's cadastradas|   
 |Objetivo do Teste | Verificar se a página de perfil de ONGS funciona corretamente                                                      |
 |Registro de evidência | ![Teste ONG&#39;s cadastradas](https://github.com/user-attachments/assets/03c28d8d-b48a-4430-aba5-9c4388d64f27)|
 |Responsavel pelo Teste | Mariana Turibio Gressi                                                                                    |

@@ -28,6 +28,7 @@ namespace nexumApp.Models
         [Display(Name = "Data de Encerramento")]
         [DataType(DataType.Date)]
         public DateTime? DataFim { get; set; } // O '?' torna a data opcional (nullable)
+        public bool Ativa { get; set; } = true;
 
         // Chave Estrangeira para a ONG
         public int OngId { get; set; }

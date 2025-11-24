@@ -45,7 +45,7 @@ Os testes funcionais a serem realizados na aplicação são descritos a seguir:
 
 | **Caso de Teste** 	| **CT05 – Página Homepage da ONG**	|
 |:---:	|:---:	|
-|	**Requisitos Associados** 	| XX |
+|	**Requisitos Associados** 	| RF-04, RF-15 |
 | **Objetivo do Teste** 	| Verificar se a página inicial da ONG funciona corretamente |
 | **Passos** 	| 01.	Acessar a aplicação por link público; <br> 02.	Na homepage clicar em “Login”; <br> 03.	Aguardar carregamento da página; <br> 04.	Preencher o dados de acordo com a conta e clicar em "Fazer login"; <br> 05.	Verificar redirecionamento correto para página da ONG; <br> 06. Verificar se todos os campos Adicionar nova vaga/meta, editar ou excluir vagas/metas existentes, estão funcionais.|
 |**Critérios de Êxito** | Ao logar como ONG o usuário tem acesso aos dados da ONG, consegue criar, editar ou excluir uma meta/vaga. |
@@ -75,7 +75,7 @@ Os testes funcionais a serem realizados na aplicação são descritos a seguir:
 
 | **Caso de Teste** 	| **CT08 – Teste da página de ONGs cadastradas** 	|
 |:---:	|:---:	|
-|	**Requisitos Associados** 	| -- |
+|	**Requisitos Associados** 	| RF-19 |
 | **Objetivo do Teste** 	| Verificar se o usuário (externo ou cadastrado) consegue acessar a página com as ONGs cadastradas na aplicação corretamente |
 | **Passos** 	| 01.	Acessar a aplicação por link público; <br> 02.	Clicar na aba "ONGs" no cabeçalho da aplicação; <br> 03. Aguardar carregamento da página de ONGs cadastradas na aplicação; <br> 04. Selecionar uma ONG; <br> 05. Aguardar redirecionamento para a página de perfil da ONG selecionada;|
 |**Critérios de Êxito** | O usuário consegue acessar a aba ONGs sem dificuldades; Ao selecionar uma ONG o usuário é redirecionado para a página de perfil da ONG|
@@ -107,9 +107,9 @@ Os testes funcionais a serem realizados na aplicação são descritos a seguir:
 |:---:	|:---:	|
 |	**Requisitos Associados** 	| RF-03 |
 | **Objetivo do Teste** 	| Verificar se o usuário consegue realizar a redefinição de senha sem dificuldades |
-| **Passos** 	| 01.	Acessar a aplicação por link público; <br> 02.	Na homepage clicar em “Entrar”; <br> 03.	Na página “Como deseja entrar?” selecionar “Login”; <br> 4.	Usuário é redirecionado para a página de login; <br> 05.	Na página de login selecionar "Esqueceu a senha?" <br> 06. Aguardar redirecionamento para página de redefinição de senha; <br> 07. Redefinir senha; <br> 08. Aguardar redirecionamento para a página de login; <br> 09.Preencher dados de acesso corretamente (com a nova senha); <br> 10. Clicar em próximo e aguardar redirecioonamento para a página de homepage logado;|
-|**Critérios de Êxito** | Usuário consegue realizar a redefinição de sua senha sem dificuldades|
-|  **Responsável pela elaboração do caso de teste**	|  Maria Cecilia Caruzzo Modica	|
+| **Passos** 	| 01.	Acessar a aplicação por link público; <br> 02. Na homepage clicar em “Login”; <br> 03. Usuário é redirecionado para a página de login; <br> 04.	Na página de login selecionar "Esqueceu a senha?" <br> 05. Aguardar redirecionamento para página de redefinição de senha; <br> 06. Preendher o campo com o e-mail cadastrado; <br> 07. Verificar recebimento de e-mail com o link para redefinição de senha e acessá-lo; <br> 08.Preencher dados de acesso corretamente (com a nova senha) clicar em Redefinir e aguardar mensagem de êxito; <br> 10. Clicar novamente em Login e entrar com a nova senha;|
+|**Critérios de Êxito** | Usuário consegue redefinir sua senha sem dificuldades|
+|  **Responsável pela elaboração do caso de teste**	|  Breno Marques de Moura	|
 
 <br>
 

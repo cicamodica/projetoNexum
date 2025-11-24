@@ -4,67 +4,65 @@ O registro de testes de usabilidade é um documento ou planilha onde são coleta
 
 ## Perfil dos usuários que participaram do teste
 - Julia Medina (idade: 21 anos; perfil: média familiaridade);
-- Lucineia Souza (idade: 57 anos; perfil: básica familiaridade);
 - Alexandre Lara (idade: 51 anos; perfil: média familiaridade);
-- Luis Frederico Modica (idade: 26 anos; perfil: alta familiaridade);
 - Alfredo Paulo (idade: 71 anos; perfil: baixa familiaridade);
-- Rodrigo Gurgel (idade: 28 anos; perfil: alta familiaridade);
-- Ana Carolina Prates (idade: 16 anos; perfil: média familiaridade);
-- Miriam Pacheco (idade: 46 anos; perfil: alta familiaridade);
-- Genilda Feliciano (idade: 40 anos; perfil: básica familiaridade);
+- Genilda Feliciano (idade: 40 anos; perfil: baixa familiaridade);
 - Luiz Carlos Sobral Neto (idade: 35 anos; perfil: alta familiaridade);
-- Luiz Carlos Sobral Junior (idade: 62 anos; perfil: média familiaridade);
 - Juliana Pacheco (Idade: 36 anos; perfil: baixa familiaridade);
 
 ## Tabela de registro dos testes de usabilidade  
 
 Para registrar os indicadores de cada cenário, é preciso manter a coerência com os critérios quantitativos e qualitativos que foram definidos no plano de testes de usabilidade.
 
-**Cenário 1**: O usuário deseja comprar um notebook para uso pessoal. Para isso, ele deverá entrar no site www.compras.com.br para buscar opções disponíveis, comparar preços, adicionar o produto ao carrinho e finalizar a compra com pagamento via cartão de crédito.         
-| **Usuário**   | **Tempo Total (seg)** | **Quantidade de cliques** | **Tarefa foi concluída?** (Sim/Não) | **Erros Cometidos** | **Feedback do Usuário** |
-|-------------|--------------------|---------------------------------|-----------------|------------------------|------------------------------|
-| Usuário 1    |                    |                                 |                 |                        |                              |                     |      
-| Usuário 2    |                    |                                 |                 |                        |                              |                     |      
-| Usuário 3    |                    |                                 |                 |                        |                              |                     |  
-| Usuário 4    |                    |                                 |                 |                        |                              |                     | 
-| Usuário 5    |                    |                                 |                 |                        |                              |                     | 
+**Cenário 1**: Validar se um doador sem conta consegue realizar uma doação de forma clara e rápida, preenchendo o formulário no fluxo.  Usuário acessa a página pública e deseja doar para uma ONG específica.       
+| **Usuário**            |**Tempo Total (seg)**| **Quantidade de cliques** | **Tarefa foi concluída?** (Sim/Não) | **Erros Cometidos** | **Feedback do Usuário**                                               |
+|-------------           |-------------------  |---------------------------|-----------------                    |----------------------|------------------------------                                        |
+| Julia Medina           |                     |                           |                                     |                      |                                                                      |                          
+| Alexandre Lara         |       51s           |         10                |       Sim                           |       Nenhum         | Tarefa executada sem problemas                                       |                          
+| Alfredo Paulo          |                     |                           |                                     |                      |                                                                      |                      
+| Genilda Feliciano      |      230s            |     18                      |         sim                            |     dados incompletos                 |        Deixar mais facil                                                              |                     
+| Luiz Carlos Sobral Neto|                     |                           |                                     |                      |                                                                      |                     
+| Juliana Pacheco        |       60           |         12                |         Sim                         |           Nenhum     | Tarefa executada sem problemas                                       |                     
 
-**Cenário 2**:         
-| **Usuário**  | **Tempo Total (seg)** | **Quantidade de cliques** | **Tarefa foi concluída?** (Sim/Não) | **Erros Cometidos** | **Feedback do Usuário** |
-|-------------|--------------------|---------------------------------|-----------------|------------------------|------------------------------|
-| Usuário 1   |                    |                                 |                 |                        |                              |                     |      
-| Usuário 2   |                    |                                 |                 |                        |                              |                     |      
-| Usuário 3   |                    |                                 |                 |                        |                              |                     |  
-| Usuário 4   |                    |                                 |                 |                        |                              |                     | 
-| Usuário 5   |                    |                                 |                 |                        |                              |                     | 
+**Cenário 2**: Verificar se uma nova ONG consegue se cadastrar e enviar dados para análise. Usuário cria conta (perfil ONG) e completa dados.  
+| **Usuário**            |**Tempo Total (seg)**| **Quantidade de cliques** | **Tarefa foi concluída?** (Sim/Não) | **Erros Cometidos** | **Feedback do Usuário**                                               |
+|-------------           |-------------------  |---------------------------|-----------------                    |----------------------|------------------------------                                        |
+| Julia Medina           |                     |                           |                                     |                      |                                                                      |                          
+| Alexandre Lara         |       182  s        |         45                |       Sim                           |       4              | Tarefa executada sem problemas, clicou em alguns botoes errados      |                          
+| Alfredo Paulo          |                     |                           |                                     |                      |                                                                      |                      
+| Genilda Feliciano      |          302 s          |       53                    |       sim                              |    Dados incompletos                  |    Ter menos dados                                                                   |                     
+| Luiz Carlos Sobral Neto|                     |                           |                                     |                      |                                                                      |                     
+| Juliana Pacheco        |         120s        |         45                |           Sim                       |          Nenhum           |             Tarefa executada sem problemas                           |
 
-**Cenário 3**:         
-| **Usuário**  | **Tempo Total (seg)** | **Quantidade de cliques** | **Tarefa foi concluída?** (Sim/Não) | **Erros Cometidos** | **Feedback do Usuário** |
-|-------------|--------------------|---------------------------------|-----------------|------------------------|------------------------------|
-| Usuário 1   |                    |                                 |                 |                        |                              |                     |      
-| Usuário 2   |                    |                                 |                 |                        |                              |                     |      
-| Usuário 3   |                    |                                 |                 |                        |                              |                     |  
-| Usuário 4   |                    |                                 |                 |                        |                              |                     | 
-| Usuário 5   |                    |                                 |                 |                        |                              |                     | 
+**Cenário 3**: Verificar se o “gestor” da ONG entende e consegue criar Metas (ex.: “100 cestas”) e se doações podem ser vinculadas a uma meta específica. ONG deseja criar uma meta pública para mobilizar doações.      
+| **Usuário**            |**Tempo Total (seg)**| **Quantidade de cliques** | **Tarefa foi concluída?** (Sim/Não) | **Erros Cometidos** | **Feedback do Usuário**                                               |
+|-------------           |-------------------  |---------------------------|-----------------                    |----------------------|------------------------------                                        |
+| Julia Medina           |                     |                           |                                     |                      |                                                                      |                          
+| Alexandre Lara         |       130  s         |         25                |       Sim                           |       Nenhum         | Tarefa executada sem problemas                                       |                          
+| Alfredo Paulo          |                     |                           |                                     |                      |                                                                      |                      
+| Genilda Feliciano      |        298 s            |          34                 |           sim                          |        Data invalida             |      Dificil entendimento                                                                |                     
+| Luiz Carlos Sobral Neto|                     |                           |                                     |                      |                                                                      |                     
+| Juliana Pacheco        |       144 s          |         27                |       Sim                           |       Nenhum         | Tarefa executada sem problemas                                       |
 
-**Cenário 4**:         
-| **Usuário**  | **Tempo Total (seg)** | **Quantidade de cliques** | **Tarefa foi concluída?** (Sim/Não) | **Erros Cometidos** | **Feedback do Usuário** |
-|-------------|--------------------|---------------------------------|-----------------|------------------------|------------------------------|
-| Usuário 1   |                    |                                 |                 |                        |                              |                     |      
-| Usuário 2   |                    |                                 |                 |                        |                              |                     |      
-| Usuário 3   |                    |                                 |                 |                        |                              |                     |  
-| Usuário 4   |                    |                                 |                 |                        |                              |                     | 
-| Usuário 5   |                    |                                 |                 |                        |                              |                     | 
+**Cenário 4**: Validar se o fluxo de candidatura (formulário de inscrição) é intuitivo. Candidato visualiza uma vaga e se inscreve, depois a ONG recebe via email essa inscrição       
+| **Usuário**            |**Tempo Total (seg)**| **Quantidade de cliques** | **Tarefa foi concluída?** (Sim/Não) | **Erros Cometidos** | **Feedback do Usuário**                                               |
+|-------------           |-------------------  |---------------------------|-----------------                    |----------------------|------------------------------                                        |
+| Julia Medina           |                     |                           |                                     |                      |                                                                      |                          
+| Alexandre Lara         |       126 s          |         31                |       Sim                           |       Nenhum         | Tarefa executada sem problemas                                       |                          
+| Alfredo Paulo          |                     |                           |                                     |                      |                                                                      |                      
+| Genilda Feliciano      |        400 s             |      40                     |          Sim                           |        Dados  inseridos de forma incorreta              |    Deixar mais específico                                                                  |                     
+| Luiz Carlos Sobral Neto|                     |                           |                                     |                      |                                                                      |                     
+| Juliana Pacheco        |       106 s          |         32                |       Sim                           |       Nenhum         | Tarefa executada sem problemas                                       |
 
-**Cenário 5**:         
-| **Usuário**  | **Tempo Total (seg)** | **Quantidade de cliques** | **Tarefa foi concluída?** (Sim/Não) | **Erros Cometidos** | **Feedback do Usuário** |
-|-------------|--------------------|---------------------------------|-----------------|------------------------|------------------------------|
-| Usuário 1   |                    |                                 |                 |                        |                              |                     |      
-| Usuário 2   |                    |                                 |                 |                        |                              |                     |      
-| Usuário 3   |                    |                                 |                 |                        |                              |                     |  
-| Usuário 4   |                    |                                 |                 |                        |                              |                     | 
-| Usuário 5   |                    |                                 |                 |                        |                              |                     | 
-
+**Cenário 5**:  Validar se o fluxo de aprovação de doação é compreensível (para a ONG). Doador fornece o que deseja doar e ONG aprova/reprova essa doação  
+| **Usuário**            |**Tempo Total (seg)**| **Quantidade de cliques** | **Tarefa foi concluída?** (Sim/Não) | **Erros Cometidos** | **Feedback do Usuário**                                               |
+|-------------           |-------------------  |---------------------------|-----------------                    |----------------------|------------------------------                                        |
+| Julia Medina           |                     |                           |                                     |                      |                                                                      |                          
+| Alexandre Lara         |       98 s          |         22                |       Sim                           |       Nenhum         | Tarefa executada sem problemas                                       |                          
+| Alfredo Paulo          |                     |                           |                                     |                      |                                                                      |                      
+| Genilda Feliciano      |            130 s         |        43                 |    Sim                                 |       fechou o modal varias vezes               |       Menos botões                                                                |                     
+| Luiz Carlos Sobral Neto|                     |                           |                                     |                      |                                                                      |                     
+| Juliana Pacheco        |       50s           |         15                |       Sim                           |       Nenhum         | Tarefa executada sem problemas                                       |
 ## Relatório dos testes de usabilidade 
 
 O relatório de testes de usabilidade deve ser um documento claro e estruturado, contendo análises dos testes realizados, identificação de problemas, propostas de correção, melhorias e sugestões para a evolução do sistema. 

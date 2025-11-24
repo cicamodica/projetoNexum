@@ -15,7 +15,7 @@ namespace nexumApp.Models
         [ForeignKey("IdONG")]
         public virtual Ong Ong { get; set; }
 
-        
+        public bool Ativa { get; set; } = true;
 
         [Required]
         [StringLength(90)]
