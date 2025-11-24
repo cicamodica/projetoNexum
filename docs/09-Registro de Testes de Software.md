@@ -63,30 +63,29 @@
 |:---:	|:---:	|
 |	Requisito Associado 	|  RF-17 A aplicação deve permitir que o usuário seja redirecionado por meio do Comece agora para a página Cadastrar ONG|   
 |Objetivo do Teste | Verificar se ao passar o mouse no Menu “Sobre nós” e clicar em uma das opções disponíveis será redirecionado respectivamente para a página correta.                                                    |
-|Registro de evidência | |
-|Responsavel pelo Teste | Mariana Turibio Gressi   
+|Registro de evidência | ![Gravar_2025_11_23_19_42_48_278](https://github.com/user-attachments/assets/ea864c44-9be9-42ee-a3cf-b7a7e372606e)|
+|Responsavel pelo Teste | Matheus Feliciano Andrade Bernardes   |
 
 | **Caso de Teste** 	| **CT10 – Fale conosco / Enviar formulário** 	|
 |:---:	|:---:	|
 |	Requisito Associado 	| RF-17 Permitir avaliação e feedback de usuários sobre o sistema.|
 |Objetivo do Teste | Verificar se o usuário consegue acessar Fale conosco dentro de Sobre nós, preencher o formulário e enviá-lo.  |
-|Registro de evidência |![Gravar_2025_11_23_19_42_48_278](https://github.com/user-attachments/assets/ea864c44-9be9-42ee-a3cf-b7a7e372606e)
-|
-|Responsavel pelo Teste | Matheus Feliciano Andrade Bernardes
+|Registro de evidência | |
+|Responsavel pelo Teste |  Márcia Maria dos Reis Marques |
 
 | **Caso de Teste** 	| **CT11 – Redefinição de senha** 	|
 |:---:	|:---:	|
 |	Requisito Associado 	| RF-03 - Permitir recuperação e redefinição de senha. |
 |Objetivo do Teste | Verificar se o usuário consegue realizar a redefinição de senha sem dificuldades. |
 |Registro de evidência |![Image](https://github.com/user-attachments/assets/e1c28dfa-d82c-4a3f-bded-a750a817a4d8) |
-|Responsavel pelo Teste | Maria Cecilia Caruzzo Modica
+|Responsavel pelo Teste | Maria Cecilia Caruzzo Modica |
 
 | **Caso de Teste** 	| **CT12 – Teste da página de ONGs cadastradas**|
 |:---:	|:---:	|
 |	Requisito Associado 	|RF-05 - Permitir que voluntários e doadores pesquisem causas filtrando por necessidades, localização, área de interesse e disponibilidade.                                                          |
 |Objetivo do Teste | Verificar se a barra de pesquisa funciona corretamente.                                                      |
 |Registro de evidência | ![Image](https://github.com/user-attachments/assets/8fbb1951-b549-41cb-8337-b22b1d7b404c)|
-|Responsavel pelo Teste | Breno Marques de Moura     
+|Responsavel pelo Teste | Breno Marques de Moura  |   
 
 ## Relatório de testes de software
 
