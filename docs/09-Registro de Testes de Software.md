@@ -15,7 +15,15 @@ Para cada caso de teste definido no Plano de Testes de Software, realize o regis
 |	Requisito Associado 	| RF-01 - A aplicação deve permitir que o usuário (ONG) crie e gerencie seu perfil na plataforma. |
 |Registro de evidência |![TesteCadastro](https://github.com/user-attachments/assets/d6694a74-285c-4d42-b3b0-5bbd2ca146e6) |
 
-| **Caso de Teste** 	| **CT04 – Realizar login** 	|
+CT04 – Página Homepage do ADMIN
+| **Caso de Teste** 	| **CT04 – Página Homepage do ADMIN** 	|
+|:---:	|:---:	|
+|	Requisito Associado 	| O sistema deve permitir que somente usuários com perfil/role de administrador acessem a página de administração|
+|Objetivo do Teste | Verificar se a página inicial de ADMIN funciona corretamente |
+|Registro de evidência | ![Teste Tela Admin](https://github.com/user-attachments/assets/33aec6e1-207d-4d65-9512-516cb0c748e4)|
+|Responsavel pelo Teste | Mariana Turibio Gressi |
+
+| **Caso de Teste** 	| **CT – Realizar login** 	|
 |:---:	|:---:	|
 |	Requisito Associado 	| RF-01 Permitir que o usuário (ONG) crie e gerencie seu perfil na plataforma. RF-02 Permitir autenticação de usuários (ONGs) por Login e Logout.|
 |Objetivo do Teste | Verificar se o usuário consegue realizar seu login na plataforma sem dificuldades |
