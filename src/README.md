@@ -1,11 +1,12 @@
 # Instruções de utilização
 
-## Instalação do Site
+**Acesso (Local)**
+* Abrir Visual Studio
+* Arquivo > Abrir > Projeto/Solução
+* Selecionar arquivo nexumApp.csproj na pasta src/NexumApp
+* Rodar o projeto
+* Se necessário, rodar "dotnet ef database update" no terminal para gerar o banco de dados local.
 
-O site em HTML/CSS/JS é um projeto estático, logo pode ser utilizado tanto em servidores...
-
-## Histórico de versões
-
-### [0.1.0] - DD/MM/AAAA
-#### Adicionado
-- Adicionado ...
+**Usuário admin:**
+* Login: nexumapplication@gmail.com
+* Senha: adminNEXUM2025@
