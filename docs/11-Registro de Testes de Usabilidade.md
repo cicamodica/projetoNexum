@@ -4,16 +4,10 @@ O registro de testes de usabilidade é um documento ou planilha onde são coleta
 
 ## Perfil dos usuários que participaram do teste
 - Julia Medina (idade: 21 anos; perfil: média familiaridade);
-- Lucineia Souza (idade: 57 anos; perfil: básica familiaridade);
 - Alexandre Lara (idade: 51 anos; perfil: média familiaridade);
-- Luis Frederico Modica (idade: 26 anos; perfil: alta familiaridade);
 - Alfredo Paulo (idade: 71 anos; perfil: baixa familiaridade);
-- Rodrigo Gurgel (idade: 28 anos; perfil: alta familiaridade);
-- Ana Carolina Prates (idade: 16 anos; perfil: média familiaridade);
-- Miriam Pacheco (idade: 46 anos; perfil: alta familiaridade);
-- Genilda Feliciano (idade: 40 anos; perfil: básica familiaridade);
+- Genilda Feliciano (idade: 40 anos; perfil: baixa familiaridade);
 - Luiz Carlos Sobral Neto (idade: 35 anos; perfil: alta familiaridade);
-- Luiz Carlos Sobral Junior (idade: 62 anos; perfil: média familiaridade);
 - Juliana Pacheco (Idade: 36 anos; perfil: baixa familiaridade);
 
 ## Tabela de registro dos testes de usabilidade  
@@ -22,48 +16,53 @@ Para registrar os indicadores de cada cenário, é preciso manter a coerência c
 
 **Cenário 1**: Validar se um doador sem conta consegue realizar uma doação de forma clara e rápida, preenchendo o formulário no fluxo.  Usuário acessa a página pública e deseja doar para uma ONG específica.       
 | **Usuário**   | **Tempo Total (seg)** | **Quantidade de cliques** | **Tarefa foi concluída?** (Sim/Não) | **Erros Cometidos** | **Feedback do Usuário** |
-|-------------|--------------------|---------------------------------|-----------------|------------------------|------------------------------|
-| Usuário 1    |                    |                                 |                 |                        |                              |                     |      
-| Usuário 2    |                    |                                 |                 |                        |                              |                     |      
-| Usuário 3    |                    |                                 |                 |                        |                              |                     |  
-| Usuário 4    |                    |                                 |                 |                        |                              |                     | 
-| Usuário 5    |                    |                                 |                 |                        |                              |                     | 
+|-------------  |--------------------|---------------------------------|-----------------|------------------------|------------------------------|
+| Julia Medina   |                    |                                 |                 |                        |                              |                     |      
+| Alexandre Lara   |                    |                                 |                 |                        |                              |                     |      
+| Alfredo Paulo      |                    |                                 |                 |                        |                              |                     |  
+| Genilda Feliciano    |                    |                                 |                 |                        |                              |                     | 
+| Luiz Carlos Sobral Neto     |                    |                                 |                 |                        |                              |                     | 
+| Juliana Pacheco     |                    |                                 |                 |                        |                              |                     | 
 
 **Cenário 2**: Verificar se uma nova ONG consegue se cadastrar e enviar dados para análise. Usuário cria conta (perfil ONG) e completa dados.  
 | **Usuário**  | **Tempo Total (seg)** | **Quantidade de cliques** | **Tarefa foi concluída?** (Sim/Não) | **Erros Cometidos** | **Feedback do Usuário** |
-|-------------|--------------------|---------------------------------|-----------------|------------------------|------------------------------|
-| Usuário 1   |                    |                                 |                 |                        |                              |                     |      
-| Usuário 2   |                    |                                 |                 |                        |                              |                     |      
-| Usuário 3   |                    |                                 |                 |                        |                              |                     |  
-| Usuário 4   |                    |                                 |                 |                        |                              |                     | 
-| Usuário 5   |                    |                                 |                 |                        |                              |                     | 
+|------------- |--------------------|---------------------------------|-----------------|------------------------|------------------------------|
+| Julia Medina   |                    |                                 |                 |                        |                              |                     |      
+| Alexandre Lara  |                    |                                 |                 |                        |                              |                     |      
+| UAlfredo Paulo     |                    |                                 |                 |                        |                              |                     |  
+| Genilda Feliciano    |                    |                                 |                 |                        |                              |                     | 
+| Luiz Carlos Sobral Neto    |                    |                                 |                 |                        |                              |                     | 
+| Juliana Pacheco    |                    |                                 |                 |                        |                              |                     | 
 
 **Cenário 3**: Verificar se o “gestor” da ONG entende e consegue criar Metas (ex.: “100 cestas”) e se doações podem ser vinculadas a uma meta específica. ONG deseja criar uma meta pública para mobilizar doações.      
 | **Usuário**  | **Tempo Total (seg)** | **Quantidade de cliques** | **Tarefa foi concluída?** (Sim/Não) | **Erros Cometidos** | **Feedback do Usuário** |
-|-------------|--------------------|---------------------------------|-----------------|------------------------|------------------------------|
-| Usuário 1   |                    |                                 |                 |                        |                              |                     |      
-| Usuário 2   |                    |                                 |                 |                        |                              |                     |      
-| Usuário 3   |                    |                                 |                 |                        |                              |                     |  
-| Usuário 4   |                    |                                 |                 |                        |                              |                     | 
-| Usuário 5   |                    |                                 |                 |                        |                              |                     | 
+|------------- |--------------------|---------------------------------|-----------------|------------------------|------------------------------|
+| Julia Medina |                    |                                 |                 |                        |                              |                     |      
+| Alexandre Lara   |                    |                                 |                 |                        |                              |                     |      
+| Alfredo Paulo     |                    |                                 |                 |                        |                              |                     |  
+| Genilda Feliciano    |                    |                                 |                 |                        |                              |                     | 
+| Luiz Carlos Sobral Neto    |                    |                                 |                 |                        |                              |                     | 
+| Juliana Pacheco    |                    |                                 |                 |                        |                              |                     | 
 
 **Cenário 4**: Validar se o fluxo de candidatura (formulário de inscrição) é intuitivo. Candidato visualiza uma vaga e se inscreve, depois a ONG avalia e aprova (virando voluntário).        
 | **Usuário**  | **Tempo Total (seg)** | **Quantidade de cliques** | **Tarefa foi concluída?** (Sim/Não) | **Erros Cometidos** | **Feedback do Usuário** |
-|-------------|--------------------|---------------------------------|-----------------|------------------------|------------------------------|
-| Usuário 1   |                    |                                 |                 |                        |                              |                     |      
-| Usuário 2   |                    |                                 |                 |                        |                              |                     |      
-| Usuário 3   |                    |                                 |                 |                        |                              |                     |  
-| Usuário 4   |                    |                                 |                 |                        |                              |                     | 
-| Usuário 5   |                    |                                 |                 |                        |                              |                     | 
+|------------- |--------------------|---------------------------------|-----------------|------------------------|------------------------------|
+| Julia Medina  |                    |                                 |                 |                        |                              |                     |      
+| Alexandre Lara    |                    |                                 |                 |                        |                              |                     |      
+| Alfredo Paulo     |                    |                                 |                 |                        |                              |                     |  
+| Genilda Feliciano    |                    |                                 |                 |                        |                              |                     | 
+| Luiz Carlos Sobral Neto    |                    |                                 |                 |                        |                              |                     | 
+| Juliana Pacheco    |                    |                                 |                 |                        |                              |                     | 
 
 **Cenário 5**:  Validar se o fluxo de aprovação de voluntário é compreensível (para a ONG). Voluntário se inscreve para a vaga e a ONG aprova/reprova a candidatura, atribuindo a vaga.  
 | **Usuário**  | **Tempo Total (seg)** | **Quantidade de cliques** | **Tarefa foi concluída?** (Sim/Não) | **Erros Cometidos** | **Feedback do Usuário** |
-|-------------|--------------------|---------------------------------|-----------------|------------------------|------------------------------|
-| Usuário 1   |                    |                                 |                 |                        |                              |                     |      
-| Usuário 2   |                    |                                 |                 |                        |                              |                     |      
-| Usuário 3   |                    |                                 |                 |                        |                              |                     |  
-| Usuário 4   |                    |                                 |                 |                        |                              |                     | 
-| Usuário 5   |                    |                                 |                 |                        |                              |                     | 
+|------------- |--------------------|---------------------------------|-----------------|------------------------|------------------------------|
+| Julia Medina   |                    |                                 |                 |                        |                              |                     |      
+| Alexandre Lara    |                    |                                 |                 |                        |                              |                     |      
+| Alfredo Paulo     |                    |                                 |                 |                        |                              |                     |  
+| Genilda Feliciano    |                    |                                 |                 |                        |                              |                     | 
+| Luiz Carlos Sobral Neto    |                    |                                 |                 |                        |                              |                     | 
+| Juliana Pacheco    |                    |                                 |                 |                        |                              |                     | 
 
 ## Relatório dos testes de usabilidade 
 
