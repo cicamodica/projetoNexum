@@ -1,19 +1,26 @@
 
 # Registro de Testes de Software
 
-<span style="color:red">Pré-requisitos: <a href="3-Projeto de Interface.md"> Projeto de Interface</a></span>, <a href="8-Plano de Testes de Software.md"> Plano de Testes de Software</a>
-
-Para cada caso de teste definido no Plano de Testes de Software, realize o registro das evidências dos testes feitos na aplicação pela equipe, que comprovem que o critério de êxito foi alcançado (ou não!!!). Para isso, utilize uma ferramenta de captura de tela que mostre cada um dos casos de teste definidos (obs.: cada caso de teste deverá possuir um vídeo do tipo _screencast_ para caracterizar uma evidência do referido caso).
-
-| **Caso de Teste** 	| **CT01 – Cadastrar perfil** 	|
+| **Caso de Teste** 	| **CT01 – Página de Marketplace** 	|
 |:---:	|:---:	|
-|	Requisito Associado 	| RF-00X - A aplicação deve apresentar, na página principal, a funcionalidade de cadastro de usuários para que esses consigam criar e gerenciar seu perfil. |
-|Registro de evidência | www.teste.com.br/drive/ct-01 |
+|	Requisito Associado 	|RF-05 - Permitir que voluntários e doadores pesquisem causas filtrando por necessidades, localização, área de interesse e disponibilidade.|
+|Objetivo do Teste |Verificar se o Usuário (externo ou cadastrado) consegue acessar a página do marketplace, todos os ícones-botões estão funcionais, ícones que levam para outras páginas fazem o percurso correto. Verificar se o filtro está funcional cada opção. Verificar se o modal aparece corretamente e está funcional, se os links levam para as páginas corretas e se as imagens estão carregando. |
+|Registro de evidência | ![Image](https://github.com/user-attachments/assets/77abefb5-7844-4d55-91e5-9ee5516ed916)|
+|Responsavel pelo Teste | Erison |
 
-| **Caso de Teste** 	| **CT03 – Cadastro de ONG** 	|
+| **Caso de Teste** 	| **CT02 – Cadastro de ONG** 	|
 |:---:	|:---:	|
-|	Requisito Associado 	| RF-01 - A aplicação deve permitir que o usuário (ONG) crie e gerencie seu perfil na plataforma. |
-|Registro de evidência |![TesteCadastro](https://github.com/user-attachments/assets/d6694a74-285c-4d42-b3b0-5bbd2ca146e6) |
+|	Requisito Associado 	| RF-01 - A aplicação deve permitir que a ONG consiga se cadastrar na plataforma. |
+|Objetivo do Teste | Verificar se a ONG consegue realizar o seu próprio cadastro. |
+|Registro de evidência |![Image](https://github.com/user-attachments/assets/48d5f607-2c04-40c5-a9c2-9aaa92f6918a) |
+|Responsavel pelo Teste | Márcia Maria dos Reis Marques
+
+| **Caso de Teste** 	| **CT03 – Login/Logout** 	|
+|:---:	|:---:	|
+|	Requisito Associado 	| RF-01 RF-02 - A aplicação deve permitir que a ONG realize login e logout. |
+|Objetivo do Teste | Verificar se ong consegue realizar login e logout. |
+|Registro de evidência |![Image](https://github.com/user-attachments/assets/47a0f3ce-8887-493f-8175-687c564334eb) |
+|Responsavel pelo Teste | Márcia Maria dos Reis Marques
 
 
 | **Caso de Teste** 	| **CT04 – Página Homepage do ADMIN** 	|
@@ -25,9 +32,10 @@ Para cada caso de teste definido no Plano de Testes de Software, realize o regis
 
 | **Caso de Teste** 	| **CT – Realizar login** 	|
 |:---:	|:---:	|
-|	Requisito Associado 	| RF-01 Permitir que o usuário (ONG) crie e gerencie seu perfil na plataforma. RF-02 Permitir autenticação de usuários (ONGs) por Login e Logout.|
-|Objetivo do Teste | Verificar se o usuário consegue realizar seu login na plataforma sem dificuldades |
-|Registro de evidência | ![Video-teste-login-2025-10-25-at-13 06 23](https://github.com/user-attachments/assets/754f1b41-3803-47c9-afa3-8a6b9533c2d0)|
+|	Requisito Associado 	| RF-04 - Permitir que ONGs cadastrem oportunidades de voluntariado e recursos disponíveis. |
+|Objetivo do Teste | Verificar se a página inicial da ONG funciona corretamente. |
+|Registro de evidência |![Image](https://github.com/user-attachments/assets/47a0f3ce-8887-493f-8175-687c564334eb) |
+|Responsavel pelo Teste | Maria Cecilia Caruzzo Modica
 
 | **Caso de Teste** 	| **CT07 – Página do perfil da ONG (visão da ONG)**|
 |:---:	|:---:	|
@@ -43,13 +51,26 @@ Para cada caso de teste definido no Plano de Testes de Software, realize o regis
 |Registro de evidência | ![Teste ONG&#39;s cadastradas](https://github.com/user-attachments/assets/03c28d8d-b48a-4430-aba5-9c4388d64f27)|
 |Responsavel pelo Teste | Mariana Turibio Gressi                                                                                    |
 
+| **Caso de Teste** 	| **CT10 – Fale conosco / Enviar formulário** 	|
+|:---:	|:---:	|
+|	Requisito Associado 	| RF-17 Permitir avaliação e feedback de usuários sobre o sistema.|
+|Objetivo do Teste | Verificar se o usuário consegue acessar Fale conosco dentro de Sobre nós, preencher o formulário e enviá-lo.  |
+|Registro de evidência |![fale-conosco](https://github.com/user-attachments/assets/905964f2-0522-43d9-9ece-9c97f341386f)
+|Responsavel pelo Teste | Márcia Maria dos Reis Marques
+
+| **Caso de Teste** 	| **CT11 – Redefinição de senha** 	|
+|:---:	|:---:	|
+|	Requisito Associado 	| RF-03 - Permitir recuperação e redefinição de senha. |
+|Objetivo do Teste | Verificar se o usuário consegue realizar a redefinição de senha sem dificuldades. |
+|Registro de evidência |![Image](https://github.com/user-attachments/assets/e1c28dfa-d82c-4a3f-bded-a750a817a4d8) |
+|Responsavel pelo Teste | Maria Cecilia Caruzzo Modica
+
 | **Caso de Teste** 	| **CT12 – Teste da página de ONGs cadastradas**|
 |:---:	|:---:	|
 |	Requisito Associado 	|RF-05 - Permitir que voluntários e doadores pesquisem causas filtrando por necessidades, localização, área de interesse e disponibilidade.                                                          |
 |Objetivo do Teste | Verificar se a barra de pesquisa funciona corretamente.                                                      |
 |Registro de evidência | ![Image](https://github.com/user-attachments/assets/8fbb1951-b549-41cb-8337-b22b1d7b404c)|
 |Responsavel pelo Teste | Breno Marques de Moura     
-
 
 ## Relatório de testes de software
 
