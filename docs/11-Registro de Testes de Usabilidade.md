@@ -21,8 +21,8 @@ Para registrar os indicadores de cada cenário, é preciso manter a coerência c
 | Alexandre Lara         |       51s           |         10                |       Sim                           |       Nenhum         | Tarefa executada sem problemas                                       |                          
 | Alfredo Paulo          |           179s         |           10               |               Sim                      |           Esqueceu de adicionar dados           |   Tarefa executada sem problemas   |                      
 | Genilda Feliciano      |      230s            |     12             |         sim                            |     Dados incompletos                 |        Deixar mais facil                       |                     
-| Luiz Carlos Sobral Neto|         64s            |            9               |                                     |                      |                                                                      |                     
-| Juliana Pacheco        |       60s           |         12                |         Sim                         |           Nenhum     | Tarefa executada sem problemas                                       |                     
+| Luiz Carlos Sobral Neto|         64s            |            9               |               sim               |          Nenhum                |         Tarefa executada sem problemas            |                     
+| Juliana Pacheco        |       60s           |         12                |         Sim                         |           Nenhum                  | Tarefa executada sem problemas                |                     
 
 **Cenário 2**: Verificar se uma nova ONG consegue se cadastrar e enviar dados para análise. Usuário cria conta (perfil ONG) e completa dados.  
 | **Usuário**            |**Tempo Total (seg)**| **Quantidade de cliques** | **Tarefa foi concluída?** (Sim/Não) | **Erros Cometidos** | **Feedback do Usuário**                                               |
