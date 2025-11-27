@@ -82,7 +82,9 @@ Tela onde o ususario cadastrado no sistema pode atulizar seus dados e ver um res
 Figura 35 - Tela Homepage da ONG
 
 ### Tela Homepage do ADMIN
+Tela onde o Administrador do sistema poderá gerenciar a plataforma, como aprovar ou reprovar ongs, tratar feedbacks do fale conosco, gerar relatorios.
 
+<img width="1916" height="909" alt="Figura 36" src="https://github.com/user-attachments/assets/7cb5467d-b6b9-421a-9252-74a841ce38c7" />
 
 Figura 36 - Tela Homepage do ADMIN
 
@@ -144,14 +146,9 @@ Apresenta todas as ONGs cadastradas (e aprovadas) na aplicação até o momento.
 
 Figura 44 - Tela de Ongs Cadastradas
 
-### Tela Resultados de pesquisa
-Apresenta resultados da pesquisa, mostrando as opções dentro da palavra-chave buscada. 
-
-
-Figura 45 - Tela Resultados de pesquisa
 
 ### Tela Quem somos
 Apresenta a descrição resumida do Nexum, do seu objetivo, sua missão, seus valores, benefícios e como ele compartilha iniciativas que estão alinhadas aos Objetivos de Desenvolvimento Sustentável (ODS).
 <img width="1890" height="849" alt="Figura 46" src="https://github.com/user-attachments/assets/94d9f5ce-3f0a-4336-a123-bb60d6a7dd47" />
 
-Figura 46 - Tela Quem somos 
+Figura 45 - Tela Quem somos 

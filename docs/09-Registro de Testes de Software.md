@@ -1,47 +1,91 @@
 
 # Registro de Testes de Software
 
-<span style="color:red">Pré-requisitos: <a href="3-Projeto de Interface.md"> Projeto de Interface</a></span>, <a href="8-Plano de Testes de Software.md"> Plano de Testes de Software</a>
-
-Para cada caso de teste definido no Plano de Testes de Software, realize o registro das evidências dos testes feitos na aplicação pela equipe, que comprovem que o critério de êxito foi alcançado (ou não!!!). Para isso, utilize uma ferramenta de captura de tela que mostre cada um dos casos de teste definidos (obs.: cada caso de teste deverá possuir um vídeo do tipo _screencast_ para caracterizar uma evidência do referido caso).
-
-| **Caso de Teste** 	| **CT01 – Cadastrar perfil** 	|
+| **Caso de Teste** 	| **CT01 – Página de Marketplace** 	|
 |:---:	|:---:	|
-|	Requisito Associado 	| RF-00X - A aplicação deve apresentar, na página principal, a funcionalidade de cadastro de usuários para que esses consigam criar e gerenciar seu perfil. |
-|Registro de evidência | www.teste.com.br/drive/ct-01 |
+|	Requisito Associado 	|RF-05 - Permitir que voluntários e doadores pesquisem causas filtrando por necessidades, localização, área de interesse e disponibilidade.|
+|Objetivo do Teste |Verificar se o Usuário (externo ou cadastrado) consegue acessar a página do marketplace, todos os ícones-botões estão funcionais, ícones que levam para outras páginas fazem o percurso correto. Verificar se o filtro está funcional cada opção. Verificar se o modal aparece corretamente e está funcional, se os links levam para as páginas corretas e se as imagens estão carregando. |
+|Registro de evidência | ![Image](https://github.com/user-attachments/assets/77abefb5-7844-4d55-91e5-9ee5516ed916)|
+|Responsavel pelo Teste | Erison |
 
-| **Caso de Teste** 	| **CT03 – Cadastro de ONG** 	|
+| **Caso de Teste** 	| **CT02 – Cadastro de ONG** 	|
 |:---:	|:---:	|
-|	Requisito Associado 	| RF-01 - A aplicação deve permitir que o usuário (ONG) crie e gerencie seu perfil na plataforma. |
-|Registro de evidência |![TesteCadastro](https://github.com/user-attachments/assets/d6694a74-285c-4d42-b3b0-5bbd2ca146e6) |
+|	Requisito Associado 	| RF-01 - A aplicação deve permitir que a ONG consiga se cadastrar na plataforma. |
+|Objetivo do Teste | Verificar se a ONG consegue realizar o seu próprio cadastro. |
+|Registro de evidência |![Image](https://github.com/user-attachments/assets/48d5f607-2c04-40c5-a9c2-9aaa92f6918a) |
+|Responsavel pelo Teste | Márcia Maria dos Reis Marques
 
-| **Caso de Teste** 	| **CT04 – Realizar login** 	|
+| **Caso de Teste** 	| **CT03 – Login/Logout** 	|
 |:---:	|:---:	|
-|	Requisito Associado 	| RF-01 Permitir que o usuário (ONG) crie e gerencie seu perfil na plataforma. RF-02 Permitir autenticação de usuários (ONGs) por Login e Logout.|
-|Objetivo do Teste | Verificar se o usuário consegue realizar seu login na plataforma sem dificuldades |
-|Registro de evidência | ![Video-teste-login-2025-10-25-at-13 06 23](https://github.com/user-attachments/assets/754f1b41-3803-47c9-afa3-8a6b9533c2d0)|
+|	Requisito Associado 	| RF-01 A aplicação deve permitir que o usuário (ONG) crie e gerencie seu perfil na plataforma RF-02 - A aplicação deve permitir que a ONG realize login e logout. |
+|Objetivo do Teste | Verificar se ong consegue realizar login e logout. |
+|Registro de evidência |![Image](https://github.com/user-attachments/assets/47a0f3ce-8887-493f-8175-687c564334eb) |
+|Responsavel pelo Teste | Márcia Maria dos Reis Marques
+
+
+| **Caso de Teste** 	| **CT04 – Página Homepage do ADMIN** 	|
+|:---:	|:---:	|
+|	Requisito Associado 	| RF-09	O sistema deve permitir que o administrador faça login utilizando e-mail e senha válidos.RF-10	O sistema deve permitir que somente usuários com perfil/role de administrador acessem a página de administração. RF-11	O sistema deve apresentar ao administrador uma lista de cadastros pendentes de aprovação.RF-12	O sistema deve permitir ao administrador aprovar ou reprovar cadastros pendentes.RF-13	O sistema deve permitir ao administrador gerar relatórios com base em filtros (data, status, tipo de usuário etc.).RF-14	O sistema deve permitir ao administrador editar conteúdos já cadastrados.	|
+|Objetivo do Teste | Verificar se a página inicial de ADMIN funciona corretamente |
+|Registro de evidência | ![Teste Tela Admin](https://github.com/user-attachments/assets/33aec6e1-207d-4d65-9512-516cb0c748e4)|
+|Responsavel pelo Teste | Mariana Turibio Gressi |
+
+| **Caso de Teste** 	| **CT 05 – Pagína Homepage da Ong** 	|
+|:---:	|:---:	|
+|	Requisito Associado 	| RF-04 - Permitir que ONGs cadastrem oportunidades de voluntariado e recursos disponíveis. |
+|Objetivo do Teste |Verificar se a página inicial da ONG funciona corretamente|
+|Registro de evidência |![Image](https://github.com/user-attachments/assets/2393e0ba-64af-44cf-bfe8-8e5261ff25f2)|
+|Responsavel pelo Teste | Maria Cecilia Caruzzo Modica
+
+| **Caso de Teste** 	| **CT 06 – Página do perfil da ONG (visão de usuário externo)** 	|
+|:---:	|:---:	|
+|	Requisito Associado 	| RF-01 A aplicação deve permitir que o usuário (ONG) crie e gerencie seu perfil na plataforma, RF-04 Permitir que ONGs cadastrem oportunidades de voluntariado e recursos disponíveis, RF-06 Permitir a gestão de recursos e inventário para ONGs, RF-10 O sistema deve permitir que somente usuários com perfil/role de administrador acessem a página de administração |
+|Objetivo do Teste | Verificar se a página de perfil de ONGS funciona corretamente. |
+|Registro de evidência |![Gravar_2025_11_23_21_17_41_221](https://github.com/user-attachments/assets/104c71e5-df77-449d-871d-f4abaed3703f)
+|
+|Responsavel pelo Teste | Matheus Feliciano Andrade Bernardes
 
 | **Caso de Teste** 	| **CT07 – Página do perfil da ONG (visão da ONG)**|
 |:---:	|:---:	|
-|	Requisito Associado 	|RF-01 - A aplicação deve permitir que o usuário (ONG) crie e gerencie seu perfil na plataforma.                  |
+|	Requisito Associado 	|RF-01 - A aplicação deve permitir que o usuário (ONG) crie e gerencie seu perfil na plataforma. RF-04 Permitir que ONGs cadastrem oportunidades de voluntariado e recursos disponíveis, RF-06 Permitir a gestão de recursos e inventário para ONGs, RF-10 O sistema deve permitir que somente usuários com perfil/role de administrador acessem a página de administração                 |
 |Objetivo do Teste | Verificar se a página de perfil de ONGS funciona corretamente                                               |
 |Registro de evidência | ![Image](https://github.com/user-attachments/assets/af51ec6a-3d68-4bbc-ba55-8f4f36da62ac)  |
 |Responsavel pelo Teste | Erison
 
 | **Caso de Teste** 	| **CT08 – Teste da página de ONGs cadastradas**|
 |:---:	|:---:	|
-|	Requisito Associado 	|  RF-19 A aplicação deve permitir que o usuário acesse uma pagina com todas as ONG's cadastradas|   
-|Objetivo do Teste | Verificar se a página de perfil de ONGS funciona corretamente                                                      |
+|	Requisito Associado 	|  RF-18 A aplicação deve permitir que o usuário acesse uma pagina com todas as ONG's cadastradas|   
+|Objetivo do Teste |Verificar se o usuário (externo ou cadastrado) consegue acessar a página com as ONGs cadastradas na aplicação corretamente  |
 |Registro de evidência | ![Teste ONG&#39;s cadastradas](https://github.com/user-attachments/assets/03c28d8d-b48a-4430-aba5-9c4388d64f27)|
 |Responsavel pelo Teste | Mariana Turibio Gressi                                                                                    |
 
-| **Caso de Teste** 	| **CT12 – Teste da página de ONGs cadastradas**|
+| **Caso de Teste** 	| **CT09 – Teste da Pagína Quem Somos**|
+|:---:	|:---:	|
+|	Requisito Associado 	| RF-17 A aplicação deve permitir que o usuário seja redirecionado por meio do Comece agora para a página Cadastrar ONG|   
+|Objetivo do Teste | Verificar se ao passar o mouse no Menu “Sobre nós” e clicar em uma das opções disponíveis será redirecionado respectivamente para a página correta.                                                    |
+|Registro de evidência | ![Gravar_2025_11_23_19_42_48_278](https://github.com/user-attachments/assets/ea864c44-9be9-42ee-a3cf-b7a7e372606e)|
+|Responsavel pelo Teste | Matheus Feliciano Andrade Bernardes   |
+
+| **Caso de Teste** 	| **CT10 – Fale conosco / Enviar formulário** 	|
+|:---:	|:---:	|
+|	Requisito Associado 	| RF-16 Permitir avaliação e feedback de usuários sobre o sistema.|
+|Objetivo do Teste | Verificar se o usuário consegue acessar Fale conosco dentro de Sobre nós, preencher o formulário e enviá-lo.  |
+|Registro de evidência |![Image](https://github.com/user-attachments/assets/e7f67b05-b4d2-4f62-8a62-7618066777b7)|
+|Responsavel pelo Teste |  Márcia Maria dos Reis Marques |
+
+| **Caso de Teste** 	| **CT11 – Redefinição de senha** 	|
+|:---:	|:---:	|
+|	Requisito Associado 	| RF-03 - Permitir recuperação e redefinição de senha. |
+|Objetivo do Teste | Verificar se o usuário consegue realizar a redefinição de senha sem dificuldades. |
+|Registro de evidência |![Image](https://github.com/user-attachments/assets/0adf9426-a958-42ec-b0aa-62f4b4a7ce1b) |
+|Responsavel pelo Teste | Maria Cecilia Caruzzo Modica |
+
+| **Caso de Teste** 	| **CT12 – Teste da barra de pesquisa e resultado de pesquisa**|
 |:---:	|:---:	|
 |	Requisito Associado 	|RF-05 - Permitir que voluntários e doadores pesquisem causas filtrando por necessidades, localização, área de interesse e disponibilidade.                                                          |
 |Objetivo do Teste | Verificar se a barra de pesquisa funciona corretamente.                                                      |
 |Registro de evidência | ![Image](https://github.com/user-attachments/assets/8fbb1951-b549-41cb-8337-b22b1d7b404c)|
-|Responsavel pelo Teste | Breno Marques de Moura     
-
+|Responsavel pelo Teste | Breno Marques de Moura  |   
 
 ## Relatório de testes de software
 

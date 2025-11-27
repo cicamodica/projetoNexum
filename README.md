@@ -25,14 +25,16 @@ Este projeto tem como objetivo criar uma aplicação que conecte pessoas que pos
 
 ## Instruções de Instalação, Execução e Acesso
 
-**Acesso rápido (produção)**
-* URL da aplicação: https://seu-dominio.com/caminho
-* Status: online / instável / em manutenção (atualize conforme o caso)
-* Ambiente: produção / homologação
+**Acesso (Local)**
+* Abrir Visual Studio
+* Arquivo > Abrir > Projeto/Solução
+* Selecionar arquivo nexumApp.csproj na pasta src/NexumApp
+* Rodar o projeto
+* Se necessário, rodar "dotnet ef database update" no terminal para gerar o banco de dados local.
 
-**Usuário(s) de teste (se houver):**
-* Login: usuario_teste
-* Senha: senha_teste
+**Usuário admin:**
+* Login: nexumapplication@gmail.com
+* Senha: adminNEXUM2025@
 
 # Documentação
 

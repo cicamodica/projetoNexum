@@ -69,15 +69,6 @@ Apresente também uma figura explicando como as tecnologias estão relacionadas 
 <img width="298" height="466" alt="Diagrama uso tecnologias" src="https://github.com/user-attachments/assets/10423198-08ac-431b-a678-966d2e69d57f" />
 
 
-
-
 ## Hospedagem
 
 Explique como a hospedagem e o lançamento da plataforma foi feita.
-
-> **Links Úteis**:
->
-> - [Website com GitHub Pages](https://pages.github.com/)
-> - [Programação colaborativa com Repl.it](https://repl.it/)
-> - [Getting Started with Heroku](https://devcenter.heroku.com/start)
-> - [Publicando Seu Site No Heroku](http://pythonclub.com.br/publicando-seu-hello-world-no-heroku.html)
