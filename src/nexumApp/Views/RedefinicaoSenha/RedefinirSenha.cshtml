@@ -2,11 +2,15 @@
     ViewData["Title"] = "Redefinir Senha";
 }
 
-<link rel="stylesheet" href="~/css/redefinicao.css" />
+@section Styles {
+    <link rel="stylesheet" href="~/css/redefinicao.css" />
+}
 
-<div class="form-container">
+<div class="container-redefinicao">
+    <!-- AQUI: trocar form-container por container-redefinicao -->
 
-    <h2 class="titulo">Redefinir Senha</h2> 
+    <h2 class="titulo">Redefinir Senha</h2>
+
     @if (ViewBag.Mensagem != null)
     {
         var msg = ViewBag.Mensagem.ToString();
@@ -33,18 +37,3 @@
         <button type="submit" class="btn-primary">Redefinir Senha</button>
     </form>
 </div>
-
-<script>
-    function toggleSenha() {
-        const senha = document.getElementById("novaSenha");
-        const btn = document.querySelector(".show-btn");
-
-        if (senha.type === "password") {
-            senha.type = "text";
-            btn.textContent = "Ocultar";
-        } else {
-            senha.type = "password";
-            btn.textContent = "Mostrar";
-        }
-    }
-</script>

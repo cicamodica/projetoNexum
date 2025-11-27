@@ -58,7 +58,7 @@ h2,
 }
 
 /* FORM */
-form {
+.container-redefinicao form {
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -82,19 +82,19 @@ form {
     }
 
     /* INPUTS */
-    .form-group input,
-    input[type="email"],
-    input[type="password"] {
-        width: 100%;
-        padding: 14px 20px;
-        border: 1.5px solid #ccc; /* Borda mais suave */
-        border-radius: 30px; /* Mais arredondado */
-        font-size: 1rem;
-        outline: none;
-        transition: 0.3s border-color, 0.3s box-shadow;
-        margin-left: 0;
-        box-sizing: border-box; /* Garante que padding não estoure a largura */
-    }
+.container-redefinicao .form-group input,
+.container-redefinicao input[type="email"],
+.container-redefinicao input[type="password"] {
+    width: 100%;
+    padding: 14px 20px;
+    border: 1.5px solid #ccc; /* Borda mais suave */
+    border-radius: 30px; /* Mais arredondado */
+    font-size: 1rem;
+    outline: none;
+    transition: 0.3s border-color, 0.3s box-shadow;
+    margin-left: 0;
+    box-sizing: border-box; /* Garante que padding não estoure a largura */
+}
 
 input:focus {
     border-color: #2987BF; /* Azul Médio Nexum */
@@ -102,9 +102,9 @@ input:focus {
 }
 
 /* BOTÃO */
-button,
-.btn-primary {
-    background-color: #2987BF; /* Azul Médio Nexum */
+.container-redefinicao button,
+.container-redefinicao .btn-primary {
+    background-color: #2987BF;
     border: none;
     padding: 16px;
     font-size: 1.1rem;
@@ -118,13 +118,12 @@ button,
     margin-top: 10px;
 }
 
-    button:hover,
-    .btn-primary:hover {
-        background-color: #16435D; /* Azul Escuro no Hover */
-        transform: translateY(-1px);
-    }
+.container-redefinicao button:hover, .container-redefinicao .btn-primary:hover {
+    background-color: #16435D; /* Azul Escuro no Hover */
+    transform: translateY(-1px);
+ }
 
-    button:active {
+    .container-redefinicao button:active {
         transform: translateY(0);
     }
 
@@ -192,8 +191,8 @@ button,
         font-size: 1rem;
     }
 
-    button,
-    .btn-primary {
+    .container-redefinicao button,
+    .container-redefinicao .btn-primary {
         font-size: 1rem;
         padding: 14px;
     }
