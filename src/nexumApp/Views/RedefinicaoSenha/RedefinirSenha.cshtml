@@ -30,10 +30,29 @@
 
             <div class="password-container">
                 <input type="password" id="novaSenha" name="novaSenha" required />
-                <span class="show-btn" onclick="toggleSenha()">Mostrar</span>
+                <span class="show-btn" onclick="toggleSenha('novaSenha', this)">Mostrar</span>
             </div>
         </div>
 
         <button type="submit" class="btn-primary">Redefinir Senha</button>
     </form>
 </div>
+
+@section Scripts {
+    <script>
+        function toggleSenha() {
+            const senha = document.getElementById("novaSenha");
+            const btn = document.querySelector(".show-btn");
+
+            if (!senha || !btn) return;
+
+            if (senha.type === "password") {
+                senha.type = "text";
+                btn.textContent = "Ocultar";
+            } else {
+                senha.type = "password";
+                btn.textContent = "Mostrar";
+            }
+        }
+    </script>
+}

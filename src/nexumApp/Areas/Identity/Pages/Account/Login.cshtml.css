@@ -70,6 +70,25 @@ button:hover {
         background-color: #2987bf;
     }
 
+.password-container {
+    position: relative;
+}
+
+.show-btn {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #2987BF;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    user-select: none;
+}
+
+    .show-btn:hover {
+        color: #808080;
+    }
 
 @media screen and (max-width: 384px) {
     .btn-link-password, .btn-link-register {

@@ -487,5 +487,10 @@ html {
         color: #fff;
     }
 
+.Login-input {
+    border: 1px solid #16435d;
+    border-radius: 30px;
+}
+
 
 

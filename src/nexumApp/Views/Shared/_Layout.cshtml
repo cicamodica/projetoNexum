@@ -175,6 +175,23 @@
             });
         </script>
     }
+    <script>
+        // Função reutilizável pra qualquer campo de senha
+        function toggleSenha(inputId, element) {
+            const senha = document.getElementById(inputId);
+            const btn = element;
+
+            if (!senha || !btn) return;
+
+            if (senha.type === "password") {
+                senha.type = "text";
+                btn.textContent = "Ocultar";
+            } else {
+                senha.type = "password";
+                btn.textContent = "Mostrar";
+            }
+        }
+    </script>
 </body>
 </html>
  

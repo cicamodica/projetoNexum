@@ -59,10 +59,57 @@ namespace nexumApp.Controllers
             // enviar email
             var gmail = new Email("smtp.gmail.com", "nexum825@gmail.com", ENV.PASSWORD);
 
+            var corpoEmail = $@"
+                <!DOCTYPE html>
+                <html lang='pt-br'>
+                <head>
+                    <meta charset='UTF-8'>
+                    <title>Redefinição de Senha - Nexum</title>
+                </head>
+                <body style='font-family: Arial, sans-serif; background-color:#f5f5f5; margin:0; padding:0;'>
+                    <div style='max-width:600px; margin:40px auto; background-color:#ffffff; padding:30px; border-radius:8px;
+                    box-shadow:0 2px 8px rgba(0,0,0,0.05);'>
+
+                <h1 style='color:#16435D; font-size:22px; margin-top:0;'>
+                    Redefinição de senha
+                </h1>
+
+                <p style='font-size:14px; color:#444; line-height:1.6;'>
+                    Olá, tudo bem? <br/><br/>
+                    Recebemos uma solicitação para redefinir a senha da sua conta na <strong>Nexum</strong>.
+                </p>
+
+                <p style='font-size:14px; color:#444; line-height:1.6;'>
+                    Para continuar, clique no botão abaixo:
+                </p>
+
+                <p style='text-align:left; margin:30px 0;'>
+                    <a href='{link}'
+                       style='background-color:#2987BF; color:#ffffff; text-decoration:none;
+                              padding:12px 24px; border-radius:25px; font-size:15px;
+                              display:inline-block;'>
+                        Redefinir senha
+                    </a>
+                </p>
+
+                <p style='font-size:12px; color:#777; line-height:1.6;'>
+                    Se você não solicitou essa alteração, pode ignorar este e-mail com segurança.
+                </p>
+
+                <hr style='border:none; border-top:1px solid #eee; margin:24px 0;' />
+
+                <p style='font-size:11px; color:#aaa;'>
+                    Este é um e-mail automático, por favor não responda.
+                </p>
+                </div>
+            </body>
+            </html>
+            ";
+
             gmail.SendEmail(
                 new List<string> { email },
                 "Redefinição de Senha",
-                $"Clique no link para redefinir sua senha:<br><br><a href='{link}'>Redefinir Senha</a>",
+                corpoEmail,
                 new List<string>()
             );
 

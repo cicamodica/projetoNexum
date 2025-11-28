@@ -10,89 +10,95 @@
     <div class="container py-0">
         <div class="row w-100 justify-content-center g-0">
             <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
-                <div >
+                <div>
                     <div class="card-body p-4 p-md-5">
-                        <h1 class="text-center mb-3">@ViewData["Title"]</h1>
-                                <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">
-                                    <h4 class="text-center mb-3">Primeiro passo para criar uma conta Nexum</h4>
-                                    <hr class="my-3" />
-                                    <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-                                    <div class="mb-3">
-                                        <label asp-for="Input.Image" class="control-label"></label>
-                                        <input asp-for="Input.Image" type="file" class="form-control Cadastro-input" accept="image/*" />                            
-                                        <span asp-validation-for="Input.Image" class="text-danger"></span>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label asp-for="Input.Email">Email</label>
-                                        <input asp-for="Input.Email" class="form-control Cadastro-input" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                                        <span asp-validation-for="Input.Email" class="text-danger"></span>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label asp-for="Input.Password">Senha</label>
-                                        <input asp-for="Input.Password" class="form-control Cadastro-input" autocomplete="new-password" aria-required="true" />
-                                        <span asp-validation-for="Input.Password" class="text-danger"></span>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label asp-for="Input.ConfirmPassword">Confirmar senha</label>
-                                        <input asp-for="Input.ConfirmPassword" class="form-control Cadastro-input" autocomplete="new-password" aria-required="true" />
-                                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label asp-for="Input.SelectedTagId">Área de atuação</label>
-                                        @Html.DropDownListFor(Model => Model.Input.SelectedTagId, (IEnumerable<SelectListItem>)OngTags.TagsList, "Selecione uma opção", new { @class = "form-control Cadastro-input" })
-                                        <span asp-validation-for="Input.SelectedTagId" class="text-danger"></span>
-                                    </div>
-                                    <div class="mb-3">
-                                    <label asp-for="Input.Nome" class="control-label"></label>
-                                    <input asp-for="Input.Nome" class="form-control Cadastro-input" />
-                                    <span asp-validation-for="Input.Nome" class="text-danger"></span>
-                                </div>
-                                <div class="mb-3">
-                                    <label asp-for="Input.Descriçao" class="control-label"></label>
-                                    <input asp-for="Input.Descriçao" class="form-control Cadastro-input" />
-                                    <span asp-validation-for="Input.Descriçao" class="text-danger"></span>
-                                </div>
-                                <div class="mb-3">
-                                    <label asp-for="Input.CEP" class="control-label"></label>
-                                    <input type="text" maxlength="8" asp-for="Input.CEP" class="form-control Cadastro-input" id="inputCEP" placeholder="Somente números"/>
-                                    <span asp-validation-for="Input.CEP" class="text-danger" id="inputCEPValidation"></span>
-                                </div>
-                                <div class="mb-3">
-                                    <label asp-for="Input.Endereço" class="control-label"></label>
-                                    <input readonly asp-for="Input.Endereço" class="form-control Cadastro-input" id="inputEndereço"/>
-                                    <span asp-validation-for="Input.Endereço" class="text-danger"></span>
-                                </div>
-                                <div class="mb-3">
-                                    <label asp-for="Input.Complemento" class="control-label"></label>
-                                    <input asp-for="Input.Complemento" class="form-control Cadastro-input"/>
-                                    <span asp-validation-for="Input.Complemento" class="text-danger"></span>
-                                </div>
-                                <div class="mb-3">
-                                    <label asp-for="Input.CNPJ" class="control-label"></label>
-                                    <input maxlength="14" asp-for="Input.CNPJ" class="form-control Cadastro-input" placeholder="Somente números" />
-                                    <span asp-validation-for="Input.CNPJ" class="text-danger"></span>
-                                </div>
-                                <div class="mb-3">
-                                    <label asp-for="Input.DocumentoPdf" class="control-label"></label>
-                                    <input asp-for="Input.DocumentoPdf" type="file" class="form-control Cadastro-input" accept="application/pdf,.pdf" />
-                                    <span class="form-text">Apenas PDF, até 25 MB.</span>
-                                    <span asp-validation-for="Input.DocumentoPdf" class="text-danger"></span>
-                                </div>
-                                <div class="mb-3">
-                                    <div class="Cadastro-radio">
-                                        <p>A ONG possui filiais? (opcional)</p>
-                                        <input type="radio" id="radioY" name="hasFilial" value="sim">
-                                        <label for="radioY">Sim</label><br>
-                                        <input type="radio" id="radioN" name="hasFilial" value="não">
-                                        <label for="radioN">Não</label><br>
-                                    </div>
-                                <div>
-                                <div class="mb-3">
+                       <h1 class="text-center mb-3">@ViewData["Title"]</h1>
+                       <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">
+                           <h4 class="text-center mb-3">Primeiro passo para criar uma conta Nexum</h4>
+                           <hr class="my-3" />
+                           <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                           <div class="mb-3">
+                              <label asp-for="Input.Image" class="control-label"></label>
+                              <input asp-for="Input.Image" type="file" class="form-control Cadastro-input" accept="image/*" />                            
+                              <span asp-validation-for="Input.Image" class="text-danger"></span>
+                           </div>
+                           <div class="mb-3">
+                               <label asp-for="Input.Email">Email</label>
+                               <input asp-for="Input.Email" class="form-control Cadastro-input" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                               <span asp-validation-for="Input.Email" class="text-danger"></span>
+                           </div>
+                           <div class="mb-3">
+                               <label asp-for="Input.Password">Senha</label>
+                                 <div class="password-container">
+                                     <input asp-for="Input.Password" class="form-control Cadastro-input" id="registerPassword" autocomplete="new-password" aria-required="true" />
+                                     <span class="show-btn" onclick="toggleSenha('registerPassword', this)">Mostrar</span>
+                                 </div>
+                                 <span asp-validation-for="Input.Password" class="text-danger"></span>
+                           </div>
+                           <div class="mb-3">
+                                <label asp-for="Input.ConfirmPassword">Confirmar senha</label>
+                                  <div class="password-container">
+                                      <input asp-for="Input.ConfirmPassword"
+                                      class="form-control Cadastro-input"
+                                      id="registerConfirmPassword"
+                                      autocomplete="new-password"
+                                      aria-required="true" />
+                                      <span class="show-btn" onclick="toggleSenha('registerConfirmPassword', this)">Mostrar</span>
+                                  </div>
+                                       <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                           </div>
+                           <div class="mb-3">
+                             <label asp-for="Input.SelectedTagId">Área de atuação</label>
+                              @Html.DropDownListFor(Model => Model.Input.SelectedTagId, (IEnumerable<SelectListItem>)OngTags.TagsList, "Selecione uma opção", new { @class = "form-control Cadastro-input" })
+                             <span asp-validation-for="Input.SelectedTagId" class="text-danger"></span>
+                           </div>
+                           <div class="mb-3">
+                              <label asp-for="Input.Nome" class="control-label"></label>
+                              <input asp-for="Input.Nome" class="form-control Cadastro-input" />
+                              <span asp-validation-for="Input.Nome" class="text-danger"></span>
+                           </div>
+                           <div class="mb-3">
+                               <label asp-for="Input.Descriçao" class="control-label"></label>
+                               <input asp-for="Input.Descriçao" class="form-control Cadastro-input" />
+                               <span asp-validation-for="Input.Descriçao" class="text-danger"></span>
+                           </div>
+                           <div class="mb-3">
+                                <label asp-for="Input.CEP" class="control-label"></label>
+                                <input type="text" maxlength="8" asp-for="Input.CEP" class="form-control Cadastro-input" id="inputCEP" placeholder="Somente números"/>
+                                <span asp-validation-for="Input.CEP" class="text-danger" id="inputCEPValidation"></span>
+                           </div>
+                           <div class="mb-3">
+                                 <label asp-for="Input.Endereço" class="control-label"></label>
+                                 <input readonly asp-for="Input.Endereço" class="form-control Cadastro-input" id="inputEndereço"/>
+                                 <span asp-validation-for="Input.Endereço" class="text-danger"></span>
+                           </div>
+                           <div class="mb-3">
+                                 <label asp-for="Input.Complemento" class="control-label"></label>
+                                 <input asp-for="Input.Complemento" class="form-control Cadastro-input"/>
+                                 <span asp-validation-for="Input.Complemento" class="text-danger"></span>
+                           </div>
+                           <div class="mb-3">
+                                  <label asp-for="Input.CNPJ" class="control-label"></label>
+                                  <input maxlength="14" asp-for="Input.CNPJ" class="form-control Cadastro-input" placeholder="Somente números" />
+                                  <span asp-validation-for="Input.CNPJ" class="text-danger"></span>
+                           </div>
+                           <div class="mb-3">
+                                   <label asp-for="Input.DocumentoPdf" class="control-label"></label>
+                                   <input asp-for="Input.DocumentoPdf" type="file" class="form-control Cadastro-input" accept="application/pdf,.pdf" />
+                                   <span class="form-text">Apenas PDF, até 25 MB.</span>
+                                   <span asp-validation-for="Input.DocumentoPdf" class="text-danger"></span>
+                           </div>
+                           <div class="Cadastro-radio">
+                                   <p>A ONG possui filiais? (opcional)</p>
+                                   <input type="radio" id="radioY" name="hasFilial" value="sim">
+                                   <label for="radioY">Sim</label><br>
+                                   <input type="radio" id="radioN" name="hasFilial" value="não">
+                                   <label for="radioN">Não</label><br>
+                           </div>
+                           <div class="mb-3">
                                     <input id="Cadastro-button" type="submit" name="CadastroAction" value="Cadastrar" class="w-100 btn btn-lg btn-primary Cadastro-button" />
-                                </div>                
-                                </form>
-                            </div>
-                        </div>
+                           </div>                
+                       </form>
                     </div>
                 </div>
             </div>
