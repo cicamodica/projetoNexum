@@ -10,6 +10,19 @@
 
 <style>
 
+    h1{
+        color: #16435D;
+        font-weight: 600;
+        font-size: clamp(25px, 7vw, 44px);
+        margin: 40px 0 6px 0;
+    }
+
+    h2{
+        color: #16435D;
+        font-weight: 400;
+        font-size: 35px;
+    }
+
    .horizontal-scroll-container{
         overflow-x: auto;
         white-space: nowrap;
@@ -34,7 +47,6 @@
 
     .vagas-carousel-wrapper {
         position: relative;
-        padding: 0 20px; 
     }
 
     .vaga-carousel-btn {
@@ -200,12 +212,24 @@
     font-size: 0.95rem;
 }
 
+.btn-adicionar-custom{
+     color: #ffffff;
+     background-color: #2987bf;
+     border: none;
+     border-radius: 24px;
+     cursor: pointer;
+    }
 
+    .btn-adicionar-custom:hover {
+        background-color: #16435D;
+        color: #ffffff;
+    }
 
 </style>
 
 <h1 class="mb-4">Olá, @Model.Nome!</h1>
 
+<hr class="section-divider" />
 
 <div class="d-flex align-items-center gap-3 mt-5">
     <h2 class="mb-0" style="font-weight: 600;">Minhas vagas</h2>
@@ -219,7 +243,6 @@
 <div class="vagas-carousel-wrapper">
    
     <button class="btn vaga-carousel-btn prev" id="vaga-scroll-prev" aria-label="Rolar para esquerda">&lt;</button>
-
 
 
 <div class="horizontal-scroll-container m-3" id="vagas-container">
@@ -272,7 +295,7 @@
     }
     else
     {
-        <div class="col">
+            <div class="col" style="width: 100%; text-align: center; padding: 2rem 0;">
             <p>Você ainda não criou nenhuma vaga. Clique em "Adicionar" para começar!</p>
         </div>
     }
@@ -372,11 +395,11 @@
 </div>
 
 
-
+    <hr class="section-divider" />
 
     <div class="d-flex align-items-center gap-3 mt-5">
         <h2 class="mb-0" style="font-weight: 600;">Minhas metas</h2>
-        <button type="button" class="btn btn-outline-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#modalCriarMeta">
+        <button type="button" class="btn btn-outline-primary rounded-pill btn-adicionar-custom" data-bs-toggle="modal" data-bs-target="#modalCriarMeta">
             Adicionar
         </button>
     </div>
@@ -662,8 +685,8 @@
                     </div>
 
                     <div class="modal-footer border-0 d-flex justify-content-center">
-                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-danger">Excluir Agora</button>
+                        <button type="button" style="border-radius: 20px; padding: 10px 40px;" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" style="border-radius: 20px; padding: 10px 40px;" class="btn btn-danger">Excluir Agora</button>
                     </div>
                 </form>
             </div>
